@@ -1239,6 +1239,14 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         </div>
       </div>
 
+      <!-- SMART ALERTS — refreshSmartAlerts() renders here for calculations page -->
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-header"><div class="card-title">🔔 تنبيهات ذكية</div></div>
+        <div class="card-body" id="calcSmartAlerts">
+          <div style="color:var(--success);font-size:0.85rem;padding:0.5rem">✅ ستظهر التنبيهات هنا بعد تسجيل البيانات</div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-header"><div class="card-title">📊 ملخص الحسابات</div></div>
         <div class="card-body">
@@ -1961,11 +1969,10 @@ window.openModal = (id) => {
 window.closeModal = (id) => document.getElementById(id).classList.remove('open');
 
 function populateSelects() {
-  const ps = document.getElementById('o-product');
-  if(ps) { ps.innerHTML = '<option value="">اختر المنتج</option>'; state.products.forEach(p => ps.innerHTML += `<option value="${p.id}" data-price="${p.price}">${sanitize(p.name)}</option>`); ps.onchange = function(){ const price = this.options[this.selectedIndex].dataset.price; if(price && !document.getElementById('o-price').value) document.getElementById('o-price').value = price; }; }
+  // Note: window.populateSelects (defined later) overrides this function completely.
+  // o-product and o-price don't exist — order form uses the multi-product row system (#orderProductRows).
   const rs = document.getElementById('o-region');
   if(rs) { rs.innerHTML = '<option value="">اختر المنطقة</option>'; state.regions.forEach(r => rs.innerHTML += `<option value="${sanitize(r.name)}" data-price="${r.price}">${sanitize(r.name)} — ${r.price}</option>`); rs.onchange = function(){ document.getElementById('o-delivery').value = this.options[this.selectedIndex].dataset.price||''; }; }
-  // set today as default date
   const dateEl = document.getElementById('o-date');
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().split('T')[0];
 }
@@ -2270,11 +2277,7 @@ function renderExpensesFiltered(expenses) {
 }
 
 // Sortable table headers
-window.sortOrders = function(col) {
-  if(orderSortCol === col) orderSortDir *= -1;
-  else { orderSortCol = col; orderSortDir = 1; }
-  filterOrders();
-};
+// window.sortOrders removed — HTML uses sortTable('orders', col) which handles all sorting via sortConfig
 
 // ══════════════════════════════
 // CERTIFICATES
@@ -2297,10 +2300,7 @@ function getCertStatusLabel(status) {
 
 // window.addCert removed — addCertificate() is the correct handler called by the modal button
 
-window.deleteCert = function(id) {
-  let c = state.certificates && state.certificates.find(function(x){ return x.id===id; });
-  confirmDelete('certificates', id, c ? c.name : 'الشهادة');
-};
+// window.deleteCert removed — HTML uses deleteCertificate() which has the same logic with null-safe state access
 
 // filterCerts moved to fixed section
 
@@ -2430,20 +2430,13 @@ window.sortTable = function(col, field) {
   const current = sortConfig[key];
   const dir = current === 'asc' ? 'desc' : 'asc';
   sortConfig[key] = dir;
+  window._sortConfig = window._sortConfig || {};
+  window._sortConfig[col] = { field, dir };
 
   if(col === 'orders') {
-    const q = (document.getElementById('searchOrders')?.value||'').toLowerCase();
-    const st = document.getElementById('filterStatus')?.value||'';
-    let filtered = state.orders.filter(o =>
-      (!q || o.name?.toLowerCase().includes(q) || o.phone?.includes(q)) &&
-      (!st || o.status === st)
-    );
-    filtered.sort((a,b) => {
-      let av = a[field]||'', bv = b[field]||'';
-      if(typeof av === 'number') return dir==='asc' ? av-bv : bv-av;
-      return dir==='asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
-    });
-    renderOrdersFiltered(filtered);
+    // Use filterOrders() to respect month filter, then sort the result
+    filterOrders();
+    return;
   }
 
   if(col === 'products') {
@@ -2996,8 +2989,9 @@ function renderFinance() {
   const filteredOrders = state.orders.filter(function(o) {
     if(o.status!=='delivered') return false;
     if(range.period==='all') return true;
-    let d = o.dateRaw ? parseDateLocal(o.dateRaw) : null;
-    if(!d||isNaN(d)) return false;
+    let rawDate = o.dateRaw || (o.createdAt ? new Date(o.createdAt.seconds ? o.createdAt.seconds*1000 : o.createdAt).toISOString().split('T')[0] : null);
+    let d = rawDate ? parseDateLocal(rawDate) : null;
+    if(!d||isNaN(d)) return true;
     return d >= range.start && d <= range.end;
   });
   let filteredExpenses = state.expenses.filter(function(e) {
@@ -3076,8 +3070,9 @@ window.updateCalc = function() {
   const delivered = (state.orders||[]).filter(function(o) {
     if(o.status!=='delivered') return false;
     if(range.period==='all') return true;
-    let d = o.dateRaw ? parseDateLocal(o.dateRaw) : null;
-    if(!d||isNaN(d)) return false;
+    let rawDate = o.dateRaw || (o.createdAt ? new Date(o.createdAt.seconds ? o.createdAt.seconds*1000 : o.createdAt).toISOString().split('T')[0] : null);
+    let d = rawDate ? parseDateLocal(rawDate) : null;
+    if(!d||isNaN(d)) return true;
     return d >= range.start && d <= range.end;
   });
   let revenue = delivered.reduce(function(s,o){ return s+(parseFloat(o.price)||0); }, 0);
@@ -3127,8 +3122,9 @@ window.filterOrders = function() {
     // Apply month filter if no manual date filter
     let matchPeriod = true;
     if(!from && !to && range.period!=='all') {
-      let d = o.dateRaw ? parseDateLocal(o.dateRaw) : null;
-      if(!d||isNaN(d)) matchPeriod = false;
+      let rawDate = o.dateRaw || (o.createdAt ? new Date(o.createdAt.seconds ? o.createdAt.seconds*1000 : o.createdAt).toISOString().split('T')[0] : null);
+      let d = rawDate ? parseDateLocal(rawDate) : null;
+      if(!d||isNaN(d)) matchPeriod = true; // بيانات بدون تاريخ: اعرضها دايماً
       else matchPeriod = d>=range.start && d<=range.end;
     }
     return matchQ && matchSt && matchFrom && matchTo && matchPeriod;
@@ -3414,10 +3410,10 @@ function getMonthRange(page) {
       return { period:'custom', start:new Date(y,m,1), end:new Date(y,m+1,0,23,59,59) };
     }
   }
-  // Default: this month
+  // Default: this month — full month including future-dated orders
   return { period:'month',
     start: new Date(now.getFullYear(), now.getMonth(), 1),
-    end:   now };
+    end:   new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59) };
 }
 
 window.setMonthFilter = function(period, btn, page) {
@@ -3452,7 +3448,7 @@ function subscribeToData() {
 // ── FIX: refreshUI to handle notes ──
 function refreshUI(col) {
   try {
-    if(col==='orders')      { renderOrders(); refreshDashboard(); refreshProductAnalytics(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); }
+    if(col==='orders')      { filterOrders(); refreshDashboard(); refreshProductAnalytics(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); }
     if(col==='customers')   { renderCustomers(); refreshDashboard(); }
     if(col==='products')    { renderProducts(); }
     if(col==='inventory')   { renderInventory(); }
