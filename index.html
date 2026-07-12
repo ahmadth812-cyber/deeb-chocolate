@@ -110,6 +110,59 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .auth-error{color:#f87171;font-size:0.75rem;text-align:center;margin-top:0.5rem;min-height:20px;}
 .auth-loading{color:var(--brown);font-size:0.75rem;text-align:center;margin-top:0.5rem;}
 
+/* ── FLAVORS ── */
+.flavors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem;margin-top:0.5rem;}
+.flavor-chip{display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.7rem;border:1px solid var(--light);border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.15s;background:var(--white);color:var(--dark);}
+.flavor-chip:hover{border-color:var(--gold);background:rgba(191,158,96,0.07);}
+.flavor-chip.selected{background:var(--gold);color:var(--dark);border-color:var(--gold);font-weight:700;}
+.flavor-chip.unavailable{opacity:0.4;cursor:not-allowed;}
+.flavor-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.flavor-chip.selected .flavor-dot{background:var(--dark);}
+.flavor-search{width:100%;margin-bottom:0.6rem;padding:0.4rem 0.7rem;border:1px solid var(--light);border-radius:8px;font-family:'Cairo',sans-serif;font-size:0.8rem;background:var(--white);color:var(--dark);}
+.flavor-search:focus{outline:none;border-color:var(--gold);}
+.flavor-count{font-size:0.72rem;color:var(--brown);margin-bottom:0.4rem;}
+.flavor-tag{display:inline-flex;align-items:center;gap:0.3rem;padding:0.2rem 0.5rem;background:rgba(191,158,96,0.15);border-radius:12px;font-size:0.7rem;color:var(--dark);margin:0.15rem;}
+.flavor-tag-remove{cursor:pointer;color:var(--brown);font-size:0.8rem;line-height:1;}
+.custom-box-section{background:rgba(191,158,96,0.06);border:1px solid rgba(191,158,96,0.25);border-radius:10px;padding:0.8rem;margin-top:0.8rem;}
+.custom-box-title{font-size:0.8rem;font-weight:700;color:var(--gold);margin-bottom:0.5rem;}
+[data-theme="dark"] .flavor-chip{background:#1f1710;border-color:#2a1f18;}
+[data-theme="dark"] .flavor-chip.selected{background:var(--gold);color:#1a1410;}
+[data-theme="dark"] .flavor-search{background:#1f1710;border-color:#2a1f18;color:var(--dark);}
+[data-theme="dark"] .custom-box-section{background:rgba(191,158,96,0.04);border-color:rgba(191,158,96,0.2);}
+
+/* ── ACTIVITY LOG ── */
+.log-item{display:flex;gap:1rem;padding:0.75rem 1rem;border-bottom:1px solid var(--light);align-items:flex-start;transition:background 0.15s;}
+.log-item:last-child{border-bottom:none;}
+.log-item:hover{background:var(--cream);}
+.log-icon{font-size:1.2rem;flex-shrink:0;width:32px;text-align:center;margin-top:0.1rem;}
+.log-body{flex:1;min-width:0;}
+.log-action{font-size:0.82rem;font-weight:700;color:var(--dark);}
+.log-detail{font-size:0.73rem;color:var(--brown);margin-top:0.15rem;}
+.log-time{font-size:0.68rem;color:var(--brown);opacity:0.7;white-space:nowrap;flex-shrink:0;}
+.log-badge{display:inline-block;padding:0.1rem 0.5rem;border-radius:12px;font-size:0.65rem;font-weight:700;margin-left:0.4rem;}
+.log-add{background:#dcfce7;color:#166534;}
+.log-edit{background:#dbeafe;color:#1d4ed8;}
+.log-delete{background:#fee2e2;color:#991b1b;}
+.log-login{background:#ede9fe;color:#6d28d9;}
+.log-logout{background:#f3f4f6;color:#374151;}
+.log-settings{background:#fef9c3;color:#854d0e;}
+[data-theme="dark"] .log-item:hover{background:var(--light);}
+[data-theme="dark"] .log-add{background:#052e16;color:#86efac;}
+[data-theme="dark"] .log-edit{background:#1e3a5f;color:#93c5fd;}
+[data-theme="dark"] .log-delete{background:#2d0a0a;color:#fca5a5;}
+[data-theme="dark"] .log-login{background:#2e1065;color:#c4b5fd;}
+[data-theme="dark"] .log-settings{background:#2d1f00;color:#fde68a;}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:0.3rem;padding:0.8rem 0;flex-wrap:wrap;}
+.pag-btn{min-width:34px;height:34px;border:1px solid var(--light);border-radius:8px;background:none;font-family:'Cairo',sans-serif;font-size:0.78rem;font-weight:600;color:var(--brown);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;padding:0 0.5rem;}
+.pag-btn:hover{border-color:var(--gold);color:var(--gold);}
+.pag-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+.pag-btn:disabled{opacity:0.35;cursor:default;pointer-events:none;}
+.pag-info{font-size:0.72rem;color:var(--brown);text-align:center;margin-top:0.3rem;}
+[data-theme="dark"] .pag-btn{border-color:#2a1f18;color:var(--brown);}
+[data-theme="dark"] .pag-btn:hover{border-color:var(--gold);}
+
 /* ── BREADCRUMB ── */
 .breadcrumb{
   background:var(--white);
@@ -661,6 +714,7 @@ tr:hover td{background:#faf6f3;}
     <div class="nav-item" onclick="showPage('orders',this)"><span class="icon">🛒</span>الطلبات</div>
     <div class="nav-item" onclick="showPage('customers',this)"><span class="icon">👥</span>العملاء</div>
     <div class="nav-item" onclick="showPage('products',this)"><span class="icon">📦</span>المنتجات</div>
+    <div class="nav-item" onclick="showPage('flavors',this)"><span class="icon">🍫</span>النكهات</div>
     <div class="nav-item" onclick="showPage('inventory',this)"><span class="icon">🗄️</span>المخزون</div>
     <div class="nav-item" onclick="showPage('delivery',this)"><span class="icon">🚚</span>التوصيل</div>
   </nav>
@@ -682,6 +736,7 @@ tr:hover td{background:#faf6f3;}
     <nav class="nav-section">
     <div class="nav-label">المستندات</div>
     <div class="nav-item" onclick="showPage('calendar',this)"><span class="icon">📅</span>التقويم</div>
+    <div class="nav-item" onclick="showPage('activitylog',this)"><span class="icon">📋</span>سجل النشاط</div>
     <div class="nav-item" onclick="showPage('notes',this)"><span class="icon">📝</span>الملاحظات</div>
   </nav>
   <nav class="nav-section">
@@ -854,6 +909,8 @@ tr:hover td{background:#faf6f3;}
       <div class="card" style="margin-top:1rem">
         <div class="card-header"><div class="card-title">📋 جدول الطلبات</div></div>
         <div class="table-wrap"><table><thead><tr><th onclick="sortTable('orders','index')"># <span class="sort-icon">↕</span></th><th onclick="sortTable('orders','name')">العميل <span class="sort-icon">↕</span></th><th>الهاتف</th><th onclick="sortTable('orders','product')">المنتج <span class="sort-icon">↕</span></th><th onclick="sortTable('orders','qty')">الكمية <span class="sort-icon">↕</span></th><th onclick="sortTable('orders','price')">السعر <span class="sort-icon">↕</span></th><th>المنطقة</th><th onclick="sortTable('orders','status')">الحالة <span class="sort-icon">↕</span></th><th onclick="sortTable('orders','dateRaw')">التاريخ <span class="sort-icon">↕</span></th><th>إجراء</th></tr></thead><tbody id="ordersTable"><tr><td colspan="9"><div class="empty-state"><div class="e-icon">🛒</div><div class="e-title">لا يوجد طلبات</div></div></td></tr></tbody></table></div>
+        <div id="ordersPagination"></div>
+        <div class="pag-info" id="ordersPagInfo"></div>
       </div>
     </div>
 
@@ -880,7 +937,10 @@ tr:hover td{background:#faf6f3;}
         </select>
         <span class="results-count" id="customersCount">0 عميل</span>
       </div>
-      <div class="card"><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الهاتف</th><th>المنطقة</th><th>الطلبات</th><th>الإنفاق</th><th>VIP</th><th>إجراء</th></tr></thead><tbody id="customersTable"><tr><td colspan="7"><div class="empty-state"><div class="e-icon">👥</div><div class="e-title">لا يوجد عملاء</div></div></td></tr></tbody></table></div></div>
+      <div class="card"><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الهاتف</th><th>المنطقة</th><th>الطلبات</th><th>الإنفاق</th><th>VIP</th><th>إجراء</th></tr></thead><tbody id="customersTable"><tr><td colspan="7"><div class="empty-state"><div class="e-icon">👥</div><div class="e-title">لا يوجد عملاء</div></div></td></tr></tbody></table></div>
+        <div id="customersPagination"></div>
+        <div class="pag-info" id="customersPagInfo"></div>
+      </div>
     </div>
 
     <!-- PRODUCTS -->
@@ -898,7 +958,50 @@ tr:hover td{background:#faf6f3;}
         </select>
         <span class="results-count" id="productsCount">0 منتج</span>
       </div>
-      <div class="card"><div class="table-wrap"><table><thead><tr><th onclick="sortTable('products','name')">اسم البوكس <span class="sort-icon">↕</span></th><th>المحتوى</th><th>الوزن</th><th onclick="sortTable('products','price')">السعر <span class="sort-icon">↕</span></th><th onclick="sortTable('products','cost')">التكلفة <span class="sort-icon">↕</span></th><th>الربح</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="productsTable"><tr><td colspan="8"><div class="empty-state"><div class="e-icon">📦</div><div class="e-title">لا يوجد منتجات</div></div></td></tr></tbody></table></div></div>
+      <div class="card"><div class="table-wrap"><table><thead><tr><th onclick="sortTable('products','name')">اسم البوكس <span class="sort-icon">↕</span></th><th>المحتوى</th><th>الوزن</th><th onclick="sortTable('products','price')">السعر <span class="sort-icon">↕</span></th><th onclick="sortTable('products','cost')">التكلفة <span class="sort-icon">↕</span></th><th>الربح</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="productsTable"><tr><td colspan="8"><div class="empty-state"><div class="e-icon">📦</div><div class="e-title">لا يوجد منتجات</div></div></td></tr></tbody></table></div><div id="productsPagination"></div><div class="pag-info" id="productsPagInfo"></div></div>
+    </div>
+
+    </div>
+
+    <!-- FLAVORS PAGE -->
+    <div class="page" id="page-flavors">
+      <div class="section-header">
+        <div><div class="section-title-main">🍫 النكهات</div><div class="section-subtitle">قائمة نكهات المصنع — +40 نكهة</div></div>
+        <button class="btn btn-gold" onclick="openModal('addFlavorModal')">+ نكهة جديدة</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" style="margin-bottom:1rem">
+        <div class="stat-card"><div class="stat-label">إجمالي النكهات</div><div class="stat-value" id="flavTotalCount">0</div><div class="stat-icon">🍫</div></div>
+        <div class="stat-card"><div class="stat-label">متاحة</div><div class="stat-value" id="flavAvailCount">0</div><div class="stat-icon">✅</div></div>
+        <div class="stat-card"><div class="stat-label">غير متاحة</div><div class="stat-value" id="flavUnavailCount">0</div><div class="stat-icon">❌</div></div>
+        <div class="stat-card"><div class="stat-label">الأكثر طلباً</div><div class="stat-value" id="flavTopOrdered" style="font-size:0.82rem">—</div><div class="stat-icon">🏆</div></div>
+      </div>
+
+      <!-- Search + Filter -->
+      <div class="search-bar" style="margin-bottom:1rem">
+        <input class="search-input" id="searchFlavors" placeholder="🔍 بحث في النكهات..." oninput="window.filterFlavors()">
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterFlavorStatus" onchange="window.filterFlavors()">
+          <option value="">كل النكهات</option>
+          <option value="available">✅ متاحة</option>
+          <option value="unavailable">❌ غير متاحة</option>
+        </select>
+      </div>
+
+      <!-- Flavors Grid -->
+      <div class="card">
+        <div class="card-body" id="flavorsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0.8rem;padding:1rem">
+          <div style="text-align:center;padding:2rem;color:var(--brown);opacity:0.5;grid-column:1/-1">لا توجد نكهات — أضف نكهات أو استورد القائمة</div>
+        </div>
+      </div>
+
+      <!-- Most Ordered Flavors -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header"><div class="card-title">📊 إحصائيات النكهات في الكستوم بوكس</div></div>
+        <div class="card-body" id="flavorStatsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.6rem">
+          <div style="text-align:center;padding:1rem;color:var(--brown);opacity:0.5;grid-column:1/-1">لا توجد بيانات بعد</div>
+        </div>
+      </div>
     </div>
 
     <!-- INVENTORY -->
@@ -956,7 +1059,7 @@ tr:hover td{background:#faf6f3;}
         </div>
       </div>
 
-      <div class="card"><div class="card-header"><div class="card-title">📋 سجل المصاريف</div></div><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>البند</th><th>النوع</th><th>المبلغ</th><th>إجراء</th></tr></thead><tbody id="expensesTable"><tr><td colspan="5"><div class="empty-state"><div class="e-icon">💸</div><div class="e-title">لا يوجد مصاريف</div></div></td></tr></tbody></table></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">📋 سجل المصاريف</div></div><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>البند</th><th>النوع</th><th>المبلغ</th><th>إجراء</th></tr></thead><tbody id="expensesTable"><tr><td colspan="5"><div class="empty-state"><div class="e-icon">💸</div><div class="e-title">لا يوجد مصاريف</div></div></td></tr></tbody></table></div><div id="expensesPagination"></div><div class="pag-info" id="expensesPagInfo"></div></div>
     </div>
 
     <!-- MARKETING -->
@@ -1281,6 +1384,48 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div id="trashList"><div class="empty-state"><div class="e-icon">🗑️</div><div class="e-title">السلة فارغة</div></div></div>
     </div>
 
+    <!-- ACTIVITY LOG PAGE -->
+    <div class="page" id="page-activitylog">
+      <div class="section-header">
+        <div><div class="section-title-main">📋 سجل النشاط</div><div class="section-subtitle">كل العمليات والدخول والتغييرات</div></div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="window.exportActivityLog()">📥 تصدير CSV</button>
+          <button class="btn btn-danger" onclick="window.clearActivityLog()">🗑 مسح السجل</button>
+        </div>
+      </div>
+      <div class="stats-grid" style="margin-bottom:1rem">
+        <div class="stat-card"><div class="stat-label">إجمالي العمليات</div><div class="stat-value" id="logTotalCount">0</div><div class="stat-icon">📊</div></div>
+        <div class="stat-card"><div class="stat-label">إضافات</div><div class="stat-value" id="logAddCount">0</div><div class="stat-icon">➕</div></div>
+        <div class="stat-card"><div class="stat-label">تعديلات</div><div class="stat-value" id="logEditCount">0</div><div class="stat-icon">✏️</div></div>
+        <div class="stat-card"><div class="stat-label">حذف</div><div class="stat-value" id="logDeleteCount">0</div><div class="stat-icon">🗑️</div></div>
+      </div>
+      <div class="search-bar" style="margin-bottom:1rem">
+        <input class="search-input" id="searchLog" placeholder="🔍 بحث في السجل..." oninput="window.renderActivityLog()">
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterLogType" onchange="window.renderActivityLog()">
+          <option value="">كل الأنواع</option>
+          <option value="add">➕ إضافة</option>
+          <option value="edit">✏️ تعديل</option>
+          <option value="delete">🗑 حذف</option>
+          <option value="login">🔐 دخول</option>
+          <option value="logout">🚪 خروج</option>
+          <option value="settings">⚙️ إعدادات</option>
+        </select>
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterLogPeriod" onchange="window.renderActivityLog()">
+          <option value="all">كل الوقت</option>
+          <option value="today">اليوم</option>
+          <option value="week">هذا الأسبوع</option>
+          <option value="month">هذا الشهر</option>
+        </select>
+      </div>
+      <div class="card">
+        <div class="card-body" id="activityLogList" style="padding:0">
+          <div style="text-align:center;padding:2rem;color:var(--brown);opacity:0.5">جاري التحميل...</div>
+        </div>
+      </div>
+      <div id="logPagination"></div>
+      <div class="pag-info" id="logPagInfo"></div>
+    </div>
+
     <div class="page" id="page-calendar">
       <div class="section-header">
         <div><div class="section-title-main">📅 التقويم</div><div class="section-subtitle">الطلبات والمواعيد والتذكيرات</div></div>
@@ -1331,8 +1476,6 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         <span><span class="cal-event ev-reminder" style="display:inline-block">●</span> تذكير</span>
       </div>
     </div>
-
-  </div>
 </main>
 
 <!-- MODALS -->
@@ -1375,6 +1518,69 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
     <div class="modal-footer" id="evDetailFooter"></div>
   </div>
 </div>
+<!-- ADD FLAVOR MODAL -->
+<div class="modal-overlay" id="addFlavorModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">🍫 نكهة جديدة</div><button class="modal-close" onclick="closeModal('addFlavorModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الاسم بالعربي *</div><input class="form-input" id="fl-name-ar" placeholder="مثال: توت العليق"></div>
+        <div class="form-group"><div class="form-label">الاسم بالإنجليزي</div><input class="form-input" id="fl-name-en" placeholder="Raspberry"></div>
+      </div>
+      <div class="form-group"><div class="form-label">الوصف</div><input class="form-input" id="fl-desc" placeholder="وصف قصير اختياري..."></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:0.5rem">
+        <input type="checkbox" id="fl-available" checked style="width:18px;height:18px;accent-color:var(--gold)">
+        <label for="fl-available" style="font-size:0.82rem;color:var(--brown);cursor:pointer">متاحة حالياً ✅</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addFlavorModal')">إلغاء</button>
+      <button class="btn btn-gold" onclick="window.saveFlavor()">✅ إضافة</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT FLAVOR MODAL -->
+<div class="modal-overlay" id="editFlavorModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">✏️ تعديل النكهة</div><button class="modal-close" onclick="closeModal('editFlavorModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="ef-id">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الاسم بالعربي *</div><input class="form-input" id="ef-name-ar" placeholder="مثال: توت العليق"></div>
+        <div class="form-group"><div class="form-label">الاسم بالإنجليزي</div><input class="form-input" id="ef-name-en" placeholder="Raspberry"></div>
+      </div>
+      <div class="form-group"><div class="form-label">الوصف</div><input class="form-input" id="ef-desc" placeholder="وصف قصير اختياري..."></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:0.5rem">
+        <input type="checkbox" id="ef-available" style="width:18px;height:18px;accent-color:var(--gold)">
+        <label for="ef-available" style="font-size:0.82rem;color:var(--brown);cursor:pointer">متاحة حالياً ✅</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('editFlavorModal')">إلغاء</button>
+      <button class="btn btn-gold" onclick="window.saveEditFlavor()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT FLAVORS MODAL -->
+<div class="modal-overlay" id="productFlavorsModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><div class="modal-title">🍫 نكهات البوكس</div><button class="modal-close" onclick="closeModal('productFlavorsModal')">✕</button></div>
+    <div class="modal-body">
+      <div id="pf-product-name" style="font-weight:700;color:var(--gold);margin-bottom:0.6rem;font-size:0.9rem"></div>
+      <input type="hidden" id="pf-product-id">
+      <div class="flavor-count" id="pf-selected-count">0 نكهة مختارة</div>
+      <input class="flavor-search" id="pf-search" placeholder="🔍 بحث في النكهات..." oninput="window.renderProductFlavorPicker()">
+      <div id="pf-flavors-grid" class="flavors-grid"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('productFlavorsModal')">إلغاء</button>
+      <button class="btn btn-gold" onclick="window.saveProductFlavors()">💾 حفظ النكهات</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addOrderModal">
   <div class="modal">
     <div class="modal-header"><div class="modal-title">🛒 طلب جديد</div><button class="modal-close" onclick="closeModal('addOrderModal')">✕</button></div>
@@ -1388,7 +1594,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         </div>
         <div id="orderProductRows">
           <div class="order-product-row" style="display:grid;grid-template-columns:1fr auto auto auto;gap:0.4rem;align-items:center;margin-bottom:0.5rem">
-            <select class="form-select" style="font-size:0.8rem" onchange="calcOrderTotal()"><option value="">اختر المنتج</option></select>
+            <select class="form-select" style="font-size:0.8rem" onchange="calcOrderTotal();window.checkCustomBox(this)"><option value="">اختر المنتج</option></select>
             <input class="form-input" type="number" min="1" value="1" placeholder="كمية" style="width:70px;font-size:0.8rem" oninput="calcOrderTotal()">
             <input class="form-input" type="number" placeholder="سعر" style="width:80px;font-size:0.8rem" oninput="calcOrderTotal()">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeOrderProductRow(this)" style="padding:0.3rem 0.5rem;visibility:hidden">✕</button>
@@ -1398,6 +1604,14 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
           <span style="color:var(--brown)">إجمالي الطلب:</span>
           <span id="o-total-display" style="font-weight:700;color:var(--gold)">0</span>
         </div>
+      </div>
+      <!-- CUSTOM BOX FLAVORS SECTION — shown only when custom box selected -->
+      <div id="customBoxSection" style="display:none" class="custom-box-section">
+        <div class="custom-box-title">🎨 اختيارات العميل — الكستوم بوكس</div>
+        <div class="flavor-count" id="customFlavorCount">0 نكهة مختارة</div>
+        <input class="flavor-search" id="customFlavorSearch" placeholder="🔍 بحث في النكهات..." oninput="window.renderCustomFlavorPicker()">
+        <div id="customFlavorGrid" class="flavors-grid"></div>
+        <div id="customFlavorTags" style="margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.25rem"></div>
       </div>
       <div class="form-row"><div class="form-group"><div class="form-label">التاريخ *</div><input class="form-input" id="o-date" type="date"></div><div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="o-status"><option value="pending">⏳ Pending</option><option value="preparing">🔧 Preparing</option><option value="delivered">✅ Delivered</option><option value="cancelled">❌ Cancelled</option></select></div></div>
       <div class="form-row"><div class="form-group"><div class="form-label">منطقة التوصيل</div><select class="form-select" id="o-region"><option value="">اختر المنطقة</option></select></div><div class="form-group"><div class="form-label">تكلفة التوصيل</div><input class="form-input" id="o-delivery" type="number" placeholder="0" oninput="calcOrderTotal()"></div></div>
@@ -1456,6 +1670,22 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
   </div>
 </div>
 
+<!-- EDIT REGION MODAL -->
+<div class="modal-overlay" id="editRegionModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">✏️ تعديل المنطقة</div><button class="modal-close" onclick="closeModal('editRegionModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="er-id">
+      <div class="form-group"><div class="form-label">اسم المنطقة *</div><input class="form-input" id="er-name" placeholder="مثال: عمان"></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">سعر التوصيل *</div><input class="form-input" id="er-price" type="number" placeholder="0"></div>
+        <div class="form-group"><div class="form-label">وقت التوصيل</div><input class="form-input" id="er-time" placeholder="1-2 يوم"></div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('editRegionModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveEditRegion()">💾 حفظ</button></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addExpenseModal">
   <div class="modal">
     <div class="modal-header"><div class="modal-title">💸 مصروف جديد</div><button class="modal-close" onclick="closeModal('addExpenseModal')">✕</button></div>
@@ -1465,6 +1695,27 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-group"><div class="form-label">التاريخ</div><input class="form-input" id="exp-date" type="date"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addExpenseModal')">إلغاء</button><button class="btn btn-primary" onclick="addExpense()">✅ تسجيل</button></div>
+  </div>
+</div>
+
+<!-- EDIT EXPENSE MODAL -->
+<div class="modal-overlay" id="editExpenseModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">✏️ تعديل المصروف</div><button class="modal-close" onclick="closeModal('editExpenseModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="ee-id">
+      <div class="form-group"><div class="form-label">البند *</div><input class="form-input" id="ee-name" placeholder="مثال: مواد خام"></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">النوع</div>
+          <select class="form-select" id="ee-type">
+            <option>مواد خام</option><option>تغليف</option><option>تسويق</option><option>توصيل</option><option>أخرى</option>
+          </select>
+        </div>
+        <div class="form-group"><div class="form-label">المبلغ *</div><input class="form-input" id="ee-amount" type="number" placeholder="0"></div>
+      </div>
+      <div class="form-group"><div class="form-label">التاريخ</div><input class="form-input" id="ee-date" type="date"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('editExpenseModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveEditExpense()">💾 حفظ</button></div>
   </div>
 </div>
 
@@ -1612,7 +1863,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // STATE
-let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[] };
+let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[] };
 let unsubscribers = [];
 
 // ══════════════════════════════
@@ -1838,6 +2089,7 @@ window.login = async function() {
     await auth.signInWithEmailAndPassword(email, pass);
     // نجح الدخول — أعد العداد
     rateSaveData({attempts:0, lockedAt:null});
+    logActivity('login', '', 'تسجيل دخول: ' + email);
     // onAuthStateChanged will handle the rest
   } catch(e) {
     // ── سجّل المحاولة الفاشلة ──
@@ -1871,10 +2123,13 @@ window.login = async function() {
 // window.register removed — no register form exists in this app (admin-only login)
 
 window.logout = async () => {
+  logActivity('logout', '', 'تسجيل خروج');
   clearTimeout(sessionTimer); clearTimeout(warnTimer);
   unsubscribers.forEach(u => u());
   unsubscribers = [];
-  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[] };
+  if(activityLogUnsubscribe) { activityLogUnsubscribe(); activityLogUnsubscribe = null; }
+  activityLogData = [];
+  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[] };
   await auth.signOut();
   // Prevent back button after logout
   history.pushState(null, '', location.href);
@@ -1934,30 +2189,73 @@ auth.onAuthStateChanged(function(user) {
 // ── FIRESTORE LISTENERS ──
 
 // ── CRUD HELPERS ──
-async function addDoc_(col, data) {
-  return await db.collection(col).add({ ...data, createdAt: Date.now() });
+const COL_LABELS = {
+  orders:'الطلبات', customers:'العملاء', products:'المنتجات',
+  inventory:'المخزون', regions:'المناطق', expenses:'المصاريف',
+  campaigns:'الحملات', coupons:'الكوبونات', trash:'المحذوفات',
+  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم'
+};
+
+async function logActivity(type, col, detail) {
+  try {
+    await db.collection('activityLog').add({
+      type,
+      col: col || '',
+      colLabel: COL_LABELS[col] || col || '',
+      detail: detail || '',
+      ts: Date.now(),
+      timeStr: new Date().toLocaleString('ar')
+    });
+  } catch(e) { console.warn('logActivity error:', e); }
 }
-async function deleteDoc_(col, id) { await db.collection(col).doc(id).delete(); }
-async function updateDoc_(col, id, data) { await db.collection(col).doc(id).update(data); }
+
+async function addDoc_(col, data) {
+  const ref = await db.collection(col).add({ ...data, createdAt: Date.now() });
+  const label = data.name || data.title || data.customer || '';
+  if(col !== 'activityLog' && col !== 'trash') logActivity('add', col, label ? 'إضافة: ' + label : 'عنصر جديد');
+  return ref;
+}
+async function deleteDoc_(col, id) {
+  await db.collection(col).doc(id).delete();
+  if(col !== 'activityLog') logActivity('delete', col, 'حذف عنصر #' + id.slice(0,6));
+}
+async function updateDoc_(col, id, data) {
+  await db.collection(col).doc(id).update(data);
+  const label = data.name || data.title || data.status || '';
+  if(col !== 'activityLog') logActivity('edit', col, label ? 'تعديل: ' + label : 'تعديل عنصر');
+}
 async function setDoc_(col, id, data) {
   await db.collection(col).doc(id).set({ ...data, updatedAt: Date.now() }, { merge: true });
+  if(col !== 'activityLog') logActivity('settings', col, 'تحديث الإعدادات');
 }
 
 // ── NAVIGATION ──
 window.showPage = (id, el) => {
+  // Save current page filters before leaving
+  const curActive = document.querySelector('.page.active');
+  if(curActive) cacheSaveFilters(curActive.id.replace('page-',''));
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', certificates:'📜 الشهادات', notes:'📝 الملاحظات', calendar:'📅 التقويم' };
+  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', certificates:'📜 الشهادات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
-  if(id==='orders') { document.getElementById('ordersCount').textContent = state.orders.length+' طلب'; }
+
+  // Restore filters for this page
+  cacheRestoreFilters(id);
+
+  if(id==='orders') { cacheRestoreFilters('orders'); filterOrders(); }
+  if(id==='customers') { cacheRestoreFilters('customers'); filterCustomers(); }
+  if(id==='products') { cacheRestoreFilters('products'); filterProducts(); }
+  if(id==='flavors')  { window.filterFlavors(); updateFlavorStats(); }
+  if(id==='finance') { cacheRestoreFilters('expenses'); renderFinance(); }
   if(id==='brand') { loadBrand(); }
   if(id==='legal') { loadLegal(); renderCertificates(); }
   if(id==='calculations') { loadCalculations(); updateCalc(); }
   if(id==='certificates') { renderCertificates(); filterCerts(); }
-  if(id==='customers') { document.getElementById('customersCount').textContent = state.customers.length+' عميل'; }
+  if(id==='activitylog') { subscribeActivityLog(); window.renderActivityLog(); }
   if(id==='calendar') { loadCalEvents().then(()=>{ calState.date=new Date(); renderCal(); checkOrderNotifications(); }); }
 };
 
@@ -2060,10 +2358,32 @@ window.addRegion = async () => {
 };
 window.deleteRegion = (id) => { const r=state.regions.find(x=>x.id===id); confirmDelete('regions',id,r?.name||'المنطقة'); };
 
+window.editRegion = function(id) {
+  const r = state.regions.find(x => x.id === id);
+  if(!r) return;
+  document.getElementById('er-id').value   = id;
+  document.getElementById('er-name').value  = r.name  || '';
+  document.getElementById('er-price').value = r.price || 0;
+  document.getElementById('er-time').value  = r.time  || '';
+  openModal('editRegionModal');
+};
+
+window.saveEditRegion = async function() {
+  const id    = document.getElementById('er-id').value;
+  const name  = document.getElementById('er-name').value.trim();
+  const price = parseFloat(document.getElementById('er-price').value) || 0;
+  const time  = document.getElementById('er-time').value.trim();
+  if(!name)  { toast('اسم المنطقة مطلوب', 'error'); return; }
+  if(!price) { toast('سعر التوصيل مطلوب', 'error'); return; }
+  await updateDoc_('regions', id, { name, price, time });
+  closeModal('editRegionModal');
+  toast('تم تحديث المنطقة ✅', 'success');
+};
+
 function renderRegions() {
   const el=document.getElementById('regionsList');
   if(!state.regions.length){ el.innerHTML='<div class="empty-state"><div class="e-icon">🗺️</div><div class="e-title">لا توجد مناطق</div></div>'; return; }
-  el.innerHTML=state.regions.map(r=>`<div class="region-item"><div><div class="region-name">📍 ${sanitize(r.name)}</div><div style="font-size:0.72rem;color:var(--brown)">${r.time||'—'}</div></div><div style="display:flex;align-items:center;gap:1rem"><div class="region-price">${r.price} توصيل</div><button class="btn btn-sm btn-danger" onclick="deleteRegion('${r.id}')">🗑</button></div></div>`).join('');
+  el.innerHTML=state.regions.map(r=>`<div class="region-item"><div><div class="region-name">📍 ${sanitize(r.name)}</div><div style="font-size:0.72rem;color:var(--brown)">${r.time||'—'}</div></div><div style="display:flex;align-items:center;gap:0.6rem"><div class="region-price">${r.price} توصيل</div><button class="btn btn-sm btn-outline" onclick="editRegion('${r.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteRegion('${r.id}')">🗑</button></div></div>`).join('');
 }
 
 // ── FINANCE ──
@@ -2076,6 +2396,33 @@ window.addExpense = async () => {
   toast('تم تسجيل المصروف ✅','success');
 };
 window.deleteExpense = (id) => { const e=state.expenses.find(x=>x.id===id); confirmDelete('expenses',id,e?.name||'المصروف'); };
+
+window.editExpense = function(id) {
+  const e = state.expenses.find(x => x.id === id);
+  if(!e) return;
+  document.getElementById('ee-id').value     = id;
+  document.getElementById('ee-name').value   = e.name   || '';
+  document.getElementById('ee-type').value   = e.type   || 'مواد خام';
+  document.getElementById('ee-amount').value = e.amount || 0;
+  document.getElementById('ee-date').value   = e.date   || '';
+  openModal('editExpenseModal');
+};
+
+window.saveEditExpense = async function() {
+  const id     = document.getElementById('ee-id').value;
+  const name   = document.getElementById('ee-name').value.trim();
+  const amount = parseFloat(document.getElementById('ee-amount').value) || 0;
+  if(!name)   { toast('اسم البند مطلوب', 'error'); return; }
+  if(!amount) { toast('المبلغ مطلوب', 'error'); return; }
+  await updateDoc_('expenses', id, {
+    name,
+    type:   document.getElementById('ee-type').value,
+    amount,
+    date:   document.getElementById('ee-date').value
+  });
+  closeModal('editExpenseModal');
+  toast('تم تحديث المصروف ✅', 'success');
+};
 
 // renderFinance moved to fixed section
 
@@ -2114,9 +2461,8 @@ window.addMsgTemplate = () => { const div=document.createElement('div'); div.cla
 // renderKanbanFiltered moved to fixed section
 
 function renderCustomersFiltered(customers) {
-  const tb=document.getElementById('customersTable');
-  if(!customers.length){ tb.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
-  tb.innerHTML=customers.map(c=>`<tr><td><strong>${sanitize(c.name)}</strong></td><td>${sanitize(c.phone)}</td><td>${c.region||'—'}</td><td>${c.orders||0}</td><td style="color:var(--gold);font-weight:700">${c.spent||0}</td><td>${c.vip==='yes'?'<span class="badge badge-vip">⭐ VIP</span>':'—'}</td><td style='white-space:nowrap'><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editCustomer('${c.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteCustomer('${c.id}')">🗑</button></td></tr>`).join('');
+  pagInit('customers', customers);
+  _renderCustomersPage();
 }
 
 // refreshDashboard moved to fixed section
@@ -2260,20 +2606,11 @@ window.filterExpenses = function() {
 };
 
 function renderExpensesFiltered(expenses) {
-  let tb = document.getElementById('expensesTable');
-  if (!expenses || !expenses.length) {
-    tb.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>';
-    return;
-  }
-  let sorted = expenses.slice().sort(function(a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
-  let rows = sorted.map(function(e) {
-    let btn = '<button class="btn btn-sm btn-danger" onclick="deleteExpense(\'' + e.id + '\')">🗑</button>';
-    return '<tr><td>' + sanitize(e.date || '') + '</td><td><strong>' + sanitize(e.name || '') + '</strong></td>' +
-      '<td><span class="badge badge-pending">' + sanitize(e.type || '') + '</span></td>' +
-      '<td style="color:var(--danger);font-weight:700">-' + (e.amount || 0) + '</td>' +
-      '<td>' + btn + '</td></tr>';
-  });
-  tb.innerHTML = rows.join('');
+  const cnt = document.getElementById('expensesCount');
+  if(cnt) cnt.textContent = (expenses||[]).length + ' بند';
+  const sorted = (expenses||[]).slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); });
+  pagInit('expenses', sorted);
+  _renderExpensesPage();
 }
 
 // Sortable table headers
@@ -2574,28 +2911,10 @@ const sortConfig = {};
 
 // ── MISSING: renderProductsFiltered ──
 function renderProductsFiltered(products) {
-  let tb = document.getElementById('productsTable');
-  if(!tb) return;
   let el = document.getElementById('productsCount');
   if(el) el.textContent = products.length + ' منتج';
-  if(!products.length) {
-    tb.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="e-icon">📦</div><div class="e-title">لا يوجد منتجات</div></div></td></tr>';
-    return;
-  }
-  tb.innerHTML = products.map(function(p) {
-    let profit = (parseFloat(p.price)||0) - (parseFloat(p.cost)||0);
-    const stockBadge = p.status==='instock'?'<span class="badge badge-instock">✅ متوفر</span>':'<span class="badge badge-outstock">❌ غير متوفر</span>';
-    return '<tr>' +
-      '<td><strong>'+p.name+'</strong></td>' +
-      '<td style="font-size:0.75rem;max-width:150px">'+(p.content||'—')+'</td>' +
-      '<td>'+(p.weight||'—')+'</td>' +
-      '<td style="color:var(--gold);font-weight:700">'+(p.price||0)+'</td>' +
-      '<td style="color:var(--danger)">'+(p.cost||0)+'</td>' +
-      '<td style="color:'+(profit>=0?'var(--success)':'var(--danger)')+';font-weight:700">'+profit.toFixed(0)+'</td>' +
-      '<td>'+stockBadge+'</td>' +
-      '<td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editProduct(\''+p.id+'\')">✏️</button><button class="btn btn-sm btn-gold btn-sm" onclick="toggleProductStatus(\''+p.id+'\',\''+p.status+'\')" style="margin-left:0.3rem">🔄</button><button class="btn btn-sm btn-danger" onclick="deleteProduct(\''+p.id+'\')">🗑</button></td>' +
-      '</tr>';
-  }).join('');
+  pagInit('products', products);
+  _renderProductsPage();
 }
 
 // ── MISSING: filterProducts ──
@@ -2933,7 +3252,8 @@ window.addOrder = async function() {
     price: totalPrice,
     qty: products.reduce(function(s,p){ return s+p.qty; }, 0),
     region, delivery, notes, status, date,
-    dateRaw: dateVal || new Date().toISOString().split('T')[0]
+    dateRaw: dateVal || new Date().toISOString().split('T')[0],
+    customFlavors: _customSelectedFlavors.length ? [..._customSelectedFlavors] : []
   });
   
   // Auto-add customer if new
@@ -2945,6 +3265,9 @@ window.addOrder = async function() {
   }
   
   closeModal('addOrderModal');
+  _customSelectedFlavors = [];
+  const customSection = document.getElementById('customBoxSection');
+  if(customSection) customSection.style.display = 'none';
   // Reset form
   document.getElementById('o-name').value='';
   document.getElementById('o-phone').value='';
@@ -3141,32 +3464,9 @@ window.filterOrders = function() {
 // ── FIX: renderOrders to add edit button ──
 function renderOrdersFiltered(orders) {
   renderKanbanFiltered(orders);
-  let tb = document.getElementById('ordersTable');
-  if(!orders.length){ tb.innerHTML='<tr><td colspan="10"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
-  let sorted = orders.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); });
-  tb.innerHTML = sorted.map(function(o,i){
-    return '<tr>' +
-      '<td>'+(sorted.length-i)+'</td>' +
-      '<td><strong>'+sanitize(o.name)+'</strong></td>' +
-      '<td>'+sanitize(o.phone)+'</td>' +
-      '<td>'+sanitize(o.product||'—')+'</td>' +
-      '<td>'+(o.qty||1)+'</td>' +
-      '<td style="color:var(--gold);font-weight:700">'+(o.price||0)+'</td>' +
-      '<td>'+sanitize(o.region||'—')+'</td>' +
-      '<td>'+statusBadge(o.status)+'</td>' +
-      '<td style="font-size:0.75rem">'+sanitize(o.date||o.dateRaw||'—')+'</td>' +
-      '<td style="white-space:nowrap">'+
-      '<select style="font-size:0.7rem;padding:2px 4px;border:1px solid var(--light);border-radius:4px;font-family:Cairo,sans-serif" onchange="updateOrderStatus(\'' + o.id + '\',this.value)">'+
-      '<option value="pending" '+(o.status==='pending'?'selected':'')+'>⏳ Pending</option>'+
-      '<option value="preparing" '+(o.status==='preparing'?'selected':'')+'>🔧 Preparing</option>'+
-      '<option value="delivered" '+(o.status==='delivered'?'selected':'')+'>✅ Delivered</option>'+
-      '<option value="cancelled" '+(o.status==='cancelled'?'selected':'')+'>❌ Cancelled</option>'+
-      '</select> '+
-      '<button class="btn btn-sm btn-outline" onclick="editOrder(\'' + o.id + '\')">✏️</button> '+
-      '<button class="btn btn-sm btn-danger" onclick="deleteOrder(\'' + o.id + '\')">🗑</button>'+
-      '</td>' +
-    '</tr>';
-  }).join('');
+  const sorted = orders.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); });
+  pagInit('orders', sorted);
+  _renderOrdersPage();
 }
 
 // ── FIX: renderKanbanFiltered to be more professional ──
@@ -3430,7 +3730,7 @@ window.setMonthFilter = function(period, btn, page) {
 
 // ── FIX: notes subscribeToData needs notes collection ──
 function subscribeToData() {
-  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes'];
+  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors'];
   if(!window.unsubscribers) window.unsubscribers = [];
   collections.forEach(function(col) {
     try {
@@ -3459,6 +3759,7 @@ function refreshUI(col) {
     if(col==='certificates'){ renderCertificates(); }
     if(col==='settings')    { try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} }
     if(col==='notes')       { if(window.filterNotes) filterNotes(); }
+    if(col==='flavors')     { if(document.getElementById('page-flavors')?.classList.contains('active')) window.filterFlavors(); updateFlavorStats(); }
   } catch(e) { console.error('refreshUI error for col='+col+':', e); }
 }
 
@@ -3607,6 +3908,8 @@ const breadcrumbMap = {
   notes:        '📝 الملاحظات',
   calculations: '🧮 الحسابات',
   calendar:     '📅 التقويم',
+  activitylog:  '📋 سجل النشاط',
+  flavors:      '🍫 النكهات',
 };
 
 function updateBreadcrumb(id) {
@@ -3914,6 +4217,536 @@ function checkOrderNotifications() {
       });
     });
   });
+}
+
+// ══════════════════════════════
+// PAGINATION ENGINE
+// ══════════════════════════════
+const PAGE_SIZE = 25;
+const pagState = {}; // { tableName: { page: 1, data: [] } }
+
+function pagInit(name, data) {
+  if(!pagState[name]) pagState[name] = { page: 1 };
+  pagState[name].data = data;
+  pagState[name].page = 1;
+}
+
+function pagGetPage(name) {
+  const ps = pagState[name];
+  if(!ps || !ps.data) return [];
+  const start = (ps.page - 1) * PAGE_SIZE;
+  return ps.data.slice(start, start + PAGE_SIZE);
+}
+
+function pagRender(name, containerId, infoId, onPageChange) {
+  const ps = pagState[name];
+  if(!ps || !ps.data) return;
+  const total = ps.data.length;
+  const pages = Math.ceil(total / PAGE_SIZE);
+  const cur = ps.page;
+
+  const container = document.getElementById(containerId);
+  const info = document.getElementById(infoId);
+  if(!container) return;
+
+  if(pages <= 1) { container.innerHTML = ''; if(info) info.textContent = total > 0 ? 'إجمالي: ' + total + ' عنصر' : ''; return; }
+
+  let html = '<div class="pagination">';
+  // Prev
+  html += `<button class="pag-btn" ${cur===1?'disabled':''} onclick="pagGoTo('${name}',${cur-1})">›</button>`;
+  // Pages
+  let pagNums = [];
+  if(pages <= 7) { for(let i=1;i<=pages;i++) pagNums.push(i); }
+  else {
+    pagNums = [1];
+    if(cur > 3) pagNums.push('...');
+    for(let i=Math.max(2,cur-1); i<=Math.min(pages-1,cur+1); i++) pagNums.push(i);
+    if(cur < pages-2) pagNums.push('...');
+    pagNums.push(pages);
+  }
+  pagNums.forEach(p => {
+    if(p==='...') html += `<span class="pag-btn" style="pointer-events:none;opacity:0.4">…</span>`;
+    else html += `<button class="pag-btn ${p===cur?'active':''}" onclick="pagGoTo('${name}',${p})">${p}</button>`;
+  });
+  // Next
+  html += `<button class="pag-btn" ${cur===pages?'disabled':''} onclick="pagGoTo('${name}',${cur+1})">‹</button>`;
+  html += '</div>';
+
+  container.innerHTML = html;
+  const from = (cur-1)*PAGE_SIZE+1;
+  const to = Math.min(cur*PAGE_SIZE, total);
+  if(info) info.textContent = `صفحة ${cur} من ${pages} — عرض ${from}–${to} من ${total}`;
+}
+
+window.pagGoTo = function(name, page) {
+  if(!pagState[name]) return;
+  const pages = Math.ceil(pagState[name].data.length / PAGE_SIZE);
+  pagState[name].page = Math.max(1, Math.min(page, pages));
+  // Re-render
+  if(name === 'orders')      { _renderOrdersPage(); }
+  if(name === 'customers')   { _renderCustomersPage(); }
+  if(name === 'products')    { _renderProductsPage(); }
+  if(name === 'expenses')    { _renderExpensesPage(); }
+  if(name === 'activitylog') { _renderLogPage(); }
+};
+
+function _renderOrdersPage() {
+  const page = pagGetPage('orders');
+  const total = (pagState['orders']?.data||[]).length;
+  const tb = document.getElementById('ordersTable');
+  if(!tb) return;
+  if(!page.length) { tb.innerHTML='<tr><td colspan="10"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
+  const offset = ((pagState['orders'].page||1)-1)*PAGE_SIZE;
+  tb.innerHTML = page.map(function(o,i){
+    return '<tr>' +
+      '<td>'+(total-offset-i)+'</td>' +
+      '<td><strong>'+sanitize(o.name)+'</strong></td>' +
+      '<td>'+sanitize(o.phone)+'</td>' +
+      '<td>'+sanitize(o.product||'—')+'</td>' +
+      '<td>'+(o.qty||1)+'</td>' +
+      '<td style="color:var(--gold);font-weight:700">'+(o.price||0)+'</td>' +
+      '<td>'+sanitize(o.region||'—')+'</td>' +
+      '<td>'+statusBadge(o.status)+'</td>' +
+      '<td style="font-size:0.75rem">'+sanitize(o.date||o.dateRaw||'—')+'</td>' +
+      '<td style="white-space:nowrap">'+
+      '<select style="font-size:0.7rem;padding:2px 4px;border:1px solid var(--light);border-radius:4px;font-family:Cairo,sans-serif" onchange="updateOrderStatus(\''+o.id+'\',this.value)">'+
+      '<option value="pending" '+(o.status==='pending'?'selected':'')+'>⏳ Pending</option>'+
+      '<option value="preparing" '+(o.status==='preparing'?'selected':'')+'>🔧 Preparing</option>'+
+      '<option value="delivered" '+(o.status==='delivered'?'selected':'')+'>✅ Delivered</option>'+
+      '<option value="cancelled" '+(o.status==='cancelled'?'selected':'')+'>❌ Cancelled</option>'+
+      '</select> '+
+      '<button class="btn btn-sm btn-outline" onclick="editOrder(\''+o.id+'\')">✏️</button> '+
+      '<button class="btn btn-sm btn-danger" onclick="deleteOrder(\''+o.id+'\')">🗑</button>'+
+      '</td></tr>';
+  }).join('');
+  pagRender('orders','ordersPagination','ordersPagInfo');
+}
+
+function _renderCustomersPage() {
+  const page = pagGetPage('customers');
+  const tb = document.getElementById('customersTable');
+  if(!tb) return;
+  if(!page.length) { tb.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
+  tb.innerHTML = page.map(c =>
+    `<tr><td><strong>${sanitize(c.name)}</strong></td><td>${sanitize(c.phone)}</td><td>${sanitize(c.region||'—')}</td><td>${c.orders||0}</td><td style="color:var(--gold);font-weight:700">${c.spent||0}</td><td>${c.vip==='yes'?'<span class="badge badge-vip">⭐ VIP</span>':'—'}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editCustomer('${c.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteCustomer('${c.id}')">🗑</button></td></tr>`
+  ).join('');
+  pagRender('customers','customersPagination','customersPagInfo');
+}
+
+function _renderProductsPage() {
+  const page = pagGetPage('products');
+  const tb = document.getElementById('productsTable');
+  if(!tb) return;
+  if(!page.length) { tb.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
+  tb.innerHTML = page.map(p => {
+    const flavorCount = Array.isArray(p.flavors) ? p.flavors.length : 0;
+    return `<tr><td><strong>${sanitize(p.name)}</strong></td><td>${sanitize(p.category||'—')}</td><td style="color:var(--gold);font-weight:700">${p.price||0} ₪</td><td>${sanitize(p.description||'—')}</td><td><span class="badge ${p.status==='instock'?'badge-delivered':'badge-cancelled'}">${p.status==='instock'?'متوفر':'غير متوفر'}</span></td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editProduct('${p.id}')">✏️</button><button class="btn btn-sm" style="background:rgba(191,158,96,0.15);color:var(--gold);border:1px solid rgba(191,158,96,0.3);font-size:0.7rem;margin-left:0.3rem;padding:0.25rem 0.5rem;border-radius:6px;cursor:pointer" onclick="window.openProductFlavorsModal('${p.id}')">🍫 ${flavorCount}</button><button class="btn btn-sm btn-gold btn-sm" onclick="toggleProductStatus('${p.id}','${p.status}')" style="margin-left:0.3rem">🔄</button><button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}')">🗑</button></td></tr>`;
+  }).join('');
+  pagRender('products','productsPagination','productsPagInfo');
+}
+
+function _renderExpensesPage() {
+  const page = pagGetPage('expenses');
+  const tb = document.getElementById('expensesTable');
+  if(!tb) return;
+  if(!page.length) { tb.innerHTML='<tr><td colspan="5"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
+  tb.innerHTML = page.map(e =>
+    `<tr><td><strong>${sanitize(e.name)}</strong></td><td>${sanitize(e.type||'—')}</td><td style="color:var(--danger);font-weight:700">${e.amount||0} ₪</td><td style="font-size:0.75rem">${sanitize(e.date||'—')}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editExpense('${e.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteExpense('${e.id}')">🗑</button></td></tr>`
+  ).join('');
+  pagRender('expenses','expensesPagination','expensesPagInfo');
+}
+
+// ══════════════════════════════
+// FILTER STATE CACHE
+// ══════════════════════════════
+const filterCache = {};
+
+function cacheSaveFilters(page) {
+  try {
+    const cache = {};
+    const ids = {
+      orders:    ['searchOrders','filterStatus','filterDateFrom','filterDateTo'],
+      customers: ['searchCustomers','filterVip'],
+      products:  ['searchProducts','filterCategory'],
+      expenses:  ['searchExpenses','filterExpType'],
+      notes:     ['searchNotes','filterNoteTag'],
+    };
+    const fields = ids[page];
+    if(!fields) return;
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) cache[id] = el.value;
+    });
+    filterCache[page] = cache;
+  } catch(e) {}
+}
+
+function cacheRestoreFilters(page) {
+  try {
+    const cache = filterCache[page];
+    if(!cache) return;
+    Object.entries(cache).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if(el && val !== undefined) el.value = val;
+    });
+  } catch(e) {}
+}
+
+// ══════════════════════════════
+// ACTIVITY LOG SYSTEM
+// ══════════════════════════════
+let activityLogData = [];
+let activityLogUnsubscribe = null;
+
+const LOG_ICONS = {
+  add:'➕', edit:'✏️', delete:'🗑️',
+  login:'🔐', logout:'🚪', settings:'⚙️'
+};
+const LOG_LABELS = {
+  add:'إضافة', edit:'تعديل', delete:'حذف',
+  login:'دخول', logout:'خروج', settings:'إعدادات'
+};
+
+function subscribeActivityLog() {
+  if(activityLogUnsubscribe) return;
+  activityLogUnsubscribe = db.collection('activityLog')
+    .orderBy('ts', 'desc')
+    .limit(500)
+    .onSnapshot(function(snap) {
+      activityLogData = snap.docs.map(d => ({id:d.id,...d.data()}));
+      if(document.getElementById('page-activitylog')?.classList.contains('active')) {
+        window.renderActivityLog();
+      }
+    }, function(e) { console.warn('activityLog listener error:', e); });
+}
+
+window.renderActivityLog = function() {
+  const q      = (document.getElementById('searchLog')?.value||'').toLowerCase();
+  const type   = document.getElementById('filterLogType')?.value||'';
+  const period = document.getElementById('filterLogPeriod')?.value||'all';
+
+  const now   = Date.now();
+  const dayMs = 86400000;
+
+  let filtered = activityLogData.filter(function(l) {
+    if(type && l.type !== type) return false;
+    if(q && !(l.detail||'').toLowerCase().includes(q) && !(l.colLabel||'').toLowerCase().includes(q)) return false;
+    if(period === 'today')  return (now - l.ts) < dayMs;
+    if(period === 'week')   return (now - l.ts) < 7 * dayMs;
+    if(period === 'month')  return (now - l.ts) < 30 * dayMs;
+    return true;
+  });
+
+  // Update stats
+  const s = (t) => activityLogData.filter(l => l.type === t).length;
+  const el = (id, v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  el('logTotalCount',  activityLogData.length);
+  el('logAddCount',    s('add'));
+  el('logEditCount',   s('edit'));
+  el('logDeleteCount', s('delete'));
+
+  const container = document.getElementById('activityLogList');
+  if(!container) return;
+
+  if(!filtered.length) {
+    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--brown);opacity:0.5">لا يوجد سجلات</div>';
+    const lp = document.getElementById('logPagination'); if(lp) lp.innerHTML='';
+    return;
+  }
+
+  pagInit('activitylog', filtered);
+  _renderLogPage();
+};
+
+function _renderLogPage() {
+  const page = pagGetPage('activitylog');
+  const container = document.getElementById('activityLogList');
+  if(!container || !page.length) return;
+  container.innerHTML = page.map(function(l) {
+    const icon  = LOG_ICONS[l.type] || '📌';
+    const badge = `<span class="log-badge log-${l.type}">${LOG_LABELS[l.type]||l.type}</span>`;
+    const col   = l.colLabel ? `<span style="font-size:0.68rem;opacity:0.7"> · ${sanitize(l.colLabel)}</span>` : '';
+    return `<div class="log-item">
+      <div class="log-icon">${icon}</div>
+      <div class="log-body">
+        <div class="log-action">${badge}${col}</div>
+        <div class="log-detail">${sanitize(l.detail||'—')}</div>
+      </div>
+      <div class="log-time">${sanitize(l.timeStr||'')}</div>
+    </div>`;
+  }).join('');
+  pagRender('activitylog','logPagination','logPagInfo');
+}
+
+// ── EXPORT ──
+window.exportActivityLog = function() {
+  if(!activityLogData.length) { toast('السجل فارغ', 'warning'); return; }
+  const rows = [['النوع','التصنيف','التفاصيل','الوقت']];
+  activityLogData.forEach(l => rows.push([
+    LOG_LABELS[l.type]||l.type,
+    l.colLabel||'',
+    l.detail||'',
+    l.timeStr||''
+  ]));
+  const csv = rows.map(r => r.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'activity-log-' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  toast('تم تصدير السجل ✅','success');
+};
+
+// ── CLEAR ──
+window.clearActivityLog = function() {
+  if(!confirm('هل تريد مسح كل سجل النشاط؟ هذا الإجراء لا يمكن التراجع عنه.')) return;
+  const batch = db.batch();
+  activityLogData.forEach(l => batch.delete(db.collection('activityLog').doc(l.id)));
+  batch.commit().then(() => { toast('تم مسح السجل ✅','success'); }).catch(() => toast('خطأ في المسح','error'));
+};
+
+// ══════════════════════════════
+// FLAVORS SYSTEM
+// ══════════════════════════════
+// flavors stored in state.flavors via onSnapshot
+
+// ── RENDER FLAVORS PAGE ──
+window.filterFlavors = function() {
+  const q      = (document.getElementById('searchFlavors')?.value||'').toLowerCase();
+  const status = document.getElementById('filterFlavorStatus')?.value||'';
+  const all    = state.flavors||[];
+  const filtered = all.filter(function(f) {
+    if(status==='available'   && !f.available) return false;
+    if(status==='unavailable' && f.available)  return false;
+    if(q && !(f.nameAr||'').toLowerCase().includes(q) && !(f.nameEn||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+  renderFlavorsGrid(filtered);
+  updateFlavorStats();
+};
+
+function renderFlavorsGrid(flavors) {
+  const grid = document.getElementById('flavorsGrid');
+  if(!grid) return;
+  if(!flavors.length) {
+    grid.innerHTML='<div style="text-align:center;padding:2rem;color:var(--brown);opacity:0.5;grid-column:1/-1">لا توجد نكهات مطابقة</div>';
+    return;
+  }
+  grid.innerHTML = flavors.map(function(f) {
+    const avail = f.available !== false;
+    return `<div style="background:var(--white);border:1px solid var(--light);border-radius:10px;padding:0.8rem;display:flex;flex-direction:column;gap:0.3rem;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--light)'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-weight:700;font-size:0.85rem;color:var(--dark)">${sanitize(f.nameAr||'—')}</div>
+          ${f.nameEn?`<div style="font-size:0.7rem;color:var(--brown)">${sanitize(f.nameEn)}</div>`:''}
+        </div>
+        <span style="font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;${avail?'background:#dcfce7;color:#166534':'background:#fee2e2;color:#991b1b'}">${avail?'متاح':'غير متاح'}</span>
+      </div>
+      ${f.desc?`<div style="font-size:0.72rem;color:var(--brown);opacity:0.8">${sanitize(f.desc)}</div>`:''}
+      <div style="display:flex;gap:0.4rem;margin-top:0.3rem">
+        <button class="btn btn-sm btn-outline" style="flex:1;font-size:0.7rem" onclick="window.editFlavor('${f.id}')">✏️ تعديل</button>
+        <button class="btn btn-sm" style="background:${avail?'#fee2e2':'#dcfce7'};color:${avail?'#991b1b':'#166534'};border:none;font-size:0.7rem;padding:0.25rem 0.5rem;border-radius:6px;cursor:pointer" onclick="window.toggleFlavorAvail('${f.id}',${avail})">${avail?'❌ إيقاف':'✅ تفعيل'}</button>
+        <button class="btn btn-sm btn-danger" style="font-size:0.7rem" onclick="window.deleteFlavor('${f.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateFlavorStats() {
+  const all    = state.flavors||[];
+  const avail  = all.filter(f => f.available!==false).length;
+  const el = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  el('flavTotalCount', all.length);
+  el('flavAvailCount', avail);
+  el('flavUnavailCount', all.length - avail);
+
+  // Calc most ordered flavor from custom box orders
+  const counter = {};
+  (state.orders||[]).forEach(function(o) {
+    if(o.customFlavors && Array.isArray(o.customFlavors)) {
+      o.customFlavors.forEach(function(fid) { counter[fid] = (counter[fid]||0)+1; });
+    }
+  });
+  const entries = Object.entries(counter).sort((a,b)=>b[1]-a[1]);
+  if(entries.length) {
+    const topId = entries[0][0];
+    const topFlavor = all.find(f=>f.id===topId);
+    el('flavTopOrdered', topFlavor ? topFlavor.nameAr + ' (' + entries[0][1] + ')' : '—');
+  }
+
+  // Render flavor stats
+  const statsGrid = document.getElementById('flavorStatsGrid');
+  if(statsGrid && entries.length) {
+    statsGrid.innerHTML = entries.slice(0,12).map(function([fid, count]) {
+      const f = all.find(x=>x.id===fid);
+      const name = f ? f.nameAr : fid;
+      const pct = Math.round(count / (state.orders||[]).filter(o=>o.customFlavors?.length).length * 100);
+      return `<div style="background:var(--white);border:1px solid var(--light);border-radius:8px;padding:0.7rem;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:0.78rem;font-weight:600;color:var(--dark)">${sanitize(name)}</span>
+        <span style="font-size:0.72rem;color:var(--gold);font-weight:700">${count} طلب</span>
+      </div>`;
+    }).join('');
+  } else if(statsGrid) {
+    statsGrid.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--brown);opacity:0.5;grid-column:1/-1">لا توجد بيانات بعد</div>';
+  }
+}
+
+// ── CRUD ──
+window.saveFlavor = async function() {
+  const nameAr = document.getElementById('fl-name-ar').value.trim();
+  if(!nameAr) { toast('اسم النكهة بالعربي مطلوب','error'); return; }
+  await addDoc_('flavors', {
+    nameAr,
+    nameEn:    document.getElementById('fl-name-en').value.trim(),
+    desc:      document.getElementById('fl-desc').value.trim(),
+    available: document.getElementById('fl-available').checked
+  });
+  closeModal('addFlavorModal');
+  toast('تم إضافة النكهة ✅','success');
+  ['fl-name-ar','fl-name-en','fl-desc'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+  document.getElementById('fl-available').checked = true;
+};
+
+window.editFlavor = function(id) {
+  const f = (state.flavors||[]).find(x=>x.id===id);
+  if(!f) return;
+  document.getElementById('ef-id').value           = id;
+  document.getElementById('ef-name-ar').value      = f.nameAr||'';
+  document.getElementById('ef-name-en').value      = f.nameEn||'';
+  document.getElementById('ef-desc').value         = f.desc||'';
+  document.getElementById('ef-available').checked  = f.available!==false;
+  openModal('editFlavorModal');
+};
+
+window.saveEditFlavor = async function() {
+  const id     = document.getElementById('ef-id').value;
+  const nameAr = document.getElementById('ef-name-ar').value.trim();
+  if(!nameAr) { toast('اسم النكهة بالعربي مطلوب','error'); return; }
+  await updateDoc_('flavors', id, {
+    nameAr,
+    nameEn:    document.getElementById('ef-name-en').value.trim(),
+    desc:      document.getElementById('ef-desc').value.trim(),
+    available: document.getElementById('ef-available').checked
+  });
+  closeModal('editFlavorModal');
+  toast('تم تحديث النكهة ✅','success');
+};
+
+window.toggleFlavorAvail = async function(id, current) {
+  await updateDoc_('flavors', id, { available: !current });
+  toast(!current ? 'النكهة متاحة الآن ✅' : 'النكهة غير متاحة ❌', !current?'success':'warning');
+};
+
+window.deleteFlavor = function(id) {
+  const f = (state.flavors||[]).find(x=>x.id===id);
+  confirmDelete('flavors', id, f?.nameAr||'النكهة');
+};
+
+// ── PRODUCT FLAVORS PICKER ──
+let _pfSelectedFlavors = [];
+
+window.openProductFlavorsModal = function(productId) {
+  const p = (state.products||[]).find(x=>x.id===productId);
+  if(!p) return;
+  document.getElementById('pf-product-id').value  = productId;
+  document.getElementById('pf-product-name').textContent = '📦 ' + (p.name||'');
+  document.getElementById('pf-search').value = '';
+  _pfSelectedFlavors = Array.isArray(p.flavors) ? [...p.flavors] : [];
+  window.renderProductFlavorPicker();
+  openModal('productFlavorsModal');
+};
+
+window.renderProductFlavorPicker = function() {
+  const q    = (document.getElementById('pf-search')?.value||'').toLowerCase();
+  const all  = (state.flavors||[]).filter(f => f.available!==false);
+  const list = q ? all.filter(f=>(f.nameAr||'').toLowerCase().includes(q)||(f.nameEn||'').toLowerCase().includes(q)) : all;
+  const grid = document.getElementById('pf-flavors-grid');
+  if(!grid) return;
+  grid.innerHTML = list.map(function(f) {
+    const sel = _pfSelectedFlavors.includes(f.id);
+    return `<div class="flavor-chip${sel?' selected':''}" onclick="window.togglePfFlavor('${f.id}')">
+      <div class="flavor-dot"></div>
+      <span>${sanitize(f.nameAr)}</span>
+    </div>`;
+  }).join('');
+  const cnt = document.getElementById('pf-selected-count');
+  if(cnt) cnt.textContent = _pfSelectedFlavors.length + ' نكهة مختارة';
+};
+
+window.togglePfFlavor = function(id) {
+  const idx = _pfSelectedFlavors.indexOf(id);
+  if(idx>-1) _pfSelectedFlavors.splice(idx,1);
+  else _pfSelectedFlavors.push(id);
+  window.renderProductFlavorPicker();
+};
+
+window.saveProductFlavors = async function() {
+  const id = document.getElementById('pf-product-id').value;
+  await updateDoc_('products', id, { flavors: _pfSelectedFlavors });
+  closeModal('productFlavorsModal');
+  toast('تم حفظ نكهات البوكس ✅ ('+_pfSelectedFlavors.length+' نكهة)','success');
+};
+
+// ── CUSTOM BOX FLAVOR PICKER IN ORDER MODAL ──
+let _customSelectedFlavors = [];
+let _customBoxProductIds    = []; // IDs of products considered "custom"
+
+function isCustomBox(productId) {
+  const p = (state.products||[]).find(x=>x.id===productId);
+  if(!p) return false;
+  const name = (p.name||'').toLowerCase();
+  return name.includes('custom') || name.includes('كستوم') || name.includes('مخصص') || name.includes('اختيار');
+}
+
+window.checkCustomBox = function(selectEl) {
+  const selectedId = selectEl?.value||'';
+  const rows = document.querySelectorAll('#orderProductRows .order-product-row');
+  let hasCustom = false;
+  rows.forEach(function(row) {
+    const sel = row.querySelector('select');
+    if(sel && isCustomBox(sel.value)) hasCustom = true;
+  });
+  const section = document.getElementById('customBoxSection');
+  if(section) {
+    section.style.display = hasCustom ? '' : 'none';
+    if(hasCustom) { _customSelectedFlavors=[]; window.renderCustomFlavorPicker(); }
+  }
+};
+
+window.renderCustomFlavorPicker = function() {
+  const q   = (document.getElementById('customFlavorSearch')?.value||'').toLowerCase();
+  const all = (state.flavors||[]).filter(f=>f.available!==false);
+  const list = q ? all.filter(f=>(f.nameAr||'').toLowerCase().includes(q)||(f.nameEn||'').toLowerCase().includes(q)) : all;
+  const grid = document.getElementById('customFlavorGrid');
+  if(!grid) return;
+  grid.innerHTML = list.map(function(f) {
+    const sel = _customSelectedFlavors.includes(f.id);
+    return `<div class="flavor-chip${sel?' selected':''}" onclick="window.toggleCustomFlavor('${f.id}','${sanitize(f.nameAr)}')">
+      <div class="flavor-dot"></div>
+      <span>${sanitize(f.nameAr)}</span>
+    </div>`;
+  }).join('');
+  const cnt = document.getElementById('customFlavorCount');
+  if(cnt) cnt.textContent = _customSelectedFlavors.length + ' نكهة مختارة';
+  renderCustomFlavorTags();
+};
+
+window.toggleCustomFlavor = function(id, name) {
+  const idx = _customSelectedFlavors.indexOf(id);
+  if(idx>-1) _customSelectedFlavors.splice(idx,1);
+  else _customSelectedFlavors.push(id);
+  window.renderCustomFlavorPicker();
+};
+
+function renderCustomFlavorTags() {
+  const container = document.getElementById('customFlavorTags');
+  if(!container) return;
+  const all = state.flavors||[];
+  container.innerHTML = _customSelectedFlavors.map(function(fid) {
+    const f = all.find(x=>x.id===fid);
+    const name = f ? f.nameAr : fid;
+    return `<span class="flavor-tag">${sanitize(name)}<span class="flavor-tag-remove" onclick="window.toggleCustomFlavor('${fid}','')">✕</span></span>`;
+  }).join('');
 }
 
 </script>
