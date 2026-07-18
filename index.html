@@ -999,8 +999,6 @@ tr:hover td{background:#faf6f3;}
       <div class="card"><div class="table-wrap"><table><thead><tr><th onclick="sortTable('products','name')">اسم البوكس <span class="sort-icon">↕</span></th><th>المحتوى</th><th>الوزن</th><th onclick="sortTable('products','price')">السعر <span class="sort-icon">↕</span></th><th onclick="sortTable('products','cost')">التكلفة <span class="sort-icon">↕</span></th><th>الربح</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="productsTable"><tr><td colspan="8"><div class="empty-state"><div class="e-icon">📦</div><div class="e-title">لا يوجد منتجات</div></div></td></tr></tbody></table></div><div id="productsPagination"></div><div class="pag-info" id="productsPagInfo"></div></div>
     </div>
 
-    </div>
-
     <!-- FLAVORS PAGE -->
     <div class="page" id="page-flavors">
       <div class="section-header">
@@ -1553,6 +1551,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         <span><span class="cal-event ev-reminder" style="display:inline-block">●</span> تذكير</span>
       </div>
     </div>
+    </div>
 </main>
 
 <!-- MODALS -->
@@ -1788,16 +1787,30 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       </div>
 
       <!-- Attachments -->
-      <div class="fl-section-title">📎 المرفقات <button class="btn btn-sm btn-outline" onclick="window.addAttachment()">+ إضافة رابط</button></div>
+      <div class="fl-section-title">📎 المرفقات</div>
+      <div style="display:flex;gap:0.4rem;margin-bottom:0.6rem">
+        <input class="form-input" id="frd-att-name" style="font-size:0.8rem" placeholder="اسم المرفق (مثال: نسخة العقد PDF)">
+        <input class="form-input" id="frd-att-url" style="font-size:0.8rem" placeholder="الرابط (Google Drive أو أي رابط)">
+        <button class="btn btn-sm btn-outline" style="white-space:nowrap" onclick="window.addAttachment()">+ إضافة</button>
+      </div>
       <div id="frd-attachments"></div>
 
       <!-- Installments / Milestones -->
-      <div class="fl-section-title" id="frd-installments-title">💳 الأقساط <button class="btn btn-sm btn-outline" onclick="window.addInstallmentRow()" id="frd-add-installment-btn">+ إضافة قسط</button></div>
+      <div class="fl-section-title" id="frd-installments-title">💳 الأقساط</div>
       <div id="frd-single-payment" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;background:var(--cream);padding:0.7rem 1rem;border-radius:8px">
           <span style="font-size:0.82rem">الدفعة الكاملة</span>
           <span id="frd-single-status"></span>
         </div>
+      </div>
+      <div id="frd-installment-form-wrap" style="display:none;background:var(--cream);border-radius:8px;padding:0.7rem;margin-bottom:0.7rem">
+        <div class="form-row" style="grid-template-columns:1fr 1fr 1fr;gap:0.5rem">
+          <div class="form-group" id="frd-inst-label-wrap" style="display:none"><div class="form-label" style="font-size:0.68rem">اسم المرحلة</div><input class="form-input" id="frd-inst-label" style="font-size:0.8rem" placeholder="مثال: تسليم أولي"></div>
+          <div class="form-group"><div class="form-label" style="font-size:0.68rem">المبلغ *</div><input class="form-input" id="frd-inst-amount" type="number" style="font-size:0.8rem" placeholder="0"></div>
+          <div class="form-group"><div class="form-label" style="font-size:0.68rem">تاريخ الاستحقاق *</div><input class="form-input" id="frd-inst-duedate" type="date" style="font-size:0.8rem"></div>
+        </div>
+        <div class="form-group"><div class="form-label" style="font-size:0.68rem">ملاحظات</div><input class="form-input" id="frd-inst-notes" style="font-size:0.8rem" placeholder="ملاحظات اختيارية..."></div>
+        <button class="btn btn-sm btn-gold" onclick="window.submitInstallmentRow()">+ إضافة</button>
       </div>
       <div class="table-wrap" id="frd-installments-wrap">
         <table class="inst-table">
@@ -2419,6 +2432,14 @@ auth.onAuthStateChanged(function(user) {
 
 // subscribeToData moved to fixed section
 // ── FIRESTORE LISTENERS ──
+
+function normalizePhone(p) {
+  if(!p) return '';
+  let digits = String(p).replace(/[^\d]/g, '');
+  if(digits.startsWith('00962')) digits = '0' + digits.slice(5);
+  else if(digits.startsWith('962'))  digits = '0' + digits.slice(3);
+  return digits;
+}
 
 // ── CRUD HELPERS ──
 const COL_LABELS = {
@@ -3489,12 +3510,23 @@ window.addOrder = async function() {
     customFlavors: _customSelectedFlavors.length ? [..._customSelectedFlavors] : []
   });
   
-  // Auto-add customer if new
-  if(!state.customers.find(function(c){ return c.phone===phone; })) {
+  // Find existing customer — match by normalized phone first, then by exact name (prevents duplicates from phone formatting differences)
+  const normPhone = normalizePhone(phone);
+  const nameNorm = name.trim().toLowerCase();
+  const existing = state.customers.find(function(c){ return normPhone && normalizePhone(c.phone) === normPhone; })
+                 || state.customers.find(function(c){ return (c.name||'').trim().toLowerCase() === nameNorm; });
+
+  if(!existing) {
     await addDoc_('customers', {name, phone, region, vip:'no', notes:'', orders:1, spent:totalPrice});
   } else {
-    let existing = state.customers.find(function(c){ return c.phone===phone; });
-    if(existing) await updateDoc_('customers', existing.id, { orders: (existing.orders||0)+1, spent: (existing.spent||0)+totalPrice });
+    const newOrders = (existing.orders||0) + 1;
+    const newSpent  = (existing.spent||0) + totalPrice;
+    const updates = { orders: newOrders, spent: newSpent };
+    if(newOrders > 3 && existing.vip !== 'yes') {
+      updates.vip = 'yes';
+      toast('🌟 ' + (existing.name||name) + ' أصبح عميل VIP تلقائياً (أكثر من 3 طلبات)!', 'success');
+    }
+    await updateDoc_('customers', existing.id, updates);
   }
   
   closeModal('addOrderModal');
@@ -5237,14 +5269,20 @@ window.refreshFreelancerDetail = function() {
   // Attachments
   const attWrap = document.getElementById('frd-attachments');
   const atts = f.attachments||[];
+  const attNameEl = document.getElementById('frd-att-name'); if(attNameEl) attNameEl.value='';
+  const attUrlEl  = document.getElementById('frd-att-url');  if(attUrlEl)  attUrlEl.value='';
   attWrap.innerHTML = atts.length ? atts.map((a,i)=>`<div class="attach-item"><a class="attach-link" href="${sanitize(a.url)}" target="_blank" rel="noopener">📎 ${sanitize(a.name)}</a><span style="cursor:pointer;color:var(--danger)" onclick="window.removeAttachment(${i})">✕</span></div>`).join('') : '<div style="font-size:0.75rem;color:var(--brown);opacity:0.6">لا توجد مرفقات</div>';
 
   // Installments / single payment
   const isSingle = f.paymentType === 'single';
   document.getElementById('frd-single-payment').style.display = isSingle ? '' : 'none';
   document.getElementById('frd-installments-wrap').style.display = isSingle ? 'none' : '';
-  document.getElementById('frd-add-installment-btn').style.display = isSingle ? 'none' : '';
-  document.getElementById('frd-installments-title').firstChild.textContent = f.paymentType==='milestones' ? '💳 مراحل الدفع ' : '💳 الأقساط ';
+  document.getElementById('frd-installment-form-wrap').style.display = isSingle ? 'none' : '';
+  document.getElementById('frd-inst-label-wrap').style.display = f.paymentType==='milestones' ? '' : 'none';
+  document.getElementById('frd-installments-title').textContent = f.paymentType==='milestones' ? '💳 مراحل الدفع' : '💳 الأقساط';
+  // reset the inline form fields
+  ['frd-inst-label','frd-inst-amount','frd-inst-notes'].forEach(id=>{const e=document.getElementById(id); if(e) e.value='';});
+  const ddEl = document.getElementById('frd-inst-duedate'); if(ddEl) ddEl.value = todayStr();
 
   if(isSingle) {
     const statusHtml = f.singlePaid
@@ -5302,15 +5340,18 @@ window.saveContractText = async function() {
 
 // ── ATTACHMENTS ──
 window.addAttachment = async function() {
-  const name = prompt('اسم المرفق (مثال: نسخة العقد PDF):');
-  if(!name) return;
-  const url = prompt('رابط المرفق (Google Drive / أي رابط):');
-  if(!url) return;
+  const nameEl = document.getElementById('frd-att-name');
+  const urlEl  = document.getElementById('frd-att-url');
+  const name = nameEl.value.trim();
+  const url  = urlEl.value.trim();
+  if(!name) { toast('اسم المرفق مطلوب','error'); return; }
+  if(!url)  { toast('رابط المرفق مطلوب','error'); return; }
   const id = document.getElementById('frd-id').value;
   const f = (state.freelancers||[]).find(x=>x.id===id);
-  const atts = [...(f.attachments||[]), {name: name.trim(), url: url.trim()}];
+  const atts = [...(f.attachments||[]), {name, url}];
   await updateDoc_('freelancers', id, { attachments: atts });
   toast('تم إضافة المرفق ✅','success');
+  nameEl.value = ''; urlEl.value = '';
 };
 
 window.removeAttachment = async function(idx) {
@@ -5322,23 +5363,30 @@ window.removeAttachment = async function(idx) {
 };
 
 // ── INSTALLMENTS ──
-window.addInstallmentRow = async function() {
+window.submitInstallmentRow = async function() {
   const id = document.getElementById('frd-id').value;
   const f = (state.freelancers||[]).find(x=>x.id===id);
+  if(!f) return;
   const isMilestone = f.paymentType === 'milestones';
-  const label = isMilestone ? prompt('اسم المرحلة (مثال: تسليم التصميم الأولي):') : null;
-  if(isMilestone && !label) return;
-  const amount = parseFloat(prompt('قيمة ' + (isMilestone?'المرحلة':'القسط') + ':')||'0');
+  const label   = document.getElementById('frd-inst-label').value.trim();
+  const amount  = parseFloat(document.getElementById('frd-inst-amount').value) || 0;
+  const dueDate = document.getElementById('frd-inst-duedate').value;
+  const notes   = document.getElementById('frd-inst-notes').value.trim();
+
+  if(isMilestone && !label) { toast('اسم المرحلة مطلوب','error'); return; }
   if(!amount) { toast('المبلغ مطلوب','error'); return; }
-  const dueDate = prompt('تاريخ الاستحقاق (YYYY-MM-DD):', todayStr());
+  if(!dueDate) { toast('تاريخ الاستحقاق مطلوب','error'); return; }
+
   const inst = {
     id: 'inst_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
-    label: isMilestone ? label.trim() : '',
-    amount, dueDate: dueDate||'', status:'unpaid', paidDate:'', notes:''
+    label: isMilestone ? label : '',
+    amount, dueDate, status:'unpaid', paidDate:'', notes
   };
   const list = [...(f.installments||[]), inst];
   await updateDoc_('freelancers', id, { installments: list });
   toast('تم إضافة ' + (isMilestone?'المرحلة':'القسط') + ' ✅','success');
+  // clear form for next entry
+  ['frd-inst-label','frd-inst-amount','frd-inst-notes'].forEach(fid=>{const e=document.getElementById(fid); if(e) e.value='';});
 };
 
 window.removeInstallment = async function(idx) {
