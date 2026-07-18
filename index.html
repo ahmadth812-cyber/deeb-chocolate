@@ -110,6 +110,43 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .auth-error{color:#f87171;font-size:0.75rem;text-align:center;margin-top:0.5rem;min-height:20px;}
 .auth-loading{color:var(--brown);font-size:0.75rem;text-align:center;margin-top:0.5rem;}
 
+/* ── FREELANCERS ── */
+.badge-active{background:#f0fdf4;color:var(--success);border:1px solid #bbf7d0;}
+.badge-completed{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.badge-fl-cancelled{background:#fef2f2;color:var(--danger);border:1px solid #fecaca;}
+.badge-paid{background:#f0fdf4;color:var(--success);border:1px solid #bbf7d0;}
+.badge-unpaid{background:#fef9e7;color:var(--pending);border:1px solid #f0d060;}
+.badge-late{background:#fef2f2;color:var(--danger);border:1px solid #fecaca;}
+.fl-avatar{width:38px;height:38px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;}
+.fl-detail-header{display:flex;gap:1rem;align-items:center;padding-bottom:1rem;border-bottom:1px solid var(--light);margin-bottom:1rem;}
+.fl-detail-avatar{width:60px;height:60px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.3rem;flex-shrink:0;}
+.fl-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;font-size:0.82rem;margin-bottom:1rem;}
+.fl-info-item{display:flex;flex-direction:column;gap:0.15rem;}
+.fl-info-label{font-size:0.68rem;color:var(--brown);font-weight:600;}
+.fl-info-val{color:var(--dark);}
+.fl-section-title{font-size:0.85rem;font-weight:700;color:var(--dark);margin:1rem 0 0.5rem;padding-top:0.8rem;border-top:1px solid var(--light);display:flex;justify-content:space-between;align-items:center;}
+/* Rich text editor */
+.rte-toolbar{display:flex;gap:0.3rem;padding:0.4rem;background:var(--cream);border:1px solid var(--light);border-radius:8px 8px 0 0;flex-wrap:wrap;}
+.rte-btn{background:var(--white);border:1px solid var(--light);border-radius:5px;width:28px;height:28px;cursor:pointer;font-size:0.78rem;display:flex;align-items:center;justify-content:center;color:var(--dark);transition:all 0.15s;}
+.rte-btn:hover{border-color:var(--gold);color:var(--gold);}
+.rte-editor{border:1px solid var(--light);border-top:none;border-radius:0 0 8px 8px;min-height:150px;max-height:300px;overflow-y:auto;padding:0.8rem;font-size:0.85rem;line-height:1.7;background:var(--white);color:var(--dark);}
+.rte-editor:focus{outline:none;}
+.rte-editor ul,.rte-editor ol{padding-right:1.4rem;}
+.rte-viewer{border:1px solid var(--light);border-radius:8px;padding:0.8rem;min-height:80px;max-height:300px;overflow-y:auto;font-size:0.85rem;line-height:1.7;background:var(--cream);}
+.rte-viewer ul,.rte-viewer ol{padding-right:1.4rem;}
+/* Installments table */
+.inst-table{width:100%;font-size:0.78rem;border-collapse:collapse;}
+.inst-table th{background:var(--cream);padding:0.5rem;text-align:right;font-size:0.68rem;color:var(--brown);}
+.inst-table td{padding:0.5rem;border-bottom:1px solid var(--light);}
+/* Attachments */
+.attach-item{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.6rem;background:var(--cream);border-radius:6px;margin-bottom:0.3rem;font-size:0.78rem;}
+.attach-link{color:var(--gold);text-decoration:none;font-weight:600;}
+[data-theme="dark"] .rte-editor,[data-theme="dark"] .rte-viewer{background:#1f1710;border-color:#2a1f18;}
+[data-theme="dark"] .rte-toolbar{background:#1f1710;border-color:#2a1f18;}
+[data-theme="dark"] .rte-btn{background:#2a1f18;border-color:#3a2e24;}
+[data-theme="dark"] .attach-item{background:#1f1710;}
+[data-theme="dark"] .inst-table th{background:#1f1710;}
+
 /* ── FLAVORS ── */
 .flavors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem;margin-top:0.5rem;}
 .flavor-chip{display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.7rem;border:1px solid var(--light);border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.15s;background:var(--white);color:var(--dark);}
@@ -721,6 +758,7 @@ tr:hover td{background:#faf6f3;}
   <nav class="nav-section">
     <div class="nav-label">المالية</div>
     <div class="nav-item" onclick="showPage('finance',this)"><span class="icon">💰</span>المالية والأرباح</div>
+    <div class="nav-item" onclick="showPage('freelancers',this)"><span class="icon">👨‍💻</span>الفريلانسرز</div>
   </nav>
   <nav class="nav-section">
     <div class="nav-label">التسويق</div>
@@ -1060,6 +1098,45 @@ tr:hover td{background:#faf6f3;}
       </div>
 
       <div class="card"><div class="card-header"><div class="card-title">📋 سجل المصاريف</div></div><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>البند</th><th>النوع</th><th>المبلغ</th><th>إجراء</th></tr></thead><tbody id="expensesTable"><tr><td colspan="5"><div class="empty-state"><div class="e-icon">💸</div><div class="e-title">لا يوجد مصاريف</div></div></td></tr></tbody></table></div><div id="expensesPagination"></div><div class="pag-info" id="expensesPagInfo"></div></div>
+    </div>
+
+    <!-- FREELANCERS -->
+    <div class="page" id="page-freelancers">
+      <div class="section-header">
+        <div><div class="section-title-main">👨‍💻 الفريلانسرز</div><div class="section-subtitle">إدارة العقود والدفعات الخارجية</div></div>
+        <button class="btn btn-primary" onclick="window.openAddFreelancerModal()">+ فريلانسر جديد</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">نشطون</div><div class="stat-value" id="flrActiveCount">0</div><div class="stat-icon">👨‍💻</div></div>
+        <div class="stat-card"><div class="stat-label">إجمالي العقود</div><div class="stat-value" id="flrTotalContracts">0</div><div class="stat-icon">📄</div></div>
+        <div class="stat-card"><div class="stat-label">إجمالي المدفوع</div><div class="stat-value" id="flrTotalPaid">0</div><div class="stat-icon">💰</div></div>
+        <div class="stat-card"><div class="stat-label">المتبقي للدفع</div><div class="stat-value" id="flrTotalRemaining">0</div><div class="stat-icon">⏳</div></div>
+        <div class="stat-card"><div class="stat-label">أقساط مستحقة هذا الشهر</div><div class="stat-value" id="flrDueThisMonth">0</div><div class="stat-icon">📅</div></div>
+        <div class="stat-card"><div class="stat-label">عقود منتهية</div><div class="stat-value" id="flrCompletedCount">0</div><div class="stat-icon">✅</div></div>
+      </div>
+
+      <div class="search-bar">
+        <input class="search-input" id="searchFreelancers" placeholder="🔍 بحث بالاسم أو التخصص..." oninput="window.filterFreelancers()">
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterFreelancerStatus" onchange="window.filterFreelancers()">
+          <option value="">كل الحالات</option>
+          <option value="active">نشط</option>
+          <option value="completed">منتهي</option>
+          <option value="cancelled">ملغي</option>
+        </select>
+        <span class="results-count" id="freelancersCount">0 فريلانسر</span>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>الاسم</th><th>التخصص</th><th>نوع الخدمة</th><th>الهاتف</th><th>الحالة</th><th>قيمة العقد</th><th>المدفوع</th><th>المتبقي</th><th>طريقة الدفع</th><th>البداية</th><th>النهاية</th><th>آخر دفعة</th><th>إجراء</th></tr></thead>
+            <tbody id="freelancersTable"><tr><td colspan="13"><div class="empty-state"><div class="e-icon">👨‍💻</div><div class="e-title">لا يوجد فريلانسرز</div></div></td></tr></tbody>
+          </table>
+        </div>
+        <div id="freelancersPagination"></div>
+        <div class="pag-info" id="freelancersPagInfo"></div>
+      </div>
     </div>
 
     <!-- MARKETING -->
@@ -1581,6 +1658,161 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
   </div>
 </div>
 
+<!-- ADD FREELANCER MODAL -->
+<div class="modal-overlay" id="addFreelancerModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><div class="modal-title">👨‍💻 فريلانسر جديد</div><button class="modal-close" onclick="closeModal('addFreelancerModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الاسم *</div><input class="form-input" id="fr-name" placeholder="اسم الفريلانسر"></div>
+        <div class="form-group"><div class="form-label">التخصص</div><input class="form-input" id="fr-specialty" placeholder="مثال: تصميم جرافيك"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">نوع الخدمة</div><input class="form-input" id="fr-service" placeholder="مثال: تصميم شعار"></div>
+        <div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="fr-status"><option value="active">نشط</option><option value="completed">منتهي</option><option value="cancelled">ملغي</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الهاتف</div><input class="form-input" id="fr-phone" placeholder="+962..."></div>
+        <div class="form-group"><div class="form-label">البريد الإلكتروني</div><input class="form-input" id="fr-email" type="email" placeholder="email@example.com"></div>
+      </div>
+      <div class="form-group"><div class="form-label">عنوان العقد</div><input class="form-input" id="fr-contract-title" placeholder="مثال: تصميم هوية بصرية"></div>
+      <div class="form-group"><div class="form-label">وصف المشروع</div><textarea class="form-textarea" id="fr-project-desc" rows="2" placeholder="وصف مختصر للمشروع..."></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">تاريخ البداية</div><input class="form-input" id="fr-start-date" type="date"></div>
+        <div class="form-group"><div class="form-label">تاريخ النهاية</div><input class="form-input" id="fr-end-date" type="date"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">قيمة العقد *</div><input class="form-input" id="fr-value" type="number" placeholder="0"></div>
+        <div class="form-group"><div class="form-label">طريقة الدفع</div>
+          <select class="form-select" id="fr-payment-type">
+            <option value="single">دفعة واحدة</option>
+            <option value="installments">دفعات متعددة (أقساط)</option>
+            <option value="milestones">دفعات حسب المراحل</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><div class="form-label">طريقة الاستلام</div><select class="form-select" id="fr-payment-method"><option>نقداً</option><option>حوالة بنكية</option><option>PayPal</option><option>أخرى</option></select></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addFreelancerModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveFreelancer()">✅ إضافة</button></div>
+  </div>
+</div>
+
+<!-- EDIT FREELANCER MODAL -->
+<div class="modal-overlay" id="editFreelancerModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><div class="modal-title">✏️ تعديل الفريلانسر</div><button class="modal-close" onclick="closeModal('editFreelancerModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="efr-id">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الاسم *</div><input class="form-input" id="efr-name"></div>
+        <div class="form-group"><div class="form-label">التخصص</div><input class="form-input" id="efr-specialty"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">نوع الخدمة</div><input class="form-input" id="efr-service"></div>
+        <div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="efr-status"><option value="active">نشط</option><option value="completed">منتهي</option><option value="cancelled">ملغي</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الهاتف</div><input class="form-input" id="efr-phone"></div>
+        <div class="form-group"><div class="form-label">البريد الإلكتروني</div><input class="form-input" id="efr-email" type="email"></div>
+      </div>
+      <div class="form-group"><div class="form-label">عنوان العقد</div><input class="form-input" id="efr-contract-title"></div>
+      <div class="form-group"><div class="form-label">وصف المشروع</div><textarea class="form-textarea" id="efr-project-desc" rows="2"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">تاريخ البداية</div><input class="form-input" id="efr-start-date" type="date"></div>
+        <div class="form-group"><div class="form-label">تاريخ النهاية</div><input class="form-input" id="efr-end-date" type="date"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">قيمة العقد *</div><input class="form-input" id="efr-value" type="number"></div>
+        <div class="form-group"><div class="form-label">طريقة الدفع</div>
+          <select class="form-select" id="efr-payment-type">
+            <option value="single">دفعة واحدة</option>
+            <option value="installments">دفعات متعددة (أقساط)</option>
+            <option value="milestones">دفعات حسب المراحل</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><div class="form-label">طريقة الاستلام</div><select class="form-select" id="efr-payment-method"><option>نقداً</option><option>حوالة بنكية</option><option>PayPal</option><option>أخرى</option></select></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('editFreelancerModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveEditFreelancer()">💾 حفظ</button></div>
+  </div>
+</div>
+
+<!-- FREELANCER DETAIL MODAL -->
+<div class="modal-overlay" id="freelancerDetailModal">
+  <div class="modal" style="max-width:750px">
+    <div class="modal-header"><div class="modal-title">👨‍💻 تفاصيل الفريلانسر</div><button class="modal-close" onclick="closeModal('freelancerDetailModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="frd-id">
+      <div class="fl-detail-header">
+        <div class="fl-detail-avatar" id="frd-avatar">?</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:1rem" id="frd-name">—</div>
+          <div style="font-size:0.78rem;color:var(--brown)" id="frd-specialty">—</div>
+        </div>
+        <div id="frd-status-badge"></div>
+      </div>
+
+      <div class="fl-info-grid">
+        <div class="fl-info-item"><span class="fl-info-label">الهاتف</span><span class="fl-info-val" id="frd-phone">—</span></div>
+        <div class="fl-info-item"><span class="fl-info-label">البريد الإلكتروني</span><span class="fl-info-val" id="frd-email">—</span></div>
+        <div class="fl-info-item"><span class="fl-info-label">عنوان العقد</span><span class="fl-info-val" id="frd-contract-title">—</span></div>
+        <div class="fl-info-item"><span class="fl-info-label">نوع الخدمة</span><span class="fl-info-val" id="frd-service">—</span></div>
+        <div class="fl-info-item"><span class="fl-info-label">تاريخ البداية</span><span class="fl-info-val" id="frd-start">—</span></div>
+        <div class="fl-info-item"><span class="fl-info-label">تاريخ النهاية</span><span class="fl-info-val" id="frd-end">—</span></div>
+        <div class="fl-info-item"><span class="fl-info-label">قيمة العقد</span><span class="fl-info-val" id="frd-value" style="color:var(--gold);font-weight:700">—</span></div>
+        <div class="fl-info-item"><span class="fl-info-label">طريقة الاستلام</span><span class="fl-info-val" id="frd-method">—</span></div>
+      </div>
+      <div style="font-size:0.8rem;color:var(--brown);margin-bottom:0.5rem" id="frd-desc"></div>
+
+      <!-- Payment progress -->
+      <div style="display:flex;gap:1rem;background:var(--cream);border-radius:8px;padding:0.7rem 1rem;margin-bottom:0.5rem;font-size:0.8rem">
+        <div>المدفوع: <strong style="color:var(--success)" id="frd-paid">0</strong></div>
+        <div>المتبقي: <strong style="color:var(--danger)" id="frd-remaining">0</strong></div>
+      </div>
+
+      <!-- Contract text -->
+      <div class="fl-section-title">📄 نص العقد <button class="btn btn-sm btn-outline" onclick="window.toggleContractEdit()" id="frd-contract-edit-btn">✏️ تعديل</button></div>
+      <div id="frd-contract-viewer" class="rte-viewer"></div>
+      <div id="frd-contract-editor-wrap" style="display:none">
+        <div class="rte-toolbar">
+          <button type="button" class="rte-btn" onclick="document.execCommand('bold')"><b>B</b></button>
+          <button type="button" class="rte-btn" onclick="document.execCommand('italic')"><i>I</i></button>
+          <button type="button" class="rte-btn" onclick="document.execCommand('underline')"><u>U</u></button>
+          <button type="button" class="rte-btn" onclick="document.execCommand('formatBlock',false,'h3')">H</button>
+          <button type="button" class="rte-btn" onclick="document.execCommand('insertUnorderedList')">•≡</button>
+          <button type="button" class="rte-btn" onclick="document.execCommand('insertOrderedList')">1≡</button>
+          <button type="button" class="rte-btn" onclick="var u=prompt('رابط:');if(u)document.execCommand('createLink',false,u)">🔗</button>
+        </div>
+        <div class="rte-editor" id="frd-contract-editor" contenteditable="true"></div>
+        <div style="text-align left;margin-top:0.5rem"><button class="btn btn-sm btn-gold" onclick="window.saveContractText()">💾 حفظ نص العقد</button></div>
+      </div>
+
+      <!-- Attachments -->
+      <div class="fl-section-title">📎 المرفقات <button class="btn btn-sm btn-outline" onclick="window.addAttachment()">+ إضافة رابط</button></div>
+      <div id="frd-attachments"></div>
+
+      <!-- Installments / Milestones -->
+      <div class="fl-section-title" id="frd-installments-title">💳 الأقساط <button class="btn btn-sm btn-outline" onclick="window.addInstallmentRow()" id="frd-add-installment-btn">+ إضافة قسط</button></div>
+      <div id="frd-single-payment" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--cream);padding:0.7rem 1rem;border-radius:8px">
+          <span style="font-size:0.82rem">الدفعة الكاملة</span>
+          <span id="frd-single-status"></span>
+        </div>
+      </div>
+      <div class="table-wrap" id="frd-installments-wrap">
+        <table class="inst-table">
+          <thead><tr><th>#</th><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th>تاريخ الدفع</th><th>ملاحظات</th><th>إجراء</th></tr></thead>
+          <tbody id="frd-installments-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('freelancerDetailModal')">إغلاق</button>
+      <button class="btn btn-danger" onclick="window.deleteFreelancerFromDetail()">🗑 حذف الفريلانسر</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addOrderModal">
   <div class="modal">
     <div class="modal-header"><div class="modal-title">🛒 طلب جديد</div><button class="modal-close" onclick="closeModal('addOrderModal')">✕</button></div>
@@ -1863,7 +2095,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // STATE
-let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[] };
+let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[] };
 let unsubscribers = [];
 
 // ══════════════════════════════
@@ -2129,7 +2361,7 @@ window.logout = async () => {
   unsubscribers = [];
   if(activityLogUnsubscribe) { activityLogUnsubscribe(); activityLogUnsubscribe = null; }
   activityLogData = [];
-  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[] };
+  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[] };
   await auth.signOut();
   // Prevent back button after logout
   history.pushState(null, '', location.href);
@@ -2239,7 +2471,7 @@ window.showPage = (id, el) => {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', certificates:'📜 الشهادات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
+  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', certificates:'📜 الشهادات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
 
@@ -2250,6 +2482,7 @@ window.showPage = (id, el) => {
   if(id==='customers') { cacheRestoreFilters('customers'); filterCustomers(); }
   if(id==='products') { cacheRestoreFilters('products'); filterProducts(); }
   if(id==='flavors')  { window.filterFlavors(); updateFlavorStats(); }
+  if(id==='freelancers') { window.filterFreelancers(); updateFreelancerStats(); checkFreelancerNotifications(); }
   if(id==='finance') { cacheRestoreFilters('expenses'); renderFinance(); }
   if(id==='brand') { loadBrand(); }
   if(id==='legal') { loadLegal(); renderCertificates(); }
@@ -3730,7 +3963,7 @@ window.setMonthFilter = function(period, btn, page) {
 
 // ── FIX: notes subscribeToData needs notes collection ──
 function subscribeToData() {
-  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors'];
+  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers'];
   if(!window.unsubscribers) window.unsubscribers = [];
   collections.forEach(function(col) {
     try {
@@ -3760,6 +3993,7 @@ function refreshUI(col) {
     if(col==='settings')    { try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} }
     if(col==='notes')       { if(window.filterNotes) filterNotes(); }
     if(col==='flavors')     { if(document.getElementById('page-flavors')?.classList.contains('active')) window.filterFlavors(); updateFlavorStats(); }
+    if(col==='freelancers') { if(document.getElementById('page-freelancers')?.classList.contains('active')) window.filterFreelancers(); updateFreelancerStats(); if(document.getElementById('freelancerDetailModal')?.classList.contains('open') && document.getElementById('frd-id')?.value) window.refreshFreelancerDetail(); }
   } catch(e) { console.error('refreshUI error for col='+col+':', e); }
 }
 
@@ -3910,6 +4144,7 @@ const breadcrumbMap = {
   calendar:     '📅 التقويم',
   activitylog:  '📋 سجل النشاط',
   flavors:      '🍫 النكهات',
+  freelancers:  '👨‍💻 الفريلانسرز',
 };
 
 function updateBreadcrumb(id) {
@@ -4288,6 +4523,7 @@ window.pagGoTo = function(name, page) {
   if(name === 'products')    { _renderProductsPage(); }
   if(name === 'expenses')    { _renderExpensesPage(); }
   if(name === 'activitylog') { _renderLogPage(); }
+  if(name === 'freelancers') { _renderFreelancersPage(); }
 };
 
 function _renderOrdersPage() {
@@ -4747,6 +4983,436 @@ function renderCustomFlavorTags() {
     const name = f ? f.nameAr : fid;
     return `<span class="flavor-tag">${sanitize(name)}<span class="flavor-tag-remove" onclick="window.toggleCustomFlavor('${fid}','')">✕</span></span>`;
   }).join('');
+}
+
+// ══════════════════════════════
+// FREELANCERS SYSTEM
+// ══════════════════════════════
+
+// ── Rich text sanitizer (allows formatting tags, strips scripts/handlers) ──
+function sanitizeRichText(html) {
+  if(!html) return '';
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const walk = (node) => {
+    [...node.querySelectorAll('script,iframe,object,embed,style')].forEach(el => el.remove());
+    node.querySelectorAll('*').forEach(el => {
+      [...el.attributes].forEach(attr => {
+        const n = attr.name.toLowerCase();
+        if(n.startsWith('on')) el.removeAttribute(attr.name);
+        if((n==='href'||n==='src') && /^\s*javascript:/i.test(attr.value)) el.removeAttribute(attr.name);
+      });
+    });
+  };
+  walk(div);
+  return div.innerHTML;
+}
+
+function flInitials(name) {
+  if(!name) return '?';
+  const parts = name.trim().split(/\s+/);
+  return (parts[0]?.[0]||'') + (parts[1]?.[0]||'');
+}
+
+function flComputePaid(f) {
+  if(f.paymentType === 'single') return f.singlePaid ? (parseFloat(f.contractValue)||0) : 0;
+  return (f.installments||[]).filter(i=>i.status==='paid').reduce((s,i)=>s+(parseFloat(i.amount)||0), 0);
+}
+function flComputeRemaining(f) {
+  return Math.max(0, (parseFloat(f.contractValue)||0) - flComputePaid(f));
+}
+
+// ── STATS ──
+function updateFreelancerStats() {
+  const all = state.freelancers||[];
+  const el = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  const active    = all.filter(f=>f.status==='active').length;
+  const completed = all.filter(f=>f.status==='completed').length;
+  const totalPaid = all.reduce((s,f)=>s+flComputePaid(f), 0);
+  const totalRemaining = all.reduce((s,f)=>s+flComputeRemaining(f), 0);
+
+  const now = new Date();
+  const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const thisMonthEnd   = new Date(now.getFullYear(), now.getMonth()+1, 0);
+  let dueThisMonth = 0;
+  all.forEach(f => {
+    (f.installments||[]).forEach(i => {
+      if(i.status!=='paid' && i.dueDate) {
+        const d = parseDateLocal(i.dueDate);
+        if(d && d>=thisMonthStart && d<=thisMonthEnd) dueThisMonth++;
+      }
+    });
+  });
+
+  el('flrActiveCount', active);
+  el('flrTotalContracts', all.length);
+  el('flrTotalPaid', totalPaid.toFixed(0));
+  el('flrTotalRemaining', totalRemaining.toFixed(0));
+  el('flrDueThisMonth', dueThisMonth);
+  el('flrCompletedCount', completed);
+}
+
+// ── FILTER + RENDER TABLE ──
+window.filterFreelancers = function() {
+  const q      = (document.getElementById('searchFreelancers')?.value||'').toLowerCase();
+  const status = document.getElementById('filterFreelancerStatus')?.value||'';
+  const all = state.freelancers||[];
+  const filtered = all.filter(function(f) {
+    if(status && f.status !== status) return false;
+    if(q && !(f.name||'').toLowerCase().includes(q) && !(f.specialty||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const cnt = document.getElementById('freelancersCount');
+  if(cnt) cnt.textContent = filtered.length + ' فريلانسر';
+  pagInit('freelancers', filtered);
+  _renderFreelancersPage();
+  updateFreelancerStats();
+};
+
+function _renderFreelancersPage() {
+  const page = pagGetPage('freelancers');
+  const tb = document.getElementById('freelancersTable');
+  if(!tb) return;
+  if(!page.length) { tb.innerHTML = '<tr><td colspan="13"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
+  const statusMap   = {active:'badge-active',completed:'badge-completed',cancelled:'badge-fl-cancelled'};
+  const statusLabel = {active:'نشط',completed:'منتهي',cancelled:'ملغي'};
+  tb.innerHTML = page.map(function(f) {
+    const paid = flComputePaid(f), remaining = flComputeRemaining(f);
+    const lastPay = (f.installments||[]).filter(i=>i.paidDate).sort((a,b)=>(b.paidDate||'').localeCompare(a.paidDate||''))[0];
+    const lastPayDate = f.paymentType==='single' && f.singlePaid ? (f.singlePaidDate||'—') : (lastPay?lastPay.paidDate:'—');
+    return `<tr>
+      <td><strong>${sanitize(f.name)}</strong></td>
+      <td>${sanitize(f.specialty||'—')}</td>
+      <td>${sanitize(f.serviceType||'—')}</td>
+      <td>${sanitize(f.phone||'—')}</td>
+      <td><span class="badge ${statusMap[f.status]||'badge-active'}">${statusLabel[f.status]||f.status}</span></td>
+      <td style="font-weight:700">${(parseFloat(f.contractValue)||0).toFixed(0)}</td>
+      <td style="color:var(--success);font-weight:700">${paid.toFixed(0)}</td>
+      <td style="color:var(--danger);font-weight:700">${remaining.toFixed(0)}</td>
+      <td>${sanitize(f.paymentMethod||'—')}</td>
+      <td style="font-size:0.72rem">${sanitize(f.startDate||'—')}</td>
+      <td style="font-size:0.72rem">${sanitize(f.endDate||'—')}</td>
+      <td style="font-size:0.72rem">${sanitize(lastPayDate)}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-sm btn-outline" style="margin-left:0.25rem" onclick="window.openFreelancerDetail('${f.id}')">👁</button>
+        <button class="btn btn-sm btn-outline" style="margin-left:0.25rem" onclick="window.editFreelancer('${f.id}')">✏️</button>
+        <button class="btn btn-sm btn-danger" onclick="window.deleteFreelancer('${f.id}')">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+  pagRender('freelancers','freelancersPagination','freelancersPagInfo');
+}
+
+// ── ADD ──
+window.openAddFreelancerModal = function() {
+  ['fr-name','fr-specialty','fr-service','fr-phone','fr-email','fr-contract-title','fr-project-desc','fr-start-date','fr-end-date','fr-value'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  document.getElementById('fr-status').value = 'active';
+  document.getElementById('fr-payment-type').value = 'single';
+  document.getElementById('fr-payment-method').value = 'نقداً';
+  openModal('addFreelancerModal');
+};
+
+window.saveFreelancer = async function() {
+  const name  = document.getElementById('fr-name').value.trim();
+  const value = parseFloat(document.getElementById('fr-value').value) || 0;
+  if(!name)  { toast('اسم الفريلانسر مطلوب','error'); return; }
+  if(!value) { toast('قيمة العقد مطلوبة','error'); return; }
+  await addDoc_('freelancers', {
+    name,
+    specialty:      document.getElementById('fr-specialty').value.trim(),
+    serviceType:    document.getElementById('fr-service').value.trim(),
+    phone:          document.getElementById('fr-phone').value.trim(),
+    email:          document.getElementById('fr-email').value.trim(),
+    contractTitle:  document.getElementById('fr-contract-title').value.trim(),
+    projectDesc:    document.getElementById('fr-project-desc').value.trim(),
+    startDate:      document.getElementById('fr-start-date').value,
+    endDate:        document.getElementById('fr-end-date').value,
+    status:         document.getElementById('fr-status').value,
+    contractValue:  value,
+    paymentType:    document.getElementById('fr-payment-type').value,
+    paymentMethod:  document.getElementById('fr-payment-method').value,
+    contractText:   '',
+    attachments:    [],
+    installments:   [],
+    singlePaid:     false,
+    singlePaidDate: ''
+  });
+  closeModal('addFreelancerModal');
+  toast('تم إضافة الفريلانسر ✅','success');
+};
+
+// ── EDIT ──
+window.editFreelancer = function(id) {
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  if(!f) return;
+  document.getElementById('efr-id').value = id;
+  document.getElementById('efr-name').value           = f.name||'';
+  document.getElementById('efr-specialty').value      = f.specialty||'';
+  document.getElementById('efr-service').value        = f.serviceType||'';
+  document.getElementById('efr-status').value         = f.status||'active';
+  document.getElementById('efr-phone').value           = f.phone||'';
+  document.getElementById('efr-email').value           = f.email||'';
+  document.getElementById('efr-contract-title').value = f.contractTitle||'';
+  document.getElementById('efr-project-desc').value   = f.projectDesc||'';
+  document.getElementById('efr-start-date').value     = f.startDate||'';
+  document.getElementById('efr-end-date').value       = f.endDate||'';
+  document.getElementById('efr-value').value           = f.contractValue||0;
+  document.getElementById('efr-payment-type').value   = f.paymentType||'single';
+  document.getElementById('efr-payment-method').value = f.paymentMethod||'نقداً';
+  openModal('editFreelancerModal');
+};
+
+window.saveEditFreelancer = async function() {
+  const id    = document.getElementById('efr-id').value;
+  const name  = document.getElementById('efr-name').value.trim();
+  const value = parseFloat(document.getElementById('efr-value').value) || 0;
+  if(!name)  { toast('اسم الفريلانسر مطلوب','error'); return; }
+  if(!value) { toast('قيمة العقد مطلوبة','error'); return; }
+  await updateDoc_('freelancers', id, {
+    name,
+    specialty:     document.getElementById('efr-specialty').value.trim(),
+    serviceType:   document.getElementById('efr-service').value.trim(),
+    phone:         document.getElementById('efr-phone').value.trim(),
+    email:         document.getElementById('efr-email').value.trim(),
+    contractTitle: document.getElementById('efr-contract-title').value.trim(),
+    projectDesc:   document.getElementById('efr-project-desc').value.trim(),
+    startDate:     document.getElementById('efr-start-date').value,
+    endDate:       document.getElementById('efr-end-date').value,
+    status:        document.getElementById('efr-status').value,
+    contractValue: value,
+    paymentType:   document.getElementById('efr-payment-type').value,
+    paymentMethod: document.getElementById('efr-payment-method').value
+  });
+  closeModal('editFreelancerModal');
+  toast('تم تحديث الفريلانسر ✅','success');
+};
+
+window.deleteFreelancer = function(id) {
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  confirmDelete('freelancers', id, f?.name||'الفريلانسر');
+};
+window.deleteFreelancerFromDetail = function() {
+  const id = document.getElementById('frd-id').value;
+  closeModal('freelancerDetailModal');
+  window.deleteFreelancer(id);
+};
+
+// ── DETAIL MODAL ──
+window.openFreelancerDetail = function(id) {
+  document.getElementById('frd-id').value = id;
+  window.refreshFreelancerDetail();
+  openModal('freelancerDetailModal');
+};
+
+window.refreshFreelancerDetail = function() {
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  if(!f) return;
+  const statusMap   = {active:'badge-active',completed:'badge-completed',cancelled:'badge-fl-cancelled'};
+  const statusLabel = {active:'نشط',completed:'منتهي',cancelled:'ملغي'};
+
+  document.getElementById('frd-avatar').textContent = flInitials(f.name);
+  document.getElementById('frd-name').textContent = f.name||'—';
+  document.getElementById('frd-specialty').textContent = f.specialty||'—';
+  document.getElementById('frd-status-badge').innerHTML = `<span class="badge ${statusMap[f.status]||'badge-active'}">${statusLabel[f.status]||f.status}</span>`;
+  document.getElementById('frd-phone').textContent = f.phone||'—';
+  document.getElementById('frd-email').textContent = f.email||'—';
+  document.getElementById('frd-contract-title').textContent = f.contractTitle||'—';
+  document.getElementById('frd-service').textContent = f.serviceType||'—';
+  document.getElementById('frd-start').textContent = f.startDate||'—';
+  document.getElementById('frd-end').textContent = f.endDate||'—';
+  document.getElementById('frd-value').textContent = (parseFloat(f.contractValue)||0).toFixed(0);
+  document.getElementById('frd-method').textContent = f.paymentMethod||'—';
+  document.getElementById('frd-desc').textContent = f.projectDesc||'';
+
+  const paid = flComputePaid(f), remaining = flComputeRemaining(f);
+  document.getElementById('frd-paid').textContent = paid.toFixed(0);
+  document.getElementById('frd-remaining').textContent = remaining.toFixed(0);
+
+  // Contract text viewer
+  document.getElementById('frd-contract-viewer').innerHTML = f.contractText ? sanitizeRichText(f.contractText) : '<span style="color:var(--brown);opacity:0.6">لا يوجد نص عقد بعد</span>';
+  document.getElementById('frd-contract-editor-wrap').style.display = 'none';
+  document.getElementById('frd-contract-viewer').style.display = '';
+
+  // Attachments
+  const attWrap = document.getElementById('frd-attachments');
+  const atts = f.attachments||[];
+  attWrap.innerHTML = atts.length ? atts.map((a,i)=>`<div class="attach-item"><a class="attach-link" href="${sanitize(a.url)}" target="_blank" rel="noopener">📎 ${sanitize(a.name)}</a><span style="cursor:pointer;color:var(--danger)" onclick="window.removeAttachment(${i})">✕</span></div>`).join('') : '<div style="font-size:0.75rem;color:var(--brown);opacity:0.6">لا توجد مرفقات</div>';
+
+  // Installments / single payment
+  const isSingle = f.paymentType === 'single';
+  document.getElementById('frd-single-payment').style.display = isSingle ? '' : 'none';
+  document.getElementById('frd-installments-wrap').style.display = isSingle ? 'none' : '';
+  document.getElementById('frd-add-installment-btn').style.display = isSingle ? 'none' : '';
+  document.getElementById('frd-installments-title').firstChild.textContent = f.paymentType==='milestones' ? '💳 مراحل الدفع ' : '💳 الأقساط ';
+
+  if(isSingle) {
+    const statusHtml = f.singlePaid
+      ? `<span class="badge badge-paid">✅ مدفوع — ${sanitize(f.singlePaidDate||'')}</span>`
+      : `<button class="btn btn-sm btn-gold" onclick="window.markSinglePaid()">✅ تم الدفع</button>`;
+    document.getElementById('frd-single-status').innerHTML = statusHtml;
+  } else {
+    const today = todayStr();
+    const rows = (f.installments||[]).map(function(inst, idx) {
+      let stLabel = 'badge-unpaid', stText = '⏳ غير مدفوع';
+      if(inst.status === 'paid') { stLabel='badge-paid'; stText='✅ مدفوع'; }
+      else if(inst.dueDate && inst.dueDate < today) { stLabel='badge-late'; stText='⚠️ متأخر'; }
+      return `<tr>
+        <td>${inst.label ? sanitize(inst.label) : (idx+1)}</td>
+        <td>${sanitize(inst.dueDate||'—')}</td>
+        <td style="font-weight:700">${(parseFloat(inst.amount)||0).toFixed(0)}</td>
+        <td><span class="badge ${stLabel}">${stText}</span></td>
+        <td>${sanitize(inst.paidDate||'—')}</td>
+        <td style="font-size:0.72rem">${sanitize(inst.notes||'—')}</td>
+        <td style="white-space:nowrap">
+          ${inst.status!=='paid' ? `<button class="btn btn-sm btn-gold" onclick="window.markInstallmentPaid(${idx})">✅ دفع</button>` : ''}
+          <button class="btn btn-sm btn-danger" onclick="window.removeInstallment(${idx})">🗑</button>
+        </td>
+      </tr>`;
+    }).join('');
+    document.getElementById('frd-installments-body').innerHTML = rows || '<tr><td colspan="7" style="text-align:center;color:var(--brown);opacity:0.6;padding:1rem">لا توجد أقساط بعد</td></tr>';
+  }
+};
+
+// ── CONTRACT TEXT EDITOR ──
+window.toggleContractEdit = function() {
+  const viewer = document.getElementById('frd-contract-viewer');
+  const wrap   = document.getElementById('frd-contract-editor-wrap');
+  const editor = document.getElementById('frd-contract-editor');
+  const isEditing = wrap.style.display !== 'none';
+  if(isEditing) {
+    wrap.style.display = 'none';
+    viewer.style.display = '';
+  } else {
+    const id = document.getElementById('frd-id').value;
+    const f = (state.freelancers||[]).find(x=>x.id===id);
+    editor.innerHTML = f?.contractText || '';
+    wrap.style.display = '';
+    viewer.style.display = 'none';
+  }
+};
+
+window.saveContractText = async function() {
+  const id = document.getElementById('frd-id').value;
+  const html = sanitizeRichText(document.getElementById('frd-contract-editor').innerHTML);
+  await updateDoc_('freelancers', id, { contractText: html });
+  toast('تم حفظ نص العقد ✅','success');
+  window.toggleContractEdit();
+};
+
+// ── ATTACHMENTS ──
+window.addAttachment = async function() {
+  const name = prompt('اسم المرفق (مثال: نسخة العقد PDF):');
+  if(!name) return;
+  const url = prompt('رابط المرفق (Google Drive / أي رابط):');
+  if(!url) return;
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  const atts = [...(f.attachments||[]), {name: name.trim(), url: url.trim()}];
+  await updateDoc_('freelancers', id, { attachments: atts });
+  toast('تم إضافة المرفق ✅','success');
+};
+
+window.removeAttachment = async function(idx) {
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  const atts = (f.attachments||[]).filter((_,i)=>i!==idx);
+  await updateDoc_('freelancers', id, { attachments: atts });
+  toast('تم حذف المرفق','warning');
+};
+
+// ── INSTALLMENTS ──
+window.addInstallmentRow = async function() {
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  const isMilestone = f.paymentType === 'milestones';
+  const label = isMilestone ? prompt('اسم المرحلة (مثال: تسليم التصميم الأولي):') : null;
+  if(isMilestone && !label) return;
+  const amount = parseFloat(prompt('قيمة ' + (isMilestone?'المرحلة':'القسط') + ':')||'0');
+  if(!amount) { toast('المبلغ مطلوب','error'); return; }
+  const dueDate = prompt('تاريخ الاستحقاق (YYYY-MM-DD):', todayStr());
+  const inst = {
+    id: 'inst_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+    label: isMilestone ? label.trim() : '',
+    amount, dueDate: dueDate||'', status:'unpaid', paidDate:'', notes:''
+  };
+  const list = [...(f.installments||[]), inst];
+  await updateDoc_('freelancers', id, { installments: list });
+  toast('تم إضافة ' + (isMilestone?'المرحلة':'القسط') + ' ✅','success');
+};
+
+window.removeInstallment = async function(idx) {
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  const list = (f.installments||[]).filter((_,i)=>i!==idx);
+  await updateDoc_('freelancers', id, { installments: list });
+  toast('تم حذف البند','warning');
+};
+
+window.markInstallmentPaid = async function(idx) {
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  const list = [...(f.installments||[])];
+  if(!list[idx] || list[idx].status === 'paid') { toast('تم دفع هذا البند مسبقاً','warning'); return; }
+  const today = todayStr();
+  list[idx] = { ...list[idx], status:'paid', paidDate: today };
+  await updateDoc_('freelancers', id, { installments: list });
+  // integrate with financial system
+  await addDoc_('expenses', {
+    name: 'دفعة فريلانسر: ' + (f.name||'') + (list[idx].label ? ' — ' + list[idx].label : ''),
+    type: 'فريلانسرز',
+    amount: list[idx].amount,
+    date: today
+  });
+  toast('تم تسجيل الدفعة ✅ وتحديث المصاريف','success');
+  // check if all installments now paid
+  if(list.every(i=>i.status==='paid') && list.length) {
+    toast('🎉 تم الانتهاء من جميع الأقساط لـ ' + (f.name||''), 'success');
+  }
+};
+
+window.markSinglePaid = async function() {
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  if(!f || f.singlePaid) { toast('تم الدفع مسبقاً','warning'); return; }
+  const today = todayStr();
+  await updateDoc_('freelancers', id, { singlePaid: true, singlePaidDate: today });
+  await addDoc_('expenses', {
+    name: 'دفعة فريلانسر: ' + (f.name||'') + ' (دفعة كاملة)',
+    type: 'فريلانسرز',
+    amount: f.contractValue || 0,
+    date: today
+  });
+  toast('تم تسجيل الدفعة الكاملة ✅','success');
+};
+
+// ── NOTIFICATIONS ──
+function checkFreelancerNotifications() {
+  const all = state.freelancers||[];
+  const today = todayStr();
+  const now = new Date();
+  let dueToday = 0, late = 0, endingSoon = 0;
+
+  all.forEach(function(f) {
+    if(f.paymentType !== 'single') {
+      (f.installments||[]).forEach(function(i) {
+        if(i.status === 'paid' || !i.dueDate) return;
+        if(i.dueDate === today) dueToday++;
+        else if(i.dueDate < today) late++;
+      });
+    }
+    if(f.status === 'active' && f.endDate) {
+      const end = parseDateLocal(f.endDate);
+      if(end) {
+        const diffDays = (end - now) / 86400000;
+        if(diffDays >= 0 && diffDays <= 14) endingSoon++;
+      }
+    }
+  });
+
+  if(dueToday)   toast('📅 يوجد ' + dueToday + ' قسط مستحق اليوم', 'warning');
+  if(late)       toast('⚠️ يوجد ' + late + ' قسط متأخر عن السداد', 'error');
+  if(endingSoon) toast('⏰ يوجد ' + endingSoon + ' عقد سينتهي خلال أسبوعين', 'warning');
 }
 
 </script>
