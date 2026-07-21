@@ -2738,23 +2738,47 @@ async function logActivity(type, col, detail) {
 }
 
 async function addDoc_(col, data) {
-  const ref = await db.collection(col).add({ ...data, createdAt: Date.now() });
-  const label = data.name || data.title || data.customer || '';
-  if(col !== 'activityLog' && col !== 'trash') logActivity('add', col, label ? 'إضافة: ' + label : 'عنصر جديد');
-  return ref;
+  try {
+    const ref = await db.collection(col).add({ ...data, createdAt: Date.now() });
+    const label = data.name || data.title || data.customer || '';
+    if(col !== 'activityLog' && col !== 'trash') logActivity('add', col, label ? 'إضافة: ' + label : 'عنصر جديد');
+    return ref;
+  } catch(e) {
+    console.error('addDoc_ error ['+col+']:', e);
+    toast('❌ فشل الحفظ: ' + (e.code==='permission-denied' ? 'لا يوجد صلاحية — تحقق من Firestore Rules' : (e.message||e.code||'خطأ غير معروف')), 'error');
+    throw e;
+  }
 }
 async function deleteDoc_(col, id) {
-  await db.collection(col).doc(id).delete();
-  if(col !== 'activityLog') logActivity('delete', col, 'حذف عنصر #' + id.slice(0,6));
+  try {
+    await db.collection(col).doc(id).delete();
+    if(col !== 'activityLog') logActivity('delete', col, 'حذف عنصر #' + id.slice(0,6));
+  } catch(e) {
+    console.error('deleteDoc_ error ['+col+']:', e);
+    toast('❌ فشل الحذف: ' + (e.code==='permission-denied' ? 'لا يوجد صلاحية — تحقق من Firestore Rules' : (e.message||e.code||'خطأ غير معروف')), 'error');
+    throw e;
+  }
 }
 async function updateDoc_(col, id, data) {
-  await db.collection(col).doc(id).update(data);
-  const label = data.name || data.title || data.status || '';
-  if(col !== 'activityLog') logActivity('edit', col, label ? 'تعديل: ' + label : 'تعديل عنصر');
+  try {
+    await db.collection(col).doc(id).update(data);
+    const label = data.name || data.title || data.status || '';
+    if(col !== 'activityLog') logActivity('edit', col, label ? 'تعديل: ' + label : 'تعديل عنصر');
+  } catch(e) {
+    console.error('updateDoc_ error ['+col+']:', e);
+    toast('❌ فشل التحديث: ' + (e.code==='permission-denied' ? 'لا يوجد صلاحية — تحقق من Firestore Rules' : (e.message||e.code||'خطأ غير معروف')), 'error');
+    throw e;
+  }
 }
 async function setDoc_(col, id, data) {
-  await db.collection(col).doc(id).set({ ...data, updatedAt: Date.now() }, { merge: true });
-  if(col !== 'activityLog') logActivity('settings', col, 'تحديث الإعدادات');
+  try {
+    await db.collection(col).doc(id).set({ ...data, updatedAt: Date.now() }, { merge: true });
+    if(col !== 'activityLog') logActivity('settings', col, 'تحديث الإعدادات');
+  } catch(e) {
+    console.error('setDoc_ error ['+col+']:', e);
+    toast('❌ فشل الحفظ: ' + (e.code==='permission-denied' ? 'لا يوجد صلاحية — تحقق من Firestore Rules' : (e.message||e.code||'خطأ غير معروف')), 'error');
+    throw e;
+  }
 }
 
 // ── NAVIGATION ──
