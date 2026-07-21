@@ -110,6 +110,64 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .auth-error{color:#f87171;font-size:0.75rem;text-align:center;margin-top:0.5rem;min-height:20px;}
 .auth-loading{color:var(--brown);font-size:0.75rem;text-align:center;margin-top:0.5rem;}
 
+/* ══════════════════════════════
+   PROJECTS SYSTEM
+   ══════════════════════════════ */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;}
+.proj-card{background:var(--white);border:1px solid var(--light);border-radius:14px;padding:1.1rem;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:0.6rem;}
+.proj-card:hover{border-color:var(--gold);box-shadow:0 6px 20px rgba(191,158,96,0.15);transform:translateY(-2px);}
+.proj-card-top{display:flex;align-items:center;gap:0.7rem;}
+.proj-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.proj-name{font-weight:700;font-size:0.92rem;color:var(--dark);}
+.proj-status-row{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.proj-meta-row{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--brown);flex-wrap:wrap;gap:0.4rem;}
+.proj-stats-row{display:flex;gap:0.9rem;font-size:0.7rem;color:var(--brown);flex-wrap:wrap;}
+.proj-stats-row b{color:var(--dark);}
+.badge-priority-high{background:#fee2e2;color:#991b1b;}
+.badge-priority-medium{background:#fef9c3;color:#854d0e;}
+.badge-priority-low{background:#dbeafe;color:#1d4ed8;}
+.badge-status-active{background:#f0fdf4;color:var(--success);}
+.badge-status-paused{background:#fef9c3;color:var(--pending);}
+.badge-status-completed{background:#eff6ff;color:#1d4ed8;}
+.badge-status-onhold{background:#f3f4f6;color:#4b5563;}
+
+/* Workspace */
+.pw-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
+.pw-back{background:none;border:1px solid var(--light);border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.78rem;color:var(--brown);}
+.pw-back:hover{border-color:var(--gold);color:var(--gold);}
+.pw-title-block{display:flex;align-items:center;gap:0.7rem;flex:1;}
+.pw-dash{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.6rem;margin-bottom:1rem;}
+.pw-dash-card{background:var(--white);border:1px solid var(--light);border-radius:10px;padding:0.7rem;text-align:center;}
+.pw-dash-val{font-size:1.2rem;font-weight:700;color:var(--gold);}
+.pw-dash-label{font-size:0.65rem;color:var(--brown);margin-top:0.1rem;}
+.pw-body{display:flex;gap:1rem;align-items:flex-start;}
+.pw-tabs{width:190px;flex-shrink:0;background:var(--white);border:1px solid var(--light);border-radius:12px;padding:0.5rem;position:sticky;top:0.5rem;max-height:80vh;overflow-y:auto;}
+.pw-tab{padding:0.55rem 0.7rem;border-radius:8px;font-size:0.78rem;color:var(--brown);cursor:pointer;display:flex;align-items:center;gap:0.5rem;transition:all 0.15s;margin-bottom:2px;}
+.pw-tab:hover{background:var(--cream);}
+.pw-tab.active{background:var(--gold);color:var(--dark);font-weight:700;}
+.pw-content{flex:1;min-width:0;background:var(--white);border:1px solid var(--light);border-radius:12px;padding:1.2rem;}
+.pw-section-title{font-size:0.95rem;font-weight:700;color:var(--dark);margin-bottom:0.8rem;display:flex;justify-content:space-between;align-items:center;}
+.pw-empty{text-align:center;padding:2rem;color:var(--brown);opacity:0.5;font-size:0.82rem;}
+.pw-list-item{border:1px solid var(--light);border-radius:10px;padding:0.8rem;margin-bottom:0.6rem;}
+.pw-list-item:hover{border-color:var(--gold);}
+.pw-item-head{display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;}
+.pw-item-title{font-weight:700;font-size:0.85rem;color:var(--dark);}
+.pw-item-meta{font-size:0.68rem;color:var(--brown);margin-top:0.2rem;display:flex;gap:0.5rem;flex-wrap:wrap;}
+.pw-item-actions{display:flex;gap:0.3rem;flex-shrink:0;}
+.pw-tag{display:inline-block;background:rgba(191,158,96,0.15);color:var(--gold);font-size:0.62rem;padding:0.1rem 0.5rem;border-radius:10px;margin-left:0.2rem;}
+.pw-strategy-field{margin-bottom:0.9rem;}
+.pw-strategy-label{font-size:0.75rem;font-weight:700;color:var(--gold);margin-bottom:0.3rem;}
+.pw-overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-bottom:1rem;}
+.fl-mini-avatar{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;}
+.proj-search-results{max-height:400px;overflow-y:auto;}
+[data-theme="dark"] .proj-card{background:#1f1710;border-color:#2a1f18;}
+[data-theme="dark"] .pw-tabs{background:#1f1710;border-color:#2a1f18;}
+[data-theme="dark"] .pw-content{background:#1f1710;border-color:#2a1f18;}
+[data-theme="dark"] .pw-tab:hover{background:#2a1f18;}
+[data-theme="dark"] .pw-list-item{border-color:#2a1f18;}
+[data-theme="dark"] .pw-dash-card{background:#1f1710;border-color:#2a1f18;}
+[data-theme="dark"] .badge-status-onhold{background:#2a1f18;color:var(--brown);}
+
 /* ── FREELANCERS ── */
 .badge-active{background:#f0fdf4;color:var(--success);border:1px solid #bbf7d0;}
 .badge-completed{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
@@ -759,6 +817,7 @@ tr:hover td{background:#faf6f3;}
     <div class="nav-label">المالية</div>
     <div class="nav-item" onclick="showPage('finance',this)"><span class="icon">💰</span>المالية والأرباح</div>
     <div class="nav-item" onclick="showPage('freelancers',this)"><span class="icon">👨‍💻</span>الفريلانسرز</div>
+    <div class="nav-item" onclick="showPage('projects',this)"><span class="icon">📁</span>المشاريع</div>
   </nav>
   <nav class="nav-section">
     <div class="nav-label">التسويق</div>
@@ -1134,6 +1193,62 @@ tr:hover td{background:#faf6f3;}
         </div>
         <div id="freelancersPagination"></div>
         <div class="pag-info" id="freelancersPagInfo"></div>
+      </div>
+    </div>
+
+    <!-- PROJECTS GRID -->
+    <div class="page" id="page-projects">
+      <div class="section-header">
+        <div><div class="section-title-main">📁 المشاريع</div><div class="section-subtitle">مركز إدارة كل المشاريع الاستراتيجية</div></div>
+        <button class="btn btn-primary" onclick="window.openAddProjectModal()">+ مشروع جديد</button>
+      </div>
+
+      <div class="search-bar" style="margin-bottom:1rem">
+        <input class="search-input" id="searchProjects" placeholder="🔍 بحث في المشاريع..." oninput="window.renderProjectsGrid()">
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterProjectStatus" onchange="window.renderProjectsGrid()">
+          <option value="">كل الحالات</option>
+          <option value="active">نشط</option>
+          <option value="paused">متوقف مؤقتاً</option>
+          <option value="completed">مكتمل</option>
+          <option value="onhold">مجمّد</option>
+        </select>
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterProjectPriority" onchange="window.renderProjectsGrid()">
+          <option value="">كل الأولويات</option>
+          <option value="high">عالية</option>
+          <option value="medium">متوسطة</option>
+          <option value="low">منخفضة</option>
+        </select>
+      </div>
+
+      <div class="proj-grid" id="projectsGrid">
+        <div class="pw-empty" style="grid-column:1/-1">جاري التحميل...</div>
+      </div>
+    </div>
+
+    <!-- PROJECT WORKSPACE -->
+    <div class="page" id="page-project-workspace">
+      <div class="pw-header">
+        <button class="pw-back" onclick="showPage('projects', document.querySelector('[onclick*=projects]'))">‹ رجوع للمشاريع</button>
+        <div class="pw-title-block">
+          <div class="proj-icon" id="pwIcon" style="width:40px;height:40px;font-size:1.2rem">📁</div>
+          <div>
+            <div style="font-weight:700;font-size:1.05rem;color:var(--dark)" id="pwName">—</div>
+            <div style="font-size:0.72rem;color:var(--brown)" id="pwDesc">—</div>
+          </div>
+        </div>
+        <div id="pwStatusBadges"></div>
+      </div>
+
+      <!-- Smart Dashboard -->
+      <div class="pw-dash" id="pwDashboard"></div>
+
+      <!-- Global project search -->
+      <input class="search-input" id="pwSearch" placeholder="🔍 بحث داخل المشروع (مهام، SOP، ملفات، أفكار...)" oninput="window.renderProjectSearch()" style="margin-bottom:1rem;width:100%">
+      <div id="pwSearchResults" class="proj-search-results" style="display:none"></div>
+
+      <div class="pw-body" id="pwBodyWrap">
+        <div class="pw-tabs" id="pwTabs"></div>
+        <div class="pw-content" id="pwContent"></div>
       </div>
     </div>
 
@@ -1826,6 +1941,166 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
   </div>
 </div>
 
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="addProjectModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><div class="modal-title">📁 مشروع جديد</div><button class="modal-close" onclick="closeModal('addProjectModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">اسم المشروع *</div><input class="form-input" id="pj-name" placeholder="مثال: Content System"></div>
+        <div class="form-group"><div class="form-label">أيقونة (emoji)</div><input class="form-input" id="pj-icon" placeholder="📦" value="📁"></div>
+      </div>
+      <div class="form-group"><div class="form-label">الوصف</div><textarea class="form-textarea" id="pj-description" rows="2" placeholder="عن ماذا هذا المشروع؟"></textarea></div>
+      <div class="form-group"><div class="form-label">لماذا هذا المشروع موجود؟</div><textarea class="form-textarea" id="pj-why" rows="2" placeholder="الغاية والسبب..."></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">المسؤول</div><input class="form-input" id="pj-responsible" placeholder="اسم المسؤول"></div>
+        <div class="form-group"><div class="form-label">الأولوية</div><select class="form-select" id="pj-priority"><option value="high">عالية</option><option value="medium" selected>متوسطة</option><option value="low">منخفضة</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="pj-status"><option value="active" selected>نشط</option><option value="paused">متوقف مؤقتاً</option><option value="completed">مكتمل</option><option value="onhold">مجمّد</option></select></div>
+        <div class="form-group"><div class="form-label">نسبة الإنجاز %</div><input class="form-input" id="pj-progress" type="number" min="0" max="100" value="0"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">تاريخ البداية</div><input class="form-input" id="pj-start" type="date"></div>
+        <div class="form-group"><div class="form-label">الموعد النهائي</div><input class="form-input" id="pj-deadline" type="date"></div>
+      </div>
+      <div class="form-group"><div class="form-label">النتائج المتوقعة</div><textarea class="form-textarea" id="pj-expected" rows="2" placeholder="ما هي النتائج المتوقعة؟"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addProjectModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveProject()">✅ إنشاء</button></div>
+  </div>
+</div>
+
+<!-- EDIT PROJECT OVERVIEW MODAL (reuses same fields) -->
+<div class="modal-overlay" id="editProjectModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><div class="modal-title">✏️ تعديل المشروع</div><button class="modal-close" onclick="closeModal('editProjectModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="epj-id">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">اسم المشروع *</div><input class="form-input" id="epj-name"></div>
+        <div class="form-group"><div class="form-label">أيقونة (emoji)</div><input class="form-input" id="epj-icon"></div>
+      </div>
+      <div class="form-group"><div class="form-label">الوصف</div><textarea class="form-textarea" id="epj-description" rows="2"></textarea></div>
+      <div class="form-group"><div class="form-label">لماذا هذا المشروع موجود؟</div><textarea class="form-textarea" id="epj-why" rows="2"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">المسؤول</div><input class="form-input" id="epj-responsible"></div>
+        <div class="form-group"><div class="form-label">الأولوية</div><select class="form-select" id="epj-priority"><option value="high">عالية</option><option value="medium">متوسطة</option><option value="low">منخفضة</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="epj-status"><option value="active">نشط</option><option value="paused">متوقف مؤقتاً</option><option value="completed">مكتمل</option><option value="onhold">مجمّد</option></select></div>
+        <div class="form-group"><div class="form-label">نسبة الإنجاز %</div><input class="form-input" id="epj-progress" type="number" min="0" max="100"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">تاريخ البداية</div><input class="form-input" id="epj-start" type="date"></div>
+        <div class="form-group"><div class="form-label">الموعد النهائي</div><input class="form-input" id="epj-deadline" type="date"></div>
+      </div>
+      <div class="form-group"><div class="form-label">النتائج المتوقعة</div><textarea class="form-textarea" id="epj-expected" rows="2"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('editProjectModal')">إلغاء</button>
+      <button class="btn btn-danger" onclick="window.deleteProjectFromEdit()">🗑 حذف المشروع</button>
+      <button class="btn btn-gold" onclick="window.saveEditProject()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- GENERIC ITEM MODAL (Objectives, Websites, Resources, Documents, Ideas, Risks, Competitors, Experiments, Meetings, Timeline, KPIs, Knowledge) -->
+<div class="modal-overlay" id="genericItemModal">
+  <div class="modal" style="max-width:550px">
+    <div class="modal-header"><div class="modal-title" id="giModalTitle">عنصر جديد</div><button class="modal-close" onclick="closeModal('genericItemModal')">✕</button></div>
+    <div class="modal-body" id="giModalBody"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('genericItemModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveGenericItem()">✅ حفظ</button></div>
+  </div>
+</div>
+
+<!-- TOOL MODAL -->
+<div class="modal-overlay" id="toolItemModal">
+  <div class="modal" style="max-width:550px">
+    <div class="modal-header"><div class="modal-title" id="toolModalTitle">🛠️ أداة جديدة</div><button class="modal-close" onclick="closeModal('toolItemModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="tl-id">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الاسم *</div><input class="form-input" id="tl-name" placeholder="Canva"></div>
+        <div class="form-group"><div class="form-label">السعر</div><input class="form-input" id="tl-price" placeholder="مجاني / $12 شهرياً"></div>
+      </div>
+      <div class="form-group"><div class="form-label">الوصف</div><input class="form-input" id="tl-desc" placeholder="وصف مختصر"></div>
+      <div class="form-group"><div class="form-label">لماذا نستخدمها؟</div><input class="form-input" id="tl-why" placeholder="السبب..."></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الرابط</div><input class="form-input" id="tl-url" placeholder="https://"></div>
+        <div class="form-group"><div class="form-label">بدائل</div><input class="form-input" id="tl-alts" placeholder="أدوات بديلة"></div>
+      </div>
+      <div class="form-group"><div class="form-label">طريقة الاستخدام</div><input class="form-input" id="tl-howto" placeholder="شرح مختصر..."></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الحساب المسؤول</div><input class="form-input" id="tl-account" placeholder="إيميل الحساب"></div>
+        <div class="form-group"><div class="form-label">Login Hint</div><input class="form-input" id="tl-hint" placeholder="تلميح تسجيل الدخول"></div>
+      </div>
+      <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="tl-notes" rows="2"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('toolItemModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveToolItem()">✅ حفظ</button></div>
+  </div>
+</div>
+
+<!-- SOP MODAL -->
+<div class="modal-overlay" id="sopItemModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><div class="modal-title" id="sopModalTitle">📋 SOP جديد</div><button class="modal-close" onclick="closeModal('sopItemModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="sop-id">
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">العنوان *</div><input class="form-input" id="sop-title" placeholder="كيف نصنع Reel"></div>
+        <div class="form-group"><div class="form-label">التصنيف</div><input class="form-input" id="sop-category" placeholder="محتوى / تسويق..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">مستوى الصعوبة</div><select class="form-select" id="sop-difficulty"><option>سهل</option><option>متوسط</option><option>صعب</option></select></div>
+        <div class="form-group"><div class="form-label">الوقت المطلوب</div><input class="form-input" id="sop-time" placeholder="30 دقيقة"></div>
+      </div>
+      <div class="form-group"><div class="form-label">الخطوات (كل خطوة بسطر)</div><textarea class="form-textarea" id="sop-steps" rows="4" placeholder="1. افتح الأداة&#10;2. اختر القالب&#10;3. صدّر الفيديو"></textarea></div>
+      <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="sop-notes" rows="2"></textarea></div>
+      <div class="form-group"><div class="form-label">الإصدار</div><input class="form-input" id="sop-version" placeholder="v1.0"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('sopItemModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveSopItem()">✅ حفظ</button></div>
+  </div>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="taskItemModal">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-header"><div class="modal-title" id="taskModalTitle">✅ مهمة جديدة</div><button class="modal-close" onclick="closeModal('taskItemModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="tk-id">
+      <div class="form-group"><div class="form-label">العنوان *</div><input class="form-input" id="tk-title" placeholder="عنوان المهمة"></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الأولوية</div><select class="form-select" id="tk-priority"><option value="high">عالية</option><option value="medium" selected>متوسطة</option><option value="low">منخفضة</option></select></div>
+        <div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="tk-status"><option value="todo">قيد الانتظار</option><option value="inprogress">قيد التنفيذ</option><option value="done">مكتمل</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الموعد النهائي</div><input class="form-input" id="tk-deadline" type="date"></div>
+        <div class="form-group"><div class="form-label">المسؤول (من الفريلانسرز المرتبطين)</div><select class="form-select" id="tk-assignee"><option value="">— بدون —</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">الوقت المقدّر (ساعة)</div><input class="form-input" id="tk-estimate" type="number" placeholder="0"></div>
+        <div class="form-group"><div class="form-label">الوقت الفعلي (ساعة)</div><input class="form-input" id="tk-actual" type="number" placeholder="0"></div>
+      </div>
+      <div class="form-group"><div class="form-label">مهام فرعية (Subtasks) — كل واحدة بسطر</div><textarea class="form-textarea" id="tk-subtasks" rows="3" placeholder="مهمة فرعية 1&#10;مهمة فرعية 2"></textarea></div>
+      <div class="form-group"><div class="form-label">يعتمد على (Dependencies) — عناوين مهام أخرى</div><input class="form-input" id="tk-deps" placeholder="مثال: تصميم اللوغو"></div>
+      <div class="form-group"><div class="form-label">ملاحظات / تعليقات</div><textarea class="form-textarea" id="tk-notes" rows="2"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('taskItemModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveTaskItem()">✅ حفظ</button></div>
+  </div>
+</div>
+
+<!-- ASSIGN FREELANCER MODAL -->
+<div class="modal-overlay" id="assignFreelancerModal">
+  <div class="modal" style="max-width:550px">
+    <div class="modal-header"><div class="modal-title">👨‍💻 ربط فريلانسر بالمشروع</div><button class="modal-close" onclick="closeModal('assignFreelancerModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><div class="form-label">اختر الفريلانسر *</div><select class="form-select" id="af-freelancer-id"><option value="">— اختر —</option></select></div>
+      <div class="form-group"><div class="form-label">الدور داخل هذا المشروع</div><input class="form-input" id="af-role" placeholder="مصمم / مونتير / كاتب محتوى..."></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('assignFreelancerModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveAssignFreelancer()">✅ ربط</button></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addOrderModal">
   <div class="modal">
     <div class="modal-header"><div class="modal-title">🛒 طلب جديد</div><button class="modal-close" onclick="closeModal('addOrderModal')">✕</button></div>
@@ -2108,7 +2383,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // STATE
-let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[] };
+let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[] };
 let unsubscribers = [];
 
 // ══════════════════════════════
@@ -2374,7 +2649,7 @@ window.logout = async () => {
   unsubscribers = [];
   if(activityLogUnsubscribe) { activityLogUnsubscribe(); activityLogUnsubscribe = null; }
   activityLogData = [];
-  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[] };
+  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[] };
   await auth.signOut();
   // Prevent back button after logout
   history.pushState(null, '', location.href);
@@ -2446,7 +2721,7 @@ const COL_LABELS = {
   orders:'الطلبات', customers:'العملاء', products:'المنتجات',
   inventory:'المخزون', regions:'المناطق', expenses:'المصاريف',
   campaigns:'الحملات', coupons:'الكوبونات', trash:'المحذوفات',
-  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم'
+  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم', freelancers:'الفريلانسرز', projects:'المشاريع'
 };
 
 async function logActivity(type, col, detail) {
@@ -2492,7 +2767,7 @@ window.showPage = (id, el) => {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', certificates:'📜 الشهادات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
+  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
 
@@ -2504,11 +2779,11 @@ window.showPage = (id, el) => {
   if(id==='products') { cacheRestoreFilters('products'); filterProducts(); }
   if(id==='flavors')  { window.filterFlavors(); updateFlavorStats(); }
   if(id==='freelancers') { window.filterFreelancers(); updateFreelancerStats(); checkFreelancerNotifications(); }
+  if(id==='projects') { window.renderProjectsGrid(); }
   if(id==='finance') { cacheRestoreFilters('expenses'); renderFinance(); }
   if(id==='brand') { loadBrand(); }
   if(id==='legal') { loadLegal(); renderCertificates(); }
   if(id==='calculations') { loadCalculations(); updateCalc(); }
-  if(id==='certificates') { renderCertificates(); filterCerts(); }
   if(id==='activitylog') { subscribeActivityLog(); window.renderActivityLog(); }
   if(id==='calendar') { loadCalEvents().then(()=>{ calState.date=new Date(); renderCal(); checkOrderNotifications(); }); }
 };
@@ -3995,7 +4270,7 @@ window.setMonthFilter = function(period, btn, page) {
 
 // ── FIX: notes subscribeToData needs notes collection ──
 function subscribeToData() {
-  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers'];
+  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects'];
   if(!window.unsubscribers) window.unsubscribers = [];
   collections.forEach(function(col) {
     try {
@@ -4026,6 +4301,11 @@ function refreshUI(col) {
     if(col==='notes')       { if(window.filterNotes) filterNotes(); }
     if(col==='flavors')     { if(document.getElementById('page-flavors')?.classList.contains('active')) window.filterFlavors(); updateFlavorStats(); }
     if(col==='freelancers') { if(document.getElementById('page-freelancers')?.classList.contains('active')) window.filterFreelancers(); updateFreelancerStats(); if(document.getElementById('freelancerDetailModal')?.classList.contains('open') && document.getElementById('frd-id')?.value) window.refreshFreelancerDetail(); }
+    if(col==='projects') {
+      seedDefaultProjectsIfEmpty();
+      if(document.getElementById('page-projects')?.classList.contains('active')) window.renderProjectsGrid();
+      if(document.getElementById('page-project-workspace')?.classList.contains('active') && currentProjectId) window.refreshWorkspace();
+    }
   } catch(e) { console.error('refreshUI error for col='+col+':', e); }
 }
 
@@ -4170,13 +4450,14 @@ const breadcrumbMap = {
   checklist:    '✅ Checklist',
   legal:        '⚖️ القانوني',
   trash:        '🗑️ المحذوفات',
-  certificates: '📜 الشهادات',
   notes:        '📝 الملاحظات',
   calculations: '🧮 الحسابات',
   calendar:     '📅 التقويم',
   activitylog:  '📋 سجل النشاط',
   flavors:      '🍫 النكهات',
   freelancers:  '👨‍💻 الفريلانسرز',
+  projects:     '📁 المشاريع',
+  'project-workspace': '📁 المشروع',
 };
 
 function updateBreadcrumb(id) {
@@ -5462,6 +5743,881 @@ function checkFreelancerNotifications() {
   if(late)       toast('⚠️ يوجد ' + late + ' قسط متأخر عن السداد', 'error');
   if(endingSoon) toast('⏰ يوجد ' + endingSoon + ' عقد سينتهي خلال أسبوعين', 'warning');
 }
+
+// ══════════════════════════════
+// PROJECTS SYSTEM
+// ══════════════════════════════
+let currentProjectId = null;
+let currentPwTab = 'overview';
+let _giContext = null; // {section, itemId}
+let _projectsSeeded = false;
+
+const DEFAULT_PROJECTS = [
+  {name:'Content System',       icon:'🎬', description:'بناء نظام المحتوى الخاص بالبراند.'},
+  {name:'Customer Acquisition', icon:'🎯', description:'اكتساب عملاء جدد.'},
+  {name:'Market Research',      icon:'🔍', description:'فهم السوق والمنافسين.'},
+  {name:'Brand Management',     icon:'🎨', description:'إدارة هوية وسمعة البراند.'},
+  {name:'Sales',                icon:'💼', description:'إدارة المبيعات.'},
+  {name:'Business Operations',  icon:'⚙️', description:'تشغيل العمليات اليومية.'},
+  {name:'Analytics',            icon:'📊', description:'تحليل البيانات والأداء.'},
+  {name:'Product Management',   icon:'📦', description:'إدارة تطوير المنتجات.'},
+];
+
+function blankProject(p) {
+  return {
+    name: p.name, icon: p.icon||'📁', description: p.description||'', why:'', expectedResults:'',
+    responsible:'', priority:'medium', status:'active', progress:0, startDate:'', deadline:'',
+    objectives:[], strategy:{vision:'',strategy:'',yearlyPlan:'',monthlyPlan:'',weeklyPlan:'',phases:'',funnel:'',kpisText:'',risksText:'',assumptions:'',budgetText:'',competitorsText:'',opportunities:'',challenges:''},
+    sops:[], tools:[], websites:[], assignedFreelancers:[], knowledge:[], ideas:[], tasks:[],
+    documents:[], resources:[], kpis:[], budget:{allocated:0,spent:0,toolsCost:0,freelancersCost:0,adsCost:0},
+    risks:[], competitors:[], experiments:[], meetings:[], timeline:[], activity:[]
+  };
+}
+
+function seedDefaultProjectsIfEmpty() {
+  if(_projectsSeeded) return;
+  if((state.projects||[]).length > 0) { _projectsSeeded = true; return; }
+  _projectsSeeded = true;
+  DEFAULT_PROJECTS.forEach(function(p) {
+    addDoc_('projects', blankProject(p));
+  });
+}
+
+function logProjectActivity(proj, text) {
+  const activity = [...(proj.activity||[]), {text, ts: Date.now(), timeStr: new Date().toLocaleString('ar')}].slice(-200);
+  updateDoc_('projects', proj.id, { activity });
+}
+
+function getProject(id) { return (state.projects||[]).find(p=>p.id===id); }
+
+// ── PROJECT STATS ──
+function projStats(p) {
+  const openTasks = (p.tasks||[]).filter(t=>t.status!=='done').length;
+  const today = todayStr();
+  const overdueTasks = (p.tasks||[]).filter(t=>t.status!=='done' && t.deadline && t.deadline<today).length;
+  return {
+    tasksCount: (p.tasks||[]).length,
+    openTasks, overdueTasks,
+    filesCount: (p.documents||[]).length,
+    sopsCount: (p.sops||[]).length,
+    resourcesCount: (p.resources||[]).length,
+    toolsCount: (p.tools||[]).length,
+    websitesCount: (p.websites||[]).length,
+    ideasCount: (p.ideas||[]).length,
+  };
+}
+
+// ── PROJECTS GRID ──
+window.renderProjectsGrid = function() {
+  const q      = (document.getElementById('searchProjects')?.value||'').toLowerCase();
+  const status = document.getElementById('filterProjectStatus')?.value||'';
+  const prio   = document.getElementById('filterProjectPriority')?.value||'';
+  const all = state.projects||[];
+  const filtered = all.filter(function(p) {
+    if(status && p.status !== status) return false;
+    if(prio && p.priority !== prio) return false;
+    if(q && !(p.name||'').toLowerCase().includes(q) && !(p.description||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const grid = document.getElementById('projectsGrid');
+  if(!grid) return;
+  if(!filtered.length) { grid.innerHTML = '<div class="pw-empty" style="grid-column:1/-1">لا توجد مشاريع مطابقة</div>'; return; }
+
+  const statusLabel = {active:'نشط',paused:'متوقف مؤقتاً',completed:'مكتمل',onhold:'مجمّد'};
+  const prioLabel    = {high:'عالية',medium:'متوسطة',low:'منخفضة'};
+
+  grid.innerHTML = filtered.map(function(p) {
+    const s = projStats(p);
+    const lastUpdateStr = p.activity && p.activity.length ? p.activity[p.activity.length-1].timeStr : '—';
+    return `<div class="proj-card" onclick="window.openProjectWorkspace('${p.id}')">
+      <div class="proj-card-top">
+        <div class="proj-icon">${p.icon||'📁'}</div>
+        <div style="flex:1;min-width:0">
+          <div class="proj-name">${sanitize(p.name)}</div>
+          <div style="font-size:0.68rem;color:var(--brown);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sanitize(p.description||'')}</div>
+        </div>
+      </div>
+      <div class="proj-status-row">
+        <span class="badge badge-status-${p.status}">${statusLabel[p.status]||p.status}</span>
+        <span class="badge badge-priority-${p.priority}">${prioLabel[p.priority]||p.priority}</span>
+      </div>
+      <div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${p.progress||0}%"></div></div>
+        <div style="font-size:0.65rem;color:var(--brown);margin-top:0.2rem">${p.progress||0}% مكتمل</div>
+      </div>
+      <div class="proj-stats-row">
+        <span>📋 <b>${s.tasksCount}</b> مهمة</span>
+        <span>📄 <b>${s.filesCount}</b> ملف</span>
+        <span>📘 <b>${s.sopsCount}</b> SOP</span>
+        <span>🧰 <b>${s.toolsCount + s.resourcesCount}</b> مورد</span>
+      </div>
+      <div class="proj-meta-row">
+        <span>👤 ${sanitize(p.responsible||'—')}</span>
+        <span>🕐 ${sanitize(lastUpdateStr)}</span>
+      </div>
+    </div>`;
+  }).join('');
+};
+
+// ── ADD / EDIT PROJECT ──
+window.openAddProjectModal = function() {
+  ['pj-name','pj-description','pj-why','pj-responsible','pj-start','pj-deadline','pj-expected'].forEach(id=>{const e=document.getElementById(id); if(e) e.value='';});
+  document.getElementById('pj-icon').value = '📁';
+  document.getElementById('pj-priority').value = 'medium';
+  document.getElementById('pj-status').value = 'active';
+  document.getElementById('pj-progress').value = '0';
+  openModal('addProjectModal');
+};
+
+window.saveProject = async function() {
+  const name = document.getElementById('pj-name').value.trim();
+  if(!name) { toast('اسم المشروع مطلوب','error'); return; }
+  const proj = blankProject({name, icon: document.getElementById('pj-icon').value.trim()||'📁', description: document.getElementById('pj-description').value.trim()});
+  proj.why            = document.getElementById('pj-why').value.trim();
+  proj.responsible    = document.getElementById('pj-responsible').value.trim();
+  proj.priority       = document.getElementById('pj-priority').value;
+  proj.status         = document.getElementById('pj-status').value;
+  proj.progress        = parseInt(document.getElementById('pj-progress').value)||0;
+  proj.startDate       = document.getElementById('pj-start').value;
+  proj.deadline        = document.getElementById('pj-deadline').value;
+  proj.expectedResults = document.getElementById('pj-expected').value.trim();
+  await addDoc_('projects', proj);
+  closeModal('addProjectModal');
+  toast('تم إنشاء المشروع ✅','success');
+};
+
+window.openEditProjectModal = function() {
+  const p = getProject(currentProjectId);
+  if(!p) return;
+  document.getElementById('epj-id').value           = p.id;
+  document.getElementById('epj-name').value          = p.name||'';
+  document.getElementById('epj-icon').value          = p.icon||'📁';
+  document.getElementById('epj-description').value   = p.description||'';
+  document.getElementById('epj-why').value           = p.why||'';
+  document.getElementById('epj-responsible').value   = p.responsible||'';
+  document.getElementById('epj-priority').value      = p.priority||'medium';
+  document.getElementById('epj-status').value        = p.status||'active';
+  document.getElementById('epj-progress').value      = p.progress||0;
+  document.getElementById('epj-start').value         = p.startDate||'';
+  document.getElementById('epj-deadline').value      = p.deadline||'';
+  document.getElementById('epj-expected').value      = p.expectedResults||'';
+  openModal('editProjectModal');
+};
+
+window.saveEditProject = async function() {
+  const id = document.getElementById('epj-id').value;
+  const name = document.getElementById('epj-name').value.trim();
+  if(!name) { toast('اسم المشروع مطلوب','error'); return; }
+  await updateDoc_('projects', id, {
+    name, icon: document.getElementById('epj-icon').value.trim()||'📁',
+    description: document.getElementById('epj-description').value.trim(),
+    why: document.getElementById('epj-why').value.trim(),
+    responsible: document.getElementById('epj-responsible').value.trim(),
+    priority: document.getElementById('epj-priority').value,
+    status: document.getElementById('epj-status').value,
+    progress: parseInt(document.getElementById('epj-progress').value)||0,
+    startDate: document.getElementById('epj-start').value,
+    deadline: document.getElementById('epj-deadline').value,
+    expectedResults: document.getElementById('epj-expected').value.trim(),
+  });
+  closeModal('editProjectModal');
+  toast('تم تحديث المشروع ✅','success');
+};
+
+window.deleteProjectFromEdit = function() {
+  const id = document.getElementById('epj-id').value;
+  const p = getProject(id);
+  closeModal('editProjectModal');
+  confirmDelete('projects', id, p?.name||'المشروع');
+};
+
+// ── WORKSPACE ──
+const PW_TABS = [
+  {key:'overview',    label:'نظرة عامة',        icon:'🏠'},
+  {key:'objectives',  label:'الأهداف',          icon:'🎯'},
+  {key:'strategy',    label:'الاستراتيجية',      icon:'🧭'},
+  {key:'sops',        label:'SOPs',              icon:'📘'},
+  {key:'tools',       label:'الأدوات',           icon:'🛠️'},
+  {key:'websites',    label:'المواقع',           icon:'🌐'},
+  {key:'freelancers', label:'الفريلانسرز',       icon:'👨‍💻'},
+  {key:'knowledge',   label:'قاعدة المعرفة',     icon:'📚'},
+  {key:'ideas',       label:'الأفكار',           icon:'💡'},
+  {key:'tasks',       label:'المهام',            icon:'✅'},
+  {key:'documents',   label:'الملفات',           icon:'📄'},
+  {key:'resources',   label:'المصادر',           icon:'📖'},
+  {key:'kpis',        label:'KPIs',              icon:'📈'},
+  {key:'budget',      label:'الميزانية',          icon:'💰'},
+  {key:'risks',       label:'المخاطر',           icon:'⚠️'},
+  {key:'competitors', label:'المنافسون',          icon:'🏁'},
+  {key:'experiments', label:'التجارب',            icon:'🧪'},
+  {key:'meetings',    label:'الاجتماعات',         icon:'🗓️'},
+  {key:'timeline',    label:'الجدول الزمني',      icon:'📅'},
+  {key:'activity',    label:'سجل النشاط',         icon:'📋'},
+];
+
+window.openProjectWorkspace = function(id) {
+  currentProjectId = id;
+  currentPwTab = 'overview';
+  showPage('project-workspace', null);
+  window.refreshWorkspace();
+};
+
+window.refreshWorkspace = function() {
+  const p = getProject(currentProjectId);
+  if(!p) return;
+  const statusLabel = {active:'نشط',paused:'متوقف مؤقتاً',completed:'مكتمل',onhold:'مجمّد'};
+  const prioLabel    = {high:'عالية',medium:'متوسطة',low:'منخفضة'};
+
+  document.getElementById('pwIcon').textContent = p.icon||'📁';
+  document.getElementById('pwName').textContent = p.name||'—';
+  document.getElementById('pwDesc').textContent  = p.description||'';
+  document.getElementById('pwStatusBadges').innerHTML =
+    `<span class="badge badge-status-${p.status}">${statusLabel[p.status]||p.status}</span> <span class="badge badge-priority-${p.priority}">${prioLabel[p.priority]||p.priority}</span>`;
+
+  // Dashboard
+  const s = projStats(p);
+  const openRisks = (p.risks||[]).filter(r=>r.status!=='مغلق').length;
+  const lastAct = p.activity && p.activity.length ? p.activity[p.activity.length-1].timeStr : '—';
+  document.getElementById('pwDashboard').innerHTML = `
+    <div class="pw-dash-card"><div class="pw-dash-val">${s.openTasks}</div><div class="pw-dash-label">مهام مفتوحة</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val" style="color:${s.overdueTasks?'var(--danger)':'var(--gold)'}">${s.overdueTasks}</div><div class="pw-dash-label">مهام متأخرة</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val">${s.sopsCount}</div><div class="pw-dash-label">SOPs</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val">${s.toolsCount}</div><div class="pw-dash-label">أدوات</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val">${s.websitesCount}</div><div class="pw-dash-label">مواقع</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val">${s.ideasCount}</div><div class="pw-dash-label">أفكار</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val">${s.filesCount}</div><div class="pw-dash-label">ملفات</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val" style="color:${openRisks?'var(--danger)':'var(--gold)'}">${openRisks}</div><div class="pw-dash-label">مشاكل حالية</div></div>
+    <div class="pw-dash-card"><div class="pw-dash-val">${p.progress||0}%</div><div class="pw-dash-label">نسبة الإنجاز</div></div>
+  `;
+
+  // Tabs
+  document.getElementById('pwTabs').innerHTML = PW_TABS.map(t =>
+    `<div class="pw-tab ${t.key===currentPwTab?'active':''}" onclick="window.pwSwitchTab('${t.key}')">${t.icon} ${t.label}</div>`
+  ).join('');
+
+  document.getElementById('pwSearch').value = '';
+  document.getElementById('pwSearchResults').style.display = 'none';
+  document.getElementById('pwBodyWrap').style.display = '';
+
+  renderPwTabContent();
+};
+
+window.pwSwitchTab = function(key) {
+  currentPwTab = key;
+  document.getElementById('pwSearch').value = '';
+  document.getElementById('pwSearchResults').style.display = 'none';
+  document.getElementById('pwBodyWrap').style.display = '';
+  document.querySelectorAll('.pw-tab').forEach(el => el.classList.remove('active'));
+  const tabEl = [...document.querySelectorAll('.pw-tab')].find(el => el.textContent.includes(PW_TABS.find(t=>t.key===key).label));
+  if(tabEl) tabEl.classList.add('active');
+  renderPwTabContent();
+};
+
+function renderPwTabContent() {
+  const p = getProject(currentProjectId);
+  if(!p) return;
+  const fn = {
+    overview: renderPwOverview, objectives: () => renderGenericSection('objectives'),
+    strategy: renderPwStrategy, sops: renderPwSops, tools: renderPwTools,
+    websites: () => renderGenericSection('websites'), freelancers: renderPwFreelancers,
+    knowledge: () => renderGenericSection('knowledge'), ideas: () => renderGenericSection('ideas'),
+    tasks: renderPwTasks, documents: () => renderGenericSection('documents'),
+    resources: () => renderGenericSection('resources'), kpis: () => renderGenericSection('kpis'),
+    budget: renderPwBudget, risks: () => renderGenericSection('risks'),
+    competitors: () => renderGenericSection('competitors'), experiments: () => renderGenericSection('experiments'),
+    meetings: () => renderGenericSection('meetings'), timeline: () => renderGenericSection('timeline'),
+    activity: renderPwActivity,
+  }[currentPwTab];
+  if(fn) fn(p);
+}
+
+// ── OVERVIEW ──
+function renderPwOverview(p) {
+  const statusLabel = {active:'نشط',paused:'متوقف مؤقتاً',completed:'مكتمل',onhold:'مجمّد'};
+  const prioLabel    = {high:'عالية',medium:'متوسطة',low:'منخفضة'};
+  document.getElementById('pwContent').innerHTML = `
+    <div class="pw-section-title">🏠 نظرة عامة <button class="btn btn-sm btn-outline" onclick="window.openEditProjectModal()">✏️ تعديل</button></div>
+    <div class="pw-overview-grid">
+      <div class="fl-info-item"><span class="fl-info-label">المسؤول</span><span class="fl-info-val">${sanitize(p.responsible||'—')}</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">الحالة</span><span class="fl-info-val">${statusLabel[p.status]||p.status}</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">الأولوية</span><span class="fl-info-val">${prioLabel[p.priority]||p.priority}</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">نسبة الإنجاز</span><span class="fl-info-val">${p.progress||0}%</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">تاريخ البداية</span><span class="fl-info-val">${sanitize(p.startDate||'—')}</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">الموعد النهائي</span><span class="fl-info-val">${sanitize(p.deadline||'—')}</span></div>
+    </div>
+    <div class="pw-strategy-field"><div class="pw-strategy-label">الوصف</div><div>${sanitize(p.description||'—')}</div></div>
+    <div class="pw-strategy-field"><div class="pw-strategy-label">لماذا هذا المشروع موجود؟</div><div>${sanitize(p.why||'—')}</div></div>
+    <div class="pw-strategy-field"><div class="pw-strategy-label">النتائج المتوقعة</div><div>${sanitize(p.expectedResults||'—')}</div></div>
+  `;
+}
+
+// ── STRATEGY (structured fields) ──
+const STRATEGY_FIELDS = [
+  {key:'vision',label:'الرؤية'},{key:'strategy',label:'الاستراتيجية'},{key:'yearlyPlan',label:'الخطة السنوية'},
+  {key:'monthlyPlan',label:'الخطة الشهرية'},{key:'weeklyPlan',label:'الخطة الأسبوعية'},{key:'phases',label:'المراحل'},
+  {key:'funnel',label:'الـ Funnel'},{key:'kpisText',label:'KPIs'},{key:'risksText',label:'المخاطر'},
+  {key:'assumptions',label:'الفرضيات'},{key:'budgetText',label:'الميزانية'},{key:'competitorsText',label:'المنافسون'},
+  {key:'opportunities',label:'الفرص'},{key:'challenges',label:'التحديات'},
+];
+function renderPwStrategy(p) {
+  const st = p.strategy||{};
+  const editing = document.getElementById('pwStrategyEditing')?.value === '1';
+  let html = `<div class="pw-section-title">🧭 الاستراتيجية <button class="btn btn-sm btn-outline" onclick="window.toggleStrategyEdit()">${editing?'👁 عرض':'✏️ تعديل'}</button></div>
+  <input type="hidden" id="pwStrategyEditing" value="${editing?'1':'0'}">`;
+  STRATEGY_FIELDS.forEach(f => {
+    if(editing) {
+      html += `<div class="pw-strategy-field"><div class="pw-strategy-label">${f.label}</div><textarea class="form-textarea" rows="2" id="strat-${f.key}">${st[f.key]||''}</textarea></div>`;
+    } else {
+      html += `<div class="pw-strategy-field"><div class="pw-strategy-label">${f.label}</div><div>${sanitize(st[f.key]||'—')}</div></div>`;
+    }
+  });
+  if(editing) html += `<button class="btn btn-gold" onclick="window.saveStrategy()">💾 حفظ الاستراتيجية</button>`;
+  document.getElementById('pwContent').innerHTML = html;
+}
+window.toggleStrategyEdit = function() {
+  const hidden = document.getElementById('pwStrategyEditing');
+  const cur = hidden ? hidden.value : '0';
+  const p = getProject(currentProjectId);
+  renderPwStrategyForced(p, cur !== '1');
+};
+function renderPwStrategyForced(p, editing) {
+  const st = p.strategy||{};
+  let html = `<div class="pw-section-title">🧭 الاستراتيجية <button class="btn btn-sm btn-outline" onclick="window.toggleStrategyEdit()">${editing?'👁 عرض':'✏️ تعديل'}</button></div>
+  <input type="hidden" id="pwStrategyEditing" value="${editing?'1':'0'}">`;
+  STRATEGY_FIELDS.forEach(f => {
+    if(editing) html += `<div class="pw-strategy-field"><div class="pw-strategy-label">${f.label}</div><textarea class="form-textarea" rows="2" id="strat-${f.key}">${st[f.key]||''}</textarea></div>`;
+    else html += `<div class="pw-strategy-field"><div class="pw-strategy-label">${f.label}</div><div>${sanitize(st[f.key]||'—')}</div></div>`;
+  });
+  if(editing) html += `<button class="btn btn-gold" onclick="window.saveStrategy()">💾 حفظ الاستراتيجية</button>`;
+  document.getElementById('pwContent').innerHTML = html;
+}
+window.saveStrategy = async function() {
+  const strategy = {};
+  STRATEGY_FIELDS.forEach(f => { strategy[f.key] = (document.getElementById('strat-'+f.key)?.value||'').trim(); });
+  await updateDoc_('projects', currentProjectId, { strategy });
+  logProjectActivity(getProject(currentProjectId), 'تم تحديث الاستراتيجية');
+  toast('تم حفظ الاستراتيجية ✅','success');
+};
+
+// ── SOPs ──
+function renderPwSops(p) {
+  const items = p.sops||[];
+  let html = `<div class="pw-section-title">📘 SOPs <button class="btn btn-sm btn-gold" onclick="window.openSopModal()">+ إضافة SOP</button></div>`;
+  if(!items.length) html += `<div class="pw-empty">لا توجد SOPs بعد</div>`;
+  else html += items.map((it,idx) => `
+    <div class="pw-list-item">
+      <div class="pw-item-head">
+        <div><div class="pw-item-title">${sanitize(it.title)}</div>
+        <div class="pw-item-meta"><span class="pw-tag">${sanitize(it.category||'عام')}</span><span>⏱ ${sanitize(it.time||'—')}</span><span>📊 ${sanitize(it.difficulty||'—')}</span><span>v${sanitize(it.version||'1.0')}</span></div></div>
+        <div class="pw-item-actions"><button class="btn btn-sm btn-outline" onclick="window.openSopModal(${idx})">✏️</button><button class="btn btn-sm btn-danger" onclick="window.deleteSop(${idx})">🗑</button></div>
+      </div>
+      ${it.steps?`<div style="font-size:0.78rem;margin-top:0.5rem;white-space:pre-line">${sanitize(it.steps)}</div>`:''}
+      ${it.notes?`<div style="font-size:0.72rem;color:var(--brown);margin-top:0.4rem">${sanitize(it.notes)}</div>`:''}
+    </div>`).join('');
+  document.getElementById('pwContent').innerHTML = html;
+}
+window.openSopModal = function(idx) {
+  const p = getProject(currentProjectId);
+  const it = idx!==undefined ? (p.sops||[])[idx] : null;
+  document.getElementById('sop-id').value = idx!==undefined ? idx : '';
+  document.getElementById('sop-title').value = it?.title||'';
+  document.getElementById('sop-category').value = it?.category||'';
+  document.getElementById('sop-difficulty').value = it?.difficulty||'سهل';
+  document.getElementById('sop-time').value = it?.time||'';
+  document.getElementById('sop-steps').value = it?.steps||'';
+  document.getElementById('sop-notes').value = it?.notes||'';
+  document.getElementById('sop-version').value = it?.version||'v1.0';
+  document.getElementById('sopModalTitle').textContent = idx!==undefined ? '✏️ تعديل SOP' : '📘 SOP جديد';
+  openModal('sopItemModal');
+};
+window.saveSopItem = async function() {
+  const title = document.getElementById('sop-title').value.trim();
+  if(!title) { toast('العنوان مطلوب','error'); return; }
+  const idxVal = document.getElementById('sop-id').value;
+  const p = getProject(currentProjectId);
+  const list = [...(p.sops||[])];
+  const item = {
+    title, category: document.getElementById('sop-category').value.trim(),
+    difficulty: document.getElementById('sop-difficulty').value,
+    time: document.getElementById('sop-time').value.trim(),
+    steps: document.getElementById('sop-steps').value.trim(),
+    notes: document.getElementById('sop-notes').value.trim(),
+    version: document.getElementById('sop-version').value.trim()||'v1.0',
+    lastUpdate: todayStr()
+  };
+  if(idxVal!=='') list[parseInt(idxVal)] = item; else list.push(item);
+  await updateDoc_('projects', p.id, { sops: list });
+  logProjectActivity(p, (idxVal!==''?'تعديل SOP: ':'إضافة SOP: ')+title);
+  closeModal('sopItemModal');
+  toast('تم حفظ الـ SOP ✅','success');
+};
+window.deleteSop = async function(idx) {
+  const p = getProject(currentProjectId);
+  const list = (p.sops||[]).filter((_,i)=>i!==idx);
+  await updateDoc_('projects', p.id, { sops: list });
+  logProjectActivity(p, 'حذف SOP');
+  toast('تم الحذف','warning');
+};
+
+// ── TOOLS ──
+function renderPwTools(p) {
+  const items = p.tools||[];
+  let html = `<div class="pw-section-title">🛠️ الأدوات <button class="btn btn-sm btn-gold" onclick="window.openToolModal()">+ إضافة أداة</button></div>`;
+  if(!items.length) html += `<div class="pw-empty">لا توجد أدوات بعد</div>`;
+  else html += `<div class="proj-grid">` + items.map((it,idx) => `
+    <div class="pw-list-item">
+      <div class="pw-item-head">
+        <div><div class="pw-item-title">${sanitize(it.name)}</div><div class="pw-item-meta"><span>${sanitize(it.price||'—')}</span></div></div>
+        <div class="pw-item-actions"><button class="btn btn-sm btn-outline" onclick="window.openToolModal(${idx})">✏️</button><button class="btn btn-sm btn-danger" onclick="window.deleteTool(${idx})">🗑</button></div>
+      </div>
+      ${it.desc?`<div style="font-size:0.75rem;margin-top:0.4rem">${sanitize(it.desc)}</div>`:''}
+      ${it.url?`<a href="${sanitize(it.url)}" target="_blank" rel="noopener" class="attach-link" style="font-size:0.72rem">🔗 ${sanitize(it.url)}</a>`:''}
+    </div>`).join('') + `</div>`;
+  document.getElementById('pwContent').innerHTML = html;
+}
+window.openToolModal = function(idx) {
+  const p = getProject(currentProjectId);
+  const it = idx!==undefined ? (p.tools||[])[idx] : null;
+  document.getElementById('tl-id').value = idx!==undefined ? idx : '';
+  document.getElementById('tl-name').value = it?.name||'';
+  document.getElementById('tl-price').value = it?.price||'';
+  document.getElementById('tl-desc').value = it?.desc||'';
+  document.getElementById('tl-why').value = it?.why||'';
+  document.getElementById('tl-url').value = it?.url||'';
+  document.getElementById('tl-alts').value = it?.alts||'';
+  document.getElementById('tl-howto').value = it?.howto||'';
+  document.getElementById('tl-account').value = it?.account||'';
+  document.getElementById('tl-hint').value = it?.hint||'';
+  document.getElementById('tl-notes').value = it?.notes||'';
+  document.getElementById('toolModalTitle').textContent = idx!==undefined ? '✏️ تعديل أداة' : '🛠️ أداة جديدة';
+  openModal('toolItemModal');
+};
+window.saveToolItem = async function() {
+  const name = document.getElementById('tl-name').value.trim();
+  if(!name) { toast('اسم الأداة مطلوب','error'); return; }
+  const idxVal = document.getElementById('tl-id').value;
+  const p = getProject(currentProjectId);
+  const list = [...(p.tools||[])];
+  const item = {
+    name, price: document.getElementById('tl-price').value.trim(), desc: document.getElementById('tl-desc').value.trim(),
+    why: document.getElementById('tl-why').value.trim(), url: document.getElementById('tl-url').value.trim(),
+    alts: document.getElementById('tl-alts').value.trim(), howto: document.getElementById('tl-howto').value.trim(),
+    account: document.getElementById('tl-account').value.trim(), hint: document.getElementById('tl-hint').value.trim(),
+    notes: document.getElementById('tl-notes').value.trim(),
+  };
+  if(idxVal!=='') list[parseInt(idxVal)] = item; else list.push(item);
+  await updateDoc_('projects', p.id, { tools: list });
+  logProjectActivity(p, (idxVal!==''?'تعديل أداة: ':'إضافة أداة: ')+name);
+  closeModal('toolItemModal');
+  toast('تم حفظ الأداة ✅','success');
+};
+window.deleteTool = async function(idx) {
+  const p = getProject(currentProjectId);
+  const list = (p.tools||[]).filter((_,i)=>i!==idx);
+  await updateDoc_('projects', p.id, { tools: list });
+  logProjectActivity(p, 'حذف أداة');
+  toast('تم الحذف','warning');
+};
+
+// ── ASSIGNED FREELANCERS ──
+function renderPwFreelancers(p) {
+  const assigned = p.assignedFreelancers||[];
+  let html = `<div class="pw-section-title">👨‍💻 الفريلانسرز المرتبطون <button class="btn btn-sm btn-gold" onclick="window.openAssignFreelancerModal()">+ Assign Freelancer</button></div>`;
+  if(!assigned.length) html += `<div class="pw-empty">لا يوجد فريلانسرز مرتبطين بعد</div>`;
+  else html += assigned.map(function(a) {
+    const f = (state.freelancers||[]).find(x=>x.id===a.freelancerId);
+    if(!f) return `<div class="pw-list-item"><div class="pw-item-title">فريلانسر محذوف من النظام</div><button class="btn btn-sm btn-danger" onclick="window.unassignFreelancer('${a.freelancerId}')">إزالة الربط</button></div>`;
+    const tasksForF = (p.tasks||[]).filter(t=>t.assignee===a.freelancerId);
+    const doneCount = tasksForF.filter(t=>t.status==='done').length;
+    const pct = tasksForF.length ? Math.round(doneCount/tasksForF.length*100) : 0;
+    const statusLabel = {active:'نشط',completed:'منتهي',cancelled:'ملغي'};
+    return `<div class="pw-list-item">
+      <div class="pw-item-head">
+        <div style="display:flex;gap:0.6rem;align-items:center">
+          <div class="fl-mini-avatar">${flInitials(f.name)}</div>
+          <div>
+            <div class="pw-item-title">${sanitize(f.name)}</div>
+            <div class="pw-item-meta"><span>${sanitize(f.specialty||'—')}</span><span class="badge ${f.status==='active'?'badge-active':'badge-fl-cancelled'}" style="font-size:0.6rem">${statusLabel[f.status]||f.status}</span></div>
+          </div>
+        </div>
+        <div class="pw-item-actions">
+          <button class="btn btn-sm btn-outline" onclick="showPage('freelancers',null);setTimeout(()=>window.openFreelancerDetail('${f.id}'),100)">↗ عرض</button>
+          <button class="btn btn-sm btn-danger" onclick="window.unassignFreelancer('${a.freelancerId}')">✕ Unassign</button>
+        </div>
+      </div>
+      <div class="pw-item-meta" style="margin-top:0.4rem">
+        <span>🏷️ الدور: ${sanitize(a.role||'—')}</span>
+        <span>📅 انضم: ${sanitize(a.joinedDate||'—')}</span>
+        <span>📋 ${tasksForF.length} مهمة (${pct}% مكتملة)</span>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('pwContent').innerHTML = html;
+}
+window.openAssignFreelancerModal = function() {
+  const p = getProject(currentProjectId);
+  const assignedIds = (p.assignedFreelancers||[]).map(a=>a.freelancerId);
+  const available = (state.freelancers||[]).filter(f=>!assignedIds.includes(f.id));
+  const sel = document.getElementById('af-freelancer-id');
+  sel.innerHTML = '<option value="">— اختر —</option>' + available.map(f=>`<option value="${f.id}">${sanitize(f.name)} — ${sanitize(f.specialty||'')}</option>`).join('');
+  document.getElementById('af-role').value = '';
+  openModal('assignFreelancerModal');
+};
+window.saveAssignFreelancer = async function() {
+  const fid = document.getElementById('af-freelancer-id').value;
+  if(!fid) { toast('اختر فريلانسر','error'); return; }
+  const role = document.getElementById('af-role').value.trim();
+  const p = getProject(currentProjectId);
+  const list = [...(p.assignedFreelancers||[]), {freelancerId:fid, role, joinedDate: todayStr()}];
+  await updateDoc_('projects', p.id, { assignedFreelancers: list });
+  const f = (state.freelancers||[]).find(x=>x.id===fid);
+  logProjectActivity(p, 'ربط فريلانسر: ' + (f?.name||fid));
+  closeModal('assignFreelancerModal');
+  toast('تم ربط الفريلانسر بالمشروع ✅','success');
+};
+window.unassignFreelancer = async function(fid) {
+  const p = getProject(currentProjectId);
+  const list = (p.assignedFreelancers||[]).filter(a=>a.freelancerId!==fid);
+  await updateDoc_('projects', p.id, { assignedFreelancers: list });
+  logProjectActivity(p, 'إزالة ربط فريلانسر');
+  toast('تم إزالة الربط','warning');
+};
+
+// ── TASKS ──
+function renderPwTasks(p) {
+  const items = p.tasks||[];
+  const cols = [{key:'todo',label:'قيد الانتظار'},{key:'inprogress',label:'قيد التنفيذ'},{key:'done',label:'مكتمل'}];
+  const prioLabel = {high:'عالية',medium:'متوسطة',low:'منخفضة'};
+  let html = `<div class="pw-section-title">✅ المهام <button class="btn btn-sm btn-gold" onclick="window.openTaskModal()">+ مهمة جديدة</button></div>`;
+  html += `<div class="kanban" style="grid-template-columns:repeat(3,1fr)">`;
+  cols.forEach(col => {
+    const colItems = items.map((t,idx)=>({...t,_idx:idx})).filter(t=>t.status===col.key);
+    html += `<div class="kanban-col"><div style="font-weight:700;font-size:0.8rem;margin-bottom:0.5rem;display:flex;justify-content:space-between">${col.label} <span>${colItems.length}</span></div>`;
+    if(!colItems.length) html += `<div style="font-size:0.7rem;color:var(--brown);opacity:0.5;text-align:center;padding:1rem">فارغ</div>`;
+    colItems.forEach(t => {
+      const f = t.assignee ? (state.freelancers||[]).find(x=>x.id===t.assignee) : null;
+      const isLate = t.status!=='done' && t.deadline && t.deadline < todayStr();
+      html += `<div class="kanban-card" onclick="window.openTaskModal(${t._idx})">
+        <div class="k-name">${sanitize(t.title)}</div>
+        <div style="display:flex;gap:0.3rem;margin:0.3rem 0;flex-wrap:wrap">
+          <span class="badge badge-priority-${t.priority}" style="font-size:0.6rem">${prioLabel[t.priority]||t.priority}</span>
+          ${isLate?'<span class="badge badge-late" style="font-size:0.6rem">متأخر</span>':''}
+        </div>
+        ${t.deadline?`<div style="font-size:0.65rem;color:var(--brown)">📅 ${sanitize(t.deadline)}</div>`:''}
+        ${f?`<div style="font-size:0.65rem;color:var(--brown)">👤 ${sanitize(f.name)}</div>`:''}
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  html += `</div>`;
+  document.getElementById('pwContent').innerHTML = html;
+}
+window.openTaskModal = function(idx) {
+  const p = getProject(currentProjectId);
+  const it = idx!==undefined ? (p.tasks||[])[idx] : null;
+  const assignedFreelancers = (p.assignedFreelancers||[]).map(a => (state.freelancers||[]).find(f=>f.id===a.freelancerId)).filter(Boolean);
+  const sel = document.getElementById('tk-assignee');
+  sel.innerHTML = '<option value="">— بدون —</option>' + assignedFreelancers.map(f=>`<option value="${f.id}">${sanitize(f.name)}</option>`).join('');
+  document.getElementById('tk-id').value = idx!==undefined ? idx : '';
+  document.getElementById('tk-title').value = it?.title||'';
+  document.getElementById('tk-priority').value = it?.priority||'medium';
+  document.getElementById('tk-status').value = it?.status||'todo';
+  document.getElementById('tk-deadline').value = it?.deadline||'';
+  sel.value = it?.assignee||'';
+  document.getElementById('tk-estimate').value = it?.estimate||'';
+  document.getElementById('tk-actual').value = it?.actual||'';
+  document.getElementById('tk-subtasks').value = (it?.subtasks||[]).map(s=>s.text).join('\n');
+  document.getElementById('tk-deps').value = (it?.dependencies||[]).join(', ');
+  document.getElementById('tk-notes').value = it?.notes||'';
+  document.getElementById('taskModalTitle').textContent = idx!==undefined ? '✏️ تعديل مهمة' : '✅ مهمة جديدة';
+  openModal('taskItemModal');
+};
+window.saveTaskItem = async function() {
+  const title = document.getElementById('tk-title').value.trim();
+  if(!title) { toast('عنوان المهمة مطلوب','error'); return; }
+  const idxVal = document.getElementById('tk-id').value;
+  const p = getProject(currentProjectId);
+  const list = [...(p.tasks||[])];
+  const subtasksRaw = document.getElementById('tk-subtasks').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const oldSubtasks = idxVal!=='' ? (list[parseInt(idxVal)]?.subtasks||[]) : [];
+  const subtasks = subtasksRaw.map(text => { const existing = oldSubtasks.find(s=>s.text===text); return {text, done: existing?existing.done:false}; });
+  const item = {
+    title, priority: document.getElementById('tk-priority').value, status: document.getElementById('tk-status').value,
+    deadline: document.getElementById('tk-deadline').value, assignee: document.getElementById('tk-assignee').value,
+    estimate: parseFloat(document.getElementById('tk-estimate').value)||0, actual: parseFloat(document.getElementById('tk-actual').value)||0,
+    subtasks, dependencies: document.getElementById('tk-deps').value.split(',').map(s=>s.trim()).filter(Boolean),
+    notes: document.getElementById('tk-notes').value.trim(),
+  };
+  if(idxVal!=='') list[parseInt(idxVal)] = item; else list.push(item);
+  await updateDoc_('projects', p.id, { tasks: list });
+  logProjectActivity(p, (idxVal!==''?'تعديل مهمة: ':'إضافة مهمة: ')+title);
+  closeModal('taskItemModal');
+  toast('تم حفظ المهمة ✅','success');
+};
+window.deleteTaskItem = async function(idx) {
+  const p = getProject(currentProjectId);
+  const list = (p.tasks||[]).filter((_,i)=>i!==idx);
+  await updateDoc_('projects', p.id, { tasks: list });
+  logProjectActivity(p, 'حذف مهمة');
+  toast('تم الحذف','warning');
+};
+
+// ── BUDGET ──
+function renderPwBudget(p) {
+  const b = p.budget||{allocated:0,spent:0,toolsCost:0,freelancersCost:0,adsCost:0};
+  const remaining = (parseFloat(b.allocated)||0) - (parseFloat(b.spent)||0);
+  document.getElementById('pwContent').innerHTML = `
+    <div class="pw-section-title">💰 الميزانية</div>
+    <div class="stats-grid" style="margin-bottom:1rem">
+      <div class="stat-card"><div class="stat-label">الميزانية المخصصة</div><div class="stat-value">${b.allocated||0}</div></div>
+      <div class="stat-card"><div class="stat-label">المصروف</div><div class="stat-value" style="color:var(--danger)">${b.spent||0}</div></div>
+      <div class="stat-card"><div class="stat-label">المتبقي</div><div class="stat-value" style="color:var(--success)">${remaining.toFixed(0)}</div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">الميزانية المخصصة</div><input class="form-input" id="bg-allocated" type="number" value="${b.allocated||0}"></div>
+      <div class="form-group"><div class="form-label">المصروف</div><input class="form-input" id="bg-spent" type="number" value="${b.spent||0}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">تكلفة الأدوات</div><input class="form-input" id="bg-tools" type="number" value="${b.toolsCost||0}"></div>
+      <div class="form-group"><div class="form-label">تكلفة الفريلانسرز</div><input class="form-input" id="bg-freelancers" type="number" value="${b.freelancersCost||0}"></div>
+    </div>
+    <div class="form-group"><div class="form-label">تكلفة الإعلانات</div><input class="form-input" id="bg-ads" type="number" value="${b.adsCost||0}"></div>
+    <button class="btn btn-gold" onclick="window.saveBudget()">💾 حفظ الميزانية</button>
+  `;
+}
+window.saveBudget = async function() {
+  const p = getProject(currentProjectId);
+  const budget = {
+    allocated: parseFloat(document.getElementById('bg-allocated').value)||0,
+    spent: parseFloat(document.getElementById('bg-spent').value)||0,
+    toolsCost: parseFloat(document.getElementById('bg-tools').value)||0,
+    freelancersCost: parseFloat(document.getElementById('bg-freelancers').value)||0,
+    adsCost: parseFloat(document.getElementById('bg-ads').value)||0,
+  };
+  await updateDoc_('projects', p.id, { budget });
+  logProjectActivity(p, 'تحديث الميزانية');
+  toast('تم حفظ الميزانية ✅','success');
+};
+
+// ── ACTIVITY ──
+function renderPwActivity(p) {
+  const items = [...(p.activity||[])].reverse();
+  let html = `<div class="pw-section-title">📋 سجل النشاط</div>`;
+  if(!items.length) html += `<div class="pw-empty">لا يوجد نشاط مسجل بعد</div>`;
+  else html += items.map(a => `<div class="log-item"><div class="log-icon">📌</div><div class="log-body"><div class="log-detail">${sanitize(a.text)}</div></div><div class="log-time">${sanitize(a.timeStr)}</div></div>`).join('');
+  document.getElementById('pwContent').innerHTML = html;
+}
+
+// ══════════════════════════════
+// GENERIC LIST-SECTION ENGINE
+// (Objectives, Websites, Resources, Documents, Ideas, Risks, Competitors, Experiments, Meetings, Timeline, KPIs, Knowledge)
+// ══════════════════════════════
+const GENERIC_SECTIONS = {
+  objectives: { icon:'🎯', label:'الأهداف', titleField:'title',
+    fields:[
+      {key:'title',label:'الهدف',type:'text',required:true},
+      {key:'progress',label:'نسبة الإنجاز %',type:'number'},
+      {key:'deadline',label:'الموعد النهائي',type:'date'},
+      {key:'owner',label:'المسؤول',type:'text'},
+      {key:'status',label:'الحالة',type:'select',options:['قيد التنفيذ','مكتمل','متأخر']},
+      {key:'notes',label:'ملاحظات',type:'textarea'},
+    ],
+    meta:(it)=>[it.owner?('👤 '+it.owner):'', it.deadline?('📅 '+it.deadline):'', it.status?('🔖 '+it.status):'', (it.progress!==undefined?('📊 '+it.progress+'%'):'')].filter(Boolean)
+  },
+  websites: { icon:'🌐', label:'المواقع', titleField:'name',
+    fields:[{key:'name',label:'اسم الموقع',type:'text',required:true},{key:'url',label:'الرابط',type:'text'},{key:'notes',label:'ملاحظات',type:'textarea'}],
+    meta:(it)=>[it.url?('🔗 '+it.url):''].filter(Boolean)
+  },
+  resources: { icon:'📖', label:'المصادر', titleField:'title',
+    fields:[
+      {key:'type',label:'النوع',type:'select',options:['كتاب','قناة يوتيوب','بودكاست','مقال','أداة','بحث','Template']},
+      {key:'title',label:'العنوان',type:'text',required:true},
+      {key:'url',label:'الرابط',type:'text'},
+      {key:'notes',label:'ملاحظات',type:'textarea'},
+    ],
+    meta:(it)=>[it.type?('🏷️ '+it.type):'', it.url?('🔗 '+it.url):''].filter(Boolean)
+  },
+  documents: { icon:'📄', label:'الملفات', titleField:'name',
+    fields:[
+      {key:'name',label:'اسم الملف',type:'text',required:true},
+      {key:'type',label:'النوع',type:'select',options:['PDF','DOCX','Excel','صورة','فيديو','رابط','مجلد']},
+      {key:'url',label:'الرابط',type:'text'},
+    ],
+    meta:(it)=>[it.type?('🏷️ '+it.type):''].filter(Boolean)
+  },
+  ideas: { icon:'💡', label:'الأفكار', titleField:'title',
+    fields:[
+      {key:'title',label:'الفكرة',type:'text',required:true},
+      {key:'priority',label:'الأولوية',type:'select',options:['عالية','متوسطة','منخفضة']},
+      {key:'impact',label:'التأثير',type:'select',options:['عالي','متوسط','منخفض']},
+      {key:'easiness',label:'سهولة التنفيذ',type:'select',options:['سهل','متوسط','صعب']},
+      {key:'status',label:'الحالة',type:'select',options:['جديدة','قيد الدراسة','مقبولة','مرفوضة']},
+      {key:'votes',label:'Votes',type:'number'},
+      {key:'notes',label:'ملاحظات',type:'textarea'},
+    ],
+    meta:(it)=>[it.priority?('⭐ '+it.priority):'', it.status?('🔖 '+it.status):'', (it.votes?('👍 '+it.votes):'')].filter(Boolean)
+  },
+  risks: { icon:'⚠️', label:'المخاطر', titleField:'description',
+    fields:[
+      {key:'description',label:'الوصف',type:'textarea',required:true},
+      {key:'probability',label:'الاحتمالية',type:'select',options:['عالية','متوسطة','منخفضة']},
+      {key:'impact',label:'التأثير',type:'select',options:['عالي','متوسط','منخفض']},
+      {key:'solution',label:'الحل',type:'textarea'},
+      {key:'status',label:'الحالة',type:'select',options:['مفتوح','تحت المعالجة','مغلق']},
+    ],
+    meta:(it)=>[it.probability?('احتمالية: '+it.probability):'', it.impact?('تأثير: '+it.impact):'', it.status?('🔖 '+it.status):''].filter(Boolean)
+  },
+  competitors: { icon:'🏁', label:'المنافسون', titleField:'name',
+    fields:[
+      {key:'name',label:'الاسم',type:'text',required:true},{key:'url',label:'الرابط',type:'text'},
+      {key:'strengths',label:'نقاط القوة',type:'textarea'},{key:'weaknesses',label:'نقاط الضعف',type:'textarea'},
+      {key:'lastAnalysis',label:'آخر تحليل',type:'date'},
+    ],
+    meta:(it)=>[it.lastAnalysis?('📅 '+it.lastAnalysis):''].filter(Boolean)
+  },
+  experiments: { icon:'🧪', label:'التجارب', titleField:'title',
+    fields:[
+      {key:'title',label:'التجربة',type:'text',required:true},{key:'description',label:'الوصف',type:'textarea'},
+      {key:'result',label:'النتيجة',type:'textarea'},{key:'success',label:'الحالة',type:'select',options:['ناجحة','فاشلة','قيد التنفيذ']},
+      {key:'recommendations',label:'التوصيات',type:'textarea'},
+    ],
+    meta:(it)=>[it.success?('🔖 '+it.success):''].filter(Boolean)
+  },
+  meetings: { icon:'🗓️', label:'الاجتماعات', titleField:'summary',
+    fields:[
+      {key:'date',label:'التاريخ',type:'date',required:true},{key:'summary',label:'ملخص الاجتماع',type:'textarea'},
+      {key:'decisions',label:'القرارات',type:'textarea'},{key:'actions',label:'الإجراءات',type:'textarea'},
+      {key:'responsible',label:'المسؤول',type:'text'},
+    ],
+    meta:(it)=>[it.date?('📅 '+it.date):'', it.responsible?('👤 '+it.responsible):''].filter(Boolean)
+  },
+  timeline: { icon:'📅', label:'الجدول الزمني', titleField:'title',
+    fields:[
+      {key:'title',label:'العنوان',type:'text',required:true},{key:'date',label:'التاريخ',type:'date'},
+      {key:'type',label:'النوع',type:'select',options:['milestone','deadline']},
+      {key:'completed',label:'مكتمل؟',type:'select',options:['لا','نعم']},
+    ],
+    meta:(it)=>[it.date?('📅 '+it.date):'', it.type?('🏷️ '+it.type):'', it.completed==='نعم'?'✅ مكتمل':'⏳ قيد الانتظار'].filter(Boolean)
+  },
+  kpis: { icon:'📈', label:'KPIs', titleField:'name',
+    fields:[
+      {key:'name',label:'المؤشر',type:'text',required:true},{key:'value',label:'القيمة الحالية',type:'number'},
+      {key:'target',label:'الهدف',type:'number'},{key:'unit',label:'الوحدة',type:'text'},
+    ],
+    meta:(it)=>[`${it.value||0} / ${it.target||0} ${it.unit||''}`]
+  },
+  knowledge: { icon:'📚', label:'قاعدة المعرفة', titleField:'title',
+    fields:[
+      {key:'type',label:'النوع',type:'select',options:['مقال','فكرة','ملخص كتاب','ملخص كورس','بحث','رابط','درس','ملاحظة']},
+      {key:'title',label:'العنوان',type:'text',required:true},
+      {key:'content',label:'المحتوى',type:'textarea'},
+      {key:'tags',label:'Tags (مفصولة بفاصلة)',type:'text'},
+    ],
+    meta:(it)=>[it.type?('🏷️ '+it.type):'']
+  },
+};
+
+function renderGenericSection(sectionKey) {
+  const p = getProject(currentProjectId);
+  const cfg = GENERIC_SECTIONS[sectionKey];
+  const items = p[sectionKey]||[];
+  let html = `<div class="pw-section-title">${cfg.icon} ${cfg.label} <button class="btn btn-sm btn-gold" onclick="window.openGenericItemModal('${sectionKey}')">+ إضافة</button></div>`;
+  if(!items.length) html += `<div class="pw-empty">لا توجد عناصر بعد</div>`;
+  else html += items.map(function(it, idx) {
+    const title = it[cfg.titleField] || '—';
+    const metaArr = cfg.meta(it);
+    const tagsHtml = it.tags ? it.tags.split(',').map(t=>t.trim()).filter(Boolean).map(t=>`<span class="pw-tag">${sanitize(t)}</span>`).join('') : '';
+    return `<div class="pw-list-item">
+      <div class="pw-item-head">
+        <div><div class="pw-item-title">${sanitize(String(title).slice(0,120))}</div>
+        <div class="pw-item-meta">${metaArr.map(m=>`<span>${sanitize(String(m))}</span>`).join('')}${tagsHtml}</div></div>
+        <div class="pw-item-actions"><button class="btn btn-sm btn-outline" onclick="window.openGenericItemModal('${sectionKey}',${idx})">✏️</button><button class="btn btn-sm btn-danger" onclick="window.deleteGenericItem('${sectionKey}',${idx})">🗑</button></div>
+      </div>
+      ${it.notes?`<div style="font-size:0.72rem;color:var(--brown);margin-top:0.4rem">${sanitize(it.notes)}</div>`:''}
+      ${it.content?`<div style="font-size:0.75rem;margin-top:0.4rem;white-space:pre-line">${sanitize(it.content)}</div>`:''}
+    </div>`;
+  }).join('');
+  document.getElementById('pwContent').innerHTML = html;
+}
+
+window.openGenericItemModal = function(sectionKey, idx) {
+  const cfg = GENERIC_SECTIONS[sectionKey];
+  const p = getProject(currentProjectId);
+  const it = idx!==undefined ? (p[sectionKey]||[])[idx] : null;
+  _giContext = {section: sectionKey, idx: idx};
+  document.getElementById('giModalTitle').textContent = (idx!==undefined?'✏️ تعديل — ':'+ إضافة — ') + cfg.label;
+  let bodyHtml = '';
+  cfg.fields.forEach(f => {
+    const val = it ? (it[f.key]!==undefined?it[f.key]:'') : '';
+    if(f.type==='textarea') {
+      bodyHtml += `<div class="form-group"><div class="form-label">${f.label}</div><textarea class="form-textarea" id="gi-${f.key}" rows="2">${val}</textarea></div>`;
+    } else if(f.type==='select') {
+      bodyHtml += `<div class="form-group"><div class="form-label">${f.label}</div><select class="form-select" id="gi-${f.key}">${f.options.map(o=>`<option value="${o}" ${val===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
+    } else {
+      bodyHtml += `<div class="form-group"><div class="form-label">${f.label}</div><input class="form-input" id="gi-${f.key}" type="${f.type}" value="${String(val).replace(/"/g,'&quot;')}"></div>`;
+    }
+  });
+  document.getElementById('giModalBody').innerHTML = bodyHtml;
+  openModal('genericItemModal');
+};
+
+window.saveGenericItem = async function() {
+  if(!_giContext) return;
+  const { section, idx } = _giContext;
+  const cfg = GENERIC_SECTIONS[section];
+  const item = {};
+  let missingRequired = false;
+  cfg.fields.forEach(f => {
+    const el = document.getElementById('gi-'+f.key);
+    const val = el ? el.value.trim() : '';
+    if(f.required && !val) missingRequired = true;
+    item[f.key] = f.type==='number' ? (parseFloat(val)||0) : val;
+  });
+  if(missingRequired) { toast('يرجى تعبئة الحقول المطلوبة','error'); return; }
+  const p = getProject(currentProjectId);
+  const list = [...(p[section]||[])];
+  if(idx!==undefined) list[idx] = item; else list.push(item);
+  await updateDoc_('projects', p.id, { [section]: list });
+  logProjectActivity(p, (idx!==undefined?'تعديل عنصر في '+cfg.label:'إضافة عنصر في '+cfg.label));
+  closeModal('genericItemModal');
+  toast('تم الحفظ ✅','success');
+};
+
+window.deleteGenericItem = async function(sectionKey, idx) {
+  const p = getProject(currentProjectId);
+  const list = (p[sectionKey]||[]).filter((_,i)=>i!==idx);
+  await updateDoc_('projects', p.id, { [sectionKey]: list });
+  logProjectActivity(p, 'حذف عنصر من ' + (GENERIC_SECTIONS[sectionKey]?.label||sectionKey));
+  toast('تم الحذف','warning');
+};
+
+// ── PROJECT-WIDE SEARCH ──
+window.renderProjectSearch = function() {
+  const q = (document.getElementById('pwSearch').value||'').trim().toLowerCase();
+  const resultsEl = document.getElementById('pwSearchResults');
+  if(!q) { resultsEl.style.display='none'; document.getElementById('pwBodyWrap').style.display=''; return; }
+  document.getElementById('pwBodyWrap').style.display = 'none';
+  resultsEl.style.display = '';
+  const p = getProject(currentProjectId);
+  const groups = [
+    {key:'tasks', label:'المهام', icon:'✅', items:(p.tasks||[]).map((it,i)=>({title:it.title,idx:i}))},
+    {key:'sops', label:'SOPs', icon:'📘', items:(p.sops||[]).map((it,i)=>({title:it.title,idx:i}))},
+    {key:'documents', label:'الملفات', icon:'📄', items:(p.documents||[]).map((it,i)=>({title:it.name,idx:i}))},
+    {key:'knowledge', label:'قاعدة المعرفة', icon:'📚', items:(p.knowledge||[]).map((it,i)=>({title:it.title,idx:i}))},
+    {key:'ideas', label:'الأفكار', icon:'💡', items:(p.ideas||[]).map((it,i)=>({title:it.title,idx:i}))},
+    {key:'tools', label:'الأدوات', icon:'🛠️', items:(p.tools||[]).map((it,i)=>({title:it.name,idx:i}))},
+    {key:'resources', label:'المصادر', icon:'📖', items:(p.resources||[]).map((it,i)=>({title:it.title,idx:i}))},
+  ];
+  let html = '';
+  groups.forEach(g => {
+    const matches = g.items.filter(it => (it.title||'').toLowerCase().includes(q));
+    if(matches.length) {
+      html += `<div style="font-size:0.75rem;font-weight:700;color:var(--gold);margin:0.6rem 0 0.3rem">${g.icon} ${g.label}</div>`;
+      html += matches.map(m => `<div class="pw-list-item" style="cursor:pointer" onclick="window.pwSwitchTab('${g.key}')">${sanitize(m.title||'—')}</div>`).join('');
+    }
+  });
+  resultsEl.innerHTML = html || `<div class="pw-empty">لا نتائج مطابقة</div>`;
+};
 
 </script>
 </body>
