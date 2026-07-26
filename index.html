@@ -2137,6 +2137,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-row"><div class="form-group"><div class="form-label">منطقة التوصيل</div><select class="form-select" id="o-region"><option value="">اختر المنطقة</option></select></div><div class="form-group"><div class="form-label">تكلفة التوصيل</div><input class="form-input" id="o-delivery" type="number" placeholder="0" oninput="calcOrderTotal()"></div></div>
       <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="o-notes" placeholder="ملاحظات خاصة..."></textarea></div>
       <input type="hidden" id="o-edit-id">
+      <div id="invImpactPreview" style="display:none;background:rgba(191,158,96,0.08);border:1px solid rgba(191,158,96,0.25);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--dark);margin-top:0.5rem"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addOrderModal')">إلغاء</button><button class="btn btn-primary" id="o-submit-btn" onclick="addOrder()">✅ إضافة الطلب</button></div>
   </div>
@@ -2830,7 +2831,17 @@ function populateSelects() {
 
 // ── ORDERS ──
 
-window.updateOrderStatus = async (id, status) => { await updateDoc_('orders', id, { status }); const labels = {pending:'قيد الانتظار',processing:'قيد التجهيز',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغي'}; toast('تم تحديث الحالة إلى: '+(labels[status]||status)+' ✅','success'); };
+window.updateOrderStatus = async (id, status) => {
+  const order = state.orders.find(o=>o.id===id);
+  await updateDoc_('orders', id, { status });
+  if(status === 'cancelled' && order && order.status !== 'cancelled' && !order.inventoryRestored) {
+    await restoreInventoryForOrder(order);
+    await updateDoc_('orders', id, { inventoryRestored: true });
+    toast('↩️ تم إرجاع مواد التغليف للمخزون','success');
+  }
+  const labels = {pending:'قيد الانتظار',processing:'قيد التجهيز',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغي'};
+  toast('تم تحديث الحالة إلى: '+(labels[status]||status)+' ✅','success');
+};
 window.deleteOrder = (id) => { const o=state.orders.find(x=>x.id===id); confirmDelete('orders',id,o?.name||'الطلب'); };
 
 function renderOrders() {
@@ -3647,17 +3658,24 @@ window.saveEditOrder = async function() {
   let product = productEl.options[productEl.selectedIndex]?.text||'';
   if(product==='اختر المنتج') product='';
   let dateVal = document.getElementById('eo-date').value;
+  const newStatus = document.getElementById('eo-status').value;
+  const order = state.orders.find(o=>o.id===id);
   await updateDoc_('orders', id, {
     name, phone,
     product,
     price: parseFloat(document.getElementById('eo-price').value)||0,
     qty: parseInt(document.getElementById('eo-qty').value)||1,
     region: document.getElementById('eo-region').value,
-    status: document.getElementById('eo-status').value,
+    status: newStatus,
     notes: document.getElementById('eo-notes').value,
     dateRaw: dateVal,
     date: dateVal ? new Date(dateVal).toLocaleDateString('ar') : ''
   });
+  if(newStatus === 'cancelled' && order && order.status !== 'cancelled' && !order.inventoryRestored) {
+    await restoreInventoryForOrder(order);
+    await updateDoc_('orders', id, { inventoryRestored: true });
+    toast('↩️ تم إرجاع مواد التغليف للمخزون','success');
+  }
   closeModal('editOrderModal');
   toast('تم تحديث الطلب ✅', 'success');
 };
@@ -3763,9 +3781,78 @@ window.calcOrderTotal = function() {
   total += delivery;
   let display = document.getElementById('o-total-display');
   if(display) display.textContent = total.toFixed(0);
+  updateInventoryImpactPreview();
 };
 
-// ── OVERRIDE addOrder to support multiple products ──
+// ── INVENTORY IMPACT PREVIEW ──
+function updateInventoryImpactPreview() {
+  const el = document.getElementById('invImpactPreview');
+  if(!el) return;
+  let totalBoxes = 0;
+  document.querySelectorAll('.order-product-row').forEach(function(row) {
+    const sel = row.querySelector('select');
+    const inputs = row.querySelectorAll('input');
+    const hasProduct = sel && sel.value && sel.options[sel.selectedIndex]?.text !== 'اختر المنتج';
+    if(hasProduct) totalBoxes += parseInt(inputs[0]?.value)||1;
+  });
+  if(totalBoxes <= 0) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.innerHTML = `📦 سيتم خصم من المخزون: <strong>${totalBoxes} بوكس</strong>، <strong>${totalBoxes} ستيكر</strong>، <strong>${totalBoxes} كيس</strong>`;
+}
+
+// ── INVENTORY ↔ ORDERS LINKING ──
+let _packagingSeeded = false;
+function seedDefaultPackagingIfEmpty() {
+  if(_packagingSeeded) return;
+  if((state.inventory||[]).length > 0) { _packagingSeeded = true; return; }
+  _packagingSeeded = true;
+  [
+    {name:'بوكسات فارغة', qty:0, min:10, cost:0},
+    {name:'ستيكرات',      qty:0, min:10, cost:0},
+    {name:'أكياس',        qty:0, min:10, cost:0},
+  ].forEach(function(it){ addDoc_('inventory', it); });
+}
+
+function findInventoryItemByKeywords(keywords) {
+  return (state.inventory||[]).find(function(i) {
+    const n = (i.name||'').toLowerCase();
+    return keywords.some(function(k){ return n.includes(k); });
+  });
+}
+
+async function deductInventoryForOrder(totalBoxes) {
+  if(!totalBoxes || totalBoxes <= 0) return [];
+  const targets = [
+    { keywords:['بوكس','box'],           label:'البوكسات' },
+    { keywords:['ستيكر','sticker'],      label:'الستيكرات' },
+    { keywords:['كيس','أكياس','bag'],    label:'الأكياس' },
+  ];
+  const deducted = [];
+  for(const t of targets) {
+    const item = findInventoryItemByKeywords(t.keywords);
+    if(!item) continue;
+    const newQty = (parseFloat(item.qty)||0) - totalBoxes;
+    await updateDoc_('inventory', item.id, { qty: newQty });
+    deducted.push({ itemId: item.id, amount: totalBoxes });
+    if(newQty <= (parseFloat(item.min)||0)) {
+      toast('⚠️ ' + t.label + ' أصبحت ' + newQty + ' فقط', 'warning');
+    }
+  }
+  return deducted;
+}
+
+async function restoreInventoryForOrder(order) {
+  const deducted = order.inventoryDeducted || [];
+  if(!deducted.length) return;
+  for(const d of deducted) {
+    const item = (state.inventory||[]).find(function(i){ return i.id === d.itemId; });
+    if(!item) continue;
+    const newQty = (parseFloat(item.qty)||0) + (parseFloat(d.amount)||0);
+    await updateDoc_('inventory', item.id, { qty: newQty });
+  }
+}
+
+
 window.addOrder = async function() {
   let name = document.getElementById('o-name').value.trim();
   let phone = document.getElementById('o-phone').value.trim();
@@ -3798,7 +3885,7 @@ window.addOrder = async function() {
   // Build product summary string
   const productSummary = products.length ? products.map(function(p){ return p.name+(p.qty>1?' x'+p.qty:''); }).join(' + ') : '—';
   
-  await addDoc_('orders', {
+  const orderData = {
     name, phone,
     product: productSummary,
     products: products,
@@ -3807,7 +3894,14 @@ window.addOrder = async function() {
     region, delivery, notes, status, date,
     dateRaw: dateVal || new Date().toISOString().split('T')[0],
     customFlavors: _customSelectedFlavors.length ? [..._customSelectedFlavors] : []
-  });
+  };
+
+  // Deduct packaging inventory (boxes/stickers/bags) based on total quantity
+  const totalBoxesForOrder = orderData.qty;
+  const inventoryDeducted = status !== 'cancelled' ? await deductInventoryForOrder(totalBoxesForOrder) : [];
+  orderData.inventoryDeducted = inventoryDeducted;
+
+  await addDoc_('orders', orderData);
   
   // Find existing customer — match by normalized phone first, then by exact name (prevents duplicates from phone formatting differences)
   const normPhone = normalizePhone(phone);
@@ -4315,7 +4409,7 @@ function refreshUI(col) {
     if(col==='orders')      { filterOrders(); refreshDashboard(); refreshProductAnalytics(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); }
     if(col==='customers')   { renderCustomers(); refreshDashboard(); }
     if(col==='products')    { renderProducts(); }
-    if(col==='inventory')   { renderInventory(); }
+    if(col==='inventory')   { seedDefaultPackagingIfEmpty(); renderInventory(); }
     if(col==='regions')     { renderRegions(); }
     if(col==='expenses')    { if(window.renderFinance) renderFinance(); refreshDashboard(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); }
     if(col==='campaigns' || col==='coupons') { renderMarketing(); }
@@ -4357,6 +4451,7 @@ window.openAddOrderModal = function() {
   // Set today date
   let dateEl = document.getElementById('o-date');
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().split('T')[0];
+  updateInventoryImpactPreview();
   openModal('addOrderModal');
 };
 
