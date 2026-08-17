@@ -168,6 +168,12 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 [data-theme="dark"] .pw-dash-card{background:#1f1710;border-color:#2a1f18;}
 [data-theme="dark"] .badge-status-onhold{background:#2a1f18;color:var(--brown);}
 
+/* ── RECEIVABLES ── */
+.badge-debt-pending{background:#fef9e7;color:var(--pending);}
+.badge-debt-partial{background:#dbeafe;color:#1d4ed8;}
+.badge-debt-paid{background:#f0fdf4;color:var(--success);}
+.badge-debt-overdue{background:#fee2e2;color:var(--danger);}
+
 /* ── FREELANCERS ── */
 .badge-active{background:#f0fdf4;color:var(--success);border:1px solid #bbf7d0;}
 .badge-completed{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
@@ -818,6 +824,7 @@ tr:hover td{background:#faf6f3;}
     <div class="nav-item" onclick="showPage('finance',this)"><span class="icon">💰</span>المالية والأرباح</div>
     <div class="nav-item" onclick="showPage('freelancers',this)"><span class="icon">👨‍💻</span>الفريلانسرز</div>
     <div class="nav-item" onclick="showPage('projects',this)"><span class="icon">📁</span>المشاريع</div>
+    <div class="nav-item" onclick="showPage('receivables',this)"><span class="icon">💳</span>الديون والمستحقات</div>
   </nav>
   <nav class="nav-section">
     <div class="nav-label">التسويق</div>
@@ -919,6 +926,28 @@ tr:hover td{background:#faf6f3;}
           <div class="stat-value" id="kpiDailyAvg">0</div>
           <div class="kpi-change neutral" id="kpiMonthlyAvg">شهري: 0</div>
           <div class="stat-icon">📊</div>
+        </div>
+      </div>
+
+      <!-- CROSS-MODULE ALERTS ROW -->
+      <div class="stats-grid" style="margin-top:0.8rem">
+        <div class="stat-card" style="cursor:pointer" onclick="showPage('receivables',null)">
+          <div class="stat-label">الديون المستحقة</div>
+          <div class="stat-value" id="dashDebtsOutstanding" style="color:var(--danger)">0</div>
+          <div class="stat-sub" id="dashDebtsOverdue">0 متأخر</div>
+          <div class="stat-icon">💳</div>
+        </div>
+        <div class="stat-card" style="cursor:pointer" onclick="showPage('projects',null)">
+          <div class="stat-label">مهام متأخرة بالمشاريع</div>
+          <div class="stat-value" id="dashOverdueProjectTasks" style="color:var(--danger)">0</div>
+          <div class="stat-sub">عبر كل المشاريع</div>
+          <div class="stat-icon">📁</div>
+        </div>
+        <div class="stat-card" style="cursor:pointer" onclick="showPage('freelancers',null)">
+          <div class="stat-label">أقساط فريلانسرز مستحقة/متأخرة</div>
+          <div class="stat-value" id="dashFreelancerInstallments" style="color:var(--pending)">0</div>
+          <div class="stat-sub">تحتاج متابعة</div>
+          <div class="stat-icon">👨‍💻</div>
         </div>
       </div>
 
@@ -1249,6 +1278,43 @@ tr:hover td{background:#faf6f3;}
       <div class="pw-body" id="pwBodyWrap">
         <div class="pw-tabs" id="pwTabs"></div>
         <div class="pw-content" id="pwContent"></div>
+      </div>
+    </div>
+
+    <!-- RECEIVABLES -->
+    <div class="page" id="page-receivables">
+      <div class="section-header">
+        <div><div class="section-title-main">💳 الديون والمستحقات</div><div class="section-subtitle">متابعة المبالغ المستحقة على العملاء</div></div>
+        <button class="btn btn-primary" onclick="window.openAddDebtModal()">+ دين جديد</button>
+      </div>
+
+      <div class="stats-grid" style="margin-bottom:1rem">
+        <div class="stat-card"><div class="stat-label">إجمالي المستحقات</div><div class="stat-value" id="debtTotalOutstanding">0</div><div class="stat-icon">💳</div></div>
+        <div class="stat-card"><div class="stat-label">إجمالي المتأخر</div><div class="stat-value" id="debtTotalOverdue" style="color:var(--danger)">0</div><div class="stat-icon">⚠️</div></div>
+        <div class="stat-card"><div class="stat-label">المدفوع هذا الشهر</div><div class="stat-value" id="debtPaidThisMonth" style="color:var(--success)">0</div><div class="stat-icon">✅</div></div>
+      </div>
+
+      <div class="search-bar">
+        <input class="search-input" id="searchDebts" placeholder="🔍 بحث باسم العميل..." oninput="window.filterDebts()">
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterDebtStatus" onchange="window.filterDebts()">
+          <option value="">كل الحالات</option>
+          <option value="pending">معلق</option>
+          <option value="partial">مدفوع جزئياً</option>
+          <option value="paid">مدفوع بالكامل</option>
+          <option value="overdue">متأخر</option>
+        </select>
+        <span class="results-count" id="debtsCount">0 دين</span>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>العميل</th><th>مرتبط بـ</th><th>المبلغ الكلي</th><th>المدفوع</th><th>المتبقي</th><th>تاريخ الاستحقاق</th><th>الحالة</th><th>ملاحظة</th><th>إجراء</th></tr></thead>
+            <tbody id="debtsTable"><tr><td colspan="9"><div class="empty-state"><div class="e-icon">💳</div><div class="e-title">لا يوجد ديون مسجلة</div></div></td></tr></tbody>
+          </table>
+        </div>
+        <div id="debtsPagination"></div>
+        <div class="pag-info" id="debtsPagInfo"></div>
       </div>
     </div>
 
@@ -1622,6 +1688,12 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         <button class="btn btn-gold" onclick="window.openAddEventModal()">+ حدث جديد</button>
       </div>
 
+      <!-- Unified Notifications Panel -->
+      <div class="card" id="notifPanelCard" style="margin-bottom:1rem;display:none">
+        <div class="card-header"><div class="card-title">🔔 كل التنبيهات</div></div>
+        <div class="card-body" id="notifPanelBody" style="padding:0"></div>
+      </div>
+
       <!-- Toolbar -->
       <div class="cal-toolbar">
         <div class="cal-nav">
@@ -1936,6 +2008,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('freelancerDetailModal')">إغلاق</button>
+      <button class="btn btn-outline" onclick="window.viewFreelancerActivity()">📋 سجل النشاط</button>
       <button class="btn btn-danger" onclick="window.deleteFreelancerFromDetail()">🗑 حذف الفريلانسر</button>
     </div>
   </div>
@@ -2101,6 +2174,60 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
   </div>
 </div>
 
+<!-- ADD DEBT MODAL -->
+<div class="modal-overlay" id="addDebtModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">💳 دين جديد</div><button class="modal-close" onclick="closeModal('addDebtModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><div class="form-label">اسم العميل *</div>
+        <input class="form-input" id="dbt-customer-name" list="dbt-customers-list" placeholder="اكتب أو اختر اسم العميل">
+        <datalist id="dbt-customers-list"></datalist>
+      </div>
+      <div class="form-group"><div class="form-label">ربط بطلب (اختياري)</div><select class="form-select" id="dbt-order-id"><option value="">— بدون ربط —</option></select></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">المبلغ الكلي *</div><input class="form-input" id="dbt-amount" type="number" placeholder="0"></div>
+        <div class="form-group"><div class="form-label">تاريخ الاستحقاق *</div><input class="form-input" id="dbt-duedate" type="date"></div>
+      </div>
+      <div class="form-group"><div class="form-label">ملاحظة</div><textarea class="form-textarea" id="dbt-note" rows="2" placeholder="ملاحظات إضافية..."></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addDebtModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveDebt()">✅ إضافة</button></div>
+  </div>
+</div>
+
+<!-- EDIT DEBT MODAL -->
+<div class="modal-overlay" id="editDebtModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">✏️ تعديل الدين</div><button class="modal-close" onclick="closeModal('editDebtModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="edbt-id">
+      <div class="form-group"><div class="form-label">اسم العميل *</div><input class="form-input" id="edbt-customer-name"></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">المبلغ الكلي *</div><input class="form-input" id="edbt-amount" type="number"></div>
+        <div class="form-group"><div class="form-label">تاريخ الاستحقاق *</div><input class="form-input" id="edbt-duedate" type="date"></div>
+      </div>
+      <div class="form-group"><div class="form-label">ملاحظة</div><textarea class="form-textarea" id="edbt-note" rows="2"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('editDebtModal')">إلغاء</button>
+      <button class="btn btn-danger" onclick="window.deleteDebtFromEdit()">🗑 حذف</button>
+      <button class="btn btn-gold" onclick="window.saveEditDebt()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PAYMENT MODAL -->
+<div class="modal-overlay" id="addPaymentModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">💰 تسجيل دفعة</div><button class="modal-close" onclick="closeModal('addPaymentModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="pay-debt-id">
+      <div style="background:var(--cream);border-radius:8px;padding:0.6rem 0.9rem;margin-bottom:0.8rem;font-size:0.82rem" id="pay-debt-summary"></div>
+      <div class="form-group"><div class="form-label">المبلغ المدفوع الآن *</div><input class="form-input" id="pay-amount" type="number" placeholder="0"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addPaymentModal')">إلغاء</button><button class="btn btn-gold" onclick="window.savePayment()">✅ تسجيل الدفعة</button></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addOrderModal">
   <div class="modal">
     <div class="modal-header"><div class="modal-title">🛒 طلب جديد</div><button class="modal-close" onclick="closeModal('addOrderModal')">✕</button></div>
@@ -2138,6 +2265,13 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="o-notes" placeholder="ملاحظات خاصة..."></textarea></div>
       <input type="hidden" id="o-edit-id">
       <div id="invImpactPreview" style="display:none;background:rgba(191,158,96,0.08);border:1px solid rgba(191,158,96,0.25);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--dark);margin-top:0.5rem"></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.6rem">
+        <input type="checkbox" id="o-add-debt" style="width:18px;height:18px;accent-color:var(--gold)" onchange="document.getElementById('o-debt-paid-wrap').style.display=this.checked?'':'none'">
+        <label for="o-add-debt" style="font-size:0.82rem;color:var(--brown);cursor:pointer">العميل ما دفع كامل المبلغ — سجّله كدين 💳</label>
+      </div>
+      <div id="o-debt-paid-wrap" style="display:none">
+        <div class="form-group"><div class="form-label">المبلغ المدفوع الآن (الباقي يُسجّل كدين)</div><input class="form-input" id="o-debt-paid-now" type="number" placeholder="0"></div>
+      </div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addOrderModal')">إلغاء</button><button class="btn btn-primary" id="o-submit-btn" onclick="addOrder()">✅ إضافة الطلب</button></div>
   </div>
@@ -2326,6 +2460,8 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-row"><div class="form-group"><div class="form-label">المنطقة</div><input class="form-input" id="ec-region" placeholder="منطقة السكن"></div><div class="form-group"><div class="form-label">VIP؟</div><select class="form-select" id="ec-vip"><option value="no">لا</option><option value="yes">نعم ⭐</option></select></div></div>
       <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="ec-notes" placeholder="ملاحظات..."></textarea></div>
       <input type="hidden" id="ec-id">
+      <div class="fl-section-title" style="margin-top:1rem">💳 الديون المرتبطة بهذا العميل</div>
+      <div id="ec-debts-list"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('editCustomerModal')">إلغاء</button><button class="btn btn-primary" onclick="saveEditCustomer()">💾 حفظ التعديلات</button></div>
   </div>
@@ -2384,7 +2520,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // STATE
-let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[] };
+let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[] };
 let unsubscribers = [];
 
 // ══════════════════════════════
@@ -2650,7 +2786,7 @@ window.logout = async () => {
   unsubscribers = [];
   if(activityLogUnsubscribe) { activityLogUnsubscribe(); activityLogUnsubscribe = null; }
   activityLogData = [];
-  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[] };
+  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[] };
   await auth.signOut();
   // Prevent back button after logout
   history.pushState(null, '', location.href);
@@ -2722,7 +2858,7 @@ const COL_LABELS = {
   orders:'الطلبات', customers:'العملاء', products:'المنتجات',
   inventory:'المخزون', regions:'المناطق', expenses:'المصاريف',
   campaigns:'الحملات', coupons:'الكوبونات', trash:'المحذوفات',
-  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم', freelancers:'الفريلانسرز', projects:'المشاريع'
+  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم', freelancers:'الفريلانسرز', projects:'المشاريع', receivables:'الديون والمستحقات'
 };
 
 async function logActivity(type, col, detail) {
@@ -2792,7 +2928,7 @@ window.showPage = (id, el) => {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
+  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
 
@@ -2803,14 +2939,15 @@ window.showPage = (id, el) => {
   if(id==='customers') { cacheRestoreFilters('customers'); filterCustomers(); }
   if(id==='products') { cacheRestoreFilters('products'); filterProducts(); }
   if(id==='flavors')  { window.filterFlavors(); updateFlavorStats(); }
-  if(id==='freelancers') { window.filterFreelancers(); updateFreelancerStats(); checkFreelancerNotifications(); }
+  if(id==='freelancers') { window.filterFreelancers(); updateFreelancerStats(); }
   if(id==='projects') { window.renderProjectsGrid(); }
+  if(id==='receivables') { window.filterDebts(); }
   if(id==='finance') { cacheRestoreFilters('expenses'); renderFinance(); }
   if(id==='brand') { loadBrand(); }
   if(id==='legal') { loadLegal(); renderCertificates(); }
   if(id==='calculations') { loadCalculations(); updateCalc(); }
   if(id==='activitylog') { subscribeActivityLog(); window.renderActivityLog(); }
-  if(id==='calendar') { loadCalEvents().then(()=>{ calState.date=new Date(); renderCal(); checkOrderNotifications(); }); }
+  if(id==='calendar') { loadCalEvents().then(()=>{ calState.date=new Date(); renderCal(); window.renderNotificationsPanel(); }); }
 };
 
 // ── MODALS ──
@@ -3690,6 +3827,28 @@ window.editCustomer = function(id) {
   document.getElementById('ec-region').value = c.region||'';
   document.getElementById('ec-notes').value = c.notes||'';
   const vipEl = document.getElementById('ec-vip'); if(vipEl) vipEl.value = c.vip||'no';
+  const debtsList = document.getElementById('ec-debts-list');
+  if(debtsList) {
+    const nameNorm = (c.name||'').trim().toLowerCase();
+    const debts = (state.receivables||[]).filter(d => d.customerId===id || (d.customerName||'').trim().toLowerCase()===nameNorm);
+    if(!debts.length) debtsList.innerHTML = '<div style="font-size:0.75rem;color:var(--brown);opacity:0.6">لا يوجد ديون مسجلة لهذا العميل</div>';
+    else {
+      const statusLabel = {pending:'معلق',partial:'مدفوع جزئياً',paid:'مدفوع بالكامل'};
+      debtsList.innerHTML = debts.map(function(d) {
+        const rem = debtRemaining(d);
+        const overdue = debtIsOverdue(d);
+        const st = debtComputedStatus(d);
+        const badgeClass = overdue ? 'badge-debt-overdue' : 'badge-debt-'+st;
+        const badgeText = overdue ? 'متأخر' : statusLabel[st];
+        return `<div class="pw-list-item" style="cursor:pointer" onclick="closeModal('editCustomerModal');showPage('receivables',null)">
+          <div class="pw-item-head">
+            <div><div class="pw-item-title">${d.amount} ₪ — متبقي ${rem} ₪</div><div class="pw-item-meta"><span>📅 ${sanitize(d.dueDate||'—')}</span></div></div>
+            <span class="badge ${badgeClass}">${badgeText}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
   openModal('editCustomerModal');
 };
 
@@ -3901,13 +4060,33 @@ window.addOrder = async function() {
   const inventoryDeducted = status !== 'cancelled' ? await deductInventoryForOrder(totalBoxesForOrder) : [];
   orderData.inventoryDeducted = inventoryDeducted;
 
-  await addDoc_('orders', orderData);
-  
+  const orderRef = await addDoc_('orders', orderData);
+
   // Find existing customer — match by normalized phone first, then by exact name (prevents duplicates from phone formatting differences)
   const normPhone = normalizePhone(phone);
   const nameNorm = name.trim().toLowerCase();
   const existing = state.customers.find(function(c){ return normPhone && normalizePhone(c.phone) === normPhone; })
                  || state.customers.find(function(c){ return (c.name||'').trim().toLowerCase() === nameNorm; });
+
+  // Auto-create a debt if customer didn't pay in full
+  const addDebtChecked = document.getElementById('o-add-debt')?.checked;
+  if(addDebtChecked) {
+    const paidNow = parseFloat(document.getElementById('o-debt-paid-now')?.value)||0;
+    const remaining = totalPrice - paidNow;
+    if(remaining > 0) {
+      const dueDate = new Date(); dueDate.setDate(dueDate.getDate()+7);
+      const dueDateStr = dueDate.getFullYear()+'-'+String(dueDate.getMonth()+1).padStart(2,'0')+'-'+String(dueDate.getDate()).padStart(2,'0');
+      await addDoc_('receivables', {
+        customerName: name,
+        customerId: existing ? existing.id : '',
+        orderId: orderRef?.id || '',
+        amount: remaining, paid: 0, dueDate: dueDateStr,
+        note: 'دين تلقائي من الطلب — ' + productSummary,
+        status: 'pending', payments: []
+      });
+      toast('💳 تم تسجيل '+remaining+' ₪ كدين على العميل','warning');
+    }
+  }
 
   if(!existing) {
     await addDoc_('customers', {name, phone, region, vip:'no', notes:'', orders:1, spent:totalPrice});
@@ -3932,6 +4111,9 @@ window.addOrder = async function() {
   document.getElementById('o-notes').value='';
   document.getElementById('o-delivery').value='';
   document.getElementById('o-date').value='';
+  const debtCb = document.getElementById('o-add-debt'); if(debtCb) debtCb.checked=false;
+  const debtPaidWrap = document.getElementById('o-debt-paid-wrap'); if(debtPaidWrap) debtPaidWrap.style.display='none';
+  const debtPaidNow = document.getElementById('o-debt-paid-now'); if(debtPaidNow) debtPaidNow.value='';
   // Reset product rows
   let container = document.getElementById('orderProductRows');
   if(container) {
@@ -4188,6 +4370,23 @@ function refreshDashboard() {
     return '<div style="margin-bottom:0.8rem"><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.3rem"><span>'+['🥇','🥈','🥉','4️⃣','5️⃣'][i]+' '+name+'</span><span style="color:var(--gold);font-weight:700">'+cnt+' طلب</span></div><div class="progress-bar"><div class="progress-fill" style="width:'+(cnt/max*100)+'%"></div></div></div>';
   }).join('') : '<div class="empty-state"><div class="e-icon">📦</div><div class="e-title">لا بيانات بعد</div></div>';
 
+  // Cross-module alerts (debts, project tasks, freelancer installments)
+  const outstandingDebts = (state.receivables||[]).reduce((s,d)=> s + (debtComputedStatus(d)!=='paid' ? debtRemaining(d) : 0), 0);
+  const overdueDebtsCount = (state.receivables||[]).filter(d=>debtIsOverdue(d)).length;
+  if(el('dashDebtsOutstanding')) el('dashDebtsOutstanding').textContent = outstandingDebts.toFixed(0);
+  if(el('dashDebtsOverdue')) el('dashDebtsOverdue').textContent = overdueDebtsCount + ' متأخر';
+
+  const overdueProjectTasks = (state.projects||[]).reduce((s,p)=> s + projStats(p).overdueTasks, 0);
+  if(el('dashOverdueProjectTasks')) el('dashOverdueProjectTasks').textContent = overdueProjectTasks;
+
+  const todayD = todayStr;
+  let flrDueOrLate = 0;
+  (state.freelancers||[]).forEach(function(f) {
+    if(f.paymentType==='single') return;
+    (f.installments||[]).forEach(function(i){ if(i.status!=='paid' && i.dueDate && i.dueDate<=todayD) flrDueOrLate++; });
+  });
+  if(el('dashFreelancerInstallments')) el('dashFreelancerInstallments').textContent = flrDueOrLate;
+
   renderCharts();
   refreshKPIs();
 }
@@ -4388,7 +4587,7 @@ window.setMonthFilter = function(period, btn, page) {
 
 // ── FIX: notes subscribeToData needs notes collection ──
 function subscribeToData() {
-  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects'];
+  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables'];
   if(!window.unsubscribers) window.unsubscribers = [];
   collections.forEach(function(col) {
     try {
@@ -4424,6 +4623,7 @@ function refreshUI(col) {
       if(document.getElementById('page-projects')?.classList.contains('active')) window.renderProjectsGrid();
       if(document.getElementById('page-project-workspace')?.classList.contains('active') && currentProjectId) window.refreshWorkspace();
     }
+    if(col==='receivables') { if(document.getElementById('page-receivables')?.classList.contains('active')) window.filterDebts(); }
   } catch(e) { console.error('refreshUI error for col='+col+':', e); }
 }
 
@@ -4577,6 +4777,7 @@ const breadcrumbMap = {
   freelancers:  '👨‍💻 الفريلانسرز',
   projects:     '📁 المشاريع',
   'project-workspace': '📁 المشروع',
+  receivables:  '💳 الديون والمستحقات',
 };
 
 function updateBreadcrumb(id) {
@@ -4870,20 +5071,14 @@ function scheduleNotification(ev) {
   });
 }
 
-function checkOrderNotifications() {
-  if(!('Notification' in window)) return;
+function getOrderNotifications() {
+  const items = [];
   const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
   const tomorrowStr = dateStr(tomorrow.getFullYear(),tomorrow.getMonth(),tomorrow.getDate());
-  const dueTomorrow = (state.orders||[]).filter(o=>o.dateRaw===tomorrowStr && o.status!=='delivered' && o.status!=='cancelled');
-  if(dueTomorrow.length===0) return;
-  Notification.requestPermission().then(perm => {
-    if(perm!=='granted') return;
-    dueTomorrow.forEach(o => {
-      new Notification('🚨 موعد تسليم غداً — Deeb Chocolate', {
-        body: o.name + ' — ' + (o.product||'') + ' — ' + (o.price||'') + ' ₪'
-      });
-    });
+  (state.orders||[]).filter(o=>o.dateRaw===tomorrowStr && o.status!=='delivered' && o.status!=='cancelled').forEach(o => {
+    items.push({ icon:'🚨', severity:'warning', text:'موعد تسليم غداً: '+(o.name||'')+' — '+(o.product||'')+' — '+(o.price||0)+' ₪', page:'orders' });
   });
+  return items;
 }
 
 // ══════════════════════════════
@@ -4955,6 +5150,7 @@ window.pagGoTo = function(name, page) {
   if(name === 'products')    { _renderProductsPage(); }
   if(name === 'expenses')    { _renderExpensesPage(); }
   if(name === 'activitylog') { _renderLogPage(); }
+  if(name === 'debts') { _renderDebtsPage(); }
   if(name === 'freelancers') { _renderFreelancersPage(); }
 };
 
@@ -5018,9 +5214,15 @@ function _renderExpensesPage() {
   const tb = document.getElementById('expensesTable');
   if(!tb) return;
   if(!page.length) { tb.innerHTML='<tr><td colspan="5"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
-  tb.innerHTML = page.map(e =>
-    `<tr><td><strong>${sanitize(e.name)}</strong></td><td>${sanitize(e.type||'—')}</td><td style="color:var(--danger);font-weight:700">${e.amount||0} ₪</td><td style="font-size:0.75rem">${sanitize(e.date||'—')}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editExpense('${e.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteExpense('${e.id}')">🗑</button></td></tr>`
-  ).join('');
+  tb.innerHTML = page.map(e => {
+    let nameCell = `<strong>${sanitize(e.name)}</strong>`;
+    if(e.type === 'فريلانسرز' && (e.name||'').startsWith('دفعة فريلانسر: ')) {
+      const flrNamePart = e.name.replace('دفعة فريلانسر: ','').split(' — ')[0].split(' (')[0].trim();
+      const f = (state.freelancers||[]).find(x=>(x.name||'').trim()===flrNamePart);
+      if(f) nameCell = `<strong style="color:var(--gold);cursor:pointer" onclick="showPage('freelancers',null);setTimeout(()=>window.openFreelancerDetail('${f.id}'),150)" title="عرض الفريلانسر">👨‍💻 ${sanitize(e.name)}</strong>`;
+    }
+    return `<tr><td>${nameCell}</td><td>${sanitize(e.type||'—')}</td><td style="color:var(--danger);font-weight:700">${e.amount||0} ₪</td><td style="font-size:0.75rem">${sanitize(e.date||'—')}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editExpense('${e.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteExpense('${e.id}')">🗑</button></td></tr>`;
+  }).join('');
   pagRender('expenses','expensesPagination','expensesPagInfo');
 }
 
@@ -5126,6 +5328,13 @@ window.renderActivityLog = function() {
   _renderLogPage();
 };
 
+const COL_PAGE_MAP = {
+  orders:'orders', customers:'customers', products:'products', inventory:'inventory',
+  regions:'delivery', expenses:'finance', campaigns:'marketing', coupons:'marketing',
+  certificates:'legal', notes:'notes', flavors:'flavors', freelancers:'freelancers',
+  projects:'projects', receivables:'receivables', events:'calendar'
+};
+
 function _renderLogPage() {
   const page = pagGetPage('activitylog');
   const container = document.getElementById('activityLogList');
@@ -5134,12 +5343,15 @@ function _renderLogPage() {
     const icon  = LOG_ICONS[l.type] || '📌';
     const badge = `<span class="log-badge log-${l.type}">${LOG_LABELS[l.type]||l.type}</span>`;
     const col   = l.colLabel ? `<span style="font-size:0.68rem;opacity:0.7"> · ${sanitize(l.colLabel)}</span>` : '';
-    return `<div class="log-item">
+    const targetPage = COL_PAGE_MAP[l.col];
+    const jumpBtn = targetPage ? `<button class="btn btn-sm btn-outline" style="margin-right:0.5rem;flex-shrink:0" onclick="showPage('${targetPage}',null)">↗ عرض</button>` : '';
+    return `<div class="log-item" style="display:flex;align-items:center">
       <div class="log-icon">${icon}</div>
-      <div class="log-body">
+      <div class="log-body" style="flex:1">
         <div class="log-action">${badge}${col}</div>
         <div class="log-detail">${sanitize(l.detail||'—')}</div>
       </div>
+      ${jumpBtn}
       <div class="log-time">${sanitize(l.timeStr||'')}</div>
     </div>`;
   }).join('');
@@ -5623,6 +5835,17 @@ window.deleteFreelancer = function(id) {
   const f = (state.freelancers||[]).find(x=>x.id===id);
   confirmDelete('freelancers', id, f?.name||'الفريلانسر');
 };
+window.viewFreelancerActivity = function() {
+  const id = document.getElementById('frd-id').value;
+  const f = (state.freelancers||[]).find(x=>x.id===id);
+  closeModal('freelancerDetailModal');
+  showPage('activitylog', null);
+  setTimeout(function() {
+    const s = document.getElementById('searchLog');
+    if(s && f) { s.value = f.name; window.renderActivityLog(); }
+  }, 150);
+};
+
 window.deleteFreelancerFromDetail = function() {
   const id = document.getElementById('frd-id').value;
   closeModal('freelancerDetailModal');
@@ -5835,33 +6058,104 @@ window.markSinglePaid = async function() {
 };
 
 // ── NOTIFICATIONS ──
-function checkFreelancerNotifications() {
-  const all = state.freelancers||[];
+// ── UNIFIED NOTIFICATIONS (all shown in Calendar page) ──
+function getFreelancerNotifications() {
+  const items = [];
   const today = todayStr();
   const now = new Date();
-  let dueToday = 0, late = 0, endingSoon = 0;
-
-  all.forEach(function(f) {
+  (state.freelancers||[]).forEach(function(f) {
     if(f.paymentType !== 'single') {
       (f.installments||[]).forEach(function(i) {
         if(i.status === 'paid' || !i.dueDate) return;
-        if(i.dueDate === today) dueToday++;
-        else if(i.dueDate < today) late++;
+        if(i.dueDate === today) items.push({ icon:'📅', severity:'warning', text:'قسط مستحق اليوم: '+(f.name||'')+(i.label?' — '+i.label:''), page:'freelancers' });
+        else if(i.dueDate < today) items.push({ icon:'⚠️', severity:'error', text:'قسط متأخر: '+(f.name||'')+(i.label?' — '+i.label:''), page:'freelancers' });
       });
     }
     if(f.status === 'active' && f.endDate) {
       const end = parseDateLocal(f.endDate);
       if(end) {
         const diffDays = (end - now) / 86400000;
-        if(diffDays >= 0 && diffDays <= 14) endingSoon++;
+        if(diffDays >= 0 && diffDays <= 14) items.push({ icon:'⏰', severity:'warning', text:'عقد سينتهي قريباً: '+(f.name||''), page:'freelancers' });
       }
     }
   });
-
-  if(dueToday)   toast('📅 يوجد ' + dueToday + ' قسط مستحق اليوم', 'warning');
-  if(late)       toast('⚠️ يوجد ' + late + ' قسط متأخر عن السداد', 'error');
-  if(endingSoon) toast('⏰ يوجد ' + endingSoon + ' عقد سينتهي خلال أسبوعين', 'warning');
+  return items;
 }
+
+function getDebtNotifications() {
+  const items = [];
+  const today = todayStr();
+  const in3 = new Date(); in3.setDate(in3.getDate()+3);
+  const in3Str = dateStr(in3.getFullYear(),in3.getMonth(),in3.getDate());
+  (state.receivables||[]).forEach(function(d) {
+    if(debtComputedStatus(d)==='paid' || !d.dueDate) return;
+    if(d.dueDate < today) items.push({ icon:'⚠️', severity:'error', text:'دين متأخر: '+(d.customerName||'')+' — '+debtRemaining(d)+' ₪', page:'receivables' });
+    else if(d.dueDate <= in3Str) items.push({ icon:'📅', severity:'warning', text:'دين مستحق خلال 3 أيام: '+(d.customerName||'')+' — '+debtRemaining(d)+' ₪', page:'receivables' });
+  });
+  return items;
+}
+
+function getInventoryNotifications() {
+  const items = [];
+  (state.inventory||[]).forEach(function(i) {
+    const qty = parseFloat(i.qty)||0, min = parseFloat(i.min)||0;
+    if(qty <= min) items.push({ icon:'📦', severity:'warning', text:'المخزون منخفض: '+(i.name||'')+' — متبقي '+qty, page:'inventory' });
+  });
+  return items;
+}
+
+function getFlavorNotifications() {
+  const items = [];
+  const today = todayStr();
+  const unavailable = (state.flavors||[]).filter(f=>f.available===false).map(f=>f.id);
+  if(!unavailable.length) return items;
+  (state.orders||[]).forEach(function(o) {
+    if(!o.customFlavors || !o.customFlavors.length) return;
+    if(o.status==='delivered' || o.status==='cancelled') return;
+    if(o.dateRaw && o.dateRaw < today) return;
+    const clash = o.customFlavors.filter(fid => unavailable.includes(fid));
+    clash.forEach(fid => {
+      const f = (state.flavors||[]).find(x=>x.id===fid);
+      items.push({ icon:'🍫', severity:'error', text:'طلب كستوم لـ '+(o.name||'')+' يحتوي نكهة غير متاحة: '+(f?f.nameAr:''), page:'flavors' });
+    });
+  });
+  return items;
+}
+
+function getProjectNotifications() {
+  const items = [];
+  (state.projects||[]).forEach(function(p) {
+    const s = projStats(p);
+    if(s.overdueTasks > 0) items.push({ icon:'✅', severity:'error', text:'مشروع "'+(p.name||'')+'" فيه '+s.overdueTasks+' مهمة متأخرة', page:'projects' });
+  });
+  return items;
+}
+
+window.renderNotificationsPanel = function() {
+  const all = [
+    ...getOrderNotifications(),
+    ...getFreelancerNotifications(),
+    ...getDebtNotifications(),
+    ...getInventoryNotifications(),
+    ...getFlavorNotifications(),
+    ...getProjectNotifications(),
+  ];
+  const card = document.getElementById('notifPanelCard');
+  const body = document.getElementById('notifPanelBody');
+  if(!card || !body) return;
+  if(!all.length) { card.style.display = 'none'; return; }
+  card.style.display = '';
+  const sevRank = {error:0, warning:1, info:2};
+  all.sort((a,b)=> (sevRank[a.severity]??1) - (sevRank[b.severity]??1));
+  body.innerHTML = all.map(function(n) {
+    return `<div class="log-item" style="cursor:pointer" onclick="showPage('${n.page}', null)">
+      <div class="log-icon">${n.icon}</div>
+      <div class="log-body"><div class="log-detail">${sanitize(n.text)}</div></div>
+    </div>`;
+  }).join('');
+};
+
+function checkFreelancerNotifications() { /* deprecated: replaced by unified panel in Calendar */ }
 
 // ══════════════════════════════
 // PROJECTS SYSTEM
@@ -6154,6 +6448,11 @@ function renderPwTabContent() {
 function renderPwOverview(p) {
   const statusLabel = {active:'نشط',paused:'متوقف مؤقتاً',completed:'مكتمل',onhold:'مجمّد'};
   const prioLabel    = {high:'عالية',medium:'متوسطة',low:'منخفضة'};
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const ordersThisMonth = (state.orders||[]).filter(o=>{ const d=parseDateLocal(o.dateRaw); return d && d>=monthStart; });
+  const revenueThisMonth = ordersThisMonth.reduce((s,o)=>s+(parseFloat(o.price)||0),0);
+  const outstandingDebts = (state.receivables||[]).reduce((s,d)=> s + (debtComputedStatus(d)!=='paid' ? debtRemaining(d) : 0), 0);
   document.getElementById('pwContent').innerHTML = `
     <div class="pw-section-title">🏠 نظرة عامة <button class="btn btn-sm btn-outline" onclick="window.openEditProjectModal()">✏️ تعديل</button></div>
     <div class="pw-overview-grid">
@@ -6167,6 +6466,13 @@ function renderPwOverview(p) {
     <div class="pw-strategy-field"><div class="pw-strategy-label">الوصف</div><div>${sanitize(p.description||'—')}</div></div>
     <div class="pw-strategy-field"><div class="pw-strategy-label">لماذا هذا المشروع موجود؟</div><div>${sanitize(p.why||'—')}</div></div>
     <div class="pw-strategy-field"><div class="pw-strategy-label">النتائج المتوقعة</div><div>${sanitize(p.expectedResults||'—')}</div></div>
+    <div class="pw-section-title" style="margin-top:1rem">📊 نظرة سريعة على الأعمال (بيانات حية)</div>
+    <div class="pw-overview-grid">
+      <div class="fl-info-item"><span class="fl-info-label">طلبات هذا الشهر</span><span class="fl-info-val">${ordersThisMonth.length}</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">إيرادات هذا الشهر</span><span class="fl-info-val">${revenueThisMonth.toFixed(0)} ₪</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">إجمالي العملاء</span><span class="fl-info-val">${(state.customers||[]).length}</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">ديون مستحقة</span><span class="fl-info-val" style="color:${outstandingDebts?'var(--danger)':'inherit'}">${outstandingDebts.toFixed(0)} ₪</span></div>
+    </div>
   `;
 }
 
@@ -6737,6 +7043,186 @@ window.renderProjectSearch = function() {
   });
   resultsEl.innerHTML = html || `<div class="pw-empty">لا نتائج مطابقة</div>`;
 };
+
+// ══════════════════════════════
+// RECEIVABLES (الديون والمستحقات)
+// ══════════════════════════════
+function debtRemaining(d) { return Math.max(0, (parseFloat(d.amount)||0) - (parseFloat(d.paid)||0)); }
+function debtComputedStatus(d) {
+  const rem = debtRemaining(d);
+  if(rem <= 0) return 'paid';
+  if((parseFloat(d.paid)||0) > 0) return 'partial';
+  return 'pending';
+}
+function debtIsOverdue(d) {
+  return debtComputedStatus(d) !== 'paid' && d.dueDate && d.dueDate < todayStr();
+}
+
+window.openAddDebtModal = function() {
+  ['dbt-customer-name','dbt-amount','dbt-duedate','dbt-note'].forEach(id=>{const e=document.getElementById(id); if(e) e.value='';});
+  document.getElementById('dbt-customers-list').innerHTML = (state.customers||[]).map(c=>`<option value="${sanitize(c.name)}">`).join('');
+  const orderSel = document.getElementById('dbt-order-id');
+  orderSel.innerHTML = '<option value="">— بدون ربط —</option>' + (state.orders||[]).slice(0,100).map(o=>`<option value="${o.id}">${sanitize(o.name)} — ${sanitize(o.product||'')} (${o.price||0}₪)</option>`).join('');
+  openModal('addDebtModal');
+};
+
+window.saveDebt = async function() {
+  const name = document.getElementById('dbt-customer-name').value.trim();
+  const amount = parseFloat(document.getElementById('dbt-amount').value)||0;
+  const dueDate = document.getElementById('dbt-duedate').value;
+  if(!name)     { toast('اسم العميل مطلوب','error'); return; }
+  if(!amount)   { toast('المبلغ مطلوب','error'); return; }
+  if(!dueDate)  { toast('تاريخ الاستحقاق مطلوب','error'); return; }
+  const orderId = document.getElementById('dbt-order-id').value;
+  const matchedCustomer = (state.customers||[]).find(c=>(c.name||'').trim().toLowerCase()===name.toLowerCase());
+  await addDoc_('receivables', {
+    customerName: name,
+    customerId: matchedCustomer ? matchedCustomer.id : '',
+    orderId: orderId || '',
+    amount, paid: 0, dueDate,
+    note: document.getElementById('dbt-note').value.trim(),
+    status: 'pending', payments: []
+  });
+  closeModal('addDebtModal');
+  toast('تم إضافة الدين ✅','success');
+};
+
+window.editDebt = function(id) {
+  const d = (state.receivables||[]).find(x=>x.id===id);
+  if(!d) return;
+  document.getElementById('edbt-id').value = id;
+  document.getElementById('edbt-customer-name').value = d.customerName||'';
+  document.getElementById('edbt-amount').value = d.amount||0;
+  document.getElementById('edbt-duedate').value = d.dueDate||'';
+  document.getElementById('edbt-note').value = d.note||'';
+  openModal('editDebtModal');
+};
+window.saveEditDebt = async function() {
+  const id = document.getElementById('edbt-id').value;
+  const name = document.getElementById('edbt-customer-name').value.trim();
+  const amount = parseFloat(document.getElementById('edbt-amount').value)||0;
+  const dueDate = document.getElementById('edbt-duedate').value;
+  if(!name)    { toast('اسم العميل مطلوب','error'); return; }
+  if(!amount)  { toast('المبلغ مطلوب','error'); return; }
+  if(!dueDate) { toast('تاريخ الاستحقاق مطلوب','error'); return; }
+  const d = (state.receivables||[]).find(x=>x.id===id);
+  const status = debtComputedStatus({...d, amount});
+  await updateDoc_('receivables', id, { customerName:name, amount, dueDate, note: document.getElementById('edbt-note').value.trim(), status });
+  closeModal('editDebtModal');
+  toast('تم تحديث الدين ✅','success');
+};
+window.deleteDebtFromEdit = function() {
+  const id = document.getElementById('edbt-id').value;
+  const d = (state.receivables||[]).find(x=>x.id===id);
+  closeModal('editDebtModal');
+  confirmDelete('receivables', id, d?.customerName||'الدين');
+};
+window.deleteDebt = function(id) {
+  const d = (state.receivables||[]).find(x=>x.id===id);
+  confirmDelete('receivables', id, d?.customerName||'الدين');
+};
+
+// ── PAYMENTS ──
+window.openAddPaymentModal = function(id) {
+  const d = (state.receivables||[]).find(x=>x.id===id);
+  if(!d) return;
+  document.getElementById('pay-debt-id').value = id;
+  document.getElementById('pay-amount').value = '';
+  const rem = debtRemaining(d);
+  document.getElementById('pay-debt-summary').innerHTML = `العميل: <strong>${sanitize(d.customerName)}</strong> — المبلغ الكلي: ${d.amount} — المدفوع: ${d.paid||0} — <strong style="color:var(--danger)">المتبقي: ${rem}</strong>`;
+  openModal('addPaymentModal');
+};
+window.savePayment = async function() {
+  const id = document.getElementById('pay-debt-id').value;
+  const amount = parseFloat(document.getElementById('pay-amount').value)||0;
+  if(!amount) { toast('المبلغ مطلوب','error'); return; }
+  const d = (state.receivables||[]).find(x=>x.id===id);
+  if(!d) return;
+  const rem = debtRemaining(d);
+  if(amount > rem) { toast('المبلغ المدفوع أكبر من المتبقي ('+rem+')','error'); return; }
+  const newPaid = (parseFloat(d.paid)||0) + amount;
+  const payments = [...(d.payments||[]), {amount, date: todayStr()}];
+  const status = debtComputedStatus({...d, paid:newPaid});
+  await updateDoc_('receivables', id, { paid:newPaid, payments, status });
+  closeModal('addPaymentModal');
+  toast(status==='paid' ? 'تم سداد الدين بالكامل ✅' : 'تم تسجيل الدفعة ✅ — المتبقي: '+(rem-amount), 'success');
+};
+
+// ── FILTER + RENDER ──
+window.filterDebts = function() {
+  const q = (document.getElementById('searchDebts')?.value||'').toLowerCase();
+  const status = document.getElementById('filterDebtStatus')?.value||'';
+  const all = state.receivables||[];
+  const filtered = all.filter(function(d) {
+    if(q && !(d.customerName||'').toLowerCase().includes(q)) return false;
+    if(status) {
+      if(status==='overdue') { if(!debtIsOverdue(d)) return false; }
+      else if(debtComputedStatus(d) !== status) return false;
+    }
+    return true;
+  });
+  const cnt = document.getElementById('debtsCount');
+  if(cnt) cnt.textContent = filtered.length + ' دين';
+  pagInit('debts', filtered);
+  _renderDebtsPage();
+  updateDebtStats();
+};
+
+function _renderDebtsPage() {
+  const page = pagGetPage('debts');
+  const tb = document.getElementById('debtsTable');
+  if(!tb) return;
+  if(!page.length) { tb.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
+  const statusLabel = {pending:'معلق',partial:'مدفوع جزئياً',paid:'مدفوع بالكامل'};
+  tb.innerHTML = page.map(function(d) {
+    const rem = debtRemaining(d);
+    const overdue = debtIsOverdue(d);
+    const st = debtComputedStatus(d);
+    const badgeClass = overdue ? 'badge-debt-overdue' : 'badge-debt-'+st;
+    const badgeText = overdue ? 'متأخر' : statusLabel[st];
+    const order = d.orderId ? (state.orders||[]).find(o=>o.id===d.orderId) : null;
+    const linkText = order ? ('🛒 '+sanitize(order.product||order.name||'')) : (d.customerId ? '👤 عميل مسجّل' : '—');
+    return `<tr>
+      <td><strong>${sanitize(d.customerName)}</strong></td>
+      <td style="font-size:0.72rem">${linkText}</td>
+      <td style="font-weight:700">${(d.amount||0).toFixed ? d.amount : d.amount}</td>
+      <td style="color:var(--success)">${d.paid||0}</td>
+      <td style="color:var(--danger);font-weight:700">${rem}</td>
+      <td style="font-size:0.75rem">${sanitize(d.dueDate||'—')}</td>
+      <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+      <td style="font-size:0.72rem;max-width:150px">${sanitize(d.note||'—')}</td>
+      <td style="white-space:nowrap">
+        ${st!=='paid' ? `<button class="btn btn-sm btn-gold" style="margin-left:0.25rem" onclick="window.openAddPaymentModal('${d.id}')">💰 دفعة</button>` : ''}
+        <button class="btn btn-sm btn-outline" style="margin-left:0.25rem" onclick="window.editDebt('${d.id}')">✏️</button>
+        <button class="btn btn-sm btn-danger" onclick="window.deleteDebt('${d.id}')">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+  pagRender('debts','debtsPagination','debtsPagInfo');
+}
+
+function updateDebtStats() {
+  const all = state.receivables||[];
+  const totalOutstanding = all.reduce((s,d)=> s + (debtComputedStatus(d)!=='paid' ? debtRemaining(d) : 0), 0);
+  const totalOverdue = all.reduce((s,d)=> s + (debtIsOverdue(d) ? debtRemaining(d) : 0), 0);
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthEnd = new Date(now.getFullYear(), now.getMonth()+1, 0, 23,59,59);
+  let paidThisMonth = 0;
+  all.forEach(d => {
+    (d.payments||[]).forEach(p => {
+      const pd = parseDateLocal(p.date);
+      if(pd && pd>=monthStart && pd<=monthEnd) paidThisMonth += (parseFloat(p.amount)||0);
+    });
+  });
+  const el = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  el('debtTotalOutstanding', totalOutstanding.toFixed(0));
+  el('debtTotalOverdue', totalOverdue.toFixed(0));
+  el('debtPaidThisMonth', paidThisMonth.toFixed(0));
+}
+
+// ── NOTIFICATIONS ──
+function checkDebtNotifications() { /* deprecated: replaced by unified panel in Calendar (getDebtNotifications) */ }
 
 </script>
 </body>
