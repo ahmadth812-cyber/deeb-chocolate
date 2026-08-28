@@ -168,6 +168,22 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 [data-theme="dark"] .pw-dash-card{background:#1f1710;border-color:#2a1f18;}
 [data-theme="dark"] .badge-status-onhold{background:#2a1f18;color:var(--brown);}
 
+/* ── B2B LEADS ── */
+.badge-status-new{background:#eff6ff;color:#1d4ed8;}
+.badge-status-contacted{background:#fef9e7;color:var(--pending);}
+.badge-status-interested{background:#f0fdf4;color:var(--success);}
+.badge-status-followup{background:#f3f4f6;color:#4b5563;}
+.badge-status-won{background:#f0fdf4;color:var(--success);border:1px solid #86efac;}
+.badge-status-lost{background:#fef2f2;color:var(--danger);}
+.badge-prio-hot{background:#fee2e2;color:var(--danger);}
+.badge-prio-warm{background:#fef9e7;color:var(--pending);}
+.badge-prio-cold{background:#eff6ff;color:#1d4ed8;}
+.lead-action-btn{width:30px;height:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;text-decoration:none;border:1px solid var(--light);color:var(--dark);margin-left:0.25rem;transition:all 0.15s;}
+.lead-action-btn:hover{border-color:var(--gold);background:rgba(191,158,96,0.08);}
+.lead-action-btn.call{color:var(--success);}
+.lead-action-btn.wa{color:#25D366;}
+[data-theme="dark"] .lead-action-btn{border-color:#2a1f18;color:var(--dark);}
+
 /* ── RECEIVABLES ── */
 .badge-debt-pending{background:#fef9e7;color:var(--pending);}
 .badge-debt-partial{background:#dbeafe;color:#1d4ed8;}
@@ -808,12 +824,17 @@ tr:hover td{background:#faf6f3;}
   </div>
   <nav class="nav-section">
     <div class="nav-label">الرئيسية</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">📊</span>Dashboard</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">📊</span>الرئيسية</div>
   </nav>
   <nav class="nav-section">
-    <div class="nav-label">التشغيل</div>
+    <div class="nav-label">المبيعات</div>
     <div class="nav-item" onclick="showPage('orders',this)"><span class="icon">🛒</span>الطلبات</div>
     <div class="nav-item" onclick="showPage('customers',this)"><span class="icon">👥</span>العملاء</div>
+    <div class="nav-item" onclick="showPage('receivables',this)"><span class="icon">💳</span>الديون والمستحقات</div>
+    <div class="nav-item" onclick="showPage('b2b',this)"><span class="icon">🏢</span>B2B Leads</div>
+  </nav>
+  <nav class="nav-section">
+    <div class="nav-label">المنتجات والمخزون</div>
     <div class="nav-item" onclick="showPage('products',this)"><span class="icon">📦</span>المنتجات</div>
     <div class="nav-item" onclick="showPage('flavors',this)"><span class="icon">🍫</span>النكهات</div>
     <div class="nav-item" onclick="showPage('inventory',this)"><span class="icon">🗄️</span>المخزون</div>
@@ -822,9 +843,12 @@ tr:hover td{background:#faf6f3;}
   <nav class="nav-section">
     <div class="nav-label">المالية</div>
     <div class="nav-item" onclick="showPage('finance',this)"><span class="icon">💰</span>المالية والأرباح</div>
+    <div class="nav-item" onclick="showPage('calculations',this)"><span class="icon">🧮</span>الحسابات</div>
+  </nav>
+  <nav class="nav-section">
+    <div class="nav-label">الفريق والمشاريع</div>
     <div class="nav-item" onclick="showPage('freelancers',this)"><span class="icon">👨‍💻</span>الفريلانسرز</div>
     <div class="nav-item" onclick="showPage('projects',this)"><span class="icon">📁</span>المشاريع</div>
-    <div class="nav-item" onclick="showPage('receivables',this)"><span class="icon">💳</span>الديون والمستحقات</div>
   </nav>
   <nav class="nav-section">
     <div class="nav-label">التسويق</div>
@@ -832,20 +856,19 @@ tr:hover td{background:#faf6f3;}
     <div class="nav-item" onclick="showPage('messages',this)"><span class="icon">💬</span>الرسائل</div>
   </nav>
   <nav class="nav-section">
-    <div class="nav-label">الإعدادات</div>
-    <div class="nav-item" onclick="showPage('brand',this)"><span class="icon">🎨</span>هوية العلامة</div>
-    <div class="nav-item" onclick="showPage('checklist',this)"><span class="icon">✅</span>Checklist</div>
-    <div class="nav-item" onclick="showPage('legal',this)"><span class="icon">⚖️</span>القانوني</div>
-  </nav>
-    <nav class="nav-section">
-    <div class="nav-label">المستندات</div>
+    <div class="nav-label">الجدولة والمتابعة</div>
     <div class="nav-item" onclick="showPage('calendar',this)"><span class="icon">📅</span>التقويم</div>
     <div class="nav-item" onclick="showPage('activitylog',this)"><span class="icon">📋</span>سجل النشاط</div>
+  </nav>
+  <nav class="nav-section">
+    <div class="nav-label">التوثيق</div>
+    <div class="nav-item" onclick="showPage('brand',this)"><span class="icon">🎨</span>هوية العلامة</div>
+    <div class="nav-item" onclick="showPage('checklist',this)"><span class="icon">✅</span>خطوات التجهيز</div>
+    <div class="nav-item" onclick="showPage('legal',this)"><span class="icon">⚖️</span>القانوني</div>
     <div class="nav-item" onclick="showPage('notes',this)"><span class="icon">📝</span>الملاحظات</div>
   </nav>
   <nav class="nav-section">
     <div class="nav-label">النظام</div>
-    <div class="nav-item" onclick="showPage('calculations',this)"><span class="icon">🧮</span>الحسابات</div>
     <div class="nav-item" onclick="showPage('trash',this)"><span class="icon">🗑️</span>سلة المحذوفات</div>
   </nav>
   <div class="nav-logout"><button class="btn-logout" onclick="window.logout()">🚪 تسجيل الخروج</button></div>
@@ -858,7 +881,7 @@ tr:hover td{background:#faf6f3;}
       <button class="hamburger" id="hamburgerBtn" onclick="window.toggleSidebar()" aria-label="القائمة">
         <span></span><span></span><span></span>
       </button>
-      <div class="topbar-title" id="pageTitle">📊 Dashboard</div>
+      <div class="topbar-title" id="pageTitle">📊 الرئيسية</div>
     </div>
     <div class="topbar-right">
       <div class="topbar-user" id="topUser"></div>
@@ -873,7 +896,7 @@ tr:hover td{background:#faf6f3;}
   <div class="breadcrumb" id="breadcrumbBar">
     <span class="breadcrumb-item" onclick="window.showPage('dashboard', document.querySelector('.nav-item'))">🏠 الرئيسية</span>
     <span class="breadcrumb-sep">›</span>
-    <span class="breadcrumb-item active" id="breadcrumbCurrent">Dashboard</span>
+    <span class="breadcrumb-item active" id="breadcrumbCurrent">الرئيسية</span>
   </div>
   <div class="content">
 
@@ -1318,6 +1341,58 @@ tr:hover td{background:#faf6f3;}
       </div>
     </div>
 
+    <!-- B2B LEADS -->
+    <div class="page" id="page-b2b">
+      <div class="section-header">
+        <div><div class="section-title-main">🏢 B2B Leads</div><div class="section-subtitle">متابعة الاتصالات مع الشركات لطلبات B2B</div></div>
+        <button class="btn btn-primary" onclick="window.openAddLeadModal()">+ Add Lead</button>
+      </div>
+
+      <div class="stats-grid" style="margin-bottom:1rem">
+        <div class="stat-card"><div class="stat-label">Total Leads</div><div class="stat-value" id="leadTotalCount">0</div><div class="stat-icon">🏢</div></div>
+        <div class="stat-card"><div class="stat-label">New</div><div class="stat-value" id="leadNewCount">0</div><div class="stat-icon">🆕</div></div>
+        <div class="stat-card"><div class="stat-label">Interested</div><div class="stat-value" id="leadInterestedCount">0</div><div class="stat-icon">👀</div></div>
+        <div class="stat-card"><div class="stat-label">Follow-Up</div><div class="stat-value" id="leadFollowupCount">0</div><div class="stat-icon">📅</div></div>
+        <div class="stat-card"><div class="stat-label">Won</div><div class="stat-value" id="leadWonCount">0</div><div class="stat-icon">🏆</div></div>
+      </div>
+
+      <div class="search-bar">
+        <input class="search-input" id="searchLeads" placeholder="🔍 بحث بالشركة أو الاسم أو الرقم..." oninput="window.filterLeads()">
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterLeadCategory" onchange="window.filterLeads()">
+          <option value="">كل الفئات</option>
+          <option>Wedding Planner</option><option>Event Planner</option><option>Event Venue</option>
+          <option>Corporate Company</option><option>Corporate Gift Supplier</option><option>Gift Shop</option>
+          <option>HR / Recruitment</option><option>Real Estate</option><option>Bridal Shop</option>
+          <option>Florist</option><option>Wedding Photographer</option><option>Other</option>
+        </select>
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterLeadStatus" onchange="window.filterLeads()">
+          <option value="">كل الحالات</option>
+          <option value="New">New</option><option value="Contacted">Contacted</option><option value="Interested">Interested</option>
+          <option value="Follow-Up">Follow-Up</option><option value="Won">Won</option><option value="Lost">Lost</option>
+        </select>
+        <select class="form-select" style="width:auto;font-size:0.8rem" id="filterLeadPriority" onchange="window.filterLeads()">
+          <option value="">كل الأولويات</option>
+          <option value="Hot">Hot</option><option value="Warm">Warm</option><option value="Cold">Cold</option>
+        </select>
+        <button class="btn btn-sm btn-outline" onclick="window.sortLeadsByFollowUp()" title="ترتيب حسب موعد الفولو أب">📅 ترتيب حسب Follow-Up</button>
+        <span class="results-count" id="leadsCount">0 lead</span>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Company</th><th>Contact Person</th><th>Phone</th><th>Category</th><th>Status</th><th>Priority</th>
+              <th>Est. KG</th><th>Next Follow-Up</th><th>Notes</th><th>Created</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="leadsTable"><tr><td colspan="11"><div class="empty-state"><div class="e-icon">🏢</div><div class="e-title">لا يوجد leads بعد</div></div></td></tr></tbody>
+          </table>
+        </div>
+        <div id="leadsPagination"></div>
+        <div class="pag-info" id="leadsPagInfo"></div>
+      </div>
+    </div>
+
     <!-- MARKETING -->
     <div class="page" id="page-marketing">
       <div class="section-header">
@@ -1404,7 +1479,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 
     <!-- CHECKLIST -->
     <div class="page" id="page-checklist">
-      <div class="section-header"><div><div class="section-title-main">✅ Checklist الطلب</div></div><button class="btn btn-outline" onclick="resetChecklist()">🔄 إعادة تعيين</button></div>
+      <div class="section-header"><div><div class="section-title-main">✅ خطوات تجهيز الطلب</div></div><button class="btn btn-outline" onclick="resetChecklist()">🔄 إعادة تعيين</button></div>
       <div class="card"><div class="card-body" id="checklistItems">
         <div class="checklist-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><div class="check-label">📋 استلام الطلب وتأكيد البيانات</div></div>
         <div class="checklist-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><div class="check-label">💬 إرسال رسالة تأكيد للعميل</div></div>
@@ -2158,7 +2233,11 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-group"><div class="form-label">يعتمد على (Dependencies) — عناوين مهام أخرى</div><input class="form-input" id="tk-deps" placeholder="مثال: تصميم اللوغو"></div>
       <div class="form-group"><div class="form-label">ملاحظات / تعليقات</div><textarea class="form-textarea" id="tk-notes" rows="2"></textarea></div>
     </div>
-    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('taskItemModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveTaskItem()">✅ حفظ</button></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('taskItemModal')">إلغاء</button>
+      <button class="btn btn-danger" id="tk-delete-btn" style="display:none" onclick="window.deleteTaskItemFromModal()">🗑 حذف المهمة</button>
+      <button class="btn btn-gold" onclick="window.saveTaskItem()">✅ حفظ</button>
+    </div>
   </div>
 </div>
 
@@ -2225,6 +2304,52 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-group"><div class="form-label">المبلغ المدفوع الآن *</div><input class="form-input" id="pay-amount" type="number" placeholder="0"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addPaymentModal')">إلغاء</button><button class="btn btn-gold" onclick="window.savePayment()">✅ تسجيل الدفعة</button></div>
+  </div>
+</div>
+
+<!-- ADD/EDIT LEAD MODAL -->
+<div class="modal-overlay" id="leadModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title" id="leadModalTitle">🏢 Add Lead</div><button class="modal-close" onclick="closeModal('leadModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="ld-id">
+      <div class="form-group"><div class="form-label">Company Name *</div><input class="form-input" id="ld-company" placeholder="اسم الشركة"></div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">Contact Person</div><input class="form-input" id="ld-person" placeholder="اسم الشخص"></div>
+        <div class="form-group"><div class="form-label">Phone *</div><input class="form-input" id="ld-phone" placeholder="07xxxxxxxx"></div>
+      </div>
+      <div class="form-group"><div class="form-label">Category</div>
+        <select class="form-select" id="ld-category">
+          <option>Wedding Planner</option><option>Event Planner</option><option>Event Venue</option>
+          <option>Corporate Company</option><option>Corporate Gift Supplier</option><option>Gift Shop</option>
+          <option>HR / Recruitment</option><option>Real Estate</option><option>Bridal Shop</option>
+          <option>Florist</option><option>Wedding Photographer</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">Status</div>
+          <select class="form-select" id="ld-status">
+            <option value="New">New</option><option value="Contacted">Contacted</option><option value="Interested">Interested</option>
+            <option value="Follow-Up">Follow-Up</option><option value="Won">Won</option><option value="Lost">Lost</option>
+          </select>
+        </div>
+        <div class="form-group"><div class="form-label">Priority</div>
+          <select class="form-select" id="ld-priority">
+            <option value="Hot">🔴 Hot</option><option value="Warm">🟡 Warm</option><option value="Cold">🔵 Cold</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><div class="form-label">Estimated KG</div><input class="form-input" id="ld-kg" type="number" placeholder="0"></div>
+        <div class="form-group"><div class="form-label">Next Follow-Up</div><input class="form-input" id="ld-followup" type="date"></div>
+      </div>
+      <div class="form-group"><div class="form-label">Notes</div><textarea class="form-textarea" id="ld-notes" rows="2" placeholder="ملاحظات المكالمة..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('leadModal')">إلغاء</button>
+      <button class="btn btn-danger" id="ld-delete-btn" style="display:none" onclick="window.deleteLeadFromModal()">🗑 حذف</button>
+      <button class="btn btn-primary" onclick="window.saveLead()">✅ حفظ</button>
+    </div>
   </div>
 </div>
 
@@ -2520,7 +2645,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // STATE
-let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[] };
+let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[] };
 let unsubscribers = [];
 
 // ══════════════════════════════
@@ -2786,7 +2911,7 @@ window.logout = async () => {
   unsubscribers = [];
   if(activityLogUnsubscribe) { activityLogUnsubscribe(); activityLogUnsubscribe = null; }
   activityLogData = [];
-  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[] };
+  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[] };
   await auth.signOut();
   // Prevent back button after logout
   history.pushState(null, '', location.href);
@@ -2928,7 +3053,7 @@ window.showPage = (id, el) => {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 Dashboard', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ Checklist', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
+  const titles = { dashboard:'📊 الرئيسية', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', b2b:'🏢 B2B Leads', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ خطوات التجهيز', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
 
@@ -2942,6 +3067,7 @@ window.showPage = (id, el) => {
   if(id==='freelancers') { window.filterFreelancers(); updateFreelancerStats(); }
   if(id==='projects') { window.renderProjectsGrid(); }
   if(id==='receivables') { window.filterDebts(); }
+  if(id==='b2b') { window.filterLeads(); }
   if(id==='finance') { cacheRestoreFilters('expenses'); renderFinance(); }
   if(id==='brand') { loadBrand(); }
   if(id==='legal') { loadLegal(); renderCertificates(); }
@@ -4582,12 +4708,20 @@ window.setMonthFilter = function(period, btn, page) {
   }
   if(page==='orders') filterOrders();
   if(page==='finance') { renderFinance(); }
-  if(page==='calculations') updateCalc();
+  if(page==='calculations') {
+    // Changing the period is a clear signal the user wants fresh numbers for that period —
+    // clear the manual-edit lock so auto-calculated values aren't stuck showing stale data.
+    ['rawMaterialCost','packagingCost','marketingCost','deliveryCost','otherCost'].forEach(function(fid){
+      const el = document.getElementById(fid);
+      if(el) delete el.dataset.userEdited;
+    });
+    updateCalc();
+  }
 };
 
 // ── FIX: notes subscribeToData needs notes collection ──
 function subscribeToData() {
-  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables'];
+  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads'];
   if(!window.unsubscribers) window.unsubscribers = [];
   collections.forEach(function(col) {
     try {
@@ -4624,6 +4758,7 @@ function refreshUI(col) {
       if(document.getElementById('page-project-workspace')?.classList.contains('active') && currentProjectId) window.refreshWorkspace();
     }
     if(col==='receivables') { if(document.getElementById('page-receivables')?.classList.contains('active')) window.filterDebts(); }
+    if(col==='b2bLeads') { if(document.getElementById('page-b2b')?.classList.contains('active')) window.filterLeads(); }
   } catch(e) { console.error('refreshUI error for col='+col+':', e); }
 }
 
@@ -4756,7 +4891,7 @@ window.toggleDarkMode = function() {
 // BREADCRUMB
 // ══════════════════════════════
 const breadcrumbMap = {
-  dashboard:    '📊 Dashboard',
+  dashboard:    '📊 الرئيسية',
   orders:       '🛒 الطلبات',
   customers:    '👥 العملاء',
   products:     '📦 المنتجات',
@@ -4766,7 +4901,7 @@ const breadcrumbMap = {
   marketing:    '📣 التسويق',
   messages:     '💬 الرسائل',
   brand:        '🎨 هوية العلامة',
-  checklist:    '✅ Checklist',
+  checklist:    '✅ خطوات التجهيز',
   legal:        '⚖️ القانوني',
   trash:        '🗑️ المحذوفات',
   notes:        '📝 الملاحظات',
@@ -4778,6 +4913,7 @@ const breadcrumbMap = {
   projects:     '📁 المشاريع',
   'project-workspace': '📁 المشروع',
   receivables:  '💳 الديون والمستحقات',
+  b2b:          '🏢 B2B Leads',
 };
 
 function updateBreadcrumb(id) {
@@ -5151,6 +5287,7 @@ window.pagGoTo = function(name, page) {
   if(name === 'expenses')    { _renderExpensesPage(); }
   if(name === 'activitylog') { _renderLogPage(); }
   if(name === 'debts') { _renderDebtsPage(); }
+  if(name === 'leads') { _renderLeadsPage(); }
   if(name === 'freelancers') { _renderFreelancersPage(); }
 };
 
@@ -6723,7 +6860,10 @@ function renderPwTasks(p) {
       const f = t.assignee ? (state.freelancers||[]).find(x=>x.id===t.assignee) : null;
       const isLate = t.status!=='done' && t.deadline && t.deadline < todayStr();
       html += `<div class="kanban-card" onclick="window.openTaskModal(${t._idx})">
-        <div class="k-name">${sanitize(t.title)}</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.3rem">
+          <div class="k-name">${sanitize(t.title)}</div>
+          <span onclick="event.stopPropagation();window.deleteTaskItem(${t._idx})" style="cursor:pointer;color:var(--danger);font-size:0.8rem;flex-shrink:0" title="حذف">🗑</span>
+        </div>
         <div style="display:flex;gap:0.3rem;margin:0.3rem 0;flex-wrap:wrap">
           <span class="badge badge-priority-${t.priority}" style="font-size:0.6rem">${prioLabel[t.priority]||t.priority}</span>
           ${isLate?'<span class="badge badge-late" style="font-size:0.6rem">متأخر</span>':''}
@@ -6755,7 +6895,15 @@ window.openTaskModal = function(idx) {
   document.getElementById('tk-deps').value = (it?.dependencies||[]).join(', ');
   document.getElementById('tk-notes').value = it?.notes||'';
   document.getElementById('taskModalTitle').textContent = idx!==undefined ? '✏️ تعديل مهمة' : '✅ مهمة جديدة';
+  const delBtn = document.getElementById('tk-delete-btn');
+  if(delBtn) delBtn.style.display = idx!==undefined ? '' : 'none';
   openModal('taskItemModal');
+};
+window.deleteTaskItemFromModal = function() {
+  const idxVal = document.getElementById('tk-id').value;
+  if(idxVal==='') return;
+  closeModal('taskItemModal');
+  window.deleteTaskItem(parseInt(idxVal));
 };
 window.saveTaskItem = async function() {
   const title = document.getElementById('tk-title').value.trim();
@@ -7223,6 +7371,161 @@ function updateDebtStats() {
 
 // ── NOTIFICATIONS ──
 function checkDebtNotifications() { /* deprecated: replaced by unified panel in Calendar (getDebtNotifications) */ }
+
+// ══════════════════════════════
+// B2B LEADS
+// ══════════════════════════════
+function normalizePhoneForLink(p) {
+  return String(p||'').replace(/[^\d+]/g, '').replace(/^0/, '962');
+}
+
+window.openAddLeadModal = function() {
+  ['ld-id','ld-company','ld-person','ld-phone','ld-kg','ld-followup','ld-notes'].forEach(id=>{const e=document.getElementById(id); if(e) e.value='';});
+  document.getElementById('ld-category').value = 'Wedding Planner';
+  document.getElementById('ld-status').value = 'New';
+  document.getElementById('ld-priority').value = 'Warm';
+  document.getElementById('leadModalTitle').textContent = '🏢 Add Lead';
+  document.getElementById('ld-delete-btn').style.display = 'none';
+  openModal('leadModal');
+};
+
+window.editLead = function(id) {
+  const l = (state.b2bLeads||[]).find(x=>x.id===id);
+  if(!l) return;
+  document.getElementById('ld-id').value = id;
+  document.getElementById('ld-company').value = l.company||'';
+  document.getElementById('ld-person').value = l.person||'';
+  document.getElementById('ld-phone').value = l.phone||'';
+  document.getElementById('ld-category').value = l.category||'Wedding Planner';
+  document.getElementById('ld-status').value = l.status||'New';
+  document.getElementById('ld-priority').value = l.priority||'Warm';
+  document.getElementById('ld-kg').value = l.estimatedKg||'';
+  document.getElementById('ld-followup').value = l.nextFollowUp||'';
+  document.getElementById('ld-notes').value = l.notes||'';
+  document.getElementById('leadModalTitle').textContent = '✏️ Edit Lead';
+  document.getElementById('ld-delete-btn').style.display = '';
+  openModal('leadModal');
+};
+
+window.saveLead = async function() {
+  const company = document.getElementById('ld-company').value.trim();
+  const phone   = document.getElementById('ld-phone').value.trim();
+  if(!company) { toast('اسم الشركة مطلوب','error'); return; }
+  if(!phone)   { toast('رقم الهاتف مطلوب','error'); return; }
+  const idVal = document.getElementById('ld-id').value;
+  const data = {
+    company,
+    person:  document.getElementById('ld-person').value.trim(),
+    phone,
+    category: document.getElementById('ld-category').value,
+    status:   document.getElementById('ld-status').value,
+    priority: document.getElementById('ld-priority').value,
+    estimatedKg: parseFloat(document.getElementById('ld-kg').value)||0,
+    nextFollowUp: document.getElementById('ld-followup').value,
+    notes: document.getElementById('ld-notes').value.trim(),
+  };
+  if(idVal) {
+    await updateDoc_('b2bLeads', idVal, data);
+    toast('تم تحديث الـ Lead ✅','success');
+  } else {
+    data.createdDate = todayStr();
+    await addDoc_('b2bLeads', data);
+    toast('تم إضافة الـ Lead ✅','success');
+  }
+  closeModal('leadModal');
+};
+
+window.deleteLeadFromModal = function() {
+  const id = document.getElementById('ld-id').value;
+  if(!id) return;
+  closeModal('leadModal');
+  window.deleteLead(id);
+};
+window.deleteLead = function(id) {
+  const l = (state.b2bLeads||[]).find(x=>x.id===id);
+  confirmDelete('b2bLeads', id, l?.company||'Lead');
+};
+
+// ── FILTER + RENDER ──
+let _leadSortByFollowUp = false;
+window.sortLeadsByFollowUp = function() {
+  _leadSortByFollowUp = !_leadSortByFollowUp;
+  window.filterLeads();
+  toast(_leadSortByFollowUp ? '📅 مرتّب حسب Follow-Up' : '↩️ رجع للترتيب الافتراضي', 'success');
+};
+
+window.filterLeads = function() {
+  const q        = (document.getElementById('searchLeads')?.value||'').toLowerCase();
+  const category = document.getElementById('filterLeadCategory')?.value||'';
+  const status   = document.getElementById('filterLeadStatus')?.value||'';
+  const priority = document.getElementById('filterLeadPriority')?.value||'';
+  let all = state.b2bLeads||[];
+  let filtered = all.filter(function(l) {
+    if(category && l.category !== category) return false;
+    if(status && l.status !== status) return false;
+    if(priority && l.priority !== priority) return false;
+    if(q && !(l.company||'').toLowerCase().includes(q) && !(l.person||'').toLowerCase().includes(q) && !(l.phone||'').includes(q)) return false;
+    return true;
+  });
+  if(_leadSortByFollowUp) {
+    filtered = filtered.slice().sort((a,b) => {
+      if(!a.nextFollowUp) return 1;
+      if(!b.nextFollowUp) return -1;
+      return a.nextFollowUp.localeCompare(b.nextFollowUp);
+    });
+  } else {
+    filtered = filtered.slice().sort((a,b) => (b.createdAt||0)-(a.createdAt||0));
+  }
+  const cnt = document.getElementById('leadsCount');
+  if(cnt) cnt.textContent = filtered.length + ' lead' + (filtered.length!==1?'s':'');
+  pagInit('leads', filtered);
+  _renderLeadsPage();
+  updateLeadStats();
+};
+
+function _renderLeadsPage() {
+  const page = pagGetPage('leads');
+  const tb = document.getElementById('leadsTable');
+  if(!tb) return;
+  if(!page.length) { tb.innerHTML = '<tr><td colspan="11"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
+  const statusClass = {New:'new',Contacted:'contacted',Interested:'interested','Follow-Up':'followup',Won:'won',Lost:'lost'};
+  const prioClass = {Hot:'hot',Warm:'warm',Cold:'cold'};
+  const today = todayStr();
+  tb.innerHTML = page.map(function(l) {
+    const telHref = 'tel:'+normalizePhoneForLink(l.phone);
+    const waHref = 'https://wa.me/'+normalizePhoneForLink(l.phone);
+    const followUpLate = l.nextFollowUp && l.nextFollowUp < today && l.status!=='Won' && l.status!=='Lost';
+    return `<tr>
+      <td><strong>${sanitize(l.company)}</strong></td>
+      <td>${sanitize(l.person||'—')}</td>
+      <td style="font-size:0.75rem" dir="ltr">${sanitize(l.phone)}</td>
+      <td style="font-size:0.72rem">${sanitize(l.category||'—')}</td>
+      <td><span class="badge badge-status-${statusClass[l.status]||'new'}">${sanitize(l.status)}</span></td>
+      <td><span class="badge badge-prio-${prioClass[l.priority]||'warm'}">${sanitize(l.priority)}</span></td>
+      <td>${l.estimatedKg||0}</td>
+      <td style="font-size:0.72rem;${followUpLate?'color:var(--danger);font-weight:700':''}">${sanitize(l.nextFollowUp||'—')}${followUpLate?' ⚠️':''}</td>
+      <td style="font-size:0.7rem;max-width:140px">${sanitize(l.notes||'—')}</td>
+      <td style="font-size:0.7rem">${sanitize(l.createdDate||'—')}</td>
+      <td style="white-space:nowrap">
+        <a class="lead-action-btn call" href="${telHref}" title="Call">📞</a>
+        <a class="lead-action-btn wa" href="${waHref}" target="_blank" rel="noopener" title="WhatsApp">💬</a>
+        <span class="lead-action-btn" style="cursor:pointer" onclick="window.editLead('${l.id}')" title="Edit">✏️</span>
+        <span class="lead-action-btn" style="cursor:pointer;color:var(--danger)" onclick="window.deleteLead('${l.id}')" title="Delete">🗑</span>
+      </td>
+    </tr>`;
+  }).join('');
+  pagRender('leads','leadsPagination','leadsPagInfo');
+}
+
+function updateLeadStats() {
+  const all = state.b2bLeads||[];
+  const el = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  el('leadTotalCount', all.length);
+  el('leadNewCount', all.filter(l=>l.status==='New').length);
+  el('leadInterestedCount', all.filter(l=>l.status==='Interested').length);
+  el('leadFollowupCount', all.filter(l=>l.status==='Follow-Up').length);
+  el('leadWonCount', all.filter(l=>l.status==='Won').length);
+}
 
 </script>
 </body>
