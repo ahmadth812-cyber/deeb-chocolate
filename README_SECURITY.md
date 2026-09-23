@@ -1,89 +1,35 @@
-# DEEB CHOCOLATE — Firebase Security Setup
+# DEEB CHOCOLATE — Admin OS Release
 
-## 1. Deploy the rules
+This release contains the current DEEB Chocolate Admin OS and its Firestore security rules.
 
-Upload `firestore.rules` to the Firebase project used by the DEEB dashboard.
+## Files
 
-Firebase project:
-- Project ID: `deeb-chocolate`
+- `index.html` — main DEEB admin dashboard.
+- `order-form.html` — customer-facing order form using the same Firebase project.
+- `firestore.rules` — Firebase access-control rules.
 
-## 2. Create the first admin
+## Firebase setup
 
-The new rules do NOT trust `request.auth != null` by itself.
+The dashboard requires Firebase Authentication and the `admins/{UID}` document for each admin account.
 
-In Firebase Console:
+For the owner account, the document contains:
 
-1. Open Authentication → Users.
-2. Find the DEEB owner/admin account.
-3. Copy that user's **UID**.
-4. Open Firestore Database.
-5. Create collection: `admins`
-6. Create a document whose **Document ID is exactly the Firebase Auth UID**.
-7. Add:
-   - `active` → boolean → `true`
-   - `role` → string → `owner`
+- `active: true`
+- `role: owner`
 
-Example:
+The Firestore rules allow only active admins to access private collections.
 
-```text
-admins/
-  xxxxxxxxxxxxxxxxx
-    active: true
-    role: "owner"
-```
+The customer order form can create only `pending` orders with `source: customer-form`. Product and flavor documents are readable publicly because the customer form needs them to build its dropdowns; writes remain admin-only.
 
-## 3. Adding another admin
+## ERP collections added
 
-Create another `/admins/{theirAuthUid}` document manually with:
+- `suppliers`
+- `supplierOrders`
+- `supplierPriceHistory`
+- `stockMovements`
 
-```text
-active: true
-role: "admin"
-```
+## Important
 
-Do not give the dashboard permission to create or edit documents in `admins`.
+Do **not** commit passwords, service-account JSON files, private keys, `.env` secrets, customer exports, or database backups to GitHub.
 
-## 4. Removing an admin
-
-Set their `active` field to `false`, or delete their `/admins/{uid}` document from Firebase Console.
-
-## 5. Activity log
-
-`activityLog` is append-only from the dashboard:
-
-- read: allowed for active admins
-- create: allowed for active admins
-- update: denied
-- delete: denied
-
-This prevents the browser dashboard from rewriting or deleting audit history.
-
-## 6. Why this is safer than the old rules
-
-Old behavior:
-
-```text
-Any authenticated Firebase user
-        ↓
-read/write every business collection
-```
-
-New behavior:
-
-```text
-Firebase Auth user
-        ↓
-Must exist in /admins/{uid}
-        ↓
-active == true
-        ↓
-DEEB data access
-```
-
-A normal authenticated account cannot grant itself admin access because the `/admins` collection is not client-writable.
-
-## 7. Important production note
-
-The Firebase Web API key inside the frontend is not a password. Firebase web apps normally expose this configuration to the browser. Security must come from Authentication, Firestore Rules, Firebase/Google API restrictions, and appropriate App Check configuration.
-
-Do NOT commit private service-account JSON files, private keys, passwords, or server credentials to GitHub.
+Manual JSON backup/import is available from Settings. A truly automatic weekly email backup requires a trusted server-side scheduler/email service; it is not performed directly from the browser in this release.
