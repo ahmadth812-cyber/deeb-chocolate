@@ -13,53 +13,14 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
 
-    function publicOrderCreate() {
-      return request.resource.data.status == 'pending'
-        && request.resource.data.source == 'customer-form'
-        && request.resource.data.name is string
-        && request.resource.data.phone is string
-        && request.resource.data.region is string
-        && request.resource.data.product is string
-        && request.resource.data.productId is string
-        && request.resource.data.qty is number
-        && request.resource.data.qty >= 1
-        && request.resource.data.price is number
-        && request.resource.data.price >= 0
-        && exists(/databases/$(database)/documents/products/$(request.resource.data.productId))
-        && get(/databases/$(database)/documents/products/$(request.resource.data.productId)).data.status == 'instock'
-        && request.resource.data.product == get(/databases/$(database)/documents/products/$(request.resource.data.productId)).data.name
-        && request.resource.data.price == get(/databases/$(database)/documents/products/$(request.resource.data.productId)).data.price * request.resource.data.qty
-        && request.resource.data.notes is string
-        && request.resource.data.flavors is list
-        && request.resource.data.createdAt is number
-        && request.resource.data.dateRaw is string
-        && request.resource.data.keys().hasOnly([
-          'name','phone','region','productId','product','qty','price',
-          'flavors','notes','status','source','createdAt','dateRaw'
-        ]);
-    }
-
     match /admins/{uid} {
       allow read: if signedIn() && request.auth.uid == uid;
       allow create, update, delete: if false;
     }
 
-    match /orders/{docId} {
-      allow read, update, delete: if isAdmin();
-      allow create: if isAdmin() || publicOrderCreate();
-    }
-
-    match /products/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    match /flavors/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
+    match /orders/{docId}       { allow read, write: if isAdmin(); }
     match /customers/{docId}    { allow read, write: if isAdmin(); }
+    match /products/{docId}     { allow read, write: if isAdmin(); }
     match /inventory/{docId}    { allow read, write: if isAdmin(); }
     match /regions/{docId}      { allow read, write: if isAdmin(); }
     match /expenses/{docId}     { allow read, write: if isAdmin(); }
@@ -76,12 +37,13 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /flavors/{docId}      { allow read, write: if isAdmin(); }
     match /freelancers/{docId}  { allow read, write: if isAdmin(); }
     match /projects/{docId}     { allow read, write: if isAdmin(); }
     match /receivables/{docId}  { allow read, write: if isAdmin(); }
     match /b2bLeads/{docId}     { allow read, write: if isAdmin(); }
 
-    // ERP extensions
+    // Suppliers / procurement ERP
     match /suppliers/{docId}            { allow read, write: if isAdmin(); }
     match /supplierOrders/{docId}       { allow read, write: if isAdmin(); }
     match /supplierPriceHistory/{docId} { allow read, write: if isAdmin(); }
