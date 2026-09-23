@@ -7552,7 +7552,7 @@ function updateLeadStats() {
 
 /* DEEB OS V2 — centralized ERP module */
 const ERP_COLLECTIONS = ['suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','priceHistory','inventoryLedger'];
-const ERP_VERSION = '2.1.0';
+const ERP_VERSION = '2.1.1';
 const MONEY = n => Math.round((Number(n)||0)*100)/100;
 const NUM = n => Number.isFinite(Number(n)) ? Number(n) : 0;
 const esc = v => typeof sanitize === 'function' ? sanitize(v) : String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
@@ -7627,10 +7627,29 @@ const css=`
 `;
 if(!document.getElementById('erp-v2-css')){const st=document.createElement('style');st.id='erp-v2-css';st.textContent=css;document.head.appendChild(st);}
 
+function ensureERPNavSection(){
+  const aside=document.getElementById('appSidebar')||document.querySelector('aside.sidebar');
+  if(!aside)return null;
+  let section=document.getElementById('erp-nav-section');
+  if(section)return section;
+  section=document.createElement('nav');
+  section.className='nav-section';
+  section.id='erp-nav-section';
+  section.innerHTML='<div class="nav-label">ERP والإدارة المتقدمة</div>';
+  const logout=aside.querySelector('.nav-logout');
+  if(logout) aside.insertBefore(section,logout);
+  else aside.appendChild(section);
+  return section;
+}
 function addNav(id,label,icon){
-  const nav=document.querySelector('.sidebar-nav')||document.querySelector('.sidebar-menu')||document.querySelector('aside');
+  const nav=ensureERPNavSection();
   if(!nav||document.getElementById('erp-nav-'+id))return;
-  const b=document.createElement('div');b.className='nav-item';b.id='erp-nav-'+id;b.innerHTML=`<span>${icon}</span><span>${label}</span>`;b.onclick=()=>showERPPage(id,b);nav.appendChild(b);
+  const b=document.createElement('div');
+  b.className='nav-item';
+  b.id='erp-nav-'+id;
+  b.innerHTML=`<span class="icon">${icon}</span><span>${label}</span>`;
+  b.onclick=()=>showERPPage(id,b);
+  nav.appendChild(b);
 }
 function addPage(id,title,html){
   if(document.getElementById('page-'+id))return;
@@ -7642,7 +7661,7 @@ function showERPPage(id,el){
   if(id==='suppliers')renderSuppliers();if(id==='supplier-orders')renderSupplierOrders();if(id==='erp-inventory')renderERPInventory();if(id==='erp-finance')renderERPFinance();if(id==='monthly-report')renderMonthlyReport();if(id==='erp-analytics')renderERPAnalytics();if(id==='erp-search')focusERPSearch();if(id==='erp-settings')renderERPSettings();if(id==='erp-backup')renderERPBackup();
 }
 function setupUI(){
-  ['suppliers','supplier-orders','erp-inventory','erp-finance','monthly-report','erp-analytics','erp-search','erp-settings','erp-backup'].forEach((id,i)=>addNav(id,['الموردون','طلبات الموردين','المخزون المتقدم','المالية','التقرير الشهري','التحليلات','البحث الشامل','إعدادات ERP','النسخ الاحتياطي'][i],['🏭','📦','🗄️','💰','📊','📈','🔎','⚙️','💾'][i]));
+  ['suppliers','supplier-orders','erp-inventory','erp-finance','monthly-report','erp-analytics','erp-search','erp-settings','erp-backup'].forEach((id,i)=>addNav(id,['الموردون','طلبات الموردين','المخزون المتقدم','مالية ERP','التقرير الشهري','تحليلات ERP','البحث الشامل','إعدادات ERP','النسخ الاحتياطي'][i],['🏭','📦','🗄️','💰','📊','📈','🔎','⚙️','💾'][i]));
   addPage('suppliers','🏭 الموردون',`<div id="erp-suppliers"></div>`);
   addPage('supplier-orders','📦 طلبات الموردين',`<div id="erp-supplier-orders"></div>`);
   addPage('erp-inventory','🗄️ المخزون المتقدم',`<div id="erp-inventory-root"></div>`);
