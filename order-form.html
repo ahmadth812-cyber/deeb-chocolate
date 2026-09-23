@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DEEB CHOCOLATE — اطلب الآن</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F8EFEB;--light:#EBDDD4;--gold:#BF9E60;--brown:#735B53;--dark:#3B2100;--white:#fff;--success:#2d7a4f;--danger:#8b2020}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,var(--cream),#fff);color:var(--dark);font-family:Cairo,Arial,sans-serif}.wrap{max-width:760px;margin:0 auto;padding:28px 16px 60px}.brand{text-align:center;margin-bottom:20px}.brand h1{font-family:Nunito,sans-serif;letter-spacing:2px;margin:0;color:var(--dark)}.brand p{color:var(--brown);margin:.4rem 0}.card{background:var(--white);border:1px solid var(--light);border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(59,33,0,.08)}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.group{margin-bottom:14px}.label{font-size:.82rem;font-weight:800;margin-bottom:6px}.input,.select,.textarea{width:100%;border:1px solid var(--light);border-radius:10px;padding:12px;background:#fff;color:var(--dark);font-family:inherit}.textarea{min-height:90px;resize:vertical}.flavors{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding:10px;background:var(--cream);border-radius:12px}.flavor{display:flex;gap:7px;align-items:center;font-size:.78rem;padding:8px;background:#fff;border-radius:8px;border:1px solid var(--light)}.btn{width:100%;border:0;border-radius:12px;padding:13px;font-family:inherit;font-weight:900;cursor:pointer;background:var(--gold);color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.notice{padding:10px;border-radius:10px;margin-bottom:12px;font-size:.78rem;display:none}.notice.success{display:block;background:#e9f6ee;color:var(--success)}.notice.error{display:block;background:#fdecec;color:var(--danger)}.loading{color:var(--brown);font-size:.8rem}@media(max-width:620px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><h1>DEEB CHOCOLATE</h1><p>Every moment deserves DEEB.</p></div>
+  <div class="card">
+    <div id="notice" class="notice"></div>
+    <div class="row">
+      <div class="group"><div class="label">اسم العميل *</div><input id="name" class="input" required></div>
+      <div class="group"><div class="label">رقم الهاتف *</div><input id="phone" class="input" type="tel" required placeholder="07xxxxxxxx"></div>
+    </div>
+    <div class="row">
+      <div class="group"><div class="label">المنطقة *</div><input id="region" class="input" required></div>
+      <div class="group"><div class="label">الكمية *</div><input id="qty" class="input" type="number" min="1" value="1" required></div>
+    </div>
+    <div class="group"><div class="label">المنتج *</div><select id="product" class="select" required><option value="">جاري تحميل المنتجات...</option></select></div>
+    <div class="group" id="customFlavorsWrap" style="display:none"><div class="label">اختر النكهات للبوكس المخصص</div><div id="flavors" class="flavors"><span class="loading">جاري تحميل النكهات...</span></div></div>
+    <div class="group"><div class="label">ملاحظات</div><textarea id="notes" class="textarea" placeholder="أي ملاحظات على الطلب..."></textarea></div>
+    <button id="submit" class="btn" onclick="submitOrder()">إرسال الطلب</button>
+  </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig={apiKey:"AIzaSyDMN-c8eMt4MVcu6MBTYICd-anaLuSaqtM",authDomain:"deeb-chocolate.firebaseapp.com",projectId:"deeb-chocolate",storageBucket:"deeb-chocolate.firebasestorage.app",appId:"1:721497310757:web:06c1fbff6def2a4425e1cc",measurementId:"G-622F0SNNJ7"};
+// The Firebase Web API key is intentionally public in a client app; Firestore Rules must enforce write validation.
+firebase.initializeApp(firebaseConfig); const db=firebase.firestore();
+let products=[], flavors=[];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function notice(msg,type){const n=$('notice');n.textContent=msg;n.className='notice '+type;}
+function isCustom(p){return ((p?.name||'')+' '+(p?.category||'')).toLowerCase().includes('custom')||((p?.name||'')+' '+(p?.category||'')).includes('مخصص');}
+async function load(){try{const ps=await db.collection('products').where('status','==','instock').get();products=ps.docs.map(d=>({id:d.id,...d.data()}));$('product').innerHTML='<option value="">اختر المنتج</option>'+products.map(p=>`<option value="${esc(p.id)}">${esc(p.name)} — ${Number(p.price||0).toFixed(2)} JOD</option>`).join('');const fs=await db.collection('flavors').get();flavors=fs.docs.map(d=>({id:d.id,...d.data()}));$('product').addEventListener('change',toggleFlavors);toggleFlavors();}catch(e){console.error(e);notice('تعذر تحميل المنتجات. تأكد من إعدادات Firebase Rules.','error')}}
+function toggleFlavors(){const p=products.find(x=>x.id===$('product').value);const wrap=$('customFlavorsWrap');if(!isCustom(p)){wrap.style.display='none';return;}wrap.style.display='block';$('flavors').innerHTML=flavors.length?flavors.map(f=>`<label class="flavor"><input type="checkbox" value="${esc(f.name||f.id)}"> ${esc(f.name||f.id)}</label>`).join(''):'<span class="loading">لا توجد نكهات متاحة حالياً.</span>';}
+async function submitOrder(){const name=$('name').value.trim(),phone=$('phone').value.trim(),region=$('region').value.trim(),productId=$('product').value,qty=Math.max(1,Number($('qty').value)||1),notes=$('notes').value.trim();const p=products.find(x=>x.id===productId);if(!name||!phone||!region||!p)return notice('يرجى تعبئة جميع الحقول المطلوبة.','error');let selected=[];if(isCustom(p))selected=[...document.querySelectorAll('#flavors input:checked')].map(x=>x.value);const now=Date.now();const order={name,phone,region,productId,product:p.name,qty,price:(Number(p.price)||0)*qty,flavors:selected,notes,status:'pending',source:'customer-form',createdAt:now,dateRaw:new Date().toISOString().slice(0,10)};const btn=$('submit');btn.disabled=true;btn.textContent='جاري إرسال الطلب...';try{await db.collection('orders').add(order);notice('تم إرسال طلبك بنجاح ✅ سيتواصل معك فريق DEEB لتأكيد الطلب.','success');['name','phone','region','notes'].forEach(id=>$(id).value='');$('qty').value=1;$('product').value='';toggleFlavors();}catch(e){console.error(e);notice('تعذر إرسال الطلب. حاول مرة أخرى أو تواصل معنا عبر واتساب.','error')}finally{btn.disabled=false;btn.textContent='إرسال الطلب'}}
+load();
+</script>
+</body></html>
