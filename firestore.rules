@@ -1,0 +1,74 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================================
+    // DEEB CHOCOLATE — ADMIN-ONLY FIRESTORE SECURITY
+    // ============================================================
+    // The dashboard is an internal admin system. Authentication
+    // alone is NOT enough: the signed-in user must have an active
+    // document in /admins/{uid}.
+    //
+    // Bootstrap once in Firebase Console:
+    // Collection: admins
+    // Document ID: the Firebase Auth UID of the owner/admin
+    // Fields: active = true, role = "owner"
+    //
+    // IMPORTANT: /admins is intentionally not writable from the app.
+    // Add/remove admins only from Firebase Console or trusted backend.
+    // ============================================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
+    }
+
+    // Admin registry: an admin may read only their own record.
+    // No client-side create/update/delete is allowed, preventing
+    // privilege escalation from the dashboard.
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create, update, delete: if false;
+    }
+
+    // Main DEEB collections used by the current dashboard.
+    match /orders/{docId}       { allow read, write: if isAdmin(); }
+    match /customers/{docId}    { allow read, write: if isAdmin(); }
+    match /products/{docId}     { allow read, write: if isAdmin(); }
+    match /inventory/{docId}    { allow read, write: if isAdmin(); }
+    match /regions/{docId}      { allow read, write: if isAdmin(); }
+    match /expenses/{docId}     { allow read, write: if isAdmin(); }
+    match /campaigns/{docId}    { allow read, write: if isAdmin(); }
+    match /coupons/{docId}      { allow read, write: if isAdmin(); }
+    match /trash/{docId}        { allow read, write: if isAdmin(); }
+    match /certificates/{docId} { allow read, write: if isAdmin(); }
+    match /settings/{docId}     { allow read, write: if isAdmin(); }
+    match /notes/{docId}        { allow read, write: if isAdmin(); }
+    match /events/{docId}       { allow read, write: if isAdmin(); }
+
+    // Activity log is append-only from the browser.
+    // The dashboard only needs to create and read log entries.
+    match /activityLog/{docId} {
+      allow read, create: if isAdmin();
+      allow update, delete: if false;
+    }
+
+    match /flavors/{docId}      { allow read, write: if isAdmin(); }
+    match /freelancers/{docId}  { allow read, write: if isAdmin(); }
+    match /projects/{docId}     { allow read, write: if isAdmin(); }
+    match /receivables/{docId}  { allow read, write: if isAdmin(); }
+    match /b2bLeads/{docId}     { allow read, write: if isAdmin(); }
+
+    // Explicit deny-by-default for every collection that is not
+    // intentionally listed above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
