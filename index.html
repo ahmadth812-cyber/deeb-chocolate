@@ -784,7 +784,7 @@ tr:hover td{background:#faf6f3;}
 .report-print{background:var(--white);padding:1rem;border-radius:14px}.report-section{margin-top:1rem}.report-section h3{margin:.3rem 0 .7rem;color:var(--dark)}
 @media print{body>*:not(#app){display:none!important}.sidebar,.topbar,.breadcrumb,.no-print{display:none!important}.content{margin:0!important;padding:0!important}.page{display:none!important}.page.active{display:block!important}.report-print{box-shadow:none;border:0}.report-section{break-inside:avoid}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script><script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -1979,7 +1979,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
   <div class="card" id="supplierAlerts" style="margin-bottom:1rem"></div>
   <div class="card">
     <div class="erp-toolbar"><input class="form-input" id="supplierSearch" placeholder="🔍 بحث عن مورد..." oninput="window.renderSuppliers()"><select class="form-select" id="supplierTypeFilter" onchange="window.renderSuppliers()"><option value="">كل الأنواع</option><option>شوكولاتة</option><option>تغليف</option><option>مواد خام</option><option>خدمات</option><option>أخرى</option></select><select class="form-select" id="supplierStatusFilter" onchange="window.renderSuppliers()"><option value="">كل الحالات</option><option value="active">نشط</option><option value="stopped">متوقف</option></select></div>
-    <div class="erp-scroll"><table class="erp-table"><thead><tr><th>المورد</th><th>النوع</th><th>الهاتف</th><th>البريد</th><th>آخر سعر</th><th>آخر طلبية</th><th>إجمالي المشتريات</th><th>الطلبات</th><th>متوسط التوريد</th><th>الحالة</th><th>العمليات</th></tr></thead><tbody id="suppliersTable"></tbody></table></div>
+    <div class="erp-scroll"><table class="erp-table"><thead><tr><th>المورد</th><th>النوع</th><th>الهاتف</th><th>البريد</th><th>آخر سعر</th><th>آخر طلبية</th><th>إجمالي المشتريات</th><th>الطلبات</th><th>متوسط التوريد</th><th>الحالة</th><th>العمليات</th></tr></thead><tbody id="suppliersTable"></tbody></table></div><div id="suppliersPagination" class="pagination"></div><div id="suppliersPagInfo" class="pag-info"></div>
   </div>
 </div>
 
@@ -2010,9 +2010,6 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="card"><div class="card-title">🏢 معلومات المشروع</div><div class="form-row"><div class="form-group"><div class="form-label">اسم المشروع</div><input class="form-input" id="set-project-name" value="DEEB CHOCOLATE"></div><div class="form-group"><div class="form-label">البريد</div><input class="form-input" id="set-project-email" value="info@deebchocolate.com"></div></div><div class="form-row"><div class="form-group"><div class="form-label">الهاتف</div><input class="form-input" id="set-project-phone" value="0770463769"></div><div class="form-group"><div class="form-label">العملة</div><select class="form-select" id="set-currency"><option>JOD</option><option>USD</option><option>EUR</option></select></div></div><button class="btn btn-primary" onclick="window.saveProjectSettings()">💾 حفظ</button></div>
 <div class="card"><div class="card-title">🎯 الأهداف والتنبيهات</div><div id="goalProgressPanel" class="erp-grid" style="margin-bottom:1rem"></div><div class="form-row"><div class="form-group"><div class="form-label">هدف الإيراد الشهري</div><input class="form-input" id="goal-revenue" type="number"></div><div class="form-group"><div class="form-label">هدف العملاء الجدد</div><input class="form-input" id="goal-newcustomers" type="number"></div><div class="form-group"><div class="form-label">أدنى هامش ربح قبل التنبيه %</div><input class="form-input" id="goal-margin" type="number"></div><div class="form-group"><div class="form-label">ارتفاع المصاريف قبل التنبيه %</div><input class="form-input" id="goal-expense-rise" type="number"></div></div><label><input type="checkbox" id="goal-n50" checked> تنبيه 50%</label> <label><input type="checkbox" id="goal-n90" checked> تنبيه 90%</label> <label><input type="checkbox" id="goal-n100" checked> تنبيه 100%</label> <label><input type="checkbox" id="backup-reminder" checked> تذكير أسبوعي بالنسخ الاحتياطي عند فتح النظام</label><div style="margin-top:.8rem"><button class="btn btn-primary" onclick="window.saveDeebGoals()">💾 حفظ الأهداف</button></div></div>
 <div class="card"><div class="card-title">🔐 الحساب والأمان</div><div id="loginHistoryPanel" class="erp-muted" style="margin-bottom:.7rem"></div><div class="erp-toolbar"><button class="btn btn-outline" onclick="window.reauthPassword()">🔑 تغيير كلمة السر</button><button class="btn btn-outline" onclick="window.changeEmail()">✉️ تغيير الإيميل</button></div><div class="erp-muted">تغيير البريد/كلمة السر يستخدم إعادة التحقق من الحساب الحالي قبل التنفيذ.</div></div>
-<div class="card"><div class="card-title">🛒 رابط نموذج طلب العملاء</div><div class="form-group"><div class="form-label">الرابط القابل للمشاركة</div><input class="form-input" id="customer-order-form-link" readonly></div><button class="btn btn-primary" onclick="window.copyOrderFormLink()">📋 نسخ رابط الطلب</button><div class="erp-muted" style="margin-top:.5rem">ضع ملف <b>order-form.html</b> بجانب <b>index.html</b> في نفس الاستضافة، وسيعمل الرابط تلقائياً.</div></div>
-<div class="card"><div class="card-title">💾 البيانات والنسخ الاحتياطي</div><div class="erp-toolbar"><button class="btn btn-primary" onclick="window.exportDeebBackup()">⬇️ تصدير نسخة احتياطية</button><label class="btn btn-outline">⬆️ استيراد نسخة احتياطية<input type="file" accept="application/json,.json" style="display:none" onchange="window.importDeebBackup(this.files[0])"></label></div><div class="erp-muted" id="backupStatus">النسخ الاحتياطي اليدوي يعمل مباشرة من Firestore. التصدير الأسبوعي بالبريد الإلكتروني يحتاج خدمة خلفية/Cloud Function أو مزود بريد، لذلك لا يتم إرسال بريد تلقائياً من المتصفح.</div></div>
-<div class="card"><div class="card-title">🌐 التخصيص</div><div class="form-row"><div class="form-group"><div class="form-label">اللغة</div><select class="form-select"><option>العربية</option><option>English</option></select></div><div class="form-group"><div class="form-label">تنسيق التاريخ</div><select class="form-select"><option>YYYY-MM-DD</option><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option></select></div></div></div>
 </div>
 
 </main>
@@ -7788,7 +7785,7 @@ function updateLeadStats() {
     let maxRise=0,maxName='—'; (state.supplierPriceHistory||[]).forEach(h=>{if(Number(h.changePct)>maxRise){maxRise=Number(h.changePct);maxName=(state.suppliers||[]).find(s=>s.id===h.supplierId)?.name||h.item||'—'}}); document.getElementById('supPriceRise').textContent=maxRise?maxName+' +'+maxRise.toFixed(1)+'%':'—';
     const alerts=[]; (state.inventory||[]).filter(i=>(Number(i.qty)||0)<=(Number(i.min)||0)).slice(0,8).forEach(i=>alerts.push('⚠️ المخزون منخفض: '+(i.name||''))); (state.supplierOrders||[]).filter(o=>o.status!=='received'&&o.status!=='cancelled'&&o.expectedDate&&new Date(o.expectedDate)<new Date()).slice(0,8).forEach(o=>alerts.push('⏰ طلبية متأخرة: '+(o.number||o.id))); (state.supplierPriceHistory||[]).filter(h=>(Number(h.changePct)||0)>=Number((state.suppliers||[]).find(x=>x.id===h.supplierId)?.alertPct||10)).slice(-8).forEach(h=>alerts.push('📈 ارتفاع سعر '+h.itemName+' بنسبة '+Number(h.changePct).toFixed(1)+'%')); const sa=document.getElementById('supplierAlerts'); if(sa) sa.innerHTML=alerts.length?'<div class="card-title">🔔 تنبيهات الموردين</div>'+alerts.map(a=>'<div style="padding:.4rem 0;font-size:.75rem">'+sanitize(a)+'</div>').join(''):'<div class="erp-muted">لا توجد تنبيهات موردين حالياً.</div>';
   };
-  window.openSupplierModal=function(id){ const s=(state.suppliers||[]).find(x=>x.id===id)||{}; ['id','name','type','phone','email','status','alert','notes'].forEach(k=>{const e=document.getElementById('sup-'+k); if(e)e.value=s[k]??(k==='status'?'active':k==='type'?'شوكولاتة':k==='alert'?10:'');}); openModal('supplierModal'); };
+  window.openSupplierModal=function(id){ const s=(state.suppliers||[]).find(x=>x.id===id)||{}; ['id','name','type','phone','email','status','alertPct','notes'].forEach(k=>{const e=document.getElementById('sup-'+k); if(e)e.value=s[k]??(k==='status'?'active':k==='type'?'شوكولاتة':k==='alertPct'?10:'');}); openModal('supplierModal'); };
   window.saveSupplier=async function(){ const id=document.getElementById('sup-id').value; const data={name:document.getElementById('sup-name').value.trim(),type:document.getElementById('sup-type').value,phone:document.getElementById('sup-phone').value.trim(),email:document.getElementById('sup-email').value.trim(),status:document.getElementById('sup-status').value,alertPct:Number(document.getElementById('sup-alert').value)||10,notes:document.getElementById('sup-notes').value.trim()}; if(!data.name)return toast('اسم المورد مطلوب','error'); if(id) await updateDoc_('suppliers',id,data); else await addDoc_('suppliers',data); closeModal('supplierModal'); toast('تم حفظ المورد ✅','success'); };
   window.deleteSupplier=async function(id){const s=(state.suppliers||[]).find(x=>x.id===id); if(!confirm('حذف المورد '+(s?.name||'')+'؟'))return; await deleteDoc_('suppliers',id); toast('تم حذف المورد','success');};
   window.openSupplierDetail=function(id){window.currentSupplierDetailId=id; const s=(state.suppliers||[]).find(x=>x.id===id); if(!s)return; const el=document.getElementById('supplierDetailSubtitle'); if(el)el.textContent=s.name+' · '+(s.type||''); window.renderSupplierDetailPage(id); showPage('supplier-detail',null);};
@@ -7862,11 +7859,74 @@ const _oldLoadGoals=window.loadDeebGoals; window.loadDeebGoals=function(){_oldLo
 window.renderLoginHistory=function(){const el=document.getElementById('loginHistoryPanel');if(!el)return;const a=(state.settings||[]).find(x=>x.id==='loginHistory');const rows=a?.entries||[];el.innerHTML='<b>آخر 5 دخولات:</b> '+(rows.length?rows.slice(0,5).map(x=>sanitize(x)).join(' · '):'سيتم تسجيل الدخولات الجديدة هنا');};
 </script>
 
+
 <script>
-window.getOrderFormLink=function(){const p=location.pathname.substring(0,location.pathname.lastIndexOf('/')+1);return location.origin+p+'order-form.html'};
-window.copyOrderFormLink=async function(){const e=document.getElementById('customer-order-form-link');const url=window.getOrderFormLink();if(e)e.value=url;try{await navigator.clipboard.writeText(url);toast('تم نسخ رابط الطلب ✅','success')}catch(_){if(e){e.select();document.execCommand('copy');toast('تم نسخ الرابط ✅','success')}}};
-const _oldLoadProject=window.loadProjectSettings;
-window.loadProjectSettings=function(){if(typeof _oldLoadProject==='function')_oldLoadProject();const e=document.getElementById('customer-order-form-link');if(e)e.value=window.getOrderFormLink();};
+// ===== DEEB FINAL QUALITY PATCH =====
+(function(){
+  // Customer table exact labels are already calculated from live orders.
+  const th=document.querySelector('#page-customers table thead');
+  if(th) th.innerHTML='<tr><th>العميل</th><th>الهاتف</th><th>المنطقة</th><th>First Order Date</th><th>Last Order Date</th><th>Orders Count</th><th>Total Spent</th><th>Favorite Flavors</th><th>Average Order Value</th><th>VIP</th><th>إجراء</th></tr>';
+
+  // Supplier pagination + sorting/filtering stays client-side, while all data remains in Firestore.
+  let supPage=1, supSize=10, supSort={key:'name',dir:1};
+  window.renderSuppliers=function(){
+    const q=(document.getElementById('supplierSearch')?.value||'').toLowerCase().trim();
+    const type=document.getElementById('supplierTypeFilter')?.value||'';
+    const st=document.getElementById('supplierStatusFilter')?.value||'';
+    let all=(state.suppliers||[]).filter(s=>(!q||((s.name||'')+' '+(s.phone||'')+' '+(s.email||'')+' '+(s.type||'')).toLowerCase().includes(q))&&(!type||s.type===type)&&(!st||s.status===st));
+    all.sort((a,b)=>{const av=(a[supSort.key]||'').toString().toLowerCase(),bv=(b[supSort.key]||'').toString().toLowerCase();return av.localeCompare(bv,'ar')*supSort.dir;});
+    const pages=Math.max(1,Math.ceil(all.length/supSize)); if(supPage>pages)supPage=pages;
+    const page=all.slice((supPage-1)*supSize,supPage*supSize),tb=document.getElementById('suppliersTable'); if(!tb)return;
+    if(!page.length){tb.innerHTML='<tr><td colspan="11"><div class="empty-state"><div class="e-icon">📦</div><div class="e-title">لا يوجد موردون</div></div></td></tr>';} else tb.innerHTML=page.map(s=>{const os=(state.supplierOrders||[]).filter(o=>o.supplierId===s.id);const total=os.reduce((a,o)=>a+(Number(o.total)||0),0);const rec=os.filter(o=>o.status==='received');const lead=rec.filter(o=>o.date&&o.receivedDate).map(o=>(new Date(o.receivedDate)-new Date(o.date))/86400000);const avg=lead.length?lead.reduce((a,b)=>a+b,0)/lead.length:(Number(s.avgLeadTime)||0);const last=os.slice().sort((a,b)=>(new Date(b.date||0))-(new Date(a.date||0)))[0];const lastPrice=last?.items?.length?Number(last.items[last.items.length-1].unitPrice||0):Number(s.lastPrice||0);return `<tr><td><strong>${sanitize(s.name)}</strong></td><td>${sanitize(s.type||'أخرى')}</td><td>${sanitize(s.phone||'—')}</td><td>${sanitize(s.email||'—')}</td><td>${lastPrice.toFixed(2)}</td><td>${sanitize(dateOnly(last?.date)||'—')}</td><td>${total.toFixed(2)}</td><td>${os.length}</td><td>${avg.toFixed(1)} يوم</td><td><span class="badge ${s.status==='active'?'badge-delivered':'badge-cancelled'}">${s.status==='active'?'نشط':'متوقف'}</span></td><td><div class="erp-actions"><button class="btn btn-outline erp-mini" onclick="window.openSupplierDetail('${s.id}')">عرض</button><button class="btn btn-outline erp-mini" onclick="window.openSupplierModal('${s.id}')">تعديل</button><button class="btn btn-gold erp-mini" onclick="window.openSupplierOrder('${s.id}')">＋ طلبية</button><button class="btn btn-danger erp-mini" onclick="window.deleteSupplier('${s.id}')">حذف</button></div></td></tr>`}).join('');
+    const pEl=document.getElementById('suppliersPagination'),iEl=document.getElementById('suppliersPagInfo');
+    if(pEl)pEl.innerHTML=Array.from({length:pages},(_,i)=>`<button class="pag-btn ${i+1===supPage?'active':''}" onclick="window.setSupplierPage(${i+1})">${i+1}</button>`).join('');
+    if(iEl)iEl.textContent=`${all.length} مورد · صفحة ${supPage} من ${pages}`;
+    // cards
+    const now=new Date(),mo=(state.supplierOrders||[]).filter(o=>{const d=parseDate(o.date);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()});
+    const moneyEl=id=>document.getElementById(id); const spend=mo.reduce((a,o)=>a+(Number(o.total)||0),0); if(moneyEl('supSpendMonth'))moneyEl('supSpendMonth').textContent=money(spend);if(moneyEl('supActiveCount'))moneyEl('supActiveCount').textContent=(state.suppliers||[]).filter(s=>s.status==='active').length;const last=(state.supplierOrders||[]).slice().sort((a,b)=>(new Date(b.date||0))-(new Date(a.date||0)))[0];if(moneyEl('supLastOrderValue'))moneyEl('supLastOrderValue').textContent=money(last?.total||0);const by={};mo.forEach(o=>by[o.supplierId]=(by[o.supplierId]||0)+(Number(o.total)||0));const top=Object.entries(by).sort((a,b)=>b[1]-a[1])[0];if(moneyEl('supTopVendor'))moneyEl('supTopVendor').textContent=top?((state.suppliers||[]).find(s=>s.id===top[0])?.name||'—'):'—';const leads=(state.supplierOrders||[]).filter(o=>o.status==='received'&&o.date&&o.receivedDate).map(o=>(new Date(o.receivedDate)-new Date(o.date))/86400000);if(moneyEl('supAvgLead'))moneyEl('supAvgLead').textContent=(leads.length?leads.reduce((a,b)=>a+b,0)/leads.length:0).toFixed(1)+' يوم';let maxRise=0,maxName='—';(state.supplierPriceHistory||[]).forEach(h=>{if(Number(h.changePct)>maxRise){maxRise=Number(h.changePct);maxName=(state.suppliers||[]).find(s=>s.id===h.supplierId)?.name||'—'}});if(moneyEl('supPriceRise'))moneyEl('supPriceRise').textContent=maxRise?maxName+' +'+maxRise.toFixed(1)+'%':'—';
+  };
+  window.setSupplierPage=n=>{supPage=n;window.renderSuppliers()};
+  window.sortSuppliers=key=>{supSort.dir=supSort.key===key?-supSort.dir:1;supSort.key=key;window.renderSuppliers()};
+
+  // Received quantity support: asks for actual received quantity per item when receiving.
+  const oldReceive=window.receiveSupplierOrder;
+  if(oldReceive) window.receiveSupplierOrder=async function(id){
+    const o=(state.supplierOrders||[]).find(x=>x.id===id); if(!o||o.receivedProcessed)return;
+    let changed=false;
+    const items=(o.items||[]).map(it=>{let q=Number(it.receivedQty ?? it.qty)||0;const ans=prompt('الكمية المستلمة فعلياً لـ '+(it.name||'المادة')+' (المطلوب '+(it.qty||0)+')',String(q));if(ans===null) return it;const n=Math.max(0,Number(ans)||0);if(n!==q)changed=true;return {...it,receivedQty:n};});
+    if(changed||items.some((it,i)=>Number(it.receivedQty)!==Number(o.items[i]?.receivedQty??o.items[i]?.qty))){await updateDoc_('supplierOrders',id,{items});state.supplierOrders=(state.supplierOrders||[]).map(x=>x.id===id?{...x,items}:x);}
+    // Re-run the original processor using receivedQty via a temporary mapped object.
+    const original=o.items; o.items=items;
+    try{await oldReceive(id);}finally{o.items=original;}
+  };
+
+  // Excel import for a selected collection. Requires the free SheetJS browser library.
+  window.importExcelPrompt=async function(){
+    const c=prompt('اكتب اسم الـ Collection للاستيراد (مثال: customers أو products أو inventory أو expenses)');
+    const allowed=['orders','customers','products','inventory','regions','expenses','campaigns','coupons','certificates','flavors']; if(!c||!allowed.includes(c))return toast('Collection غير مسموحة','error');
+    const input=document.createElement('input');input.type='file';input.accept='.xlsx,.xls,.csv';input.onchange=async()=>{const f=input.files?.[0];if(!f)return;try{if(!window.XLSX)throw new Error('XLSX library not loaded');const data=await f.arrayBuffer();const wb=XLSX.read(data,{type:'array'});const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});for(const row of rows){await db.collection(c).add({...row,importedAt:Date.now()});}toast('تم استيراد '+rows.length+' سجل من Excel ✅','success');}catch(e){console.error(e);toast('فشل استيراد Excel: '+e.message,'error');}};input.click();
+  };
+
+  // Persist language/date preferences and project settings.
+  window.saveUiPreferences=async function(){const lang=document.getElementById('set-language')?.value||'ar',fmt=document.getElementById('set-date-format')?.value||'YYYY-MM-DD';localStorage.setItem('deebLanguage',lang);localStorage.setItem('deebDateFormat',fmt);await setDoc_('settings','uiPreferences',{language:lang,dateFormat:fmt});toast('تم حفظ التخصيصات ✅','success')};
+  window.loadUiPreferences=function(){const s=(state.settings||[]).find(x=>x.id==='uiPreferences')||{};const l=document.getElementById('set-language'),d=document.getElementById('set-date-format');if(l)l.value=s.language||localStorage.getItem('deebLanguage')||'ar';if(d)d.value=s.dateFormat||localStorage.getItem('deebDateFormat')||'YYYY-MM-DD';};
+
+  // Goal threshold alerts and financial thresholds.
+  window.checkDeebGoalAlerts=function(){const g=(state.settings||[]).find(x=>x.id==='goals')||{};const now=new Date(),key=now.getFullYear()+'-'+now.getMonth();const os=(state.orders||[]).filter(o=>o.status!=='cancelled'&&(()=>{const d=orderDate(o);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()})());const revenue=os.reduce((a,o)=>a+(Number(o.price)||Number(o.total)||0),0);const newC=(state.customers||[]).filter(c=>{const d=parseDate(c.createdAt);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()}).length;const alerts=[];[[50,g.notify50],[90,g.notify90],[100,g.notify100]].forEach(([p,on])=>{if(on===false)return;const vals=[];if(Number(g.monthlyRevenue)>0)vals.push(['revenue',revenue/Number(g.monthlyRevenue)*100]);if(Number(g.newCustomers)>0)vals.push(['customers',newC/Number(g.newCustomers)*100]);vals.forEach(([type,pct])=>{const hit=pct>=p,lk='deebGoalAlert-'+key+'-'+type+'-'+p;if(hit&&!localStorage.getItem(lk)){localStorage.setItem(lk,'1');alerts.push(type==='revenue'?'الإيراد الشهري وصل '+p+'% من الهدف':'العملاء الجدد وصلوا '+p+'% من الهدف')}})});if(alerts.length)toast(alerts.join(' · '),'warning');
+    const rev= revenue, ex=(state.expenses||[]).filter(e=>{const d=parseDate(e.date||e.createdAt);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()}).reduce((a,e)=>a+(Number(e.amount)||0),0);const margin=rev?((rev-ex)/rev)*100:100;if(Number(g.minMargin)>0&&margin<Number(g.minMargin))toast('هامش الربح الحالي '+margin.toFixed(1)+'% أقل من الحد المحدد','warning');
+  };
+
+  // Login history is actually recorded on successful login.
+  const oldLogin=window.login;
+  // direct patch of Firebase success is done below if login function exists in source via event hook.
+  auth.onAuthStateChanged(function(u){if(u){const key='deebLoginRecorded-'+new Date().toISOString().slice(0,10);if(!sessionStorage.getItem(key)){sessionStorage.setItem(key,'1');db.collection('settings').doc('loginHistory').get().then(s=>{const a=s.exists?s.data():{};const entries=Array.isArray(a.entries)?a.entries:[];entries.unshift(new Date().toLocaleString('ar-JO'));return db.collection('settings').doc('loginHistory').set({entries:entries.slice(0,5),updatedAt:Date.now()},{merge:true});}).catch(()=>{});}}});
+
+  // Wrap settings save/load and dashboard refresh without breaking existing functions.
+  const oldSaveProject=window.saveProjectSettings;window.saveProjectSettings=async function(){if(oldSaveProject)await oldSaveProject();await window.saveUiPreferences();};
+  const oldLoadProject=window.loadProjectSettings;window.loadProjectSettings=function(){if(oldLoadProject)oldLoadProject();window.loadUiPreferences();};
+  const oldRenderDashboard=window.refreshDashboard;window.refreshDashboard=function(){if(oldRenderDashboard)oldRenderDashboard();setTimeout(window.checkDeebGoalAlerts,50);setTimeout(window.renderPeakAnalysis,50);};
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{window.loadUiPreferences();window.renderSuppliers();window.checkDeebGoalAlerts();},1200));
+})();
 </script>
 </body>
 </html>
