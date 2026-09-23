@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deeb Chocolate OS</title>
+<title>DEEB Chocolate OS — V2.4 Mobile</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -770,8 +770,661 @@ tr:hover td{background:#faf6f3;}
 /* ── Edit button ── */
 .btn-sm.btn-outline { padding:0.25rem 0.5rem; font-size:0.72rem; }
 
-  </style>
+  
+/* ================================================================
+   DEEB OS V2.3 — PREMIUM UI / UX REDESIGN
+   Purpose: calmer visual hierarchy, better spacing, professional
+   dashboard ergonomics, stronger tables/forms, cleaner navigation.
+   ================================================================ */
+:root{
+  --sidebar-w:278px;
+  --page-bg:#f6f2ee;
+  --surface:#ffffff;
+  --surface-soft:#fbf8f5;
+  --line:#eadfd7;
+  --line-strong:#dfd0c6;
+  --ink:#2d1a0d;
+  --muted:#806f64;
+  --muted-2:#a59489;
+  --gold:#bf9e60;
+  --gold-deep:#9f7c3e;
+  --gold-soft:#f3eadb;
+  --brown:#735b53;
+  --dark:#2c180b;
+  --shadow-xs:0 1px 2px rgba(59,33,0,.04);
+  --shadow-sm:0 6px 18px rgba(59,33,0,.06);
+  --shadow-md:0 14px 38px rgba(59,33,0,.08);
+  --radius-sm:10px;
+  --radius-md:14px;
+  --radius-lg:18px;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--page-bg);
+  color:var(--ink);
+  font-size:14px;
+  line-height:1.55;
+  letter-spacing:-.01em;
+}
+
+/* ---------- APP SHELL ---------- */
+.sidebar{
+  width:var(--sidebar-w);
+  background:linear-gradient(180deg,#2b170a 0%,#241309 52%,#1e1008 100%);
+  border-left:1px solid rgba(255,255,255,.04);
+  box-shadow:-10px 0 30px rgba(34,16,5,.07);
+  padding-bottom:0;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(191,158,96,.32) transparent;
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(191,158,96,.28);border-radius:10px}
+.sidebar-logo{
+  padding:22px 20px 18px;
+  min-height:88px;
+  background:linear-gradient(180deg,rgba(191,158,96,.09),transparent);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.sidebar-logo .brand{
+  font-size:1.28rem;
+  letter-spacing:.5px;
+  color:#e6c984;
+}
+.sidebar-logo .sub{
+  color:#bda991;
+  font-size:.62rem;
+  letter-spacing:2.6px;
+  margin-top:4px;
+}
+.nav-section{
+  padding:13px 11px 0;
+}
+.nav-label{
+  font-size:.62rem;
+  letter-spacing:1.7px;
+  color:#a68e78;
+  padding:0 10px 7px;
+  font-weight:700;
+}
+.nav-item{
+  position:relative;
+  min-height:43px;
+  padding:9px 12px;
+  margin:2px 0;
+  border:1px solid transparent;
+  border-right:0;
+  border-radius:11px;
+  color:#c7b6a7;
+  font-size:.82rem;
+  font-weight:600;
+  gap:10px;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+}
+.nav-item .icon{
+  width:23px;
+  min-width:23px;
+  font-size:1rem;
+  opacity:.92;
+}
+.nav-item:hover{
+  background:rgba(255,255,255,.055);
+  border-color:rgba(191,158,96,.11);
+  color:#f0dfbb;
+  transform:translateX(-1px);
+}
+.nav-item.active{
+  background:linear-gradient(90deg,rgba(191,158,96,.20),rgba(191,158,96,.08));
+  border-color:rgba(191,158,96,.18);
+  color:#f0d58e;
+  box-shadow:inset 3px 0 0 var(--gold),0 4px 12px rgba(0,0,0,.08);
+}
+.nav-item.active .icon{opacity:1}
+.nav-logout{
+  margin-top:auto;
+  padding:13px 16px 17px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:linear-gradient(180deg,rgba(30,16,8,.86),#1e1008);
+}
+.btn-logout{
+  min-height:42px;
+  border-radius:11px;
+  background:rgba(139,32,32,.13);
+  border:1px solid rgba(248,113,113,.18);
+  color:#f2a4a4;
+  font-size:.78rem;
+}
+.btn-logout:hover{background:rgba(139,32,32,.22);border-color:rgba(248,113,113,.3);}
+
+.main{
+  margin-right:var(--sidebar-w);
+  min-width:0;
+  background:var(--page-bg);
+}
+.topbar{
+  min-height:72px;
+  padding:12px 26px;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 3px 18px rgba(59,33,0,.045);
+  backdrop-filter:blur(12px);
+}
+.topbar-title{
+  font-size:1.05rem;
+  font-weight:800;
+  color:var(--ink);
+}
+.topbar-right{gap:12px}
+.topbar-user,.topbar-date{font-size:.72rem;color:var(--muted)}
+.dark-toggle{
+  min-height:36px;
+  border-color:var(--line);
+  background:var(--surface-soft);
+  border-radius:10px;
+  color:var(--muted);
+  padding:6px 10px;
+}
+.dark-toggle:hover{background:var(--gold-soft);border-color:#d8bf92;color:var(--gold-deep)}
+
+.breadcrumb{
+  margin:0;
+  padding:10px 26px;
+  background:rgba(255,255,255,.68);
+  border-bottom:1px solid var(--line);
+  min-height:43px;
+}
+.breadcrumb-item{font-size:.72rem;color:var(--muted)}
+.breadcrumb-item.active{color:var(--ink);font-weight:700}
+
+.content{
+  width:100%;
+  max-width:1680px;
+  margin:0 auto;
+  padding:26px 28px 42px;
+}
+
+/* ---------- PAGE HEADERS ---------- */
+.section-header{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin:0 0 18px;
+  padding:4px 0 15px;
+  border-bottom:1px solid var(--line);
+}
+.section-header:after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:-1px;
+  width:54px;
+  height:2px;
+  background:var(--gold);
+  border-radius:2px;
+}
+.section-title-main{
+  font-size:1.24rem;
+  line-height:1.3;
+  font-weight:900;
+  color:var(--ink);
+  letter-spacing:-.025em;
+}
+.section-subtitle{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:.75rem;
+}
+
+/* ---------- KPI / CARDS ---------- */
+.stats-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:16px;
+}
+.stat-card{
+  position:relative;
+  min-height:132px;
+  padding:19px 20px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-xs);
+  overflow:hidden;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.stat-card:hover{
+  transform:translateY(-2px);
+  border-color:#dfcba8;
+  box-shadow:var(--shadow-sm);
+}
+.stat-label{font-size:.73rem;color:var(--muted);font-weight:700;margin-bottom:7px}
+.stat-value{font-size:1.65rem;font-weight:900;letter-spacing:-.04em;color:var(--ink);line-height:1.1}
+.stat-sub,.kpi-change{font-size:.67rem;color:var(--muted-2);margin-top:7px}
+.stat-icon{
+  position:absolute;
+  left:17px;
+  top:17px;
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:var(--gold-soft);
+  font-size:1.1rem;
+}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-xs);
+  overflow:hidden;
+  margin-bottom:16px;
+}
+.card-header{
+  min-height:58px;
+  padding:13px 18px;
+  background:linear-gradient(180deg,#fff,#fdfaf8);
+  border-bottom:1px solid var(--line);
+}
+.card-title{font-size:.84rem;font-weight:800;color:var(--ink)}
+.card-body{padding:18px}
+.grid-2{gap:16px}
+
+/* ---------- TABLES ---------- */
+.table-wrap{
+  overflow:auto;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+}
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface)}
+th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:#faf6f2;
+  color:#76665c;
+  font-size:.69rem;
+  font-weight:800;
+  white-space:nowrap;
+  padding:11px 13px;
+  border-bottom:1px solid var(--line);
+}
+td{
+  padding:12px 13px;
+  font-size:.75rem;
+  color:#4d3c31;
+  border-bottom:1px solid #f0e8e2;
+  vertical-align:middle;
+}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:#fcf8f4}
+
+/* ---------- BUTTONS ---------- */
+.btn{
+  min-height:38px;
+  border-radius:10px;
+  padding:7px 13px;
+  font-size:.74rem;
+  font-weight:800;
+  box-shadow:none;
+  transition:all .18s ease;
+}
+.btn-primary{
+  background:var(--dark);
+  color:#f1d89e;
+  border:1px solid var(--dark);
+}
+.btn-primary:hover{background:#43260f;border-color:#43260f;transform:translateY(-1px);box-shadow:0 6px 14px rgba(59,33,0,.12)}
+.btn-outline{background:var(--surface);border:1px solid var(--line-strong);color:var(--brown)}
+.btn-outline:hover{background:var(--gold-soft);border-color:#d9bf8c;color:var(--gold-deep)}
+.btn-danger{border-radius:10px}
+
+/* ---------- FORMS ---------- */
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:.72rem;font-weight:800;color:#624f44;margin-bottom:6px}
+.form-input,.form-select,.form-textarea,.search-input{
+  min-height:40px;
+  padding:8px 11px;
+  background:var(--surface);
+  border:1px solid var(--line-strong);
+  border-radius:10px;
+  color:var(--ink);
+  font-size:.78rem;
+  box-shadow:inset 0 1px 1px rgba(59,33,0,.02);
+}
+.form-textarea{min-height:96px;resize:vertical}
+.form-input:hover,.form-select:hover,.form-textarea:hover,.search-input:hover{border-color:#d2bfae}
+.form-input:focus,.form-select:focus,.form-textarea:focus,.search-input:focus{
+  outline:none;
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(191,158,96,.12);
+}
+.search-bar{
+  padding:11px;
+  margin-bottom:13px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:var(--shadow-xs);
+}
+.search-input{background:var(--surface-soft)}
+.results-count{background:var(--gold-soft);color:var(--gold-deep);font-weight:800;border:1px solid #ead9bb}
+.month-filter-bar{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+  padding:9px;
+  margin-bottom:12px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+.month-filter-bar label{font-size:.7rem;color:var(--muted);font-weight:800;margin-left:4px}
+.mf-btn{border:1px solid var(--line-strong);background:var(--surface-soft);color:var(--muted);border-radius:8px;padding:6px 10px;font-family:'Cairo',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer}
+.mf-btn.active{background:var(--gold);border-color:var(--gold);color:#2b190b}
+
+/* ---------- MODALS ---------- */
+.modal-overlay{backdrop-filter:blur(5px);background:rgba(34,18,8,.48)}
+.modal{
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 28px 80px rgba(39,20,7,.20);
+}
+.modal-header{padding:17px 20px;border-bottom:1px solid var(--line)}
+.modal-title{font-size:.92rem;font-weight:900}
+.modal-body{padding:20px}
+.modal-footer{padding:13px 20px;border-top:1px solid var(--line);background:#fcf9f6}
+
+/* ---------- DASHBOARD LAYOUT ---------- */
+#page-dashboard .grid-2{align-items:stretch}
+#page-dashboard .stats-grid:nth-of-type(2) .stat-card,
+#page-dashboard .stats-grid:nth-of-type(3) .stat-card{min-height:112px}
+#page-dashboard .card canvas{max-height:220px}
+
+/* ---------- BADGES / SMALL UI ---------- */
+.badge{border-radius:999px;padding:3px 8px;font-size:.62rem;font-weight:800;white-space:nowrap}
+.empty-state{padding:38px 18px!important;color:var(--muted)!important}
+.e-icon{opacity:.55;margin-bottom:6px}
+.e-title{font-size:.75rem;font-weight:700}
+
+/* ---------- ADMIN / DATA TABLES ---------- */
+.deeb-admin-shell,.admin-center-shell,.erp-shell{border-radius:18px}
+.deeb-admin-shell .card,.admin-center-shell .card,.erp-shell .card{box-shadow:var(--shadow-xs)}
+
+/* ---------- SCROLLBARS ---------- */
+*{scrollbar-width:thin;scrollbar-color:#d3c0af transparent}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:#d3c0af;border-radius:20px}
+*::-webkit-scrollbar-thumb:hover{background:#bfa894}
+
+/* ---------- LOGIN ---------- */
+.auth-screen{
+  background:radial-gradient(circle at 50% 25%,#4b2b12 0%,#2b1608 42%,#170c05 100%);
+}
+.auth-box{
+  width:min(92%,400px);
+  padding:26px;
+  border-radius:22px;
+  background:rgba(48,25,9,.82);
+  border:1px solid rgba(191,158,96,.22);
+  box-shadow:0 30px 80px rgba(0,0,0,.28);
+  backdrop-filter:blur(12px);
+}
+.auth-title{font-size:.95rem;margin-bottom:18px}
+.auth-input{min-height:46px;border-radius:11px;background:rgba(255,255,255,.055)}
+.auth-btn{min-height:46px;border-radius:11px}
+
+/* ---------- MOBILE ---------- */
+@media (max-width:1200px){
+  .stats-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .content{padding:22px 20px 34px}
+  .topbar{padding:11px 20px}
+  .breadcrumb{padding:9px 20px}
+}
+@media (max-width:900px){
+  :root{--sidebar-w:270px}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-2{grid-template-columns:1fr!important}
+}
+@media (max-width:768px){
+  body{font-size:13px}
+  .main{margin-right:0}
+  .sidebar{width:min(86vw,300px);box-shadow:-20px 0 50px rgba(0,0,0,.25)}
+  .topbar{min-height:64px;padding:9px 13px}
+  .topbar-date{display:none}
+  .topbar-user{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .content{padding:17px 12px 28px}
+  .breadcrumb{padding:8px 13px}
+  .section-header{align-items:flex-start;flex-direction:column;gap:10px}
+  .section-header .btn{width:100%}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .stat-card{min-height:118px;padding:15px}
+  .stat-value{font-size:1.35rem}
+  .stat-icon{width:34px;height:34px;left:12px;top:12px;font-size:.95rem}
+  .card-header{padding:12px 14px}
+  .card-body{padding:14px}
+  th{padding:9px 10px}
+  td{padding:10px}
+}
+@media (max-width:480px){
+  .stats-grid{grid-template-columns:1fr}
+  .stat-card{min-height:104px}
+  .topbar-right .dark-toggle span:last-child{display:none}
+  .search-bar{align-items:stretch}
+  .search-input{min-width:100%}
+}
+
+/* ---------- DARK MODE V2.3 ---------- */
+[data-theme="dark"]{
+  --page-bg:#15100c;
+  --surface:#201811;
+  --surface-soft:#251c14;
+  --line:#34281f;
+  --line-strong:#47372b;
+  --ink:#f0e5d6;
+  --muted:#bca896;
+  --muted-2:#988474;
+  --gold-soft:#342917;
+}
+[data-theme="dark"] body{background:var(--page-bg);color:var(--ink)}
+[data-theme="dark"] .topbar{background:rgba(27,20,14,.94);border-color:var(--line)}
+[data-theme="dark"] .breadcrumb{background:rgba(27,20,14,.76);border-color:var(--line)}
+[data-theme="dark"] .card-header{background:#251c14;border-color:var(--line)}
+[data-theme="dark"] th{background:#291f16;color:#c6b4a2;border-color:var(--line)}
+[data-theme="dark"] td{color:#d8cabb;border-color:#30251d}
+[data-theme="dark"] tbody tr:hover td{background:#281f17!important}
+[data-theme="dark"] .search-bar,.dark-mode .month-filter-bar{background:var(--surface);border-color:var(--line)}
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .form-textarea,
+[data-theme="dark"] .search-input{background:#261d15;border-color:var(--line-strong);color:var(--ink)}
+[data-theme="dark"] .modal-footer{background:#251c14;border-color:var(--line)}
+[data-theme="dark"] .btn-outline{background:#241b13;border-color:var(--line-strong);color:#cdbbaa}
+[data-theme="dark"] .section-header{border-color:var(--line)}
+[data-theme="dark"] .stat-card{background:var(--surface);border-color:var(--line)}
+[data-theme="dark"] .stat-card:hover{border-color:#604d36}
+[data-theme="dark"] .results-count{border-color:#57462e}
+
+/* subtle page entrance, no distracting movement */
+.page.active{animation:deebPageIn .16s ease-out}
+@keyframes deebPageIn{from{opacity:.65;transform:translateY(3px)}to{opacity:1;transform:none}}
+
+</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+/* ==========================================================
+   DEEB OS V2.4 — MOBILE-FIRST / PHONE UX LAYER
+   Designed for iPhone/Android: touch-first, safe-area aware,
+   readable, fast, and operationally practical.
+   ========================================================== */
+:root{--mobile-nav-h:68px;--mobile-radius:14px;--touch-min:46px}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{-webkit-tap-highlight-color:transparent;overscroll-behavior-x:none}
+button,a,input,select,textarea{touch-action:manipulation}
+button,.btn,.nav-item,.deeb-tab,.mf-btn,.cal-nav-btn,.cal-view-btn,.modal-close{min-height:var(--touch-min)}
+input,select,textarea{max-width:100%}
+.table-wrap,.deeb-data-wrap,.cal-week{overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+
+/* Desktop remains unchanged; mobile shell only appears on phones/tablets. */
+.deeb-mobile-bottom-nav{display:none}
+.deeb-mobile-menu-btn{display:none}
+.deeb-mobile-backdrop{display:none}
+
+@media (max-width: 768px){
+  body{padding-bottom:calc(var(--mobile-nav-h) + env(safe-area-inset-bottom));overflow-x:hidden}
+  .main{min-width:0;width:100%;margin-right:0!important}
+  .content{width:100%;box-sizing:border-box;overflow-x:hidden}
+  .topbar{position:sticky;top:0;z-index:150;min-height:62px;box-sizing:border-box;padding:8px 12px!important;gap:8px;box-shadow:0 2px 16px rgba(59,33,0,.07)}
+  .topbar-left{min-width:0;gap:7px}
+  .topbar-title{font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
+  .topbar-user{font-size:.7rem;max-width:120px}
+  .topbar-date{display:none!important}
+  .hamburger{display:flex!important;flex:0 0 42px;width:42px;height:42px;border:1px solid var(--light);background:var(--white);box-shadow:0 2px 8px rgba(59,33,0,.06)}
+  .hamburger span{width:19px}
+  .topbar-right{gap:6px;min-width:0}
+  .dark-toggle{height:42px;min-width:42px;padding:.35rem .55rem}
+  .dark-toggle span:last-child{display:none}
+
+  /* Sidebar = real mobile drawer */
+  .sidebar{width:min(88vw,340px)!important;max-width:340px;height:100dvh;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(84px + env(safe-area-inset-bottom));box-shadow:-24px 0 70px rgba(0,0,0,.22)!important}
+  .sidebar-logo{position:sticky;top:0;z-index:3;background:inherit;padding-top:max(14px,env(safe-area-inset-top))}
+  .sidebar-overlay{z-index:190!important}
+  .sidebar{z-index:200!important}
+  .nav-section{padding:5px 10px}
+  .nav-label{font-size:.63rem;margin:6px 7px 4px}
+  .nav-item{min-height:46px;padding:10px 12px;border-radius:11px;font-size:.78rem}
+  .nav-item .icon{width:26px}
+
+  /* Bottom navigation */
+  .deeb-mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);right:0;left:0;bottom:0;height:var(--mobile-nav-h);padding:6px 8px calc(6px + env(safe-area-inset-bottom));box-sizing:content-box;background:rgba(248,239,235,.96);border-top:1px solid rgba(115,91,83,.15);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:180;box-shadow:0 -8px 25px rgba(59,33,0,.08)}
+  .deeb-mobile-bottom-nav button{border:0;background:transparent;color:var(--brown);font-family:'Cairo',sans-serif;font-size:.61rem;font-weight:700;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:5px 2px;min-height:56px;line-height:1.1}
+  .deeb-mobile-bottom-nav button .m-icon{font-size:1.1rem;line-height:1}
+  .deeb-mobile-bottom-nav button.active{color:var(--dark);background:rgba(191,158,96,.16)}
+  .deeb-mobile-bottom-nav button:active{transform:scale(.96)}
+  [data-theme="dark"] .deeb-mobile-bottom-nav{background:rgba(26,20,16,.96);border-top-color:var(--line);box-shadow:0 -8px 25px rgba(0,0,0,.3)}
+  [data-theme="dark"] .deeb-mobile-bottom-nav button.active{background:rgba(232,201,122,.13);color:var(--gold)}
+
+  /* Content rhythm */
+  .breadcrumb{padding:8px 12px!important;min-height:38px;box-sizing:border-box;overflow:hidden;white-space:nowrap}
+  .breadcrumb-item{font-size:.66rem}
+  .content{padding:12px 11px 24px!important}
+  .section-header{margin-bottom:12px!important;gap:9px!important}
+  .section-title-main{font-size:1rem!important;line-height:1.45}
+  .section-subtitle{font-size:.68rem!important;line-height:1.55}
+  .section-header .btn{width:auto;max-width:100%;min-height:46px;padding:10px 14px}
+  .section-header .btn-group,.section-header .actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+
+  /* Cards */
+  .card,.stat-card,.note-card,.kanban-card{border-radius:14px!important;box-shadow:0 2px 12px rgba(59,33,0,.035)}
+  .card{overflow:hidden}
+  .card-header{padding:11px 13px!important;gap:8px}
+  .card-body{padding:13px!important}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .stat-card{min-height:102px!important;padding:12px!important}
+  .stat-label{font-size:.62rem!important;line-height:1.4}
+  .stat-value{font-size:1.15rem!important;line-height:1.25;word-break:break-word}
+  .stat-icon{font-size:1.1rem!important;opacity:.8}
+
+  /* Forms — one comfortable column */
+  .grid-2,.grid-3,.form-row,.form-row-3,.form-grid,.deeb-admin-grid{grid-template-columns:1fr!important}
+  .form-group{margin-bottom:11px}
+  .form-label{font-size:.72rem;margin-bottom:5px}
+  .form-input,.form-select,.form-textarea,.search-input,.auth-input,.confirm-input{min-height:46px!important;border-radius:10px!important;font-size:16px!important;line-height:1.35}
+  .form-textarea{min-height:110px!important}
+  .search-bar{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;align-items:stretch!important}
+  .search-bar>*{width:100%!important;box-sizing:border-box}
+  .mf-btn,.cal-view-btn{min-height:42px}
+  .month-filter-bar{display:grid!important;grid-template-columns:1fr 1fr;gap:7px!important}
+  .month-filter-bar label{grid-column:1/-1}
+
+  /* Buttons */
+  .btn{min-height:46px!important;border-radius:10px!important;padding:10px 13px!important;font-size:.75rem!important;white-space:normal}
+  .btn-sm{min-height:42px!important;padding:8px 11px!important}
+  .btn-danger,.btn-primary,.btn-outline{touch-action:manipulation}
+
+  /* Tables: keep data intact, make them swipeable */
+  .table-wrap,.deeb-data-wrap{width:100%;overflow-x:auto!important;overflow-y:hidden!important;border-radius:12px!important}
+  .table-wrap table{min-width:680px}
+  .deeb-data-table{min-width:760px!important}
+  th{font-size:.67rem!important;padding:9px 8px!important;white-space:nowrap}
+  td{font-size:.69rem!important;padding:9px 8px!important;vertical-align:middle}
+  .table-wrap::-webkit-scrollbar,.deeb-data-wrap::-webkit-scrollbar{height:5px}
+  .table-wrap::-webkit-scrollbar-thumb,.deeb-data-wrap::-webkit-scrollbar-thumb{background:rgba(191,158,96,.55);border-radius:10px}
+
+  /* Mobile data editor */
+  .deeb-collection-list{max-height:none!important}
+  .deeb-text-row{grid-template-columns:1fr!important;gap:6px!important;padding:10px 0!important}
+  .deeb-number-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .deeb-number-card{padding:9px!important;border-radius:11px!important}
+  .deeb-admin-toolbar{display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important}
+  .deeb-admin-toolbar>*{width:100%!important;min-height:44px}
+  .deeb-editor{margin-top:10px!important}
+
+  /* Modals become bottom sheets, but stay usable */
+  .modal-overlay{align-items:flex-end!important;padding:0!important}
+  .modal{width:100%!important;max-width:none!important;max-height:min(94dvh,760px)!important;margin:0!important;border-radius:20px 20px 0 0!important;overflow:hidden!important;box-sizing:border-box!important;padding-bottom:env(safe-area-inset-bottom)!important}
+  .modal-header{position:sticky;top:0;z-index:4;padding:13px 14px!important;background:var(--white)!important;border-bottom:1px solid var(--light);min-height:54px;box-sizing:border-box}
+  .modal-body{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;max-height:calc(94dvh - 120px)!important;padding:14px!important}
+  .modal-footer{position:sticky;bottom:0;z-index:4;background:var(--white)!important;border-top:1px solid var(--light);padding:10px 14px!important;display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+  .modal-footer .btn{width:100%!important}
+  .modal-close{width:42px!important;height:42px!important;min-height:42px!important}
+  .confirm-modal{align-items:flex-end!important}
+  .confirm-box{width:100%!important;max-width:none!important;border-radius:20px 20px 0 0!important;padding:18px 14px calc(18px + env(safe-area-inset-bottom))!important}
+
+  /* Calendar */
+  .cal-toolbar{display:grid;grid-template-columns:1fr;gap:8px}
+  .cal-nav{justify-content:space-between}
+  .cal-title{min-width:0;font-size:.9rem}
+  .cal-views{display:grid;grid-template-columns:repeat(3,1fr)}
+  .cal-month{overflow-x:auto}
+  .cal-grid{min-width:560px}
+  .cal-day{min-height:74px}
+  .cal-event{font-size:.56rem}
+
+  /* Kanban and analytics */
+  .kanban{grid-template-columns:1fr!important;overflow:visible}
+  .analytics-row,.analytics-grid{grid-template-columns:1fr!important}
+  .pw-overview-grid{grid-template-columns:1fr!important}
+
+  /* Long text / code / JSON never break the viewport */
+  pre,code,.json-view,.deeb-cell{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+
+  /* Make destructive actions visually separated */
+  .btn-danger{order:2}
+}
+
+@media (max-width:480px){
+  .topbar-title{max-width:43vw}
+  .topbar-user{display:none!important}
+  .content{padding-left:9px!important;padding-right:9px!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .stat-card{min-height:96px!important;padding:10px!important}
+  .stat-value{font-size:1.05rem!important}
+  .stat-label{font-size:.59rem!important}
+  .deeb-number-grid{grid-template-columns:1fr!important}
+  .section-header .btn{width:100%!important}
+  .section-header .btn-group,.section-header .actions{grid-template-columns:1fr!important}
+  .modal-body{max-height:calc(94dvh - 118px)!important}
+}
+
+@media (max-width:360px){
+  .deeb-mobile-bottom-nav button{font-size:.56rem}
+  .deeb-mobile-bottom-nav button .m-icon{font-size:1rem}
+  .stats-grid{gap:6px!important}
+  .stat-card{padding:8px!important}
+  .topbar{padding-left:8px!important;padding-right:8px!important}
+}
+
+/* Reduce motion for users who request it */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
 </head>
 <body>
 
@@ -3096,10 +3749,6 @@ function populateSelects() {
 
 window.updateOrderStatus = async (id, status) => {
   const order = state.orders.find(o=>o.id===id);
-  if(order && (newStatus==='delivered'||newStatus==='completed') && order.status!=='delivered' && order.status!=='completed'){ toast('تسليم الطلب يتم من زر الحالة فقط حتى يتم خصم المخزون وتثبيت COGS بشكل ذري.','error'); return; }
-  if(order && (order.status==='delivered'||order.status==='completed') && (newStatus!==order.status || String(product)!==String(order.product||'') || Number(document.getElementById('eo-qty').value||1)!==Number(order.qty||1))){
-    toast('لا يمكن تعديل المنتج أو الكمية أو حالة طلب مُسلَّم. استخدم إلغاء/إرجاع ثم أنشئ طلباً جديداً.','error'); return;
-  }
   await updateDoc_('orders', id, { status });
   if(status === 'cancelled' && order && order.status !== 'cancelled' && !order.inventoryRestored) {
     await restoreInventoryForOrder(order);
@@ -3165,20 +3814,10 @@ function renderProducts() {
 window.addInventory = async () => {
   const name=document.getElementById('inv-name').value.trim();
   if(!name) return toast('اسم المادة مطلوب', 'error');
-  const initialCost=parseFloat(document.getElementById('inv-cost').value)||0; await addDoc_('inventory',{name,qty:parseFloat(document.getElementById('inv-qty').value)||0,min:parseFloat(document.getElementById('inv-min').value)||5,cost:initialCost,avgCost:initialCost});
+  await addDoc_('inventory',{name,qty:parseFloat(document.getElementById('inv-qty').value)||0,min:parseFloat(document.getElementById('inv-min').value)||5,cost:parseFloat(document.getElementById('inv-cost').value)||0});
   closeModal('addInventoryModal'); ['inv-name','inv-qty','inv-min','inv-cost'].forEach(id=>document.getElementById(id).value='');
 };
-window.updateQty = async (id) => {
-  const item=(state.inventory||[]).find(x=>x.id===id); if(!item)return;
-  const raw=prompt(`الكمية الحالية: ${NUM(item.qty)}\nأدخل الكمية الجديدة:`); if(raw===null)return;
-  const next=Number(raw); if(!Number.isFinite(next)||next<0){toast('كمية غير صالحة','error');return;}
-  const delta=MONEY(next-NUM(item.qty)); if(delta===0){toast('لا يوجد تغيير');return;}
-  const reason=prompt('سبب تعديل المخزون (مطلوب):'); if(!reason?.trim()){toast('سبب التعديل مطلوب','error');return;}
-  const batch=db.batch(); const ref=db.collection('inventory').doc(id); const mv=db.collection('stockMovements').doc(); const cost=MONEY(item.avgCost??item.cost);
-  batch.update(ref,{qty:next,updatedAt:tsNow(),lastMovementAt:tsNow()});
-  batch.set(mv,{itemId:id,itemName:item.name||'',qty:Math.abs(delta)*(delta>0?1:-1),unitCost:cost,totalCost:MONEY(Math.abs(delta)*cost)*(delta>0?1:-1),movementType:delta>0?'Adjustment+':'Adjustment-',direction:delta>0?'in':'out',referenceType:'manual',referenceId:mv.id,reason:reason.trim(),userId:actor().uid,timestamp:tsNow(),createdAt:tsNow()});
-  await batch.commit(); await activity('adjust','inventory',id,`تعديل مخزون ${delta>0?'+':''}${delta} — ${reason.trim()}`); toast('تم تحديث الكمية وتسجيل الحركة ✅','success');
-};
+window.updateQty = async (id) => { const qty=prompt('الكمية الجديدة:'); if(qty!==null){ await updateDoc_('inventory',id,{qty:parseFloat(qty)||0}); toast('تم تحديث الكمية ✅','success'); } };
 window.deleteInventory = (id) => { const i=state.inventory.find(x=>x.id===id); confirmDelete('inventory',id,i?.name||'المادة'); };
 
 function renderInventory() {
@@ -4201,10 +4840,6 @@ window.addOrder = async function() {
   orderData.inventoryDeducted = inventoryDeducted;
 
   const orderRef = await addDoc_('orders', orderData);
-  if(status==='delivered' || status==='completed'){
-    try { await window.postOrderSaleToInventory(orderRef.id); }
-    catch(e){ await updateDoc_('orders',orderRef,{status:'pending'}); toast('تم إنشاء الطلب لكن لم يتم تسليمه: '+(e.message||e),'error'); return; }
-  }
 
   // Find existing customer — match by normalized phone first, then by exact name (prevents duplicates from phone formatting differences)
   const normPhone = normalizePhone(phone);
@@ -7552,7 +8187,7 @@ function updateLeadStats() {
 
 /* DEEB OS V2 — centralized ERP module */
 const ERP_COLLECTIONS = ['suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','priceHistory','inventoryLedger'];
-const ERP_VERSION = '2.1.1';
+const ERP_VERSION = '2.2.0';
 const MONEY = n => Math.round((Number(n)||0)*100)/100;
 const NUM = n => Number.isFinite(Number(n)) ? Number(n) : 0;
 const esc = v => typeof sanitize === 'function' ? sanitize(v) : String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
@@ -7569,14 +8204,11 @@ function deliveredOrders(){ return (state.orders||[]).filter(o=>o.status==='deli
 function orderRevenue(o){ return MONEY(NUM(o.subtotal ?? o.totalBeforeDelivery ?? o.price) + NUM(o.discount ? -NUM(o.discount) : 0)); }
 function orderTotal(o){ return MONEY(NUM(o.total ?? o.price)); }
 function productCostForItem(item){
-  const itemId=String(item?.inventoryId||item?.itemId||item?.productId||item?.id||'');
-  const name=String(item?.name||item?.product||item?.itemName||'').trim().toLowerCase();
-  const invById=itemId ? (state.inventory||[]).find(x=>x.id===itemId) : null;
-  if(invById && NUM(invById.avgCost ?? invById.cost)>0) return MONEY(invById.avgCost ?? invById.cost);
+  const name=String(item?.name||item?.product||'').trim().toLowerCase();
+  const p=(state.products||[]).find(x=>String(x.name||'').trim().toLowerCase()===name);
+  if(p && NUM(p.cost)>0) return MONEY(p.cost);
   const inv=(state.inventory||[]).find(x=>String(x.name||'').trim().toLowerCase()===name);
   if(inv && NUM(inv.avgCost ?? inv.cost)>0) return MONEY(inv.avgCost ?? inv.cost);
-  const p=(state.products||[]).find(x=>String(x.name||'').trim().toLowerCase()===name || (itemId && x.id===itemId));
-  if(p && NUM(p.cost)>0) return MONEY(p.cost);
   return 0;
 }
 function orderItems(o){
@@ -7627,29 +8259,10 @@ const css=`
 `;
 if(!document.getElementById('erp-v2-css')){const st=document.createElement('style');st.id='erp-v2-css';st.textContent=css;document.head.appendChild(st);}
 
-function ensureERPNavSection(){
-  const aside=document.getElementById('appSidebar')||document.querySelector('aside.sidebar');
-  if(!aside)return null;
-  let section=document.getElementById('erp-nav-section');
-  if(section)return section;
-  section=document.createElement('nav');
-  section.className='nav-section';
-  section.id='erp-nav-section';
-  section.innerHTML='<div class="nav-label">ERP والإدارة المتقدمة</div>';
-  const logout=aside.querySelector('.nav-logout');
-  if(logout) aside.insertBefore(section,logout);
-  else aside.appendChild(section);
-  return section;
-}
 function addNav(id,label,icon){
-  const nav=ensureERPNavSection();
+  const nav=document.querySelector('.sidebar-nav')||document.querySelector('.sidebar-menu')||document.querySelector('aside');
   if(!nav||document.getElementById('erp-nav-'+id))return;
-  const b=document.createElement('div');
-  b.className='nav-item';
-  b.id='erp-nav-'+id;
-  b.innerHTML=`<span class="icon">${icon}</span><span>${label}</span>`;
-  b.onclick=()=>showERPPage(id,b);
-  nav.appendChild(b);
+  const b=document.createElement('div');b.className='nav-item';b.id='erp-nav-'+id;b.innerHTML=`<span>${icon}</span><span>${label}</span>`;b.onclick=()=>showERPPage(id,b);nav.appendChild(b);
 }
 function addPage(id,title,html){
   if(document.getElementById('page-'+id))return;
@@ -7661,7 +8274,7 @@ function showERPPage(id,el){
   if(id==='suppliers')renderSuppliers();if(id==='supplier-orders')renderSupplierOrders();if(id==='erp-inventory')renderERPInventory();if(id==='erp-finance')renderERPFinance();if(id==='monthly-report')renderMonthlyReport();if(id==='erp-analytics')renderERPAnalytics();if(id==='erp-search')focusERPSearch();if(id==='erp-settings')renderERPSettings();if(id==='erp-backup')renderERPBackup();
 }
 function setupUI(){
-  ['suppliers','supplier-orders','erp-inventory','erp-finance','monthly-report','erp-analytics','erp-search','erp-settings','erp-backup'].forEach((id,i)=>addNav(id,['الموردون','طلبات الموردين','المخزون المتقدم','مالية ERP','التقرير الشهري','تحليلات ERP','البحث الشامل','إعدادات ERP','النسخ الاحتياطي'][i],['🏭','📦','🗄️','💰','📊','📈','🔎','⚙️','💾'][i]));
+  ['suppliers','supplier-orders','erp-inventory','erp-finance','monthly-report','erp-analytics','erp-search','erp-settings','erp-backup'].forEach((id,i)=>addNav(id,['الموردون','طلبات الموردين','المخزون المتقدم','المالية','التقرير الشهري','التحليلات','البحث الشامل','إعدادات ERP','النسخ الاحتياطي'][i],['🏭','📦','🗄️','💰','📊','📈','🔎','⚙️','💾'][i]));
   addPage('suppliers','🏭 الموردون',`<div id="erp-suppliers"></div>`);
   addPage('supplier-orders','📦 طلبات الموردين',`<div id="erp-supplier-orders"></div>`);
   addPage('erp-inventory','🗄️ المخزون المتقدم',`<div id="erp-inventory-root"></div>`);
@@ -7743,8 +8356,8 @@ function renderCommandSearch(){const q=document.getElementById('erp-command-inpu
 window.erpSearchOpen=(col,id)=>{document.getElementById('erp-command')?.classList.remove('open');if(col==='suppliers'){showERPPage('suppliers',document.getElementById('erp-nav-suppliers'));window.erpSupplierDetail(id)}else if(col==='supplierOrders'){showERPPage('supplier-orders',document.getElementById('erp-nav-supplier-orders'))}else if(col==='inventory'){showERPPage('erp-inventory',document.getElementById('erp-nav-erp-inventory'))}else if(col==='customers'){showERPPage('erp-analytics',document.getElementById('erp-nav-erp-analytics'))}else{try{showPage(col)}catch(e){}}};function focusERPSearch(){setTimeout(()=>document.getElementById('erp-global-search')?.focus(),50);}
 
 /* ---------- backup / settings ---------- */
-const BACKUP_COLLECTIONS=['orders','customers','products','inventory','regions','expenses','campaigns','coupons','certificates','flavors','suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','priceHistory','inventoryLedger','receivables','b2bLeads','freelancers','projects','settings','activityLog'];
-async function exportBackup(){const data={schemaVersion:'2.1',projectVersion:ERP_VERSION,exportedAt:new Date().toISOString(),collections:{}};for(const c of BACKUP_COLLECTIONS){const snap=await db.collection(c).get();data.collections[c]=snap.docs.map(d=>({id:d.id,data:d.data()}));}const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`deeb-os-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);}
+const BACKUP_COLLECTIONS=['orders','customers','products','inventory','regions','expenses','campaigns','coupons','certificates','flavors','suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','receivables','b2bLeads','freelancers','projects','settings','activityLog'];
+async function exportBackup(){const data={schemaVersion:'2.0',projectVersion:ERP_VERSION,exportedAt:new Date().toISOString(),collections:{}};for(const c of BACKUP_COLLECTIONS){const snap=await db.collection(c).get();data.collections[c]=snap.docs.map(d=>({id:d.id,data:d.data()}));}const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`deeb-os-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);}
 async function restoreBackup(file){const text=await file.text();let data;try{data=JSON.parse(text)}catch(e){toast('JSON غير صالح','error');return}if(!data?.schemaVersion||!data?.collections){toast('ملف backup غير مدعوم','error');return}const counts=Object.fromEntries(Object.entries(data.collections).map(([k,v])=>[k,v.length]));if(!confirm('سيتم إنشاء Safety Backup؟ تأكد أنك تريد المتابعة.\n'+JSON.stringify(counts)))return;await exportBackup();for(const [c,rows] of Object.entries(data.collections)){const batch=db.batch();rows.forEach(r=>batch.set(db.collection(c).doc(r.id),r.data,{merge:true}));await batch.commit();}toast('تمت الاستعادة بعد Safety Backup ✅');}
 function renderERPBackup(){const root=document.getElementById('erp-backup-root');if(!root)return;root.innerHTML=`<div class="erp-card"><h3>Backup</h3><p class="erp-muted">يشمل بيانات ERP الحرجة مع schemaVersion ووقت التصدير.</p><button class="btn btn-primary" onclick="window.erpExportBackup()">⬇️ تصدير Backup كامل</button><hr><h3>Restore</h3><input id="erp-restore-file" type="file" accept="application/json,.json"><button class="btn btn-danger" onclick="window.erpRestoreBackup()">استعادة بعد المعاينة</button></div><div class="erp-card" style="margin-top:12px"><b>Collections</b><div class="erp-muted">${BACKUP_COLLECTIONS.join(' · ')}</div></div>`;}
 window.erpExportBackup=exportBackup;window.erpRestoreBackup=async()=>{const f=document.getElementById('erp-restore-file')?.files?.[0];if(f)await restoreBackup(f);else toast('اختر ملف JSON أولاً','error')};
@@ -7782,137 +8395,8 @@ function upgradeCustomerHeaders(){const t=document.querySelector('#page-customer
 
 
 
-/* ---------- Inventory accounting: SALE / RETURN / COGS ----------
-   Purchases increase stock and update WAC. Delivered orders consume chocolate stock
-   using the WAC that exists at the exact moment of delivery. The operation is atomic,
-   idempotent, and creates an auditable stock movement. Packaging inventory remains
-   handled by the legacy order workflow and is intentionally not double-counted here.
-*/
-function normalizeItemKey(it){
-  return String(it?.inventoryId||it?.itemId||it?.productId||it?.id||it?.name||it?.product||it?.itemName||'').trim().toLowerCase();
-}
-function resolveInventoryFromState(it){
-  const ids=[it?.inventoryId,it?.itemId,it?.productId,it?.id].filter(Boolean).map(String);
-  let inv=(state.inventory||[]).find(x=>ids.includes(String(x.id)));
-  if(inv)return inv;
-  const name=String(it?.name||it?.product||it?.itemName||'').trim().toLowerCase();
-  return (state.inventory||[]).find(x=>String(x.name||'').trim().toLowerCase()===name)||null;
-}
-function saleLinesFromOrder(o){
-  const items=orderItems(o);
-  return items.map(it=>({
-    ...it,
-    qty:Math.max(0,NUM(it.qty||it.quantity||1)),
-    name:String(it.name||it.product||it.itemName||'').trim(),
-    inventoryId:it.inventoryId||it.itemId||it.inventoryItemId||'',
-    productId:it.productId||it.id||''
-  })).filter(x=>x.qty>0);
-}
-async function postOrderSaleToInventory(orderId, expectedStatus){
-  const orderRef=db.collection('orders').doc(orderId);
-  return db.runTransaction(async tx=>{
-    const orderSnap=await tx.get(orderRef);
-    if(!orderSnap.exists) throw new Error('الطلب غير موجود');
-    const order=orderSnap.data();
-    if(order.inventoryPostedAt || order.stockDeducted || order.cogsSnapshot){
-      return {alreadyPosted:true,cogs:MONEY(order.cogs),lines:order.cogsLines||[]};
-    }
-    if(expectedStatus && order.status!==expectedStatus) throw new Error('حالة الطلب تغيّرت قبل تثبيت المخزون');
-    const lines=saleLinesFromOrder(order);
-    if(!lines.length) throw new Error('لا توجد أصناف قابلة للخصم من الطلب');
-
-    const grouped=new Map();
-    for(const line of lines){
-      const inv=resolveInventoryFromState(line);
-      if(!inv) throw new Error(`لا يوجد سجل مخزون للصنف: ${line.name||'غير معروف'}`);
-      const key=String(inv.id);
-      const g=grouped.get(key)||{inv,lineName:inv.name,qty:0,sourceLines:[]};
-      g.qty+=line.qty; g.sourceLines.push(line); grouped.set(key,g);
-    }
-
-    const refs=[...grouped.values()].map(g=>db.collection('inventory').doc(g.inv.id));
-    const snaps=[];
-    for(const ref of refs) snaps.push(await tx.get(ref));
-    const snapById=new Map(snaps.map(x=>[x.id,x]));
-    let totalCogs=0; const cogsLines=[]; const movementIds=[];
-
-    for(const g of grouped.values()){
-      const snap=snapById.get(g.inv.id);
-      if(!snap?.exists) throw new Error(`سجل المخزون غير موجود: ${g.lineName}`);
-      const inv=snap.data();
-      const oldQty=NUM(inv.qty);
-      const wac=MONEY(inv.avgCost ?? inv.cost);
-      if(wac<0) throw new Error(`متوسط تكلفة غير صالح للصنف: ${g.lineName}`);
-      if(g.qty>oldQty) throw new Error(`المخزون غير كافٍ للصنف ${g.lineName}: المتاح ${oldQty}، المطلوب ${g.qty}`);
-      const lineCogs=MONEY(g.qty*wac);
-      const newQty=MONEY(oldQty-g.qty);
-      tx.update(snap.ref,{qty:newQty,avgCost:wac,cost:wac,updatedAt:tsNow(),lastMovementAt:tsNow()});
-      totalCogs=MONEY(totalCogs+lineCogs);
-      cogsLines.push({inventoryId:g.inv.id,itemName:g.lineName,qty:g.qty,unitCost:wac,totalCost:lineCogs});
-      const mvRef=db.collection('stockMovements').doc(); movementIds.push(mvRef.id);
-      tx.set(mvRef,{itemId:g.inv.id,itemName:g.lineName,qty:-g.qty,unitCost:wac,totalCost:-lineCogs,movementType:'Sale',direction:'out',referenceType:'order',referenceId:orderId,userId:actor().uid,timestamp:tsNow(),createdAt:tsNow()});
-    }
-    const revenue=calculateOrderRevenue(order);
-    tx.update(orderRef,{cogs:MONEY(totalCogs),cogsSnapshot:true,cogsLines,cogsRecordedAt:tsNow(),grossProfit:MONEY(revenue-totalCogs),inventoryPostedAt:tsNow(),stockDeducted:true,stockMovementIds:movementIds,inventoryAccountingVersion:'2.1'});
-    return {alreadyPosted:false,cogs:MONEY(totalCogs),lines:cogsLines,movementIds};
-  });
-}
-async function reverseOrderSaleFromInventory(orderId){
-  const orderRef=db.collection('orders').doc(orderId);
-  return db.runTransaction(async tx=>{
-    const snap=await tx.get(orderRef); if(!snap.exists) throw new Error('الطلب غير موجود');
-    const order=snap.data();
-    if(order.inventoryRestoredAfterDelivery) return {alreadyRestored:true};
-    if(!order.inventoryPostedAt || !Array.isArray(order.cogsLines) || !order.cogsLines.length) return {skipped:true};
-    const refs=order.cogsLines.map(l=>db.collection('inventory').doc(String(l.inventoryId)));
-    const snaps=[]; for(const ref of refs) snaps.push(await tx.get(ref));
-    const snapById=new Map(snaps.map(x=>[x.id,x]));
-    const movementIds=[];
-    for(const line of order.cogsLines){
-      const s=snapById.get(String(line.inventoryId));
-      if(!s?.exists) throw new Error(`لا يوجد مخزون لإرجاع الصنف: ${line.itemName||line.inventoryId}`);
-      const inv=s.data(), qty=NUM(line.qty), unitCost=MONEY(line.unitCost);
-      tx.update(s.ref,{qty:MONEY(NUM(inv.qty)+qty),avgCost:MONEY(inv.avgCost??inv.cost),cost:MONEY(inv.avgCost??inv.cost),updatedAt:tsNow(),lastMovementAt:tsNow()});
-      const mv=db.collection('stockMovements').doc(); movementIds.push(mv.id);
-      tx.set(mv,{itemId:s.id,itemName:line.itemName||inv.name||'',qty,totalCost:MONEY(qty*unitCost),unitCost,movementType:'Sale Reversal',direction:'in',referenceType:'order',referenceId:orderId,userId:actor().uid,timestamp:tsNow(),createdAt:tsNow()});
-    }
-    tx.update(orderRef,{inventoryRestoredAfterDelivery:true,inventoryRestoredAt:tsNow(),returnMovementIds:movementIds});
-    return {alreadyRestored:false,movementIds};
-  });
-}
-
-window.postOrderSaleToInventory=postOrderSaleToInventory;
-window.reverseOrderSaleFromInventory=reverseOrderSaleFromInventory;
-
-/* Delivered/completed => atomically deduct chocolate stock + snapshot WAC COGS.
-   Cancel after delivery => reverse the chocolate stock movement. */
-const oldUpdateOrderStatus=window.updateOrderStatus;
-window.updateOrderStatus=async function(id,status){
-  const before=(state.orders||[]).find(o=>o.id===id);
-  const oldStatus=before?.status;
-  if((status==='delivered'||status==='completed') && oldStatus!=='delivered' && oldStatus!=='completed'){
-    try{
-      const result=await postOrderSaleToInventory(id,status==='completed'?'completed':undefined);
-      await oldUpdateOrderStatus(id,status);
-      if(!result.alreadyPosted) await activity('sale','order',id,'تسجيل بيع وخصم المخزون وتثبيت COGS من WAC',null,{cogs:result.cogs,movementIds:result.movementIds});
-      toast('تم التسليم + خصم المخزون + تثبيت COGS ✅','success');
-      return;
-    }catch(e){console.error('Order sale posting failed',e);toast('لم يتم التسليم: '+(e.message||e.code||e),'error');return;}
-  }
-  if(status==='cancelled' && (oldStatus==='delivered'||oldStatus==='completed') && before && !before.inventoryRestoredAfterDelivery){
-    try{
-      await reverseOrderSaleFromInventory(id);
-      await oldUpdateOrderStatus(id,status);
-      await activity('return','order',id,'إلغاء بعد التسليم: عكس حركة المخزون وتكلفة البضاعة');
-      toast('تم إلغاء الطلب وعكس المخزون ✅','success');
-      return;
-    }catch(e){console.error('Order reversal failed',e);toast('لم يتم الإلغاء: '+(e.message||e.code||e),'error');return;}
-  }
-  if((status==='delivered'||status==='completed') && before?.inventoryPostedAt){
-    await oldUpdateOrderStatus(id,status); return;
-  }
-  await oldUpdateOrderStatus(id,status);
-};
+/* Fix order status: store historical COGS once when delivered. Do not overwrite later. */
+const oldUpdateOrderStatus=window.updateOrderStatus;window.updateOrderStatus=async function(id,status){const before=(state.orders||[]).find(o=>o.id===id);await oldUpdateOrderStatus(id,status);if(status==='delivered'&&before&&!before.cogsSnapshot){const cogs=calculateOrderCOGS(before);try{await updateDoc_('orders',id,{cogs, cogsSnapshot:true, cogsRecordedAt:tsNow(),grossProfit:MONEY(calculateOrderRevenue(before)-cogs)});await activity('cost','order',id,'تثبيت COGS تاريخياً عند التسليم',null,{cogs});}catch(e){console.error('COGS snapshot',e);}}};
 
 /* setup after DOM is ready */
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{setupUI();upgradeCustomerHeaders();});else{setupUI();upgradeCustomerHeaders();}
@@ -7920,5 +8404,387 @@ window.DEEB_ERP_V2={MONEY,weightedAverageCost,calculateOrderCOGS,calculateGrossP
 })();
 
 </script>
+
+<script>
+/* =========================================================
+   DEEB OS V2.2 — SINGLE SOURCE OF TRUTH + FULL DATA EDITOR
+   - Removes duplicate ERP navigation/pages
+   - Keeps one canonical page per business domain
+   - Adds table-based universal CRUD editor for all Firestore data
+   - Adds persistent UI text/content editor
+   - Adds editable business numbers/configuration
+   ========================================================= */
+(function(){
+  'use strict';
+  const V='2.2.0';
+  const EDITABLE_COLLECTIONS=['orders','customers','products','inventory','regions','expenses','campaigns','coupons','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads','suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','priceHistory','inventoryLedger'];
+  const COLLECTION_LABELS={
+    orders:'الطلبات',customers:'العملاء',products:'المنتجات',inventory:'المخزون',regions:'مناطق التوصيل',expenses:'المصاريف',campaigns:'الحملات',coupons:'الكوبونات',certificates:'الشهادات',settings:'الإعدادات',notes:'الملاحظات',flavors:'النكهات',freelancers:'الفريلانسرز',projects:'المشاريع',receivables:'الديون والمستحقات',b2bLeads:'B2B Leads',suppliers:'الموردون',supplierOrders:'طلبات الموردين',supplierPriceHistory:'سجل أسعار الموردين',stockMovements:'حركات المخزون',supplierPayments:'دفعات الموردين',priceHistory:'سجل الأسعار',inventoryLedger:'دفتر المخزون'
+  };
+  const esc2=v=>typeof esc==='function'?esc(String(v??'')):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const money2=v=>typeof MONEY==='function'?MONEY(v):Math.round((Number(v)||0)*100)/100;
+  const typeOf=v=>Array.isArray(v)?'array':(v===null?'null':typeof v);
+  const clone=v=>JSON.parse(JSON.stringify(v));
+  function admin(){return auth.currentUser;}
+  async function saveDoc(col,id,data){
+    if(!admin()) throw new Error('غير مسجل');
+    const clean=clone(data||{}); delete clean.id;
+    await db.collection(col).doc(id).set({...clean,updatedAt:tsNow(),updatedBy:admin().uid},{merge:true});
+    try{await activity('edit',col,id,'تعديل من مركز الإدارة',null,clean);}catch(e){}
+  }
+  async function addDocFull(col,data){
+    if(!admin()) throw new Error('غير مسجل');
+    const ref=db.collection(col).doc();
+    const clean=clone(data||{}); delete clean.id;
+    clean.createdAt=clean.createdAt||tsNow(); clean.updatedAt=tsNow(); clean.createdBy=clean.createdBy||admin().uid;
+    await ref.set(clean); return ref.id;
+  }
+  async function deleteFull(col,id){
+    if(!admin()) throw new Error('غير مسجل');
+    if(!confirm('تأكيد حذف السجل؟'))return;
+    await db.collection(col).doc(id).delete();
+    try{await activity('delete',col,id,'حذف من مركز الإدارة');}catch(e){}
+  }
+
+  /* ---- remove duplicated navigation/pages ---- */
+  function removeDuplicates(){
+    // Canonical pages remain: inventory, finance, calculations, suppliers, supplier-orders, analytics/search/settings/backup.
+    const duplicateIds=['erp-inventory','erp-finance','monthly-report'];
+    duplicateIds.forEach(id=>{
+      document.getElementById('erp-nav-'+id)?.remove();
+      document.getElementById('page-'+id)?.remove();
+    });
+    // Calculations becomes the single reporting/analysis page.
+    const calcNav=document.querySelector('.nav-item[onclick*="showPage(\'calculations\'"]');
+    if(calcNav) calcNav.innerHTML='<span class="icon">📊</span>التحليلات والتقارير';
+    // Rename canonical finance/inventory to make clear they are the only versions.
+    const finNav=document.querySelector('.nav-item[onclick*="showPage(\'finance\'"]');
+    if(finNav) finNav.innerHTML='<span class="icon">💰</span>المالية والأرباح';
+    const invNav=document.querySelector('.nav-item[onclick*="showPage(\'inventory\'"]');
+    if(invNav) invNav.innerHTML='<span class="icon">🗄️</span>المخزون';
+    // Move all ERP admin items before logout and keep logout last.
+    const aside=document.getElementById('appSidebar')||document.querySelector('aside');
+    const logout=aside?.querySelector('.nav-logout');
+    if(aside && logout){
+      const navIds=['erp-nav-suppliers','erp-nav-supplier-orders','erp-nav-erp-analytics','erp-nav-erp-search','erp-nav-erp-settings','erp-nav-erp-backup','deeb-nav-admin-center'];
+      const nodes=navIds.map(id=>document.getElementById(id)).filter(Boolean);
+      const existingLabel=aside.querySelector('#deeb-advanced-label');
+      if(nodes.length){
+        if(!existingLabel){const l=document.createElement('div');l.id='deeb-advanced-label';l.className='nav-label';l.textContent='الإدارة المتقدمة';logout.before(l);}
+        nodes.forEach(n=>logout.before(n));
+      }
+      logout.parentElement?.parentElement?.appendChild(logout.parentElement); // keep footer structure
+    }
+  }
+
+  /* ---- universal editor UI ---- */
+  function ensureCSS(){
+    if(document.getElementById('deeb-v22-css'))return;
+    const st=document.createElement('style');st.id='deeb-v22-css';st.textContent=`
+      .deeb-admin-grid{display:grid;grid-template-columns:280px 1fr;gap:14px}.deeb-admin-card{background:var(--card,#fff);border:1px solid rgba(115,91,83,.14);border-radius:14px;padding:14px}.deeb-admin-card h3{margin:0 0 10px;color:var(--brown,#3b2100)}
+      .deeb-collection-list{display:flex;flex-direction:column;gap:5px;max-height:70vh;overflow:auto}.deeb-col-btn{text-align:right;border:0;background:transparent;padding:9px 10px;border-radius:9px;cursor:pointer;font-family:inherit;color:inherit}.deeb-col-btn:hover,.deeb-col-btn.active{background:var(--light,#ebddd4);font-weight:800}.deeb-admin-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.deeb-admin-toolbar>*{min-height:38px}.deeb-data-wrap{overflow:auto;border:1px solid rgba(115,91,83,.13);border-radius:11px}.deeb-data-table{width:100%;border-collapse:collapse;min-width:850px}.deeb-data-table th,.deeb-data-table td{padding:8px;border-bottom:1px solid rgba(115,91,83,.1);text-align:right;font-size:.78rem;vertical-align:top}.deeb-data-table th{background:var(--light,#f8efeb);position:sticky;top:0;z-index:2}.deeb-data-table td .deeb-cell{max-width:240px;white-space:pre-wrap;word-break:break-word}.deeb-editor{display:none;margin-top:14px}.deeb-editor.open{display:block}.deeb-field-table{width:100%;border-collapse:collapse}.deeb-field-table th,.deeb-field-table td{padding:7px;border-bottom:1px solid rgba(115,91,83,.1);text-align:right}.deeb-field-table input,.deeb-field-table textarea,.deeb-field-table select{width:100%;box-sizing:border-box;padding:7px;border:1px solid rgba(115,91,83,.2);border-radius:7px;background:transparent;font-family:inherit}.deeb-field-table textarea{min-height:70px}.deeb-mini{font-size:.72rem;color:#806f69}.deeb-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.deeb-tab{border:1px solid rgba(115,91,83,.2);background:transparent;border-radius:8px;padding:8px 11px;cursor:pointer;font-family:inherit}.deeb-tab.active{background:var(--brown,#3b2100);color:#fff}.deeb-text-row{display:grid;grid-template-columns:180px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(115,91,83,.1)}.deeb-text-row textarea{width:100%;min-height:44px;padding:7px;border:1px solid rgba(115,91,83,.2);border-radius:7px;font-family:inherit}.deeb-number-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.deeb-number-card{border:1px solid rgba(115,91,83,.14);border-radius:11px;padding:10px}.deeb-number-card label{display:block;font-size:.75rem;font-weight:700;margin-bottom:5px}.deeb-number-card input{width:100%;padding:8px;border:1px solid rgba(115,91,83,.2);border-radius:7px;box-sizing:border-box}.deeb-hint{font-size:.74rem;color:#806f69;margin:5px 0 12px}.deeb-danger{color:#9b2626}.deeb-ok{color:#16734b}@media(max-width:900px){.deeb-admin-grid{grid-template-columns:1fr}.deeb-number-grid{grid-template-columns:1fr}.deeb-collection-list{max-height:260px}.deeb-text-row{grid-template-columns:1fr}.deeb-data-table{min-width:700px}}
+    `;document.head.appendChild(st);
+  }
+
+  let editor={col:'products',docId:null,mode:'data'};
+  const colKeys=()=>EDITABLE_COLLECTIONS.filter(c=>state[c]!==undefined || EDITABLE_COLLECTIONS.includes(c));
+  function buildAdminPage(){
+    if(document.getElementById('page-admin-center'))return;
+    ensureCSS();
+    const main=document.querySelector('.content'); if(!main)return;
+    const p=document.createElement('div');p.className='page';p.id='page-admin-center';
+    p.innerHTML=`<div class="section-header"><div><div class="section-title-main">⚙️ مركز الإدارة والتحكم</div><div class="section-subtitle">تعديل كل البيانات والأرقام والنصوص من جداول واضحة — بدون تعديل الكود</div></div></div>
+      <div class="deeb-tabs"><button class="deeb-tab active" id="deeb-tab-data">🗃️ البيانات والجداول</button><button class="deeb-tab" id="deeb-tab-text">✍️ النصوص</button><button class="deeb-tab" id="deeb-tab-number">🔢 الأرقام والإعدادات</button></div>
+      <div id="deeb-admin-data"></div><div id="deeb-admin-text" style="display:none"></div><div id="deeb-admin-number" style="display:none"></div>`;
+    main.appendChild(p);
+    document.getElementById('deeb-tab-data').onclick=()=>switchAdminTab('data');
+    document.getElementById('deeb-tab-text').onclick=()=>switchAdminTab('text');
+    document.getElementById('deeb-tab-number').onclick=()=>switchAdminTab('number');
+    renderDataEditor();
+  }
+  function switchAdminTab(m){
+    editor.mode=m;
+    ['data','text','number'].forEach(x=>{document.getElementById('deeb-admin-'+x).style.display=x===m?'block':'none';document.getElementById('deeb-tab-'+x).classList.toggle('active',x===m);});
+    if(m==='data')renderDataEditor(); if(m==='text')renderTextEditor(); if(m==='number')renderNumberEditor();
+  }
+  function renderDataEditor(){
+    const root=document.getElementById('deeb-admin-data');if(!root)return;
+    const rows=state[editor.col]||[];
+    const allKeys=Array.from(new Set(rows.flatMap(x=>Object.keys(x).filter(k=>k!=='id')))).slice(0,7);
+    root.innerHTML=`<div class="deeb-admin-grid"><div class="deeb-admin-card"><h3>الجداول</h3><div class="deeb-collection-list">${EDITABLE_COLLECTIONS.map(c=>`<button class="deeb-col-btn ${c===editor.col?'active':''}" onclick="window.deebSelectCollection('${c}')">${esc2(COLLECTION_LABELS[c]||c)} <span class="deeb-mini">(${(state[c]||[]).length})</span></button>`).join('')}</div></div>
+      <div class="deeb-admin-card"><h3>${esc2(COLLECTION_LABELS[editor.col]||editor.col)}</h3><div class="deeb-admin-toolbar"><input id="deeb-data-search" class="form-input" style="min-width:220px" placeholder="🔎 بحث..." value=""><button class="btn btn-primary" onclick="window.deebNewDoc()">+ سجل جديد</button><button class="btn btn-outline" onclick="window.deebRefreshEditor()">↻ تحديث</button></div>
+      <div class="deeb-hint">هذه هي قاعدة البيانات الحقيقية للنظام. تستطيع تعديل النصوص، الأرقام، الحالات، الأسعار، الكميات، التواريخ والحقول الإضافية. الحقول المعقدة مثل المصفوفات والكائنات تحفظ كـ JSON.</div>
+      <div class="deeb-data-wrap"><table class="deeb-data-table"><thead><tr><th>ID</th>${allKeys.map(k=>`<th>${esc2(k)}</th>`).join('')}<th>إجراء</th></tr></thead><tbody id="deeb-data-body">${rows.map(r=>`<tr><td><div class="deeb-cell" dir="ltr">${esc2(r.id)}</div></td>${allKeys.map(k=>`<td><div class="deeb-cell">${esc2(displayVal(r[k]))}</div></td>`).join('')}<td><button class="btn btn-sm btn-outline" onclick="window.deebEditDoc('${r.id}')">✏️ تعديل</button> <button class="btn btn-sm btn-danger" onclick="window.deebDeleteDoc('${r.id}')">🗑</button></td></tr>`).join('')||`<tr><td colspan="${allKeys.length+2}"><div class="empty-state"><div class="e-icon">🗃️</div><div class="e-title">لا توجد سجلات</div></div></td></tr>`}</tbody></table></div>
+      <div id="deeb-doc-editor" class="deeb-editor"></div></div></div>`;
+    document.getElementById('deeb-data-search')?.addEventListener('input',e=>filterDataRows(e.target.value));
+  }
+  function displayVal(v){if(v===undefined)return '—';if(v===null)return 'null';if(typeof v==='object')return JSON.stringify(v);return String(v);}
+  function filterDataRows(q){q=(q||'').toLowerCase();document.querySelectorAll('#deeb-data-body tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none');}
+  function openDocEditor(id,blank=false){
+    editor.docId=id; const doc=blank?{}:(state[editor.col]||[]).find(x=>x.id===id)||{}; const root=document.getElementById('deeb-doc-editor');if(!root)return;
+    const keys=Array.from(new Set(Object.keys(doc).filter(k=>k!=='id')));
+    root.classList.add('open');root.innerHTML=`<div class="deeb-admin-card"><h3>${blank?'➕ سجل جديد':'✏️ تعديل السجل'}</h3><div class="deeb-hint">استخدم الجدول. type يحدد كيف سيتم حفظ القيمة: string / number / boolean / json / null.</div><div class="deeb-data-wrap"><table class="deeb-field-table"><thead><tr><th style="width:24%">الحقل</th><th style="width:14%">النوع</th><th>القيمة</th><th style="width:70px"></th></tr></thead><tbody id="deeb-fields">${keys.map((k,i)=>fieldRow(k,doc[k],i)).join('')}</tbody></table></div><div class="deeb-admin-toolbar" style="margin-top:10px"><button class="btn btn-outline" onclick="window.deebAddField()">+ حقل</button><button class="btn btn-primary" onclick="window.deebSaveDoc(${blank?'null':`'${esc2(id)}'`})">💾 حفظ</button><button class="btn btn-outline" onclick="window.deebCloseDoc()">إغلاق</button></div></div>`;
+  }
+  function fieldRow(k,v,i){const t=typeOf(v);let value=t==='json'||t==='array'?JSON.stringify(v,null,2):(v===null?'':String(v));return `<tr><td><input class="deeb-f-key" value="${esc2(k)}"></td><td><select class="deeb-f-type"><option ${t==='string'?'selected':''}>string</option><option ${t==='number'?'selected':''}>number</option><option ${t==='boolean'?'selected':''}>boolean</option><option ${t==='json'||t==='array'?'selected':''}>json</option><option ${t==='null'?'selected':''}>null</option></select></td><td><textarea class="deeb-f-val">${esc2(value)}</textarea></td><td><button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">×</button></td></tr>`;}
+  function collectFields(){const out={};document.querySelectorAll('#deeb-fields tr').forEach(tr=>{const k=tr.querySelector('.deeb-f-key')?.value.trim();const t=tr.querySelector('.deeb-f-type')?.value;const raw=tr.querySelector('.deeb-f-val')?.value??'';if(!k)return;let v=raw;if(t==='number'){v=Number(raw);if(!Number.isFinite(v))throw new Error('القيمة الرقمية غير صالحة: '+k);}else if(t==='boolean')v=/^(true|1|yes|نعم)$/i.test(raw.trim());else if(t==='null')v=null;else if(t==='json'){try{v=JSON.parse(raw);}catch(e){throw new Error('JSON غير صالح للحقل: '+k);}}out[k]=v;});return out;}
+  window.deebSelectCollection=c=>{editor.col=c;editor.docId=null;renderDataEditor();};
+  window.deebEditDoc=id=>openDocEditor(id,false);
+  window.deebNewDoc=()=>openDocEditor(null,true);
+  window.deebCloseDoc=()=>{document.getElementById('deeb-doc-editor')?.classList.remove('open');};
+  window.deebAddField=()=>{const tb=document.getElementById('deeb-fields');if(tb)tb.insertAdjacentHTML('beforeend',fieldRow('','',Date.now()));};
+  window.deebSaveDoc=async id=>{try{const data=collectFields();if(id===null){const newId=await addDocFull(editor.col,data);toast('تم إنشاء السجل ✅','success');editor.docId=newId;}else{await saveDoc(editor.col,id,data);toast('تم حفظ التعديل ✅','success');}renderDataEditor();}catch(e){console.error(e);toast(e.message||'فشل الحفظ','error');}};
+  window.deebDeleteDoc=async id=>{try{await deleteFull(editor.col,id);toast('تم الحذف','success');renderDataEditor();}catch(e){toast(e.message||'فشل الحذف','error');}};
+  window.deebRefreshEditor=()=>renderDataEditor();
+
+  /* ---- persistent UI text editor ---- */
+  const UI_KEYS=['brandName','adminTitle','tagline','website','instagram','email','phone','currency','deliveryText','aboutTitle','aboutText','footerText','orderConfirmationText','emptyStateText','loginTitle'];
+  async function loadUIContent(){const x=(state.settings||[]).find(s=>s.id==='uiContent');return x?.values||{};}
+  async function saveUIContent(values){await db.collection('settings').doc('uiContent').set({values,updatedAt:tsNow(),updatedBy:admin().uid},{merge:true});state.settings=state.settings||[];const i=state.settings.findIndex(x=>x.id==='uiContent');const obj={id:'uiContent',values};if(i>=0)state.settings[i]={...state.settings[i],...obj};else state.settings.push(obj);}
+  function renderTextEditor(){
+    const root=document.getElementById('deeb-admin-text');if(!root)return;const values=((state.settings||[]).find(s=>s.id==='uiContent')?.values)||{};
+    root.innerHTML=`<div class="deeb-admin-card"><h3>✍️ محرر النصوص</h3><div class="deeb-hint">كل قيمة هنا محفوظة في Firestore ويمكن تعديلها بدون لمس الكود. يمكنك إضافة مفاتيح جديدة من زر الحقل الجديد. النصوص التي لم تربط بعد بواجهة محددة تبقى محفوظة كمحتوى مركزي.</div><div id="deeb-text-fields">${Object.entries({...Object.fromEntries(UI_KEYS.map(k=>[k,'' ])),...values}).map(([k,v])=>`<div class="deeb-text-row"><input class="form-input deeb-text-key" value="${esc2(k)}"><textarea class="deeb-text-value">${esc2(v??'')}</textarea><button class="btn btn-sm btn-danger" onclick="this.closest('.deeb-text-row').remove()">×</button></div>`).join('')}</div><div class="deeb-admin-toolbar" style="margin-top:10px"><button class="btn btn-outline" onclick="window.deebAddTextField()">+ نص جديد</button><button class="btn btn-primary" onclick="window.deebSaveTexts()">💾 حفظ كل النصوص</button></div></div>`;
+  }
+  window.deebAddTextField=()=>document.getElementById('deeb-text-fields')?.insertAdjacentHTML('beforeend','<div class="deeb-text-row"><input class="form-input deeb-text-key" placeholder="مفتاح النص"><textarea class="deeb-text-value" placeholder="النص"></textarea><button class="btn btn-sm btn-danger" onclick="this.closest(\'.deeb-text-row\').remove()">×</button></div>');
+  window.deebSaveTexts=async()=>{try{const vals={};document.querySelectorAll('#deeb-text-fields .deeb-text-row').forEach(r=>{const k=r.querySelector('.deeb-text-key')?.value.trim();if(k)vals[k]=r.querySelector('.deeb-text-value')?.value||'';});await saveUIContent(vals);toast('تم حفظ النصوص ✅','success');}catch(e){toast(e.message||'فشل حفظ النصوص','error');}};
+
+  /* ---- editable business numbers ---- */
+  const DEFAULT_NUMBERS={
+    classic500:12,classic1000:20,mix500:12,mix1000:20,dragee500:12,dragee1000:20,custom500:13,custom1000:22,customSticker:0.40,customAcrylic:0.40,
+    acrylicSmall:12,acrylicMedium:17,acrylicLarge:22,b2b10kg:180,b2b20kg:340,b2b30kgPerKg:16,chocolateCostPerKg:12,standardBoxCost:0.75,standardStickerCost:0.09,bagCost:0.35,targetMonthlyProfit:200
+  };
+  async function saveNumbers(vals){await db.collection('settings').doc('businessNumbers').set({values:vals,updatedAt:tsNow(),updatedBy:admin().uid},{merge:true});state.settings=state.settings||[];const i=state.settings.findIndex(x=>x.id==='businessNumbers');const obj={id:'businessNumbers',values:vals};if(i>=0)state.settings[i]={...state.settings[i],...obj};else state.settings.push(obj);}
+  function renderNumberEditor(){
+    const root=document.getElementById('deeb-admin-number');if(!root)return;const stored=((state.settings||[]).find(s=>s.id==='businessNumbers')?.values)||{};const vals={...DEFAULT_NUMBERS,...stored};
+    const labels={classic500:'Classic 500g',classic1000:'Classic 1KG',mix500:'Mix 500g',mix1000:'Mix 1KG',dragee500:'Dragee 500g',dragee1000:'Dragee 1KG',custom500:'Custom 500g',custom1000:'Custom 1KG',customSticker:'Custom Sticker',customAcrylic:'Custom Acrylic',acrylicSmall:'Acrylic Small 1KG',acrylicMedium:'Acrylic Medium 1.5KG',acrylicLarge:'Acrylic Large 2KG',b2b10kg:'B2B 10KG',b2b20kg:'B2B 20KG',b2b30kgPerKg:'B2B 30KG+ / KG',chocolateCostPerKg:'Chocolate cost / KG',standardBoxCost:'Standard box cost',standardStickerCost:'Standard sticker cost',bagCost:'Bag cost',targetMonthlyProfit:'Target monthly profit'};
+    root.innerHTML=`<div class="deeb-admin-card"><h3>🔢 الأسعار والأرقام القابلة للتعديل</h3><div class="deeb-hint">هذه الأرقام محفوظة في settings/businessNumbers. النظام يستخدمها كمرجع مركزي. الأرقام الناتجة مثل Gross Profit وCOGS تبقى محسوبة تلقائياً.</div><div class="deeb-number-grid">${Object.entries(vals).map(([k,v])=>`<div class="deeb-number-card"><label>${esc2(labels[k]||k)}</label><input type="number" step="0.01" data-num-key="${esc2(k)}" value="${Number(v)||0}"><div class="deeb-mini">${esc2(k)}</div></div>`).join('')}</div><div class="deeb-admin-toolbar" style="margin-top:12px"><button class="btn btn-primary" onclick="window.deebSaveNumbers()">💾 حفظ الأرقام</button><button class="btn btn-outline" onclick="window.deebResetNumbers()">↺ إعادة القيم الافتراضية</button></div></div>`;
+  }
+  window.deebSaveNumbers=async()=>{try{const vals={};document.querySelectorAll('[data-num-key]').forEach(i=>vals[i.dataset.numKey]=Number(i.value)||0);await saveNumbers(vals);toast('تم حفظ الأرقام ✅','success');}catch(e){toast(e.message||'فشل حفظ الأرقام','error');}};
+  window.deebResetNumbers=async()=>{if(!confirm('إعادة الأرقام الافتراضية؟'))return;await saveNumbers(DEFAULT_NUMBERS);renderNumberEditor();toast('تمت إعادة القيم الافتراضية');};
+
+  /* ---- navigation integration ---- */
+  function addAdminNav(){
+    const aside=document.getElementById('appSidebar')||document.querySelector('aside');if(!aside||document.getElementById('deeb-nav-admin-center'))return;
+    const logout=aside.querySelector('.nav-logout');const b=document.createElement('div');b.id='deeb-nav-admin-center';b.className='nav-item';b.innerHTML='<span class="icon">⚙️</span>مركز الإدارة والتحكم';b.onclick=()=>showPage('admin-center',b);(logout?logout.before(b):aside.appendChild(b));
+  }
+  const oldShowPage=window.showPage;
+  window.showPage=function(id,el){
+    if(id==='admin-center'){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-admin-center')?.classList.add('active');el?.classList.add('active');document.getElementById('pageTitle').textContent='⚙️ مركز الإدارة والتحكم';try{updateBreadcrumb('admin-center')}catch(e){};return;
+    }
+    return oldShowPage.apply(this,arguments);
+  };
+
+  function init(){
+    ensureCSS(); buildAdminPage(); addAdminNav(); removeDuplicates();
+    // Repeat after dynamic ERP setup or late rendering.
+    setTimeout(()=>{buildAdminPage();addAdminNav();removeDuplicates();},250);
+    setTimeout(()=>{buildAdminPage();addAdminNav();removeDuplicates();},1200);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+  window.DEEB_OS_V22={version:V,collections:EDITABLE_COLLECTIONS};
+})();
+</script>
+
+
+<script>
+/* V2.2 accounting integrity: sale posting + WAC + idempotency + delivered edit protection */
+(function(){
+  const oldStatus=window.updateOrderStatus;
+  async function postChocolateSale(orderId){
+    const ref=db.collection('orders').doc(orderId);
+    return db.runTransaction(async tx=>{
+      const snap=await tx.get(ref); if(!snap.exists) throw new Error('الطلب غير موجود');
+      const order={id:orderId,...snap.data()};
+      if(order.inventoryPostedAt||order.stockDeducted||order.cogsSnapshot) return {skipped:true,cogs:NUM(order.cogs),lines:order.cogsLines||[]};
+      const items=orderItems(order).map(it=>({name:String(it.name||it.product||'').trim(),qty:NUM(it.qty)||1})).filter(x=>x.name&&x.qty>0);
+      if(!items.length) throw new Error('لا توجد أصناف شوكولاتة قابلة للخصم في الطلب');
+      const reads=[];
+      for(const it of items){
+        const local=(state.inventory||[]).find(x=>String(x.name||'').trim().toLowerCase()===it.name.toLowerCase());
+        if(!local) throw new Error('لا يوجد صنف مخزون مطابق: '+it.name);
+        const r=db.collection('inventory').doc(local.id); const ss=await tx.get(r);
+        if(!ss.exists) throw new Error('سجل المخزون غير موجود: '+it.name);
+        reads.push({it,r,ss});
+      }
+      let cogs=0; const lines=[]; const movementRefs=[];
+      for(const x of reads){
+        const d=x.ss.data(); const qty=NUM(d.qty); const wac=NUM(d.avgCost??d.cost);
+        if(x.it.qty>qty) throw new Error(`المخزون غير كافٍ لـ ${x.it.name}. المتاح ${qty}، المطلوب ${x.it.qty}`);
+        const lineCost=MONEY(x.it.qty*wac); cogs+=lineCost;
+        const nextQty=MONEY(qty-x.it.qty);
+        tx.update(x.r,{qty:nextQty,updatedAt:tsNow(),lastMovementAt:tsNow()});
+        const mv=db.collection('stockMovements').doc(); movementRefs.push(mv.id);
+        tx.set(mv,{itemId:x.r.id,itemName:x.it.name,qty:x.it.qty,unitCost:wac,totalCost:lineCost,movementType:'Sale',referenceType:'order',referenceId:orderId,userId:auth.currentUser?.uid||'',timestamp:tsNow(),createdAt:tsNow()});
+        lines.push({itemId:x.r.id,itemName:x.it.name,qty:x.it.qty,unitCost:wac,totalCost:lineCost});
+      }
+      cogs=MONEY(cogs);
+      const revenue=MONEY(calculateOrderRevenue(order));
+      tx.update(ref,{cogs,cogsSnapshot:true,cogsRecordedAt:tsNow(),grossProfit:MONEY(revenue-cogs),inventoryPostedAt:tsNow(),stockDeducted:true,stockMovementIds:movementRefs,cogsLines:lines});
+      return {skipped:false,cogs,lines};
+    });
+  }
+  async function reverseChocolateSale(orderId){
+    const ref=db.collection('orders').doc(orderId);
+    return db.runTransaction(async tx=>{
+      const snap=await tx.get(ref);if(!snap.exists)throw new Error('الطلب غير موجود');
+      const order={id:orderId,...snap.data()};
+      if(order.inventoryRestoredAt||!order.stockDeducted)return {skipped:true};
+      const lines=order.cogsLines||[]; if(!lines.length)throw new Error('لا توجد حركة بيع مسجلة لعكسها');
+      const reads=[];
+      for(const l of lines){const r=db.collection('inventory').doc(l.itemId);const ss=await tx.get(r);if(!ss.exists)throw new Error('سجل المخزون غير موجود عند الإرجاع: '+l.itemName);reads.push({l,r,ss});}
+      const reversalIds=[];
+      for(const x of reads){const d=x.ss.data();const next=MONEY(NUM(d.qty)+NUM(x.l.qty));tx.update(x.r,{qty:next,updatedAt:tsNow(),lastMovementAt:tsNow()});const mv=db.collection('stockMovements').doc();reversalIds.push(mv.id);tx.set(mv,{itemId:x.r.id,itemName:x.l.itemName,qty:NUM(x.l.qty),unitCost:NUM(x.l.unitCost),totalCost:MONEY(NUM(x.l.qty)*NUM(x.l.unitCost)),movementType:'Sale Reversal',referenceType:'order',referenceId:orderId,userId:auth.currentUser?.uid||'',timestamp:tsNow(),createdAt:tsNow()});}
+      tx.update(ref,{inventoryRestoredAt:tsNow(),stockReversalMovementIds:reversalIds});
+      return {skipped:false};
+    });
+  }
+  window.postChocolateSale=postChocolateSale;window.reverseChocolateSale=reverseChocolateSale;
+  if(oldStatus){
+    window.updateOrderStatus=async function(id,status){
+      const before=(state.orders||[]).find(o=>o.id===id);
+      if(status==='delivered' && before?.status==='delivered') return toast('الطلب مسجل كمُسلّم مسبقاً','warning');
+      await oldStatus(id,status);
+      try{
+        if(status==='delivered'){
+          const r=await postChocolateSale(id); if(!r.skipped) toast('🍫 تم خصم الشوكولاتة وتثبيت COGS حسب WAC ✅','success');
+        }else if(status==='cancelled' && before?.stockDeducted && !before?.inventoryRestoredAt){
+          await reverseChocolateSale(id); toast('↩️ تم عكس مخزون الشوكولاتة وتسجيل حركة الإرجاع ✅','success');
+        }
+      }catch(e){
+        console.error(e);toast('تعذر ترحيل المخزون: '+(e.message||e),'error');
+        // If sale posting fails after the legacy status update, mark the order for attention.
+        try{await updateDoc_('orders',id,{inventoryPostingError:e.message||String(e),inventoryPostingErrorAt:tsNow()});}catch(_){ }
+      }
+    };
+  }
+  const oldEdit=window.saveEditOrder;
+  if(oldEdit){
+    window.saveEditOrder=async function(){
+      const id=document.getElementById('eo-id')?.value;const old=(state.orders||[]).find(o=>o.id===id);if(old?.status==='delivered'){
+        const newProduct=document.getElementById('eo-product')?.selectedOptions?.[0]?.text||'';
+        const newQty=Number(document.getElementById('eo-qty')?.value)||1;const newPrice=Number(document.getElementById('eo-price')?.value)||0;
+        if(newProduct!==old.product||newQty!==Number(old.qty)||newPrice!==Number(old.price)){
+          toast('لا يمكن تعديل المنتج أو الكمية أو السعر بعد التسليم. اعكس الطلب أولاً ثم عدّله.','error');return;
+        }
+      }
+      return oldEdit.apply(this,arguments);
+    };
+  }
+  // Universal stock editor: force every manual quantity change through an audited movement.
+  window.updateQty=async function(id){
+    const item=(state.inventory||[]).find(x=>x.id===id);if(!item)return;
+    const answer=prompt(`الكمية الحالية: ${NUM(item.qty)}\nأدخل الكمية الجديدة:`);if(answer===null)return;
+    const next=Number(answer);if(!Number.isFinite(next)||next<0){toast('كمية غير صالحة','error');return;}
+    const reason=prompt('سبب التعديل:');if(!reason?.trim()){toast('سبب التعديل مطلوب','error');return;}
+    const delta=MONEY(next-NUM(item.qty));if(delta===0)return toast('لا يوجد تغيير','warning');
+    const batch=db.batch();batch.update(db.collection('inventory').doc(id),{qty:next,updatedAt:tsNow(),lastMovementAt:tsNow()});const mv=db.collection('stockMovements').doc();batch.set(mv,{itemId:id,itemName:item.name,qty:Math.abs(delta),unitCost:NUM(item.avgCost??item.cost),totalCost:MONEY(Math.abs(delta)*NUM(item.avgCost??item.cost)),movementType:delta>0?'Adjustment+':'Adjustment-',referenceType:'manual',referenceId:id,reason:reason.trim(),userId:auth.currentUser?.uid||'',timestamp:tsNow(),createdAt:tsNow()});await batch.commit();toast('تم تعديل المخزون مع تسجيل الحركة ✅','success');
+  };
+})();
+</script>
+
+
+<script>
+/* V2.3.0 — real UI text override editor */
+(function(){
+  function esc(v){return typeof window.esc==='function'?window.esc(String(v??'')):String(v??'');}
+  function keyFor(el,idx){
+    const parts=[];let n=el;
+    while(n&&n!==document.body){
+      if(n.id){parts.unshift('#'+n.id);break;}
+      let p=n.parentElement;if(!p)break;
+      let same=Array.from(p.children).filter(x=>x.tagName===n.tagName);let pos=same.indexOf(n)+1;
+      parts.unshift(n.tagName.toLowerCase()+':nth-of-type('+pos+')');n=p;
+    }
+    return parts.join('>')+'::text:'+idx;
+  }
+  function findTextNode(key){
+    const [path,idxStr]=key.split('::text:');if(!path)return null;let el=null;try{el=document.querySelector(path);}catch(e){return null}if(!el)return null;const idx=Number(idxStr)||0;let i=0;for(const node of el.childNodes){if(node.nodeType===3){if(i===idx)return node;i++;}}return null;
+  }
+  function scan(){
+    const roots=[document.querySelector('.sidebar'),document.querySelector('.content')].filter(Boolean);const out=[];
+    roots.forEach(root=>{const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){
+      const text=n.nodeValue.trim();if(!text||text.length<1)continue;const p=n.parentElement;if(!p)continue;
+      if(['SCRIPT','STYLE','NOSCRIPT','INPUT','TEXTAREA','OPTION'].includes(p.tagName))continue;
+      if(p.closest('#page-admin-center'))continue;
+      const idx=Array.from(p.childNodes).filter(x=>x.nodeType===3).indexOf(n);const key=keyFor(p,idx);out.push({key,text,tag:p.tagName.toLowerCase()});
+    }});
+    const seen=new Set();return out.filter(x=>{if(seen.has(x.key))return false;seen.add(x.key);return true;});
+  }
+  async function getOverrides(){const d=(state.settings||[]).find(x=>x.id==='uiTextOverrides');return d?.values||{};}
+  async function saveOverrides(values){await db.collection('settings').doc('uiTextOverrides').set({values,updatedAt:tsNow(),updatedBy:auth.currentUser?.uid||''},{merge:true});const i=(state.settings||[]).findIndex(x=>x.id==='uiTextOverrides');if(i>=0)state.settings[i]={...state.settings[i],id:'uiTextOverrides',values};else state.settings.push({id:'uiTextOverrides',values});}
+  async function apply(){const o=await getOverrides();Object.entries(o).forEach(([k,v])=>{const n=findTextNode(k);if(n)n.nodeValue=String(v);});}
+  window.deebRenderRealTextEditor=async function(){const root=document.getElementById('deeb-admin-text');if(!root)return;const o=await getOverrides();const rows=scan();root.innerHTML=`<div class="deeb-admin-card"><h3>✍️ محرر نصوص الواجهة الفعلي</h3><div class="deeb-hint">هذا الجدول يقرأ النصوص الظاهرة فعلياً في القائمة والصفحات. عدّل أي نص ثم احفظه؛ يتم حفظ التعديل في Firestore ويُطبّق عند فتح النظام لاحقاً. يمكنك استخدام البحث لتحديد النص بسرعة.</div><div class="deeb-admin-toolbar"><input id="deeb-ui-text-search" class="form-input" placeholder="🔎 ابحث عن النص..."><button class="btn btn-primary" onclick="window.deebSaveRealTexts()">💾 حفظ تعديلات النصوص</button><button class="btn btn-outline" onclick="window.deebResetRealTexts()">↺ إزالة كل التعديلات</button></div><div class="deeb-data-wrap"><table class="deeb-data-table" style="min-width:900px"><thead><tr><th>المكان</th><th>النص الحالي</th><th>النص المعدّل</th></tr></thead><tbody id="deeb-ui-text-body">${rows.map((r,i)=>`<tr><td><div class="deeb-cell" dir="ltr">${esc(r.tag)} · ${esc(r.key)}</div></td><td><div class="deeb-cell">${esc(r.text)}</div></td><td><textarea class="deeb-ui-text-input" data-ui-key="${esc(r.key)}" style="width:100%;min-height:42px">${esc(o[r.key]??r.text)}</textarea></td></tr>`).join('')}</tbody></table></div></div>`;document.getElementById('deeb-ui-text-search')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#deeb-ui-text-body tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none');});};
+  window.deebSaveRealTexts=async function(){try{const vals={};document.querySelectorAll('.deeb-ui-text-input').forEach(i=>{const v=i.value;const original=i.closest('tr')?.children?.[1]?.innerText||'';if(v!==original)vals[i.dataset.uiKey]=v;});const old=await getOverrides();await saveOverrides({...old,...vals});await apply();toast('تم حفظ نصوص الواجهة وتطبيقها ✅','success');window.deebRenderRealTextEditor();}catch(e){toast(e.message||'فشل حفظ النصوص','error');}};
+  window.deebResetRealTexts=async function(){if(!confirm('إزالة جميع تعديلات نصوص الواجهة؟'))return;await saveOverrides({});location.reload();};
+  const oldSwitch=window.deebSwitchAdminTab;
+  // Hook the tab renderer used by V2.2.
+  const tabs=document.getElementById('deeb-tab-text');
+  if(tabs){tabs.addEventListener('click',()=>setTimeout(()=>window.deebRenderRealTextEditor(),0));}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(apply,800));else setTimeout(apply,800);
+})();
+</script>
+
+
+<script>
+/* DEEB OS V2.4 — Mobile navigation controller */
+(function(){
+  function mobileNav(){
+    if(document.getElementById('deebMobileBottomNav')) return;
+    const nav=document.createElement('nav');
+    nav.id='deebMobileBottomNav';
+    nav.className='deeb-mobile-bottom-nav';
+    nav.setAttribute('aria-label','التنقل السريع');
+    nav.innerHTML=`
+      <button type="button" data-page="dashboard"><span class="m-icon">🏠</span><span>الرئيسية</span></button>
+      <button type="button" data-page="orders"><span class="m-icon">🛒</span><span>الطلبات</span></button>
+      <button type="button" data-page="inventory"><span class="m-icon">📦</span><span>المخزون</span></button>
+      <button type="button" data-page="finance"><span class="m-icon">💰</span><span>المالية</span></button>
+      <button type="button" data-more="1"><span class="m-icon">☰</span><span>المزيد</span></button>`;
+    document.body.appendChild(nav);
+    nav.querySelectorAll('button[data-page]').forEach(btn=>btn.addEventListener('click',()=>{
+      if(typeof window.showPage==='function') window.showPage(btn.dataset.page, null);
+      setActive(btn.dataset.page);
+      if(window.innerWidth<=768 && typeof window.closeSidebar==='function') window.closeSidebar();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }));
+    nav.querySelector('[data-more]').addEventListener('click',()=>{
+      if(typeof window.toggleSidebar==='function') window.toggleSidebar();
+      else { const s=document.getElementById('appSidebar'); const o=document.getElementById('sidebarOverlay'); if(s){s.classList.toggle('mob-open');o&&o.classList.toggle('mob-open');} }
+    });
+    setActive(location.hash ? location.hash.replace('#','') : 'dashboard');
+  }
+  function setActive(id){
+    const nav=document.getElementById('deebMobileBottomNav'); if(!nav) return;
+    nav.querySelectorAll('button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+  }
+  window.deebSetMobileActive=setActive;
+  function init(){mobileNav();}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+  const oldShow=window.showPage;
+  if(typeof oldShow==='function'){
+    window.showPage=function(id,el){
+      const result=oldShow.apply(this,arguments);
+      setActive(id);
+      if(window.innerWidth<=768) window.scrollTo({top:0,behavior:'smooth'});
+      return result;
+    };
+  } else {
+    document.addEventListener('DOMContentLoaded',()=>{
+      const original=window.showPage;
+      if(typeof original==='function'){
+        window.showPage=function(id,el){const r=original.apply(this,arguments);setActive(id);return r;};
+      }
+    });
+  }
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth>768){
+      const nav=document.getElementById('deebMobileBottomNav'); if(nav) nav.style.display='none';
+    }else{
+      const nav=document.getElementById('deebMobileBottomNav'); if(nav) nav.style.display='grid';
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
