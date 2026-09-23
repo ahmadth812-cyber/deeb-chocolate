@@ -13,42 +13,52 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
 
+    // Admin records are provisioned manually in Firebase Console.
+    // The client cannot create, modify, or delete its own admin record.
     match /admins/{uid} {
-      allow read: if signedIn() && request.auth.uid == uid;
+      allow get: if signedIn() && request.auth.uid == uid;
+      allow list: if false;
       allow create, update, delete: if false;
     }
 
-    match /orders/{docId}       { allow read, write: if isAdmin(); }
-    match /customers/{docId}    { allow read, write: if isAdmin(); }
-    match /products/{docId}     { allow read, write: if isAdmin(); }
-    match /inventory/{docId}    { allow read, write: if isAdmin(); }
-    match /regions/{docId}      { allow read, write: if isAdmin(); }
-    match /expenses/{docId}     { allow read, write: if isAdmin(); }
-    match /campaigns/{docId}    { allow read, write: if isAdmin(); }
-    match /coupons/{docId}      { allow read, write: if isAdmin(); }
-    match /trash/{docId}        { allow read, write: if isAdmin(); }
-    match /certificates/{docId} { allow read, write: if isAdmin(); }
-    match /settings/{docId}     { allow read, write: if isAdmin(); }
-    match /notes/{docId}        { allow read, write: if isAdmin(); }
-    match /events/{docId}       { allow read, write: if isAdmin(); }
+    // Core DEEB OS data: authenticated active admins only.
+    match /orders/{docId}          { allow read, write: if isAdmin(); }
+    match /customers/{docId}       { allow read, write: if isAdmin(); }
+    match /products/{docId}        { allow read, write: if isAdmin(); }
+    match /inventory/{docId}       { allow read, write: if isAdmin(); }
+    match /regions/{docId}         { allow read, write: if isAdmin(); }
+    match /expenses/{docId}        { allow read, write: if isAdmin(); }
+    match /campaigns/{docId}       { allow read, write: if isAdmin(); }
+    match /coupons/{docId}         { allow read, write: if isAdmin(); }
+    match /trash/{docId}           { allow read, write: if isAdmin(); }
+    match /certificates/{docId}    { allow read, write: if isAdmin(); }
+    match /settings/{docId}        { allow read, write: if isAdmin(); }
+    match /notes/{docId}           { allow read, write: if isAdmin(); }
+    match /events/{docId}          { allow read, write: if isAdmin(); }
 
+    // Activity log is append-only from the application perspective.
+    // Existing entries cannot be edited or deleted by the client.
     match /activityLog/{docId} {
       allow read, create: if isAdmin();
       allow update, delete: if false;
     }
 
-    match /flavors/{docId}      { allow read, write: if isAdmin(); }
-    match /freelancers/{docId}  { allow read, write: if isAdmin(); }
-    match /projects/{docId}     { allow read, write: if isAdmin(); }
-    match /receivables/{docId}  { allow read, write: if isAdmin(); }
-    match /b2bLeads/{docId}     { allow read, write: if isAdmin(); }
+    match /flavors/{docId}         { allow read, write: if isAdmin(); }
+    match /freelancers/{docId}     { allow read, write: if isAdmin(); }
+    match /projects/{docId}        { allow read, write: if isAdmin(); }
+    match /receivables/{docId}     { allow read, write: if isAdmin(); }
+    match /b2bLeads/{docId}        { allow read, write: if isAdmin(); }
 
-    // Suppliers / procurement ERP
+    // ERP / procurement / inventory accounting collections.
     match /suppliers/{docId}            { allow read, write: if isAdmin(); }
     match /supplierOrders/{docId}       { allow read, write: if isAdmin(); }
     match /supplierPriceHistory/{docId} { allow read, write: if isAdmin(); }
+    match /supplierPayments/{docId}     { allow read, write: if isAdmin(); }
     match /stockMovements/{docId}       { allow read, write: if isAdmin(); }
+    match /priceHistory/{docId}         { allow read, write: if isAdmin(); }
+    match /inventoryLedger/{docId}      { allow read, write: if isAdmin(); }
 
+    // Explicit deny fallback: any new/unlisted collection is closed by default.
     match /{document=**} {
       allow read, write: if false;
     }
