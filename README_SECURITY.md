@@ -1,35 +1,21 @@
-# DEEB CHOCOLATE — Admin OS Release
+# DEEB CHOCOLATE — Admin OS
 
-This release contains the current DEEB Chocolate Admin OS and its Firestore security rules.
+## Included
+- `index.html` — current DEEB Chocolate Admin OS.
+- `firestore.rules` — Firebase Firestore rules; all business data is Admin-only.
 
-## Files
+## Admin bootstrap
+Create Firestore collection `admins` and a document whose ID is the Firebase Auth UID of the owner.
+Fields:
+- `active`: boolean `true`
+- `role`: string `owner`
 
-- `index.html` — main DEEB admin dashboard.
-- `order-form.html` — customer-facing order form using the same Firebase project.
-- `firestore.rules` — Firebase access-control rules.
+The current owner UID was configured manually in Firebase during setup.
 
-## Firebase setup
-
-The dashboard requires Firebase Authentication and the `admins/{UID}` document for each admin account.
-
-For the owner account, the document contains:
-
-- `active: true`
-- `role: owner`
-
-The Firestore rules allow only active admins to access private collections.
-
-The customer order form can create only `pending` orders with `source: customer-form`. Product and flavor documents are readable publicly because the customer form needs them to build its dropdowns; writes remain admin-only.
-
-## ERP collections added
-
-- `suppliers`
-- `supplierOrders`
-- `supplierPriceHistory`
-- `stockMovements`
-
-## Important
-
-Do **not** commit passwords, service-account JSON files, private keys, `.env` secrets, customer exports, or database backups to GitHub.
-
-Manual JSON backup/import is available from Settings. A truly automatic weekly email backup requires a trusted server-side scheduler/email service; it is not performed directly from the browser in this release.
+## Security notes
+- The frontend Firebase web configuration is not a private service-account credential.
+- Never commit Firebase service-account JSON files, private keys, passwords, `.env` secrets, or customer/order exports.
+- `activityLog` can be read/created by active admins but cannot be updated/deleted by Firestore rules.
+- The current public customer order form was intentionally omitted from the final build because DEEB's official website already handles customer ordering.
+- Weekly email backup requires a backend/Cloud Function or an approved mail service; the browser-only app cannot safely send scheduled emails by itself.
+- Manual JSON backup and restore are available from Settings. Excel import is client-side and admin-only.
