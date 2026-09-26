@@ -94,7 +94,7 @@ body, .card, .topbar, .sidebar, .modal, .form-input, .form-select,
   transition: var(--dm-transition);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);display:flex;min-height:100vh;font-size:14px;overflow-x:hidden;}
+body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);display:block;min-height:100vh;font-size:14px;overflow-x:hidden;}
 
 /* ── AUTH ── */
 .auth-screen{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:1.5rem;}
@@ -325,13 +325,20 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .btn-logout{width:100%;padding:0.5rem;background:rgba(139,32,32,0.15);border:1px solid rgba(139,32,32,0.3);border-radius:8px;color:#f87171;font-family:'Cairo',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;}
 
 /* ── MAIN ── */
-.main{margin-right:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh;overflow-y:auto;}
+.main{width:calc(100% - var(--sidebar-w));margin-right:var(--sidebar-w);margin-left:0;display:flex;flex-direction:column;min-height:100vh;min-width:0;overflow-y:auto;}
 .topbar{background:var(--white);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--light);position:sticky;top:0;z-index:50;}
 .topbar-title{font-size:1rem;font-weight:700;color:var(--dark);}
 .topbar-right{display:flex;align-items:center;gap:0.8rem;}
 .topbar-user{font-size:0.72rem;color:var(--brown);}
 .topbar-date{font-size:0.72rem;color:var(--brown);}
-.content{padding:1.5rem;flex:1;}
+.content{padding:1.5rem;flex:1;width:100%;min-width:0;max-width:100%;}
+
+/* ── LAYOUT HARDENING ── */
+@media(min-width:769px){
+  .main{width:calc(100% - var(--sidebar-w));margin-right:var(--sidebar-w);margin-left:0;}
+}
+.content > .page{width:100%;max-width:none;min-width:0;}
+.content > .page > .card,.content > .page > .stats-grid,.content > .page > .section-header{max-width:100%;}
 
 /* ── LOADING ── */
 .loading-overlay{position:fixed;inset:0;background:rgba(59,33,0,0.7);z-index:500;display:flex;align-items:center;justify-content:center;display:none;}
@@ -397,7 +404,7 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .note-footer{display:flex;align-items:center;justify-content:space-between;font-size:0.68rem;color:var(--brown);}
 .note-actions{display:flex;gap:0.3rem;}
 /* ── PAGES ── */
-.page{display:none;}.page.active{display:block;}
+.page{display:none;width:100%;max-width:none;min-width:0;}.page.active{display:block !important;}
 
 /* ── STATS ── */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;}
@@ -596,7 +603,7 @@ tr:hover td{background:#faf6f3;}
   .sidebar.mob-open{transform:translateX(0);}
   .sidebar-overlay{display:block;opacity:0;pointer-events:none;transition:opacity 0.3s;}
   .sidebar-overlay.mob-open{opacity:1;pointer-events:auto;}
-  .main{margin-right:0 !important;}
+  .main{width:100%;margin-right:0 !important;margin-left:0;min-width:0;}
   .hamburger{display:flex;}
   .grid-2,.form-row,.form-row-3{grid-template-columns:1fr;}
   .kanban{grid-template-columns:1fr 1fr;gap:0.6rem;}
@@ -1550,8 +1557,6 @@ tr:hover td{background:#faf6f3;}
         <div class="table-wrap"><table><thead><tr><th>القناة</th><th>الإنفاق</th><th>عملاء جدد</th><th>CAC</th><th>الإيراد</th><th>Revenue / Customer</th><th>ROAS</th><th>مصدر البيانات</th><th>إجراء</th></tr></thead><tbody id="cacTable"><tr><td colspan="9">جاري التحليل...</td></tr></tbody></table></div>
         <div id="cacNotes" style="margin-top:1rem"></div>
       </div>
-    </div>
-
     <div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
       <div class="card-header"><div class="card-title">📊 11. Marketing ROAS &amp; Profitability — عائد وربحية التسويق</div></div>
       <div class="card-body" style="font-size:.78rem;color:var(--brown);line-height:1.8">ربط الإنفاق التسويقي مباشرة بالطلبات والإيرادات والتكلفة المباشرة والربح قبل المصاريف التشغيلية، وليس الوصول والمشاهدات والتفاعل فقط. عندما توجد قناة داخل الطلبات، تُستخدم تلقائياً؛ ويمكن أيضاً إدخال بيانات القناة يدوياً.</div>
@@ -1572,6 +1577,8 @@ tr:hover td{background:#faf6f3;}
       </div>
       <div id="roasNotes" style="margin-top:.8rem"></div>
     </div>
+    </div>
+
 
     <!-- MESSAGES -->
     <div class="page" id="page-messages">
