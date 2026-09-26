@@ -804,8 +804,43 @@ body{overflow-x:hidden;}
 .strategy-note{font-size:.72rem;line-height:1.8;color:var(--brown);}
 @media(max-width:768px){#appMain{width:100%;margin:0!important}.content{width:100%;max-width:100%;}.grid-2{grid-template-columns:1fr!important}.strategy-table{min-width:900px}.table-wrap{width:100%;}}
 
+
+/* ═══════════════════════════════════════════════════════════════
+   DEEB GAP CLOSER — OPERATIONS / GROWTH / CONTROL UI
+   ═══════════════════════════════════════════════════════════════ */
+.gap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.7rem}
+.gap-mini{background:var(--cream);border:1px solid var(--light);border-radius:10px;padding:.75rem}
+.gap-mini .g-label{font-size:.65rem;color:var(--brown);font-weight:700}
+.gap-mini .g-value{font-size:1.25rem;font-weight:900;color:var(--dark);margin-top:.15rem}
+.gap-mini .g-sub{font-size:.65rem;color:var(--brown);margin-top:.15rem}
+.gap-pipeline{display:grid;grid-template-columns:repeat(6,minmax(180px,1fr));gap:.65rem;overflow-x:auto;padding-bottom:.35rem}
+.gap-pipeline-col{background:var(--cream);border:1px solid var(--light);border-radius:10px;padding:.55rem;min-height:120px}
+.gap-pipeline-title{font-size:.7rem;font-weight:800;color:var(--brown);display:flex;justify-content:space-between;margin-bottom:.5rem}
+.gap-pipeline-title span{background:var(--white);border:1px solid var(--light);border-radius:999px;padding:.05rem .4rem}
+.gap-pipeline-card{background:var(--white);border:1px solid var(--light);border-radius:9px;padding:.6rem;margin-bottom:.45rem;font-size:.68rem;color:var(--brown)}
+.gap-pipeline-card strong{display:block;color:var(--dark);font-size:.73rem;margin-bottom:.2rem}
+.gap-pipeline-card span{font-size:.58rem;color:var(--gold);font-weight:700}
+.gap-pipeline-card>div{margin-top:.2rem}
+.gap-actions{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.4rem}
+.gap-empty{padding:.7rem;text-align:center;color:var(--brown);opacity:.5;font-size:.65rem}
+.gap-alert-strip{padding:.7rem .9rem;border-radius:9px;background:var(--cream);border:1px solid var(--light);font-size:.76rem;color:var(--brown);margin-bottom:.8rem}
+.gap-table input,.gap-table select{min-width:100px;font-size:.72rem!important;padding:.42rem .5rem}
+.gap-wide-table{min-width:900px}
+.gap-health-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.6rem}
+.gap-health{background:var(--cream);border:1px solid var(--light);border-radius:9px;padding:.65rem;display:flex;flex-direction:column;gap:.2rem}
+.gap-health strong{font-size:.72rem;color:var(--dark)}
+.gap-health span{font-size:.68rem;font-weight:800;color:var(--success)}
+.gap-health small{font-size:.6rem;color:var(--brown);line-height:1.5}
+.gap-chip{display:inline-flex;align-items:center;padding:.16rem .5rem;border:1px solid var(--light);border-radius:999px;background:var(--white);font-size:.63rem;color:var(--brown);margin:.12rem}
+.gap-progress{height:7px;border-radius:99px;background:var(--light);overflow:hidden;margin-top:.4rem}
+.gap-progress>span{display:block;height:100%;background:var(--gold);border-radius:99px}
+.gap-note{font-size:.72rem;line-height:1.8;color:var(--brown)}
+@media(max-width:900px){.gap-pipeline{grid-template-columns:repeat(6,165px)}}
+@media(max-width:600px){.gap-grid{grid-template-columns:1fr 1fr}.gap-wide-table{min-width:780px}.gap-pipeline{grid-template-columns:repeat(6,155px)}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- DEEB OS GAP CLOSER BUILD: 18–50 CLOSED -->
 </head>
 <body>
 
@@ -1093,7 +1128,32 @@ body{overflow-x:hidden;}
         <input type="date" class="form-input" style="width:auto;font-size:0.8rem" id="filterDateTo" onchange="filterOrders()" title="إلى تاريخ">
         <span class="results-count" id="ordersCount">0 طلب</span>
       </div>
-      <div class="kanban">
+      
+<div class="card" id="gapOrderControl" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">🧭 Order Funnel + Customer Service + AOV Control</div><div style="display:flex;gap:.35rem;flex-wrap:wrap"><button class="btn btn-sm btn-outline" onclick="window.openServiceTicketModal()">+ تذكرة خدمة</button></div></div>
+  <div class="card-body">
+    <div class="gap-grid" style="margin-bottom:.8rem">
+      <div class="gap-mini"><div class="g-label">Pending Confirmation</div><div class="g-value" id="funnel_pending_confirmation">0</div></div>
+      <div class="gap-mini"><div class="g-label">Confirmed</div><div class="g-value" id="funnel_confirmed">0</div></div>
+      <div class="gap-mini"><div class="g-label">Preparing</div><div class="g-value" id="funnel_preparing">0</div></div>
+      <div class="gap-mini"><div class="g-label">Out for Delivery</div><div class="g-value" id="funnel_out_for_delivery">0</div></div>
+      <div class="gap-mini"><div class="g-label">Delivered</div><div class="g-value" id="funnel_delivered">0</div></div>
+      <div class="gap-mini"><div class="g-label">Lost</div><div class="g-value" id="funnel_lost">0</div></div>
+      <div class="gap-mini"><div class="g-label">1KG Upgrade Rate</div><div class="g-value" id="aovUpgradeRate">—</div></div>
+      <div class="gap-mini"><div class="g-label">Add-on Attach Rate</div><div class="g-value" id="aovAttachRate">—</div></div>
+    </div>
+    <div class="table-wrap"><table class="gap-table"><thead><tr><th>Funnel Stage</th><th>Orders</th><th>Share</th></tr></thead><tbody id="funnelRateRow"></tbody></table></div>
+  </div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">🛎️ Customer Service Queue</div><span class="gap-chip">Open: <strong id="svcOpenHeader">0</strong></span></div>
+  <div class="card-body">
+    <div class="gap-grid" style="margin-bottom:.8rem"><div class="gap-mini"><div class="g-label">Open</div><div class="g-value" id="svcOpen">0</div></div><div class="gap-mini"><div class="g-label">Overdue</div><div class="g-value" id="svcOverdue">0</div></div><div class="gap-mini"><div class="g-label">Resolved</div><div class="g-value" id="svcResolved">0</div></div><div class="gap-mini"><div class="g-label">Avg Open Age</div><div class="g-value" id="svcAvgAge">0d</div></div></div>
+    <div class="table-wrap"><table class="gap-wide-table"><thead><tr><th>العميل</th><th>الهاتف</th><th>الطلب</th><th>النوع</th><th>الأولوية</th><th>الحالة</th><th>Due</th><th>تنبيه</th><th>إجراء</th></tr></thead><tbody id="serviceTicketTable"></tbody></table></div>
+  </div>
+</div>
+
+<div class="kanban">
         <div class="kanban-col"><div class="kanban-col-title" style="color:var(--pending)">⏳ Pending <span id="cnt-pending" style="background:#fef9e7;padding:2px 8px;border-radius:10px">0</span></div><div id="kanban-pending"></div></div>
         <div class="kanban-col"><div class="kanban-col-title" style="color:var(--blue)">🔧 Preparing <span id="cnt-preparing" style="background:#eff6ff;padding:2px 8px;border-radius:10px">0</span></div><div id="kanban-preparing"></div></div>
         <div class="kanban-col"><div class="kanban-col-title" style="color:var(--success)">✅ Delivered <span id="cnt-delivered" style="background:#f0fdf4;padding:2px 8px;border-radius:10px">0</span></div><div id="kanban-delivered"></div></div>
@@ -1121,7 +1181,13 @@ body{overflow-x:hidden;}
         <div class="stat-card"><div class="stat-label">أعلى عميل إنفاقاً</div><div class="stat-value" id="custTopSpender">—</div><div class="stat-icon">🏆</div></div>
       </div>
 
-      <div class="search-bar">
+      
+<div class="card" style="margin-bottom:1rem">
+  <div class="card-header"><div class="card-title">🧠 Customer Value & Journey Signals</div></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Orders tracked</div><div class="g-value" id="ciTrackedOrders">0</div></div><div class="gap-mini"><div class="g-label">Avg order value</div><div class="g-value" id="ciLiveAov">0</div><div class="g-sub">JOD</div></div><div class="gap-mini"><div class="g-label">Repeat customers</div><div class="g-value" id="ciLiveRepeat">0</div></div><div class="gap-mini"><div class="g-label">VIP rules</div><div class="g-value" id="ciLiveVip">0</div></div></div></div>
+</div>
+
+<div class="search-bar">
         <input class="search-input" id="searchCustomers" placeholder="🔍 بحث بالاسم أو الهاتف أو المنطقة..." oninput="filterCustomers()">
         <select class="form-select" style="width:auto;font-size:0.8rem" id="filterVip" onchange="filterCustomers()">
           <option value="">كل العملاء</option>
@@ -1176,6 +1242,15 @@ body{overflow-x:hidden;}
           <div style="margin-top:.7rem;padding:.55rem .7rem;border-radius:8px;background:var(--cream);color:var(--brown)">هذا مرجع التسعير الاستراتيجي. لا يتم تعديل سجلات المنتجات الموجودة تلقائياً؛ حدّث المنتج الفعلي من جدول المنتجات عند الحاجة.</div>
         </div>
       </div>
+
+
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">🎨 Custom Box Rules Engine</div><button class="btn btn-sm btn-gold" onclick="window.saveCustomBoxRules()">💾 حفظ القواعد</button></div>
+  <div class="card-body">
+    <div class="grid-2"><div class="form-group"><label class="form-label">تفعيل التحقق</label><label style="display:flex;align-items:center;gap:.4rem"><input id="cbEnabled" type="checkbox"> <span>فعّال</span></label></div><div class="form-group"><label class="form-label">إجبار اختيار نكهة</label><label style="display:flex;align-items:center;gap:.4rem"><input id="cbRequire" type="checkbox"> <span>عند إنشاء Custom Box</span></label></div><div class="form-group"><label class="form-label">الحد الأدنى للنكهات</label><input id="cbMin" class="form-input" type="number" min="0"></div><div class="form-group"><label class="form-label">الحد الأعلى للنكهات</label><input id="cbMax" class="form-input" type="number" min="0"></div><div class="form-group"><label class="form-label">كمية الطلب الكبير (للمراجعة)</label><input id="cbLargeQty" class="form-input" type="number" min="1"></div><div class="form-group"><label class="form-label">ملاحظات التشغيل</label><input id="cbNotes" class="form-input"></div></div>
+    <div class="gap-alert-strip">🛡️ <strong id="customRuleStatus">جاري التحقق…</strong> — الحدود أعلاه إعدادات تشغيلية قابلة للتعديل ولا تُعتبر سياسة تجارية ثابتة إلا بعد اعتمادها.</div>
+  </div>
+</div>
 
       <div class="search-bar">
         <input class="search-input" id="searchProducts" placeholder="🔍 بحث في المنتجات..." oninput="filterProducts()">
@@ -1297,7 +1372,21 @@ body{overflow-x:hidden;}
         <div class="stat-card"><div class="stat-label">إجمالي المصاريف</div><div class="stat-value" id="finExpenses">0</div><div class="stat-icon">📉</div></div>
         <div class="stat-card"><div class="stat-label">صافي الربح</div><div class="stat-value" id="finProfit">0</div><div class="stat-icon">💎</div></div>
       </div>
-      <div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)"><div class="card-header"><div class="card-title">🧾 Profitability Bridge</div></div><div class="card-body"><div class="analytics-row"><div class="analytics-item"><span class="ai-label">الإيراد</span><span class="ai-value" id="finBridgeRevenue">0.00 JOD</span></div><div class="analytics-item"><span class="ai-label">COGS من الطلبات</span><span class="ai-value" id="finCOGS">—</span></div><div class="analytics-item"><span class="ai-label">Gross / Contribution Profit</span><span class="ai-value" id="finContribution">—</span></div><div class="analytics-item"><span class="ai-label">بعد المصاريف المسجلة</span><span class="ai-value" id="finAfterExpenses">—</span></div></div><div class="alert" style="margin-top:.7rem">هذا الجسر منفصل عن الربح النقدي البسيط الموجود في الأعلى: COGS يعتمد على ترحيل الطلبات عند التسليم، والمصاريف المسجلة هي السجلات الموجودة في Expenses. لا نعتبر النتيجة صافي محاسبي كامل بدون سياسة محاسبية متكاملة لتوقيت المشتريات والاستحقاقات.</div></div></div>      <!-- PRODUCT ANALYTICS -->
+      <div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)"><div class="card-header"><div class="card-title">🧾 Profitability Bridge</div></div><div class="card-body"><div class="analytics-row"><div class="analytics-item"><span class="ai-label">الإيراد</span><span class="ai-value" id="finBridgeRevenue">0.00 JOD</span></div><div class="analytics-item"><span class="ai-label">COGS من الطلبات</span><span class="ai-value" id="finCOGS">—</span></div><div class="analytics-item"><span class="ai-label">Gross / Contribution Profit</span><span class="ai-value" id="finContribution">—</span></div><div class="analytics-item"><span class="ai-label">بعد المصاريف المسجلة</span><span class="ai-value" id="finAfterExpenses">—</span></div></div><div class="alert" style="margin-top:.7rem">هذا الجسر منفصل عن الربح النقدي البسيط الموجود في الأعلى: COGS يعتمد على ترحيل الطلبات عند التسليم، والمصاريف المسجلة هي السجلات الموجودة في Expenses. لا نعتبر النتيجة صافي محاسبي كامل بدون سياسة محاسبية متكاملة لتوقيت المشتريات والاستحقاقات.</div></div></div>
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">36. Management Financial Reporting</div></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Revenue</div><div class="g-value" id="frRev">0</div><div class="g-sub">JOD</div></div><div class="gap-mini"><div class="g-label">COGS</div><div class="g-value" id="frCogs">0</div></div><div class="gap-mini"><div class="g-label">Contribution</div><div class="g-value" id="frContribution">0</div></div><div class="gap-mini"><div class="g-label">Operating Expenses</div><div class="g-value" id="frOpex">0</div></div><div class="gap-mini"><div class="g-label">Marketing</div><div class="g-value" id="frMarketing">0</div></div><div class="gap-mini"><div class="g-label">Management Net</div><div class="g-value" id="frNet">0</div></div><div class="gap-mini"><div class="g-label">Supplier Cash Paid</div><div class="g-value" id="frSupplierCash">0</div></div></div><div class="gap-note" style="margin-top:.7rem">هذا تقرير إدارة تشغيلي من البيانات المسجلة في النظام، وليس قوائم مالية محاسبية رسمية.</div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">37. Cash Flow Plan</div><button class="btn btn-sm btn-gold" onclick="window.saveCashFlowPlan()">💾 حفظ</button></div>
+  <div class="card-body"><div class="grid-2"><div class="form-group"><label class="form-label">Opening Cash</label><input id="cfOpening" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Expected Collections</label><input id="cfCollections" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Planned Supplier Payments</label><input id="cfSupplier" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Planned Operating Outflows</label><input id="cfOperating" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Other Planned Outflows</label><input id="cfOther" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Horizon Days</label><input id="cfHorizon" class="form-input" type="number"></div><div class="form-group" style="grid-column:1/-1"><label class="form-label">Notes</label><textarea id="cfNotes" class="form-textarea"></textarea></div></div><div class="gap-alert-strip">Projected cash after planned inflows/outflows: <strong id="cfProjected">0 JOD</strong></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">38. Working Capital</div></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Inventory Value</div><div class="g-value" id="wcInventory">0</div><div class="g-sub">JOD</div></div><div class="gap-mini"><div class="g-label">Receivables</div><div class="g-value" id="wcReceivables">0</div><div class="g-sub">JOD</div></div><div class="gap-mini"><div class="g-label">Supplier Payable</div><div class="g-value" id="wcPayable">0</div><div class="g-sub">JOD</div></div><div class="gap-mini"><div class="g-label">Net Working Capital Tied</div><div class="g-value" id="wcTied">0</div><div class="g-sub">Inventory + Receivables − Payable</div></div></div></div>
+</div>
+
+      <!-- PRODUCT ANALYTICS -->
       <div class="card" style="margin-bottom:1rem">
         <div class="card-header"><div class="card-title">📦 تحليل المنتجات</div></div>
         <div class="card-body" id="productAnalytics">
@@ -1444,7 +1533,7 @@ body{overflow-x:hidden;}
     <div class="page" id="page-b2b">
       <div class="section-header">
         <div><div class="section-title-main">🏢 B2B Leads</div><div class="section-subtitle">متابعة الاتصالات مع الشركات لطلبات B2B</div></div>
-        <button class="btn btn-primary" onclick="window.openAddLeadModal()">+ Add Lead</button>
+        <button class="btn btn-outline" onclick="window.renderB2BControlCenter()">🔄 تحديث</button><button class="btn btn-primary" onclick="window.openAddLeadModal()">+ Add Lead</button>
       </div>
 
       <div class="stats-grid" style="margin-bottom:1rem">
@@ -1454,6 +1543,10 @@ body{overflow-x:hidden;}
         <div class="stat-card"><div class="stat-label">Follow-Up</div><div class="stat-value" id="leadFollowupCount">0</div><div class="stat-icon">📅</div></div>
         <div class="stat-card"><div class="stat-label">Won</div><div class="stat-value" id="leadWonCount">0</div><div class="stat-icon">🏆</div></div>
       </div>
+
+
+<div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)"><div class="card-body"><div id="b2bOverdueBanner" class="gap-alert-strip">جاري التحقق من المتابعات…</div><div class="gap-grid"><div class="gap-mini"><div class="g-label">Open Pipeline</div><div class="g-value" id="b2bPipeOpen">0</div></div><div class="gap-mini"><div class="g-label">Due Follow-ups</div><div class="g-value" id="b2bPipeDue">0</div></div><div class="gap-mini"><div class="g-label">Overdue</div><div class="g-value" id="b2bPipeOverdue">0</div></div><div class="gap-mini"><div class="g-label">Qualified</div><div class="g-value" id="b2bPipeQualified">0</div></div><div class="gap-mini"><div class="g-label">Pipeline Value</div><div class="g-value" id="b2bPipeValue">0 JOD</div></div><div class="gap-mini"><div class="g-label">Won Value</div><div class="g-value" id="b2bPipeWon">0 JOD</div></div><div class="gap-mini"><div class="g-label">Closed Conversion</div><div class="g-value" id="b2bPipeConversion">0%</div></div></div><div class="gap-pipeline" id="b2bPipelineBoard" style="margin-top:.8rem"></div></div></div>
+<div class="grid-2" style="margin-bottom:1rem"><div class="card"><div class="card-header"><div class="card-title">📣 B2B Source Performance</div></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>Source</th><th>Leads</th><th>Won</th><th>Pipeline JOD</th><th>Win / Leads</th></tr></thead><tbody id="b2bSourceTable"></tbody></table></div></div></div><div class="card"><div class="card-header"><div class="card-title">📝 Recent B2B Activities</div></div><div class="card-body"><div class="table-wrap"><table class="gap-wide-table"><thead><tr><th>Date</th><th>Company</th><th>Type</th><th>Summary</th><th>Outcome</th><th>Next</th></tr></thead><tbody id="b2bActivityTable"></tbody></table></div></div></div></div>
 
       <div class="search-bar">
         <input class="search-input" id="searchLeads" placeholder="🔍 بحث بالشركة أو الاسم أو الرقم..." oninput="window.filterLeads()">
@@ -1551,6 +1644,40 @@ body{overflow-x:hidden;}
 <div class="card"><div class="card-header"><div class="card-title">13. المخاطر والافتراضات والفرص</div></div><div class="card-body"><div class="grid-2"><div><strong>Risks</strong><p id="bsRisks" style="white-space:pre-wrap"></p></div><div><strong>Assumptions</strong><p id="bsAssumptions" style="white-space:pre-wrap"></p></div><div><strong>Opportunities</strong><p id="bsOpportunities" style="white-space:pre-wrap"></p></div><div><strong>Challenges</strong><p id="bsChallenges" style="white-space:pre-wrap"></p></div></div></div></div>
     </div>
 
+
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">40. Live KPI Center — Target vs Actual</div><span class="gap-chip" id="kpiLiveMonth">—</span></div>
+  <div class="card-body"><p class="gap-note">يقارن مؤشرات الشهر الحالي المسجلة فعلياً بالأهداف الموجودة في Strategy. الربح المحتفظ به يعتمد على COGS والمصاريف المسجلة، لذلك تظهر النتيجة كبيانات تشغيلية مسجلة وليست توقعاً.</p><div class="table-wrap"><table><thead><tr><th>KPI</th><th>Target</th><th>Actual</th><th>Progress</th><th></th><th>Status</th></tr></thead><tbody id="liveKpiRows"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">22. Product Portfolio Strategy</div><button class="btn btn-sm btn-gold" onclick="window.addPortfolioRow()">+ منتج</button></div>
+  <div class="card-body"><p class="gap-note">صنّف كل منتج حسب دوره في المحفظة بدل الاعتماد على المبيعات فقط: Entry / Core / Premium / Seasonal، مع دور واضح وقرار متابعة.</p><div class="table-wrap"><table class="gap-table"><thead><tr><th>المنتج</th><th>Tier</th><th>Role</th><th>Status</th><th>Target Qty</th><th></th></tr></thead><tbody id="portfolioRows"></tbody></table></div><div style="margin-top:.6rem"><button class="btn btn-primary" onclick="window.savePortfolioStrategy()">💾 حفظ المحفظة</button></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">25. Occasion-Based Selling</div><button class="btn btn-sm btn-gold" onclick="window.addOccasionRow()">+ مناسبة</button></div>
+  <div class="card-body"><div class="table-wrap"><table class="gap-table"><thead><tr><th>المناسبة</th><th>العرض / المنتج</th><th>نوع المحتوى</th><th>CTA</th><th>نافذة الموسم</th><th></th></tr></thead><tbody id="occasionRows"></tbody></table></div><div style="margin-top:.6rem"><button class="btn btn-primary" onclick="window.saveOccasionPlan()">💾 حفظ المناسبات</button></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">26. Customer Journey / Funnel Control</div></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Orders this month</div><div class="g-value" id="journeyOrders">0</div></div><div class="gap-mini"><div class="g-label">Revenue this month</div><div class="g-value" id="journeyRevenue">0</div><div class="g-sub">JOD</div></div><div class="gap-mini"><div class="g-label">Website-attributed</div><div class="g-value" id="journeyWebsite">0</div></div><div class="gap-mini"><div class="g-label">Referral / Repeat signal</div><div class="g-value" id="journeyRepeat">0</div></div></div><div class="table-wrap" style="margin-top:.8rem"><table><thead><tr><th>Stage</th><th>Orders</th><th>Share</th></tr></thead><tbody id="journeyStageTable"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">39. Seasonal Planning</div><button class="btn btn-sm btn-gold" onclick="window.addSeasonRow()">+ موسم</button></div>
+  <div class="card-body"><p class="gap-note">سجّل تواريخ الموسم، معامل الطلب المتوقع، أيام تجهيز المخزون، وبداية المحتوى حتى يصبح الموسم خطة تشغيل وليس مجرد موعد على التقويم.</p><div class="table-wrap"><table class="gap-table gap-wide-table"><thead><tr><th>الموسم</th><th>Start</th><th>End</th><th>Demand ×</th><th>Stock Prep Days</th><th>Content Start</th><th></th></tr></thead><tbody id="seasonalRows"></tbody></table></div><div style="margin-top:.6rem"><button class="btn btn-primary" onclick="window.saveSeasonPlan()">💾 حفظ التخطيط</button></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">48. Brand Differentiation / Moat / Positioning</div><button class="btn btn-sm btn-gold" onclick="window.saveBrandMoat()">💾 حفظ</button></div>
+  <div class="card-body"><div class="grid-2"><div class="form-group"><label class="form-label">Differentiation — ما الذي يميز DEEB؟</label><textarea id="bmDifferentiation" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Signature Products / Experiences</label><textarea id="bmSignature" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Proof Points — أدلة قابلة للإثبات</label><textarea id="bmProof" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Defensibility Assets — عناصر صعوبة التقليد</label><textarea id="bmAssets" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Positioning Statement</label><textarea id="bmPositioning" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Notes</label><textarea id="bmNotes" class="form-textarea"></textarea></div></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">49. Competitive Intelligence</div><button class="btn btn-sm btn-gold" onclick="window.openCompetitorModal()">+ منافس</button></div>
+  <div class="card-body"><p class="gap-note">سجل الحقائق المرصودة عن المنافسين عبر الزمن: السعر، الحجم، العرض، التغليف، القناة، والتموضع. لا يُستبدل الرصد بانطباع عام.</p><div class="gap-grid" style="margin-bottom:.7rem"><div class="gap-mini"><div class="g-label">Records</div><div class="g-value" id="competitorCount">0</div></div></div><div class="table-wrap"><table class="gap-wide-table"><thead><tr><th>المنافس</th><th>الفئة</th><th>القناة</th><th>المنتج</th><th>السعر</th><th>الحجم</th><th>العرض</th><th>التغليف</th><th>التاريخ</th><th></th></tr></thead><tbody id="competitorTable"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">50. Scaling Strategy</div><button class="btn btn-sm btn-gold" onclick="window.saveScalingPlan()">💾 حفظ</button></div>
+  <div class="card-body"><div class="grid-2"><div class="form-group"><label class="form-label">Revenue milestone</label><input id="scRevenue" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Orders milestone</label><input id="scOrders" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Capacity trigger %</label><input id="scCapacity" class="form-input" type="number" min="1" max="100"></div><div class="form-group"><label class="form-label">B2B pipeline trigger JOD</label><input id="scB2b" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Minimum stock coverage days</label><input id="scStock" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Hiring / resource trigger</label><input id="scHire" class="form-input"></div><div class="form-group" style="grid-column:1/-1"><label class="form-label">Next scaling actions</label><textarea id="scActions" class="form-textarea"></textarea></div></div></div>
+</div>
+
     <!-- DEMAND FORECASTING -->
     <div class="page" id="page-forecast">
       <div class="section-header">
@@ -1641,6 +1768,16 @@ body{overflow-x:hidden;}
     </div>
 
 
+
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">34. Attribution Health + 47. Social → Sales</div><button class="btn btn-sm btn-gold" onclick="window.openContentAssetModal()">+ Content Asset</button></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Tracked Delivered Orders</div><div class="g-value" id="attrTracked">0</div></div><div class="gap-mini"><div class="g-label">Untracked Delivered Orders</div><div class="g-value" id="attrUntracked">0</div></div><div class="gap-mini"><div class="g-label">Untracked Revenue</div><div class="g-value" id="attrUntrackedRevenue">0 JOD</div></div><div class="gap-mini"><div class="g-label">Content Assets</div><div class="g-value" id="contentAssetCount">0</div></div></div><div class="table-wrap" style="margin-top:.8rem"><table><thead><tr><th>Attribution Key</th><th>Orders</th><th>Revenue</th><th>AOV</th></tr></thead><tbody id="attrTable"></tbody></table></div><p class="gap-note" style="margin-top:.6rem">أي طلب بدون source / channel / UTM يظهر كـUntracked. لا يتم اختراع مصدر للطلب.</p><div class="table-wrap" style="margin-top:.8rem"><table class="gap-wide-table"><thead><tr><th>Platform</th><th>Content</th><th>Type</th><th>Date</th><th>Campaign</th><th>Content UTM</th><th>CTA</th><th>Orders</th><th>Revenue</th><th>Status</th></tr></thead><tbody id="contentAssetTable"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">35. Testing & Experimentation</div><button class="btn btn-sm btn-gold" onclick="window.openExperimentModal()">+ تجربة</button></div>
+  <div class="card-body"><div class="gap-grid" style="margin-bottom:.8rem"><div class="gap-mini"><div class="g-label">Experiments</div><div class="g-value" id="experimentCount">0</div></div></div><div class="table-wrap"><table class="gap-wide-table"><thead><tr><th>Area</th><th>Hypothesis</th><th>Metric</th><th>Baseline</th><th>Target</th><th>Status</th><th>Result</th><th>Decision</th><th></th></tr></thead><tbody id="experimentTable"></tbody></table></div></div>
+</div>
+
     <!-- LOST ORDER ANALYTICS -->
     <div class="page" id="page-lost-orders">
       <div class="section-header"><div><div class="section-title-main">📉 Lost Order Analytics</div><div class="section-subtitle">تسجيل وتحليل أسباب الطلبات التي لم تكتمل لاكتشاف أكبر مصادر خسارة المبيعات.</div></div><div style="display:flex;gap:.45rem;flex-wrap:wrap"><button class="btn btn-outline" onclick="window.exportLostOrdersCSV()">⬇️ تصدير CSV</button><button class="btn btn-primary" onclick="window.openLostOrderModal()">+ تسجيل طلب مفقود</button></div></div>
@@ -1730,6 +1867,20 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       </div>
     </div>
 
+
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">23–24 / 48. Differentiation, Moat & Positioning</div><button class="btn btn-sm btn-outline" onclick="window.showPage('strategy',document.querySelector('.nav-item[onclick*=\"strategy\"]'))">فتح Strategy ↗</button></div>
+  <div class="card-body"><p class="gap-note">المصدر الرئيسي لهذه الحقول محفوظ أيضاً داخل Strategy، حتى تبقى هوية العلامة والتموضع مرتبطة بخطة النمو التشغيلية.</p></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">45. Website Content Completeness</div><button class="btn btn-sm btn-gold" onclick="window.saveWebsiteAudit()">💾 حفظ</button></div>
+  <div class="card-body"><p class="gap-note">تدقيق تشغيلي على الصفحات الأساسية ومحتواها، حتى لا تعتمد جاهزية الموقع على الذاكرة.</p><div class="table-wrap"><table class="gap-table gap-wide-table"><thead><tr><th>Page / Asset</th><th>Status</th><th>Owner</th><th>Notes</th></tr></thead><tbody id="websiteAuditRows"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">46. Product Photography Consistency</div><div style="display:flex;gap:.35rem"><button class="btn btn-sm btn-outline" onclick="window.seedPhotoAudit()">↻ تجهيز القائمة</button><button class="btn btn-sm btn-gold" onclick="window.savePhotoAudit()">💾 حفظ</button></div></div>
+  <div class="card-body"><p class="gap-note">هذا tracker للتدقيق على الصور الحالية: الصورة الرئيسية، الإضاءة، الخلفية، الاتساق، وتفاصيل المنتج. لا يغيّر ملفات الصور تلقائياً.</p><div class="table-wrap"><table class="gap-wide-table"><thead><tr><th>Item</th><th>Status</th><th>Hero</th><th>Lighting</th><th>Background</th><th>Consistency</th><th>Details</th></tr></thead><tbody id="photoAuditRows"></tbody></table></div></div>
+</div>
+
     <!-- CHECKLIST -->
     <div class="page" id="page-checklist">
       <div class="section-header"><div><div class="section-title-main">✅ خطوات تجهيز الطلب</div></div><button class="btn btn-outline" onclick="resetChecklist()">🔄 إعادة تعيين</button></div>
@@ -1813,6 +1964,12 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         </div>
       </div>
     </div>
+
+
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">44. Legal & Policy Readiness</div><button class="btn btn-sm btn-gold" onclick="window.saveLegalReadiness()">💾 حفظ</button></div>
+  <div class="card-body"><p class="gap-note">قائمة جاهزية داخلية للمراجعة والتوثيق. لا تعتبر هذه الشاشة استشارة قانونية، ويجب اعتماد المتطلبات الفعلية مع المختص المناسب.</p><div class="table-wrap"><table class="gap-table"><thead><tr><th>الموضوع</th><th>الحالة</th><th>Owner</th><th>Next Review</th></tr></thead><tbody id="legalReadinessRows"></tbody></table></div></div>
+</div>
 
     <!-- NOTES PAGE -->
     <div class="page" id="page-notes">
@@ -2084,6 +2241,28 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="card"><div class="card-header"><div class="card-title">📦 طلبات الشراء</div></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>PO</th><th>المورد</th><th>التاريخ</th><th>الحالة</th><th>الإجمالي</th><th>المستلم</th><th>المدفوع</th><th>المتبقي</th><th>إجراءات</th></tr></thead><tbody id="supplierOrdersTable"></tbody></table></div></div></div>
       <div class="card"><div class="card-header"><div class="card-title">💳 مدفوعات الموردين</div></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>المورد</th><th>PO</th><th>المبلغ</th><th>الطريقة</th><th>ملاحظات</th></tr></thead><tbody id="supplierPaymentsTable"></tbody></table></div></div></div>
       <div class="card"><div class="card-header"><div class="card-title">📜 آخر تغييرات أسعار الشراء</div></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>المورد</th><th>المادة</th><th>السعر/وحدة</th><th>ملاحظات</th></tr></thead><tbody id="supplierPriceTable"></tbody></table></div></div></div>
+
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">28. Supplier Risk Management</div></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">High Risk</div><div class="g-value" id="supRiskHigh">0</div></div><div class="gap-mini"><div class="g-label">High Criticality بدون Backup</div><div class="g-value" id="supRiskNoBackup">0</div></div><div class="gap-mini"><div class="g-label">Inactive Suppliers</div><div class="g-value" id="supRiskInactive">0</div></div></div><div class="table-wrap" style="margin-top:.8rem"><table class="gap-wide-table"><thead><tr><th>المورد</th><th>Criticality</th><th>Sole Source</th><th>Backup</th><th>Lead Time</th><th>Min Qty</th><th>Risk</th><th>Quality Issues</th></tr></thead><tbody id="supplierRiskTable"></tbody></table></div><div class="gap-note" style="margin-top:.6rem">من شاشة تعديل المورد يمكنك تعريف درجة الأهمية، المورد البديل، Lead Time، Minimum Order وبيانات الجودة.</div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">29. Supplier Performance Scorecard</div></div>
+  <div class="card-body"><div class="table-wrap"><table class="gap-wide-table"><thead><tr><th>المورد</th><th>On-time</th><th>Fill Rate</th><th>Latest Price Δ</th><th>Quality Issues</th><th>POs</th></tr></thead><tbody id="supplierPerformanceTable"></tbody></table></div><div class="gap-note" style="margin-top:.6rem">On-time يعتمد على Expected Date + الاستلام المسجل. إذا لم توجد بيانات كافية يظهر — بدل اختراع نسبة.</div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">30. Procurement Planner</div></div>
+  <div class="card-body"><p class="gap-note">الاقتراح = الطلب اليومي التاريخي × (Lead Time + Safety Days) − المخزون الحالي − الكميات الداخلة من أوامر الشراء المفتوحة.</p><div class="table-wrap"><table class="gap-wide-table"><thead><tr><th>المادة</th><th>المخزون</th><th>WAC</th><th>طلب/يوم</th><th>Coverage</th><th>Incoming</th><th>Lead</th><th>Suggested Buy</th><th>Cash Need</th><th>Signal</th></tr></thead><tbody id="procurementTable"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">31. Waste & Production Loss</div><button class="btn btn-sm btn-gold" onclick="window.openWasteModal()">+ تسجيل هدر</button></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">سجلات الهدر</div><div class="g-value" id="wasteCount">0</div></div><div class="gap-mini"><div class="g-label">الكمية</div><div class="g-value" id="wasteQty">0</div></div><div class="gap-mini"><div class="g-label">التكلفة</div><div class="g-value" id="wasteCost">0 JOD</div></div></div><div class="table-wrap" style="margin-top:.8rem"><table><thead><tr><th>السبب</th><th>التكلفة</th></tr></thead><tbody id="wasteReasonTable"></tbody></table></div><div class="table-wrap" style="margin-top:.8rem"><table class="gap-wide-table"><thead><tr><th>التاريخ</th><th>المادة</th><th>الكمية</th><th>Unit Cost</th><th>Total</th><th>السبب</th><th>المرحلة</th><th>ملاحظات</th><th></th></tr></thead><tbody id="wasteTable"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">32. Operational Capacity</div><button class="btn btn-sm btn-gold" onclick="window.saveOpsCapacity()">💾 حفظ</button></div>
+  <div class="card-body"><div class="grid-2"><div class="form-group"><label class="form-label">Daily Orders Capacity</label><input id="ocOrders" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Daily Packing Boxes</label><input id="ocPacking" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Daily Service Capacity</label><input id="ocService" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Daily B2B Touches</label><input id="ocB2B" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Default Supplier Lead Time</label><input id="ocLead" class="form-input" type="number"></div><div class="form-group"><label class="form-label">Safety Stock Days</label><input id="ocSafety" class="form-input" type="number"></div><div class="form-group" style="grid-column:1/-1"><label class="form-label">ملاحظات</label><textarea id="ocNotes" class="form-textarea"></textarea></div></div><div class="gap-grid" style="margin-top:.8rem"><div class="gap-mini"><div class="g-label">Capacity Utilization</div><div class="g-value" id="capacityUtil">0%</div></div><div class="gap-mini"><div class="g-label">Today Orders</div><div class="g-value" id="capacityOrders">0</div></div><div class="gap-mini"><div class="g-label">Open Service</div><div class="g-value" id="capacityService">0</div></div><div class="gap-mini"><div class="g-label">B2B Touches</div><div class="g-value" id="capacityB2B">0</div></div></div><div class="gap-alert-strip" style="margin-top:.7rem" id="capacityStatus">🟢 ضمن القدرة</div></div>
+</div>
+
       <div class="card"><div class="card-header"><div class="card-title">🔗 منطق ERP</div></div><div class="card-body" style="font-size:.78rem;line-height:1.9;color:var(--brown)">
         <div>1. <strong>Purchase Order</strong> لا يغيّر المخزون عند إنشائه.</div>
         <div>2. عند <strong>Receive</strong> فقط يتم تحديث المخزون باستخدام <strong>WAC</strong> وكتابة Stock Movement.</div>
@@ -2106,6 +2285,20 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="card"><div class="card-header"><div class="card-title">🌐 Website Analytics &amp; Tracking</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">Google Analytics ID</label><input class="form-input" id="waGA" placeholder="G-XXXXXXXXXX"></div><div class="form-group"><label class="form-label">Google Tag Manager ID</label><input class="form-input" id="waGTM" placeholder="GTM-XXXXXXX"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Google Search Console</label><input class="form-input" id="waGSC" placeholder="Verification / property"></div><div class="form-group"><label class="form-label">Meta Pixel ID</label><input class="form-input" id="waMeta" placeholder="Pixel ID"></div></div><button class="btn btn-primary" onclick="window.saveWebsiteAnalytics()">💾 حفظ إعدادات التتبع</button><div class="strategy-note" style="margin-top:.6rem">الاعتمادات الفعلية تُدخل هنا عندما تكون متوفرة. وجود الحقول لا يعني أن التتبع مثبت فعلياً على الموقع الخارجي.</div></div></div>
 
 <div class="card"><div class="card-header"><div class="card-title">⚙️ ERP Configuration</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">مادة الشوكولاتة الأساسية في المخزون</label><select id="erpChocolateItem" class="form-select"></select><div style="font-size:.68rem;color:var(--brown);margin-top:.3rem">يُستخدم لترحيل COGS بالـWAC عند تسليم الطلب. إذا لم تحدده، يستخدم النظام تكلفة المنتج كـfallback.</div></div><div class="form-group" style="display:flex;align-items:end"><button class="btn btn-primary" onclick="window.saveERPConfig()">💾 حفظ إعداد ERP</button></div></div></div></div>
+
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+  <div class="card-header"><div class="card-title">40–41. KPI Center + Data Quality Audit</div><button class="btn btn-sm btn-gold" onclick="window.runDataQualityAudit()">🔍 تدقيق الآن</button></div>
+  <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Issues</div><div class="g-value" id="dqTotal">0</div></div><div class="gap-mini"><div class="g-label">Order Issues</div><div class="g-value" id="dqOrders">0</div></div><div class="gap-mini"><div class="g-label">Customer Issues</div><div class="g-value" id="dqCustomers">0</div></div><div class="gap-mini"><div class="g-label">Inventory Issues</div><div class="g-value" id="dqInventory">0</div></div><div class="gap-mini"><div class="g-label">B2B Issues</div><div class="g-value" id="dqB2b">0</div></div><div class="gap-mini"><div class="g-label">Service Issues</div><div class="g-value" id="dqService">0</div></div><div class="gap-mini"><div class="g-label">Attribution Gaps</div><div class="g-value" id="dqAttr">0</div></div></div><div class="table-wrap" style="margin-top:.8rem"><table><thead><tr><th>Module</th><th>Ref</th><th>Problem</th></tr></thead><tbody id="dqTable"></tbody></table></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">42. Automation / ERP Health</div><button class="btn btn-sm btn-gold" onclick="window.saveAutomationConfig()">💾 حفظ</button></div>
+  <div class="card-body"><div class="grid-2"><label class="gap-chip"><input id="autoFollow" type="checkbox"> B2B Follow-up alerts</label><label class="gap-chip"><input id="autoStock" type="checkbox"> Low-stock alerts</label><label class="gap-chip"><input id="autoSeg" type="checkbox"> Customer segmentation</label><label class="gap-chip"><input id="autoForecast" type="checkbox"> Forecast refresh</label><label class="gap-chip"><input id="autoDQ" type="checkbox"> Data-quality checks</label></div><div id="automationHealth" style="margin-top:.8rem"></div></div>
+</div>
+<div class="card" style="margin-top:1rem">
+  <div class="card-header"><div class="card-title">43. Business Continuity / Backup & Restore</div><div style="display:flex;gap:.4rem;flex-wrap:wrap"><button class="btn btn-sm btn-outline" onclick="window.exportJSON()">⬇️ Backup JSON</button><button class="btn btn-sm btn-gold" onclick="window.restoreBackup()">↥ Restore</button></div></div>
+  <div class="card-body"><div class="alert alert-warning">الاستعادة تدمج السجلات حسب ID ولا تحذف السجلات التي ليست موجودة في الملف. لا تستعيد activityLog، ويجب الاحتفاظ بنسخة خارجية قبل الاستعادة.</div><div class="grid-2"><div class="form-group"><label class="form-label">ملف Backup JSON</label><input id="backupFile" class="form-input" type="file" accept="application/json,.json"></div><div class="form-group"><label class="form-label">للتأكيد اكتب RESTORE</label><input id="restoreConfirm" class="form-input" placeholder="RESTORE"></div></div><div class="table-wrap"><table><thead><tr><th>Kind</th><th>File</th><th>Time</th><th>Records</th><th>Schema</th></tr></thead><tbody id="backupLogTable"></tbody></table></div></div>
+</div>
+
     </div>
 
 </main>
@@ -2640,6 +2833,9 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         <div class="form-group"><div class="form-label">Estimated KG</div><input class="form-input" id="ld-kg" type="number" placeholder="0"></div>
         <div class="form-group"><div class="form-label">Next Follow-Up</div><input class="form-input" id="ld-followup" type="date"></div>
       </div>
+
+<div class="card" style="margin-top:.8rem"><div class="card-header"><div class="card-title">🎯 Sales Process Data</div></div><div class="card-body"><div class="form-row"><div class="form-group"><div class="form-label">Lead Source</div><input class="form-input" id="ld-source" placeholder="Referral / Instagram / Cold Call"></div><div class="form-group"><div class="form-label">Channel</div><input class="form-input" id="ld-channel" placeholder="WhatsApp / Phone / Email"></div></div><div class="form-row"><div class="form-group"><div class="form-label">Estimated Value JOD</div><input class="form-input" id="ld-value" type="number" min="0" step="0.01"></div><div class="form-group"><div class="form-label">Expected Close</div><input class="form-input" id="ld-close" type="date"></div></div><div class="form-row"><div class="form-group"><div class="form-label">Next Action</div><input class="form-input" id="ld-next-action" placeholder="Send quote / sample / call"></div><div class="form-group"><div class="form-label">Last Contacted</div><input class="form-input" id="ld-last-contacted" type="date"></div></div><div class="form-row"><div class="form-group"><div class="form-label">Loss Reason</div><select class="form-select" id="ld-loss"><option value="">—</option><option>Price</option><option>Timing</option><option>Competitor</option><option>Budget</option><option>No response</option><option>Other</option></select></div><div class="form-group"><div class="form-label">Qualification Score 0–100</div><input class="form-input" id="ld-score" type="number" min="0" max="100"></div></div><div class="form-row"><div class="form-group"><div class="form-label">Quoted Value JOD</div><input class="form-input" id="ld-quote" type="number" min="0" step="0.01"></div><div class="form-group"><div class="form-label">Quote Date</div><input class="form-input" id="ld-quote-date" type="date"></div></div></div></div>
+
       <div class="form-group"><div class="form-label">Notes</div><textarea class="form-textarea" id="ld-notes" rows="2" placeholder="ملاحظات المكالمة..."></textarea></div>
     </div>
     <div class="modal-footer">
@@ -2686,6 +2882,9 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-row"><div class="form-group"><div class="form-label">منطقة التوصيل</div><select class="form-select" id="o-region"><option value="">اختر المنطقة</option></select></div><div class="form-group"><div class="form-label">تكلفة التوصيل</div><input class="form-input" id="o-delivery" type="number" placeholder="0" oninput="calcOrderTotal()"></div></div>
       <div class="form-group"><div class="form-label">قناة التسويق / المصدر</div><input class="form-input" id="o-source" placeholder="Instagram / TikTok / WhatsApp / Referral / Organic"></div>
       <div class="form-row"><div class="form-group"><div class="form-label">كود الإحالة (اختياري)</div><input class="form-input" id="o-referral-code" placeholder="DEEB-ABC123"></div><div class="form-group"><div class="form-label">اسم المُحيل (اختياري)</div><input class="form-input" id="o-referred-by" placeholder="اسم العميل المُحيل"></div></div>
+
+<div class="card" id="deebOrderGrowthPanel" style="margin-top:.7rem"><div class="card-header"><div class="card-title">📈 Growth Tracking</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">UTM Source</label><input class="form-input" id="o-utm-source" placeholder="instagram"></div><div class="form-group"><label class="form-label">UTM Medium</label><input class="form-input" id="o-utm-medium" placeholder="social"></div></div><div class="form-row"><div class="form-group"><label class="form-label">UTM Campaign</label><input class="form-input" id="o-utm-campaign" placeholder="graduation_2026"></div><div class="form-group"><label class="form-label">UTM Content</label><input class="form-input" id="o-utm-content" placeholder="reel_01"></div></div><div class="form-row"><label class="gap-chip"><input type="checkbox" id="og-upsell-offered"> Upsell was offered</label><label class="gap-chip"><input type="checkbox" id="og-upsell-accepted"> Upsell accepted</label><label class="gap-chip"><input type="checkbox" id="og-addons-offered"> Add-ons offered</label><label class="gap-chip"><input type="checkbox" id="og-addons-accepted"> Add-ons accepted</label></div><div class="form-group"><label class="form-label">Recommended Upgrade / Cross-sell</label><input class="form-input" id="og-recommend" placeholder="1KG / Acrylic / Sticker"></div><div class="gap-alert-strip" id="orderGrowthHint">💡 استخدم هذه الحقول حتى يصبح AOV وAttribution قابلين للقياس.</div></div></div>
+
       <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="o-notes" placeholder="ملاحظات خاصة..."></textarea></div>
       <input type="hidden" id="o-edit-id">
       <div id="invImpactPreview" style="display:none;background:rgba(191,158,96,0.08);border:1px solid rgba(191,158,96,0.25);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--dark);margin-top:0.5rem"></div>
@@ -2919,10 +3118,13 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
   <div class="form-row"><div class="form-group"><label class="form-label">الهاتف</label><input id="sup-phone" class="form-input"></div><div class="form-group"><label class="form-label">البريد</label><input id="sup-email" class="form-input" type="email"></div></div>
   <div class="form-row"><div class="form-group"><label class="form-label">الفئة</label><input id="sup-category" class="form-input" placeholder="Chocolate / Packaging / Other"></div><div class="form-group"><label class="form-label">الحالة</label><select id="sup-active" class="form-select"><option value="true">نشط</option><option value="false">غير نشط</option></select></div></div>
   <div class="form-group"><label class="form-label">ملاحظات</label><textarea id="sup-notes" class="form-textarea"></textarea></div>
+
+<div class="card" style="margin-top:.8rem"><div class="card-header"><div class="card-title">🛡️ Risk & Performance</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">Criticality</label><select id="sup-criticality" class="form-select"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></div><div class="form-group"><label class="form-label">Sole Source</label><label class="gap-chip"><input id="sup-sole" type="checkbox"> نعم</label></div></div><div class="form-row"><div class="form-group"><label class="form-label">Backup Supplier</label><input id="sup-backup" class="form-input"></div><div class="form-group"><label class="form-label">Lead Time Days</label><input id="sup-lead" class="form-input" type="number" min="0"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Minimum Order Qty</label><input id="sup-minqty" class="form-input" type="number" min="0"></div><div class="form-group"><label class="form-label">Risk Status</label><select id="sup-risk-status" class="form-select"><option value="watch">Watch</option><option value="high">High</option><option value="stable">Stable</option></select></div></div><div class="form-row"><div class="form-group"><label class="form-label">Quality Issues Count</label><input id="sup-quality-count" class="form-input" type="number" min="0"></div><div class="form-group"><label class="form-label">Last Quality Issue</label><input id="sup-quality-date" class="form-input" type="date"></div></div><div class="form-group"><label class="form-label">Risk Notes</label><textarea id="sup-risk-notes" class="form-textarea"></textarea></div></div></div>
+
 </div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('supplierModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveSupplier()">💾 حفظ</button></div></div></div>
 
 <div class="modal-overlay" id="supplierOrderModal"><div class="modal" style="max-width:900px"><div class="modal-header"><div class="modal-title" id="supplierOrderModalTitle">📦 طلب شراء جديد</div><button class="modal-close" onclick="closeModal('supplierOrderModal')">✕</button></div><div class="modal-body">
-  <input type="hidden" id="spo-id"><div class="form-row"><div class="form-group"><label class="form-label">المورد *</label><select id="spo-supplier" class="form-select"></select></div><div class="form-group"><label class="form-label">رقم PO</label><input id="spo-number" class="form-input" placeholder="يترك فارغاً للتوليد"></div><div class="form-group"><label class="form-label">التاريخ</label><input id="spo-date" class="form-input" type="date"></div></div>
+  <input type="hidden" id="spo-id"><div class="form-row"><div class="form-group"><label class="form-label">المورد *</label><select id="spo-supplier" class="form-select"></select></div><div class="form-group"><label class="form-label">رقم PO</label><input id="spo-number" class="form-input" placeholder="يترك فارغاً للتوليد"></div><div class="form-group"><label class="form-label">التاريخ</label><input id="spo-date" class="form-input" type="date"></div></div><div class="form-group"><label class="form-label">Expected Delivery Date</label><input id="spo-expected" class="form-input" type="date"></div>
   <div class="form-group"><label class="form-label">المواد</label><div id="supplierItemsEditor" class="supplier-items-editor"></div><button class="btn btn-sm btn-outline" onclick="window.addSupplierOrderItemRow()" style="margin-top:.5rem">+ مادة</button></div>
   <div class="form-row"><div class="form-group"><label class="form-label">الحالة</label><select id="spo-status" class="form-select"><option value="draft">Draft</option><option value="ordered">Ordered</option><option value="partial">Partial</option><option value="received">Received</option><option value="cancelled">Cancelled</option></select></div><div class="form-group"><label class="form-label">ملاحظات</label><input id="spo-notes" class="form-input"></div></div>
 </div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('supplierOrderModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveSupplierOrder()">💾 حفظ طلب الشراء</button></div></div></div>
@@ -2932,6 +3134,16 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="modal-overlay" id="supplierPaymentModal"><div class="modal"><div class="modal-header"><div class="modal-title">💳 دفعة للمورد</div><button class="modal-close" onclick="closeModal('supplierPaymentModal')">✕</button></div><div class="modal-body"><input type="hidden" id="spay-id"><div class="form-group"><label class="form-label">طلب الشراء *</label><select id="spay-order" class="form-select"></select></div><div class="form-row"><div class="form-group"><label class="form-label">المبلغ *</label><input id="spay-amount" class="form-input" type="number" min="0" step="0.01"></div><div class="form-group"><label class="form-label">التاريخ</label><input id="spay-date" class="form-input" type="date"></div></div><div class="form-row"><div class="form-group"><label class="form-label">الطريقة</label><select id="spay-method" class="form-select"><option>Cash</option><option>Bank</option><option>CliQ</option><option>Other</option></select></div><div class="form-group"><label class="form-label">ملاحظات</label><input id="spay-notes" class="form-input"></div></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('supplierPaymentModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveSupplierPayment()">💾 تسجيل الدفعة</button></div></div></div>
 
 <div class="modal-overlay" id="adminRecordModal"><div class="modal" style="max-width:900px"><div class="modal-header"><div class="modal-title" id="adminRecordTitle">⚙️ سجل</div><button class="modal-close" onclick="closeModal('adminRecordModal')">✕</button></div><div class="modal-body"><input type="hidden" id="adminRecordId"><div class="form-group"><label class="form-label">JSON record</label><textarea id="adminRecordJson" class="form-textarea" rows="18" style="font-family:monospace;direction:ltr;text-align:left"></textarea></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('adminRecordModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveAdminRecord()">💾 حفظ السجل</button></div></div></div>
+
+
+
+<!-- DEEB GAP CLOSER MODALS -->
+<div class="modal-overlay" id="b2bActivityModal"><div class="modal"><div class="modal-header"><div class="modal-title">📝 B2B Activity</div><button class="modal-close" onclick="closeModal('b2bActivityModal')">✕</button></div><div class="modal-body"><input type="hidden" id="ba-id"><div class="form-group"><label class="form-label">Lead ID</label><input id="ba-lead" class="form-input" readonly></div><div class="form-row"><div class="form-group"><label class="form-label">Type</label><select id="ba-type" class="form-select"><option value="call">Call</option><option value="whatsapp">WhatsApp</option><option value="email">Email</option><option value="meeting">Meeting</option><option value="quote">Quote</option><option value="sample">Sample</option><option value="note">Note</option></select></div><div class="form-group"><label class="form-label">Date</label><input id="ba-date" class="form-input" type="date"></div></div><div class="form-group"><label class="form-label">Summary *</label><textarea id="ba-summary" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Outcome</label><input id="ba-outcome" class="form-input"></div><div class="form-row"><div class="form-group"><label class="form-label">Next Follow-Up</label><input id="ba-next" class="form-input" type="date"></div><div class="form-group"><label class="form-label">Owner</label><input id="ba-owner" class="form-input"></div></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('b2bActivityModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveB2BActivity()">💾 حفظ</button></div></div></div>
+<div class="modal-overlay" id="serviceTicketModal"><div class="modal"><div class="modal-header"><div class="modal-title">🛎️ تذكرة خدمة</div><button class="modal-close" onclick="closeModal('serviceTicketModal')">✕</button></div><div class="modal-body"><input type="hidden" id="st-id"><div class="form-row"><div class="form-group"><label class="form-label">العميل</label><input id="st-name" class="form-input"></div><div class="form-group"><label class="form-label">الهاتف</label><input id="st-phone" class="form-input"></div></div><div class="form-row"><div class="form-group"><label class="form-label">رقم الطلب</label><input id="st-order" class="form-input"></div><div class="form-group"><label class="form-label">القناة</label><input id="st-channel" class="form-input" placeholder="WhatsApp / Instagram"></div></div><div class="form-row"><div class="form-group"><label class="form-label">نوع المشكلة</label><select id="st-type" class="form-select"><option value="order">Order</option><option value="delivery">Delivery</option><option value="product">Product</option><option value="payment">Payment</option><option value="customization">Customization</option><option value="other">Other</option></select></div><div class="form-group"><label class="form-label">Priority</label><select id="st-priority" class="form-select"><option value="normal">Normal</option><option value="high">High</option><option value="urgent">Urgent</option></select></div></div><div class="form-row"><div class="form-group"><label class="form-label">Opened Date</label><input id="st-opened" class="form-input" type="date"></div><div class="form-group"><label class="form-label">Due Date</label><input id="st-due" class="form-input" type="date"></div></div><div class="form-group"><label class="form-label">Assigned To</label><input id="st-owner" class="form-input"></div><div class="form-group"><label class="form-label">وصف المشكلة *</label><textarea id="st-issue" class="form-textarea"></textarea></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('serviceTicketModal')">إلغاء</button><button class="btn btn-primary" onclick="window.addServiceTicket()">💾 حفظ</button></div></div></div>
+<div class="modal-overlay" id="wasteModal"><div class="modal"><div class="modal-header"><div class="modal-title">♻️ تسجيل هدر / خسارة</div><button class="modal-close" onclick="closeModal('wasteModal')">✕</button></div><div class="modal-body"><div class="form-row"><div class="form-group"><label class="form-label">التاريخ</label><input id="w-date" class="form-input" type="date"></div><div class="form-group"><label class="form-label">المادة *</label><input id="w-item" class="form-input"></div></div><input id="w-item-id" type="hidden"><div class="form-row"><div class="form-group"><label class="form-label">الكمية *</label><input id="w-qty" class="form-input" type="number" min="0" step="0.01"></div><div class="form-group"><label class="form-label">الوحدة</label><input id="w-unit" class="form-input" value="unit"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Unit Cost</label><input id="w-cost" class="form-input" type="number" min="0" step="0.01"></div><div class="form-group"><label class="form-label">المرحلة</label><select id="w-stage" class="form-select"><option value="receiving">Receiving</option><option value="storage">Storage</option><option value="packing" selected>Packing</option><option value="delivery">Delivery</option><option value="other">Other</option></select></div></div><div class="form-group"><label class="form-label">السبب</label><select id="w-reason" class="form-select"><option value="damage">Damage</option><option value="expiry">Expiry</option><option value="quality">Quality</option><option value="handling">Handling</option><option value="overproduction">Overproduction</option><option value="other">Other</option></select></div><div class="form-group"><label class="form-label">ملاحظات</label><textarea id="w-notes" class="form-textarea"></textarea></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('wasteModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveWasteLog()">💾 حفظ</button></div></div></div>
+<div class="modal-overlay" id="experimentModal"><div class="modal" style="max-width:760px"><div class="modal-header"><div class="modal-title">🧪 Experiment</div><button class="modal-close" onclick="closeModal('experimentModal')">✕</button></div><div class="modal-body"><input type="hidden" id="ex-id"><div class="form-row"><div class="form-group"><label class="form-label">Area</label><input id="ex-area" class="form-input" placeholder="Pricing / Content / Funnel"></div><div class="form-group"><label class="form-label">Metric</label><input id="ex-metric" class="form-input" placeholder="AOV / CTR / Conversion"></div></div><div class="form-group"><label class="form-label">Hypothesis *</label><textarea id="ex-hypothesis" class="form-textarea"></textarea></div><div class="form-row"><div class="form-group"><label class="form-label">Baseline</label><input id="ex-base" class="form-input"></div><div class="form-group"><label class="form-label">Target</label><input id="ex-target" class="form-input"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Variant A</label><textarea id="ex-a" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Variant B</label><textarea id="ex-b" class="form-textarea"></textarea></div></div><div class="form-row"><div class="form-group"><label class="form-label">Start</label><input id="ex-start" class="form-input" type="date"></div><div class="form-group"><label class="form-label">End</label><input id="ex-end" class="form-input" type="date"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Status</label><select id="ex-status" class="form-select"><option value="planned">Planned</option><option value="running">Running</option><option value="completed">Completed</option><option value="stopped">Stopped</option></select></div><div class="form-group"><label class="form-label">Decision</label><input id="ex-decision" class="form-input"></div></div><div class="form-group"><label class="form-label">Result</label><textarea id="ex-result" class="form-textarea"></textarea></div><div class="form-group"><label class="form-label">Notes</label><textarea id="ex-notes" class="form-textarea"></textarea></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('experimentModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveExperiment()">💾 حفظ</button></div></div></div>
+<div class="modal-overlay" id="competitorModal"><div class="modal" style="max-width:760px"><div class="modal-header"><div class="modal-title">🔎 Competitive Intelligence</div><button class="modal-close" onclick="closeModal('competitorModal')">✕</button></div><div class="modal-body"><input type="hidden" id="ci-id"><div class="form-row"><div class="form-group"><label class="form-label">المنافس *</label><input id="ci-name" class="form-input"></div><div class="form-group"><label class="form-label">الفئة</label><input id="ci-category" class="form-input"></div></div><div class="form-row"><div class="form-group"><label class="form-label">القناة</label><input id="ci-channel" class="form-input"></div><div class="form-group"><label class="form-label">المنتج المرصود</label><input id="ci-product" class="form-input"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Observed Price</label><input id="ci-price" class="form-input" type="number" min="0" step="0.01"></div><div class="form-group"><label class="form-label">Pack Size</label><input id="ci-pack" class="form-input"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Offer</label><input id="ci-offer" class="form-input"></div><div class="form-group"><label class="form-label">Packaging</label><input id="ci-packaging" class="form-input"></div></div><div class="form-group"><label class="form-label">Positioning / Claim observed</label><textarea id="ci-positioning" class="form-textarea"></textarea></div><div class="form-row"><div class="form-group"><label class="form-label">URL</label><input id="ci-url" class="form-input" type="url"></div><div class="form-group"><label class="form-label">Captured At</label><input id="ci-date" class="form-input" type="date"></div></div><div class="form-group"><label class="form-label">Next Review</label><input id="ci-next" class="form-input" type="date"></div><div class="form-group"><label class="form-label">Notes</label><textarea id="ci-notes" class="form-textarea"></textarea></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('competitorModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveCompetitor()">💾 حفظ</button></div></div></div>
+<div class="modal-overlay" id="contentAssetModal"><div class="modal" style="max-width:760px"><div class="modal-header"><div class="modal-title">📲 Content Asset</div><button class="modal-close" onclick="closeModal('contentAssetModal')">✕</button></div><div class="modal-body"><input type="hidden" id="ca-id"><div class="form-row"><div class="form-group"><label class="form-label">Platform</label><input id="ca-platform" class="form-input" placeholder="Instagram / TikTok"></div><div class="form-group"><label class="form-label">Content Type</label><input id="ca-type" class="form-input" placeholder="Reel / Story / Carousel"></div></div><div class="form-group"><label class="form-label">Content Title *</label><input id="ca-title" class="form-input"></div><div class="form-row"><div class="form-group"><label class="form-label">Publish Date</label><input id="ca-date" class="form-input" type="date"></div><div class="form-group"><label class="form-label">Status</label><select id="ca-status" class="form-select"><option value="planned">Planned</option><option value="published">Published</option><option value="retired">Retired</option></select></div></div><div class="form-row"><div class="form-group"><label class="form-label">UTM Source</label><input id="ca-source" class="form-input"></div><div class="form-group"><label class="form-label">UTM Medium</label><input id="ca-medium" class="form-input"></div></div><div class="form-row"><div class="form-group"><label class="form-label">UTM Campaign</label><input id="ca-campaign" class="form-input"></div><div class="form-group"><label class="form-label">UTM Content</label><input id="ca-content" class="form-input"></div></div><div class="form-row"><div class="form-group"><label class="form-label">CTA</label><input id="ca-cta" class="form-input" placeholder="Shop now / WhatsApp"></div><div class="form-group"><label class="form-label">Landing URL</label><input id="ca-url" class="form-input" type="url"></div></div><div class="form-group"><label class="form-label">Notes</label><textarea id="ca-notes" class="form-textarea"></textarea></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('contentAssetModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveContentAsset()">💾 حفظ</button></div></div></div>
 
 <!-- Firebase v8 Compat -->
 <button class="scroll-top" id="scrollTopBtn" title="العودة للأعلى">↑</button>
@@ -8610,6 +8822,469 @@ updateDoc_=async function(col,id,data){
 
 // Render supplier page after login/data hydration when available.
 setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderAdminCollection();}catch(e){}},1000);
+
+
+
+/* DEEB OS — GAP CLOSER 18–50
+   Added as an isolated module at the end of the master file.
+   It deliberately reuses existing collections/helpers and only introduces
+   operational collections where a true record/ledger is needed.
+*/
+(function(){
+  'use strict';
+
+  const GAP_COLLECTIONS = [
+    'b2bActivities','wasteLogs','serviceTickets','experiments','competitors','contentAssets','backupLogs'
+  ];
+  const GAP_LABELS = {
+    b2bActivities:'B2B Activities', wasteLogs:'Waste & Loss', serviceTickets:'Customer Service',
+    experiments:'Experiments', competitors:'Competitive Intelligence', contentAssets:'Content Assets', backupLogs:'Backup Logs'
+  };
+  GAP_COLLECTIONS.forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
+  try { GAP_COLLECTIONS.forEach(k=>{ if(!DEEB_ADMIN_COLLECTIONS.includes(k)) DEEB_ADMIN_COLLECTIONS.splice(-2,0,k); }); } catch(e){}
+  try { Object.assign(DEEB_ADMIN_LABELS,GAP_LABELS); } catch(e){}
+
+  const GAP_DEFAULTS = {
+    customBoxRules:{enabled:true,minFlavors:1,maxFlavors:12,requireFlavorSelection:true,largeOrderQty:4,notes:'حدود تشغيلية قابلة للتعديل — لا تمثل سياسة ثابتة إلا بعد اعتماد DEEB.'},
+    opsCapacity:{dailyOrdersCapacity:20,dailyPackingBoxes:25,dailyServiceTickets:15,dailyB2bTouches:20,defaultLeadTimeDays:7,safetyStockDays:7,notes:'أرقام بداية قابلة للتعديل بناءً على القدرة الفعلية.'},
+    cashFlowPlan:{openingCash:0,expectedCollections:0,plannedSupplierPayments:0,plannedOperatingOutflows:0,otherPlannedOutflows:0,horizonDays:30,notes:''},
+    portfolioStrategy:{rows:[]},
+    occasionPlan:{rows:[]},
+    scalingPlan:{revenueMilestone:1000,ordersMilestone:50,capacityTrigger:80,b2bPipelineTrigger:500,stockCoverageMinDays:14,hiringTrigger:'عند تجاوز القدرة التشغيلية لعدة أسابيع',nextActions:'رفع السعة تدريجياً، توثيق SOPs، ثم إضافة موارد عند وجود ضغط متكرر.'},
+    websiteAudit:{rows:[]},
+    photoAudit:{rows:[]},
+    legalReadiness:{rows:[]},
+    automationConfig:{autoFollowupAlerts:true,autoLowStockAlerts:true,autoCustomerSegmentation:true,autoForecastRefresh:true,autoDataQualityAlerts:true},
+    brandMoat:{differentiation:'',signatureProducts:'',proofPoints:'',defensibilityAssets:'',positioning:'',notes:''}
+  };
+
+  function sget(id, fallback){
+    const x=(state.settings||[]).find(v=>v.id===id || v.key===id);
+    if(!x) return fallback;
+    return Object.assign({}, fallback, x);
+  }
+  async function ssave(id,data){ await setDoc_('settings',id,Object.assign({key:id},data)); }
+  function nowStr(){ return new Date().toISOString(); }
+  function today(){ try{return deebToday();}catch(e){return new Date().toISOString().slice(0,10);} }
+  function num(v){ try{return deebNum(v);}catch(e){const n=parseFloat(v);return Number.isFinite(n)?n:0;} }
+  function money(v){ try{return deebMoney(v);}catch(e){return num(v).toFixed(2);} }
+  function fmtDate(v){
+    if(!v) return '—';
+    if(typeof v==='object' && v.toDate) return v.toDate().toLocaleDateString('ar-JO');
+    return String(v).slice(0,10);
+  }
+  function orderDate(o){ return o.dateRaw || (o.date ? (String(o.date).match(/\d{4}-\d{2}-\d{2}/)||[''])[0] : ''); }
+  function daysAgo(dateStr){
+    const d=dateStr?parseDateLocal(dateStr):null; if(!d||isNaN(d))return null;
+    return Math.floor((Date.now()-d.getTime())/86400000);
+  }
+  function normPhone(p){ try{return normalizePhone(p);}catch(e){return String(p||'').replace(/\D/g,'');} }
+  function el(id){return document.getElementById(id);}
+  function set(id,v){const e=el(id);if(e)e.textContent=v;}
+  function html(id,v){const e=el(id);if(e)e.innerHTML=v;}
+  function pageActive(id){return el('page-'+id)?.classList.contains('active');}
+  function safeJson(v){
+    return JSON.stringify(v,function(k,val){
+      if(val && typeof val.toDate==='function'){
+        const d=val.toDate(); return {__deebType:'timestamp',seconds:Math.floor(d.getTime()/1000),nanoseconds:(d.getTime()%1000)*1000000};
+      }
+      if(val instanceof Date) return {__deebType:'date',value:val.toISOString()};
+      return val;
+    },2);
+  }
+  function revive(v){
+    if(Array.isArray(v))return v.map(revive);
+    if(v && typeof v==='object'){
+      if(v.__deebType==='timestamp' && firebase?.firestore?.Timestamp) return firebase.firestore.Timestamp.fromMillis((num(v.seconds)*1000)+(num(v.nanoseconds)/1000000));
+      if(v.__deebType==='date')return new Date(v.value);
+      const o={};Object.keys(v).forEach(k=>o[k]=revive(v[k]));return o;
+    }
+    return v;
+  }
+  function csvDownload(filename,rows){
+    const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];
+    const lines=[keys.map(k=>'"'+String(k).replace(/"/g,'""')+'"').join(',')];
+    rows.forEach(r=>lines.push(keys.map(k=>'"'+String(typeof r[k]==='object'?JSON.stringify(r[k]):(r[k]??'')).replace(/"/g,'""')+'"').join(',')));
+    const a=document.createElement('a'),url=URL.createObjectURL(new Blob(['\uFEFF'+lines.join('\n')],{type:'text/csv;charset=utf-8'}));a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function daysUntil(d){const x=parseDateLocal(d);if(!x)return null;return Math.ceil((x.setHours(23,59,59,999)-Date.now())/86400000);}
+
+  // ─────────────────────────────────────────────────────────────
+  // 18–19 B2B acquisition + sales pipeline
+  // ─────────────────────────────────────────────────────────────
+  window.openB2BActivityModal=function(leadId){
+    ['ba-id','ba-lead','ba-summary','ba-next'].forEach(i=>{if(el(i))el(i).value='';});
+    if(el('ba-date'))el('ba-date').value=today();
+    if(el('ba-type'))el('ba-type').value='call';
+    if(el('ba-outcome'))el('ba-outcome').value='';
+    if(el('ba-lead'))el('ba-lead').value=leadId||'';
+    openModal('b2bActivityModal');
+  };
+  window.saveB2BActivity=async function(){
+    const leadId=el('ba-lead')?.value||''; if(!leadId)return toast('اختر الـLead أولاً','error');
+    const summary=(el('ba-summary')?.value||'').trim(); if(!summary)return toast('أدخل ملخص التواصل','error');
+    const data={leadId,type:el('ba-type')?.value||'note',date:el('ba-date')?.value||today(),summary,outcome:(el('ba-outcome')?.value||'').trim(),nextFollowUp:el('ba-next')?.value||'',owner:(el('ba-owner')?.value||'').trim(),createdAt:Date.now()};
+    await addDoc_('b2bActivities',data);
+    if(data.nextFollowUp) await updateDoc_('b2bLeads',leadId,{nextFollowUp:data.nextFollowUp,lastContacted:data.date,nextAction:data.outcome||'Follow-up',updatedAt:Date.now()});
+    closeModal('b2bActivityModal');window.renderB2BControlCenter();toast('تم تسجيل نشاط B2B ✅','success');
+  };
+  window.renderB2BControlCenter=function(){
+    const leads=state.b2bLeads||[], acts=state.b2bActivities||[];
+    const todayStr=today();
+    const open=leads.filter(l=>!['Won','Lost'].includes(l.status));
+    const due=leads.filter(l=>l.nextFollowUp && l.nextFollowUp<=todayStr && !['Won','Lost'].includes(l.status));
+    const overdue=leads.filter(l=>l.nextFollowUp && l.nextFollowUp<todayStr && !['Won','Lost'].includes(l.status));
+    const qualified=leads.filter(l=>['Interested','Follow-Up'].includes(l.status));
+    const pipeline=open.reduce((s,l)=>s+num(l.estimatedValue || (num(l.estimatedKg)*18)),0);
+    const won=leads.filter(l=>l.status==='Won');
+    const wonValue=won.reduce((s,l)=>s+num(l.wonValue||l.quotedValue||l.estimatedValue||(num(l.estimatedKg)*18)),0);
+    const closed=leads.filter(l=>['Won','Lost'].includes(l.status));
+    const conversion=closed.length?won.length/closed.length*100:0;
+    set('b2bPipeOpen',open.length);set('b2bPipeDue',due.length);set('b2bPipeOverdue',overdue.length);set('b2bPipeQualified',qualified.length);set('b2bPipeValue',money(pipeline)+' JOD');set('b2bPipeWon',money(wonValue)+' JOD');set('b2bPipeConversion',conversion.toFixed(0)+'%');
+    const stageOrder=['New','Contacted','Interested','Follow-Up','Won','Lost'];
+    html('b2bPipelineBoard',stageOrder.map(st=>{
+      const arr=leads.filter(l=>(l.status||'New')===st);
+      return `<div class="gap-pipeline-col"><div class="gap-pipeline-title">${sanitize(st)} <span>${arr.length}</span></div>${arr.slice(0,12).map(l=>`<div class="gap-pipeline-card"><div><strong>${sanitize(l.company||'—')}</strong><span>${sanitize(l.priority||'')}</span></div><div>${money(l.estimatedValue||num(l.estimatedKg)*18)} JOD · ${num(l.estimatedKg).toFixed(0)} KG</div><div>${l.nextFollowUp?'📅 '+sanitize(l.nextFollowUp):'⚠️ لا يوجد Follow-Up'}</div><div class="gap-actions"><button class="btn btn-sm btn-outline" onclick="window.editLead('${l.id}')">✏️</button><button class="btn btn-sm btn-gold" onclick="window.openB2BActivityModal('${l.id}')">+ نشاط</button></div></div>`).join('')||'<div class="gap-empty">لا يوجد</div>'}</div>`;
+    }).join(''));
+    const src={};leads.forEach(l=>{const c=(l.source||l.channel||'غير محدد').trim()||'غير محدد';src[c]??={leads:0,won:0,value:0};src[c].leads++;src[c].value+=num(l.estimatedValue||num(l.estimatedKg)*18);if(l.status==='Won')src[c].won++;});
+    html('b2bSourceTable',Object.entries(src).sort((a,b)=>b[1].leads-a[1].leads).map(([k,v])=>`<tr><td>${sanitize(k)}</td><td>${v.leads}</td><td>${v.won}</td><td>${money(v.value)}</td><td>${v.leads?((v.won/v.leads)*100).toFixed(0)+'%':'—'}</td></tr>`).join('')||'<tr><td colspan="5">لا توجد بيانات</td></tr>');
+    const recent=acts.slice().sort((a,b)=>num(b.createdAt)-num(a.createdAt)).slice(0,12);
+    html('b2bActivityTable',recent.map(a=>{const l=leads.find(x=>x.id===a.leadId);return `<tr><td>${sanitize(a.date||fmtDate(a.createdAt))}</td><td>${sanitize(l?.company||a.leadId||'—')}</td><td>${sanitize(a.type||'—')}</td><td>${sanitize(a.summary)}</td><td>${sanitize(a.outcome||'—')}</td><td>${a.nextFollowUp?sanitize(a.nextFollowUp):'—'}</td></tr>`;}).join('')||'<tr><td colspan="6">لا توجد أنشطة</td></tr>');
+    set('b2bOverdueBanner',overdue.length?`⚠️ يوجد ${overdue.length} متابعة متأخرة — اعمل على استرجاعها اليوم.`:'✅ لا توجد متابعات B2B متأخرة.');
+  };
+  const oldOpenAddLead=window.openAddLeadModal, oldEditLead=window.editLead, oldSaveLead=window.saveLead;
+  window.openAddLeadModal=function(){ oldOpenAddLead.apply(this,arguments); ['ld-source','ld-channel','ld-value','ld-close','ld-next-action','ld-last-contacted','ld-loss','ld-score','ld-quote','ld-quote-date'].forEach(i=>{if(el(i))el(i).value='';}); };
+  window.editLead=function(id){ oldEditLead(id); const l=(state.b2bLeads||[]).find(x=>x.id===id);if(!l)return;const map={source:'ld-source',channel:'ld-channel',estimatedValue:'ld-value',expectedClose:'ld-close',nextAction:'ld-next-action',lastContacted:'ld-last-contacted',lossReason:'ld-loss',qualificationScore:'ld-score',quotedValue:'ld-quote',quoteDate:'ld-quote-date'};Object.entries(map).forEach(([k,i])=>{if(el(i))el(i).value=l[k]??'';}); };
+  window.saveLead=async function(){
+    const company=(el('ld-company')?.value||'').trim(),phone=(el('ld-phone')?.value||'').trim();
+    if(!company||!phone)return toast('اسم الشركة ورقم الهاتف مطلوبان','error');
+    const id=el('ld-id')?.value||'';
+    const data={company,person:(el('ld-person')?.value||'').trim(),phone,category:el('ld-category')?.value||'Other',status:el('ld-status')?.value||'New',priority:el('ld-priority')?.value||'Warm',estimatedKg:num(el('ld-kg')?.value),estimatedValue:num(el('ld-value')?.value),nextFollowUp:el('ld-followup')?.value||'',notes:(el('ld-notes')?.value||'').trim(),source:(el('ld-source')?.value||'').trim(),channel:(el('ld-channel')?.value||'').trim(),expectedClose:el('ld-close')?.value||'',nextAction:(el('ld-next-action')?.value||'').trim(),lastContacted:el('ld-last-contacted')?.value||'',lossReason:el('ld-loss')?.value||'',qualificationScore:Math.max(0,Math.min(100,num(el('ld-score')?.value))),quotedValue:num(el('ld-quote')?.value),quoteDate:el('ld-quote-date')?.value||'',updatedAt:Date.now()};
+    if(data.status==='Won' && !data.wonValue)data.wonValue=data.quotedValue||data.estimatedValue;
+    if(id){await updateDoc_('b2bLeads',id,data);await addDoc_('b2bActivities',{leadId:id,type:'update',date:today(),summary:'تم تحديث بيانات الـLead',outcome:data.status,nextFollowUp:data.nextFollowUp,createdAt:Date.now()});toast('تم تحديث الـLead ✅','success');}
+    else {data.createdDate=today();data.createdAt=Date.now();const ref=await addDoc_('b2bLeads',data);await addDoc_('b2bActivities',{leadId:ref.id,type:'created',date:today(),summary:'تم إنشاء B2B Lead',outcome:'New',createdAt:Date.now()});toast('تم إضافة الـLead ✅','success');}
+    closeModal('leadModal');if(pageActive('b2b')){filterLeads();window.renderB2BControlCenter();}
+  };
+
+  // ─────────────────────────────────────────────────────────────
+  // 20–21 Custom box rules + AOV tracking
+  // ─────────────────────────────────────────────────────────────
+  window.saveCustomBoxRules=async function(){
+    const data={enabled:!!el('cbEnabled')?.checked,minFlavors:Math.max(0,Math.floor(num(el('cbMin')?.value))),maxFlavors:Math.max(0,Math.floor(num(el('cbMax')?.value))),requireFlavorSelection:!!el('cbRequire')?.checked,largeOrderQty:Math.max(1,Math.floor(num(el('cbLargeQty')?.value))),notes:(el('cbNotes')?.value||'').trim()};
+    if(data.maxFlavors && data.minFlavors>data.maxFlavors)return toast('الحد الأدنى أكبر من الحد الأعلى','error');await ssave('customBoxRules',data);renderCustomBoxRules();toast('تم حفظ قواعد الكستوم بوكس ✅','success');
+  };
+  function renderCustomBoxRules(){const d=sget('customBoxRules',GAP_DEFAULTS.customBoxRules);if(el('cbEnabled'))el('cbEnabled').checked=d.enabled!==false;if(el('cbMin'))el('cbMin').value=d.minFlavors??1;if(el('cbMax'))el('cbMax').value=d.maxFlavors??12;if(el('cbRequire'))el('cbRequire').checked=d.requireFlavorSelection!==false;if(el('cbLargeQty'))el('cbLargeQty').value=d.largeOrderQty??4;if(el('cbNotes'))el('cbNotes').value=d.notes||'';}
+  function customRuleCheck(){
+    const d=sget('customBoxRules',GAP_DEFAULTS.customBoxRules);const n=(typeof _customSelectedFlavors!=='undefined'?_customSelectedFlavors.length:(window._deebSelectedFlavorsCount||0));if(d.enabled!==false){if(d.requireFlavorSelection&&n===0)return {ok:false,msg:'الكستوم بوكس يحتاج اختيار نكهة واحدة على الأقل.'};if(d.minFlavors>0&&n<d.minFlavors)return {ok:false,msg:`اختيار ${n} نكهة أقل من الحد الأدنى ${d.minFlavors}.`};if(d.maxFlavors>0&&n>d.maxFlavors)return {ok:false,msg:`اختيار ${n} نكهة يتجاوز الحد الأعلى ${d.maxFlavors}.`};}return {ok:true};
+  }
+  window.validateCustomBox=customRuleCheck;
+  const oldAddOrder=window.addOrder;
+  window.addOrder=async function(){
+    window._deebSelectedFlavorsCount=(typeof _customSelectedFlavors!=='undefined'?_customSelectedFlavors.length:(window._deebSelectedFlavorsCount??0));
+    const products=[...document.querySelectorAll('#orderProductRows .order-product-row select')].map(s=>s.options[s.selectedIndex]?.text||'');
+    const isCustom=products.some(p=>/custom/i.test(p));
+    if(isCustom){const chk=customRuleCheck();if(!chk.ok){toast('🎨 '+chk.msg,'warning');return;}}
+    const phone=el('o-phone')?.value.trim(),name=el('o-name')?.value.trim(),date=el('o-date')?.value||today();
+    const tracking={upsellOffered:!!el('og-upsell-offered')?.checked,upsellAccepted:!!el('og-upsell-accepted')?.checked,addOnsOffered:!!el('og-addons-offered')?.checked,addOnsAccepted:!!el('og-addons-accepted')?.checked,recommendedUpgrade:(el('og-recommend')?.value||''),customRuleSnapshot:sget('customBoxRules',GAP_DEFAULTS.customBoxRules),utmSource:(el('o-utm-source')?.value||'').trim(),utmMedium:(el('o-utm-medium')?.value||'').trim(),utmCampaign:(el('o-utm-campaign')?.value||'').trim(),utmContent:(el('o-utm-content')?.value||'').trim(),funnelStage:'pending_confirmation',stageHistory:{pending_confirmation:Date.now()}};
+    await oldAddOrder.apply(this,arguments);
+    try{
+      const q=await db.collection('orders').where('phone','==',phone).get();let matches=q.docs.map(d=>({id:d.id,...d.data()})).filter(o=>o.name===name&&String(orderDate(o))===date);matches.sort((a,b)=>num(b.createdAt)-num(a.createdAt));const o=matches[0]||q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>num(b.createdAt)-num(a.createdAt))[0];if(o)await updateDoc_('orders',o.id,tracking);
+    }catch(e){console.warn('gap order metadata patch',e);}
+    ['og-upsell-offered','og-upsell-accepted','og-addons-offered','og-addons-accepted','o-utm-source','o-utm-medium','o-utm-campaign','o-utm-content'].forEach(i=>{if(el(i)){el(i).checked=false;el(i).value='';}});
+  };
+  function renderAOVControl(){
+    const os=(state.orders||[]).filter(o=>o.status==='delivered');const offered=os.filter(o=>o.upsellOffered).length,accepted=os.filter(o=>o.upsellAccepted).length,aoOff=os.filter(o=>o.addOnsOffered).length,aoAc=os.filter(o=>o.addOnsAccepted).length;const total=os.length;set('aovUpgradeRate',offered?((accepted/offered)*100).toFixed(0)+'%':'—');set('aovAttachRate',aoOff?((aoAc/aoOff)*100).toFixed(0)+'%':'—');set('aovTrackedOrders',total);set('aovAvg',total?(os.reduce((s,o)=>s+num(o.price),0)/total).toFixed(2):'0.00');
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 27 funnel + 33 service queue
+  // ─────────────────────────────────────────────────────────────
+  window.addServiceTicket=async function(){
+    const customer=(el('st-name')?.value||'').trim(),phone=(el('st-phone')?.value||'').trim(),issue=(el('st-issue')?.value||'').trim();if(!issue)return toast('وصف المشكلة مطلوب','error');
+    const data={customer,phone,orderId:(el('st-order')?.value||'').trim(),channel:(el('st-channel')?.value||'').trim(),issueType:el('st-type')?.value||'other',priority:el('st-priority')?.value||'normal',status:'open',openedAt:el('st-opened')?.value||today(),dueAt:el('st-due')?.value||'',assignedTo:(el('st-owner')?.value||'').trim(),issue,resolution:'',createdAt:Date.now()};
+    await addDoc_('serviceTickets',data);closeModal('serviceTicketModal');window.renderServiceQueue();toast('تم تسجيل تذكرة خدمة ✅','success');
+  };
+  window.openServiceTicketModal=function(id){
+    ['st-id','st-name','st-phone','st-order','st-channel','st-owner','st-issue','st-due'].forEach(i=>{if(el(i))el(i).value='';});
+    if(el('st-opened'))el('st-opened').value=today(); if(el('st-priority'))el('st-priority').value='normal'; if(el('st-type'))el('st-type').value='order';
+    if(id){const x=(state.serviceTickets||[]).find(v=>v.id===id);if(x){const m={id:'st-id',customer:'st-name',phone:'st-phone',orderId:'st-order',channel:'st-channel',assignedTo:'st-owner',issue:'st-issue',dueAt:'st-due',openedAt:'st-opened',priority:'st-priority',issueType:'st-type'};Object.entries(m).forEach(([k,i])=>{if(el(i))el(i).value=x[k]??'';});}}
+    openModal('serviceTicketModal');
+  };
+  window.updateServiceTicket=async function(id,status){const patch={status,updatedAt:Date.now()};if(status==='resolved')patch.resolvedAt=Date.now();await updateDoc_('serviceTickets',id,patch);window.renderServiceQueue();};
+  window.renderServiceQueue=function(){
+    const ts=state.serviceTickets||[],todayStr=today();const open=ts.filter(t=>t.status!=='resolved'),overdue=open.filter(t=>t.dueAt&&t.dueAt<todayStr),resolved=ts.filter(t=>t.status==='resolved');set('svcOpen',open.length);set('svcOverdue',overdue.length);set('svcResolved',resolved.length);set('svcAvgAge',open.length?(open.reduce((s,t)=>s+(daysAgo(t.openedAt)||0),0)/open.length).toFixed(1)+'d':'0d');
+    html('serviceTicketTable',ts.slice().sort((a,b)=>num(b.createdAt)-num(a.createdAt)).slice(0,30).map(t=>`<tr><td>${sanitize(t.customer||'—')}</td><td>${sanitize(t.phone||'—')}</td><td>${sanitize(t.orderId||'—')}</td><td>${sanitize(t.issueType||'—')}</td><td><span class="badge ${t.priority==='urgent'?'badge-cancelled':t.priority==='high'?'badge-pending':'badge-preparing'}">${sanitize(t.priority||'normal')}</span></td><td>${sanitize(t.status||'open')}</td><td>${t.dueAt?sanitize(t.dueAt):'—'}</td><td>${overdue.includes(t)?'🔴 متأخر':'—'}</td><td>${t.status==='resolved'?'✅':'<button class="btn btn-sm btn-gold" onclick="window.updateServiceTicket(\''+t.id+'\',\'resolved\')">حل</button>'}</td></tr>`).join('')||'<tr><td colspan="9">لا توجد تذاكر</td></tr>');
+  };
+  window.renderOrderFunnel=function(){
+    const os=state.orders||[],lost=state.lostOrderLeads||[];const counts={pending_confirmation:0,confirmed:0,preparing:0,out_for_delivery:0,delivered:0,cancelled:0,lost:lost.length};os.forEach(o=>{const st=o.funnelStage||({'pending':'pending_confirmation','preparing':'preparing','delivered':'delivered','cancelled':'cancelled'}[o.status]||'pending_confirmation');counts[st]=(counts[st]||0)+1;});
+    ['pending_confirmation','confirmed','preparing','out_for_delivery','delivered','cancelled','lost'].forEach(k=>set('funnel_'+k,counts[k]||0));
+    const steps=['pending_confirmation','confirmed','preparing','out_for_delivery','delivered'];let rows='<tr>';steps.forEach((k,i)=>{const prev=i?counts[steps[i-1]]:counts[k];const rate=prev?(counts[k]/prev*100):0;rows+=`<td>${counts[k]||0}<br><small>${i?'↳ '+rate.toFixed(0)+'%':'—'}</small></td>`;});rows+='</tr>';html('funnelRateRow',rows);
+  };
+  const oldUpdateOrderStatus=window.updateOrderStatus;
+  window.updateOrderStatus=async function(id,status){await oldUpdateOrderStatus(id,status);const stage={'pending':'pending_confirmation','preparing':'preparing','delivered':'delivered','cancelled':'cancelled'}[status]||status;const o=(state.orders||[]).find(x=>x.id===id);const hist=Object.assign({},o?.stageHistory||{}, {[stage]:Date.now()});try{await updateDoc_('orders',id,{funnelStage:stage,stageHistory:hist});}catch(e){console.warn(e);}window.renderOrderFunnel();};
+  window.showOrderFunnelStage=function(id,stage){return stage;};
+
+  // ─────────────────────────────────────────────────────────────
+  // 22 portfolio + 25 occasions + 26 journey + 39 seasonal + 49 competitive + 50 scaling
+  // ─────────────────────────────────────────────────────────────
+  function renderKeyValueRows(containerId,rows,cols){
+    html(containerId,rows.map((r,i)=>`<tr data-i="${i}">${cols.map(c=>{const type=c.type||'text';const value=r[c.key]??'';if(type==='select')return `<td><select class="form-select gap-cell" data-key="${c.key}"><option value="">—</option>${(c.options||[]).map(o=>`<option ${String(o)===String(value)?'selected':''}>${sanitize(o)}</option>`).join('')}</select></td>`;if(type==='number')return `<td><input class="form-input gap-cell" type="number" step="0.01" value="${sanitize(value)}" data-key="${c.key}"></td>`;return `<td><input class="form-input gap-cell" value="${sanitize(value)}" data-key="${c.key}"></td>`;}).join('')}<td><button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">🗑</button></td></tr>`).join(''));
+  }
+  function rowsFromTable(containerId){const body=el(containerId);if(!body)return[];return [...body.querySelectorAll('tr')].map(tr=>{const o={};tr.querySelectorAll('.gap-cell').forEach(i=>o[i.dataset.key]=i.type==='number'?num(i.value):i.value.trim());return o;});}
+  window.savePortfolioStrategy=async function(){await ssave('portfolioStrategy',{rows:rowsFromTable('portfolioRows')});toast('تم حفظ Portfolio Strategy ✅','success');};
+  window.addPortfolioRow=function(){const b=el('portfolioRows');if(!b)return;const tr=document.createElement('tr');tr.innerHTML='<td><input class="form-input gap-cell" data-key="product" placeholder="Product"></td><td><select class="form-select gap-cell" data-key="tier"><option>Entry</option><option>Core</option><option>Premium</option><option>Seasonal</option></select></td><td><input class="form-input gap-cell" data-key="role" placeholder="Hero / Support / Test"></td><td><select class="form-select gap-cell" data-key="status"><option>Active</option><option>Review</option><option>Pause</option><option>Seasonal</option></select></td><td><input class="form-input gap-cell" type="number" data-key="targetQty" placeholder="0"></td><td><button class="btn btn-sm btn-danger" onclick="this.closest(\'tr\').remove()">🗑</button></td>';b.appendChild(tr);};
+  window.saveOccasionPlan=async function(){await ssave('occasionPlan',{rows:rowsFromTable('occasionRows')});toast('تم حفظ Occasion Plan ✅','success');};
+  window.addOccasionRow=function(){const b=el('occasionRows');if(!b)return;const tr=document.createElement('tr');tr.innerHTML='<td><input class="form-input gap-cell" data-key="occasion" placeholder="Birthday"></td><td><input class="form-input gap-cell" data-key="offer" placeholder="Hero / add-on"></td><td><input class="form-input gap-cell" data-key="content" placeholder="Reel / Story / UGC"></td><td><input class="form-input gap-cell" data-key="cta" placeholder="Order via website"></td><td><input class="form-input gap-cell" data-key="seasonWindow" placeholder="Dates"></td><td><button class="btn btn-sm btn-danger" onclick="this.closest(\'tr\').remove()">🗑</button></td>';b.appendChild(tr);};
+  window.saveScalingPlan=async function(){const data={revenueMilestone:num(el('scRevenue')?.value),ordersMilestone:num(el('scOrders')?.value),capacityTrigger:num(el('scCapacity')?.value),b2bPipelineTrigger:num(el('scB2b')?.value),stockCoverageMinDays:num(el('scStock')?.value),hiringTrigger:(el('scHire')?.value||'').trim(),nextActions:(el('scActions')?.value||'').trim()};await ssave('scalingPlan',data);toast('تم حفظ خطة التوسع ✅','success');};
+  function renderSeasonPlan(){
+    const d=sget('seasonalPlan',{rows:[]}),rows=d.rows||[];html('seasonalRows',rows.map((r,i)=>`<tr><td><input class="form-input gap-cell" data-key="season" value="${sanitize(r.season||'')}"></td><td><input class="form-input gap-cell" data-key="start" type="date" value="${sanitize(r.start||'')}"></td><td><input class="form-input gap-cell" data-key="end" type="date" value="${sanitize(r.end||'')}"></td><td><input class="form-input gap-cell" data-key="demandMultiplier" type="number" step="0.05" value="${sanitize(r.demandMultiplier??1)}"></td><td><input class="form-input gap-cell" data-key="stockPrepDays" type="number" value="${sanitize(r.stockPrepDays??14)}"></td><td><input class="form-input gap-cell" data-key="contentStart" type="date" value="${sanitize(r.contentStart||'')}"></td><td><button class="btn btn-sm btn-danger" onclick="this.closest(\'tr\').remove()">🗑</button></td></tr>`).join(''));
+  }
+  window.saveSeasonPlan=async function(){await ssave('seasonalPlan',{rows:rowsFromTable('seasonalRows')});toast('تم حفظ التخطيط الموسمي ✅','success');};
+  window.addSeasonRow=function(){const b=el('seasonalRows');if(!b)return;const tr=document.createElement('tr');tr.innerHTML='<td><input class="form-input gap-cell" data-key="season"></td><td><input class="form-input gap-cell" data-key="start" type="date"></td><td><input class="form-input gap-cell" data-key="end" type="date"></td><td><input class="form-input gap-cell" data-key="demandMultiplier" type="number" step="0.05" value="1"></td><td><input class="form-input gap-cell" data-key="stockPrepDays" type="number" value="14"></td><td><input class="form-input gap-cell" data-key="contentStart" type="date"></td><td><button class="btn btn-sm btn-danger" onclick="this.closest(\'tr\').remove()">🗑</button></td>';b.appendChild(tr);};
+  window.saveScalingPlan=window.saveScalingPlan;
+
+  window.openCompetitorModal=function(id){['ci-id','ci-name','ci-category','ci-channel','ci-product','ci-price','ci-pack','ci-offer','ci-packaging','ci-positioning','ci-url','ci-next','ci-notes'].forEach(i=>{if(el(i))el(i).value='';});if(el('ci-date'))el('ci-date').value=today();if(id){const x=(state.competitors||[]).find(v=>v.id===id);if(x)Object.entries({id:'ci-id',name:'ci-name',category:'ci-category',channel:'ci-channel',product:'ci-product',observedPrice:'ci-price',packSize:'ci-pack',offer:'ci-offer',packaging:'ci-packaging',positioning:'ci-positioning',url:'ci-url',capturedAt:'ci-date',nextReview:'ci-next',notes:'ci-notes'}).forEach(([k,i])=>{if(el(i))el(i).value=x[k]??'';});}openModal('competitorModal');};
+  window.saveCompetitor=async function(){const id=el('ci-id')?.value||'';const data={name:(el('ci-name')?.value||'').trim(),category:(el('ci-category')?.value||'').trim(),channel:(el('ci-channel')?.value||'').trim(),product:(el('ci-product')?.value||'').trim(),observedPrice:num(el('ci-price')?.value),packSize:(el('ci-pack')?.value||'').trim(),offer:(el('ci-offer')?.value||'').trim(),packaging:(el('ci-packaging')?.value||'').trim(),positioning:(el('ci-positioning')?.value||'').trim(),url:(el('ci-url')?.value||'').trim(),capturedAt:el('ci-date')?.value||today(),nextReview:el('ci-next')?.value||'',notes:(el('ci-notes')?.value||'').trim(),updatedAt:Date.now()};if(!data.name)return toast('اسم المنافس مطلوب','error');if(id)await updateDoc_('competitors',id,data);else await addDoc_('competitors',data);closeModal('competitorModal');renderCompetitiveIntelligence();toast('تم حفظ المنافس ✅','success');};
+  window.deleteCompetitor=function(id){const x=(state.competitors||[]).find(v=>v.id===id);confirmDelete('competitors',id,x?.name||'منافس');};
+  function renderCompetitiveIntelligence(){const xs=state.competitors||[];html('competitorTable',xs.slice().sort((a,b)=>String(b.capturedAt||'').localeCompare(String(a.capturedAt||''))).map(x=>`<tr><td><strong>${sanitize(x.name||'—')}</strong></td><td>${sanitize(x.category||'—')}</td><td>${sanitize(x.channel||'—')}</td><td>${sanitize(x.product||'—')}</td><td>${x.observedPrice?money(x.observedPrice)+' JOD':'—'}</td><td>${sanitize(x.packSize||'—')}</td><td>${sanitize(x.offer||'—')}</td><td>${sanitize(x.packaging||'—')}</td><td>${sanitize(x.capturedAt||'—')}</td><td><button class="btn btn-sm btn-outline" onclick="window.openCompetitorModal('${x.id}')">✏️</button> <button class="btn btn-sm btn-danger" onclick="window.deleteCompetitor('${x.id}')">🗑</button></td></tr>`).join('')||'<tr><td colspan="10">لا توجد ملاحظات منافسة بعد.</td></tr>');set('competitorCount',xs.length);}
+
+  // ─────────────────────────────────────────────────────────────
+  // 28–32 supplier risk/performance/procurement/waste/capacity
+  // ─────────────────────────────────────────────────────────────
+  window.saveSupplierRisk=async function(){const id=el('sup-id')?.value; if(!id)return;await updateDoc_('suppliers',id,{criticality:el('sup-criticality')?.value||'medium',soleSource:!!el('sup-sole')?.checked,backupSupplier:(el('sup-backup')?.value||'').trim(),leadTimeDays:Math.max(0,num(el('sup-lead')?.value)),minOrderQty:Math.max(0,num(el('sup-minqty')?.value)),riskStatus:el('sup-risk-status')?.value||'watch',riskNotes:(el('sup-risk-notes')?.value||'').trim(),qualityIssuesCount:Math.max(0,num(el('sup-quality-count')?.value)),qualityLastDate:el('sup-quality-date')?.value||'',updatedAt:Date.now()});};
+  const oldOpenSupplierModal=window.openSupplierModal, oldSaveSupplier=window.saveSupplier;
+  window.openSupplierModal=function(id){oldOpenSupplierModal(id);const s=id?deebSupplierById(id):null;setTimeout(()=>{if(!el('sup-id'))return;if(el('sup-criticality'))el('sup-criticality').value=s?.criticality||'medium';if(el('sup-sole'))el('sup-sole').checked=!!s?.soleSource;if(el('sup-backup'))el('sup-backup').value=s?.backupSupplier||'';if(el('sup-lead'))el('sup-lead').value=s?.leadTimeDays??7;if(el('sup-minqty'))el('sup-minqty').value=s?.minOrderQty??0;if(el('sup-risk-status'))el('sup-risk-status').value=s?.riskStatus||'watch';if(el('sup-risk-notes'))el('sup-risk-notes').value=s?.riskNotes||'';if(el('sup-quality-count'))el('sup-quality-count').value=s?.qualityIssuesCount??0;if(el('sup-quality-date'))el('sup-quality-date').value=s?.qualityLastDate||'';},0);};
+  window.saveSupplier=async function(){await oldSaveSupplier();const name=(el('sup-name')?.value||'').trim();const phone=(el('sup-phone')?.value||'').trim();let id=el('sup-id')?.value||'';let s=id?deebSupplierById(id):null;if(!id)s=(state.suppliers||[]).find(x=>x.name===name && (!phone||x.phone===phone));if(s)await updateDoc_('suppliers',s.id,{criticality:el('sup-criticality')?.value||'medium',soleSource:!!el('sup-sole')?.checked,backupSupplier:(el('sup-backup')?.value||'').trim(),leadTimeDays:Math.max(0,num(el('sup-lead')?.value)),minOrderQty:Math.max(0,num(el('sup-minqty')?.value)),riskStatus:el('sup-risk-status')?.value||'watch',riskNotes:(el('sup-risk-notes')?.value||'').trim(),qualityIssuesCount:Math.max(0,num(el('sup-quality-count')?.value)),qualityLastDate:el('sup-quality-date')?.value||''});};
+  window.saveWasteLog=async function(){const item=(el('w-item')?.value||'').trim();const qty=num(el('w-qty')?.value);if(!item||qty<=0)return toast('المادة والكمية مطلوبان','error');const unitCost=num(el('w-cost')?.value);await addDoc_('wasteLogs',{date:el('w-date')?.value||today(),item,itemId:el('w-item-id')?.value||'',qty,unit:el('w-unit')?.value||'unit',unitCost,totalCost:qty*unitCost,reason:el('w-reason')?.value||'other',stage:el('w-stage')?.value||'packing',notes:(el('w-notes')?.value||'').trim(),createdAt:Date.now()});closeModal('wasteModal');renderWastePanel();toast('تم تسجيل الهدر والخسارة ✅','success');};
+  window.deleteWasteLog=id=>{const x=(state.wasteLogs||[]).find(v=>v.id===id);confirmDelete('wasteLogs',id,x?.item||'هدر');};
+  function renderWastePanel(){const ws=state.wasteLogs||[],cost=ws.reduce((s,x)=>s+num(x.totalCost),0),qty=ws.reduce((s,x)=>s+num(x.qty),0);set('wasteCount',ws.length);set('wasteQty',qty.toFixed(2));set('wasteCost',money(cost)+' JOD');const reasons={};ws.forEach(x=>reasons[x.reason||'other']=(reasons[x.reason||'other']||0)+num(x.totalCost));html('wasteReasonTable',Object.entries(reasons).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${sanitize(k)}</td><td>${money(v)} JOD</td></tr>`).join('')||'<tr><td colspan="2">لا توجد بيانات</td></tr>');html('wasteTable',ws.slice().sort((a,b)=>num(b.createdAt)-num(a.createdAt)).slice(0,30).map(x=>`<tr><td>${sanitize(x.date||'—')}</td><td>${sanitize(x.item||'—')}</td><td>${num(x.qty)}</td><td>${money(x.unitCost)}</td><td>${money(x.totalCost)}</td><td>${sanitize(x.reason||'—')}</td><td>${sanitize(x.stage||'—')}</td><td>${sanitize(x.notes||'—')}</td><td><button class="btn btn-sm btn-danger" onclick="window.deleteWasteLog('${x.id}')">🗑</button></td></tr>`).join('')||'<tr><td colspan="9">لا يوجد سجل هدر</td></tr>');}
+  function procurementRows(){
+    const inv=state.inventory||[],pos=state.supplierOrders||[];const cap=sget('opsCapacity',GAP_DEFAULTS.opsCapacity),rows=[];
+    inv.forEach(i=>{const incoming=pos.filter(p=>['draft','ordered','partial'].includes(p.status)).flatMap(p=>p.items||[]).filter(x=>x.inventoryId===i.id).reduce((s,x)=>s+Math.max(0,num(x.orderedQty)-num(x.receivedQty)),0);const saleQty=(state.stockMovements||[]).filter(m=>(m.itemId===i.id)&&(['Sale','Packaging Sale'].includes(m.type))).filter(m=>(Date.now()-num(m.ts||m.createdAt))<=30*86400000).reduce((s,m)=>s+Math.abs(num(m.qtyDelta)),0);const daily=saleQty/30;const supplier=(state.suppliers||[]).find(s=>(s.primaryInventoryId===i.id)||((s.category||'').toLowerCase().includes((i.category||'').toLowerCase())&&s.category&&i.category));const lead=Math.max(0,num(supplier?.leadTimeDays||cap.defaultLeadTimeDays));const safety=Math.max(0,num(cap.safetyStockDays));const suggested=Math.max(0,Math.ceil(daily*(lead+safety)-num(i.qty)-incoming));rows.push({id:i.id,name:i.name,qty:num(i.qty),wac:num(i.cost),daily,coverage:daily?num(i.qty)/daily:null,incoming,lead,suggested,cash:suggested*num(i.cost)});});return rows;}
+  function renderProcurement(){const rs=procurementRows();html('procurementTable',rs.map(r=>`<tr><td><strong>${sanitize(r.name||'—')}</strong></td><td>${r.qty}</td><td>${r.wac?money(r.wac):'—'}</td><td>${r.daily.toFixed(2)}</td><td>${r.coverage==null?'—':r.coverage.toFixed(1)+'d'}</td><td>${r.incoming}</td><td>${r.lead}d</td><td>${r.suggested}</td><td>${money(r.cash)} JOD</td><td>${r.coverage!=null&&r.coverage<7?'🔴 Reorder':r.coverage!=null&&r.coverage<14?'🟡 Watch':'🟢 OK'}</td></tr>`).join('')||'<tr><td colspan="10">لا توجد بيانات مخزون</td></tr>');}
+  function renderSupplierRisk(){const ss=state.suppliers||[];const high=ss.filter(s=>s.riskStatus==='high'||(s.criticality==='high'&&s.soleSource&&!s.backupSupplier)).length;set('supRiskHigh',high);set('supRiskNoBackup',ss.filter(s=>s.criticality==='high'&&!s.backupSupplier).length);set('supRiskInactive',ss.filter(s=>s.active===false).length);html('supplierRiskTable',ss.map(s=>`<tr><td>${sanitize(s.name||'—')}</td><td>${sanitize(s.criticality||'medium')}</td><td>${s.soleSource?'نعم':'لا'}</td><td>${sanitize(s.backupSupplier||'—')}</td><td>${num(s.leadTimeDays||0)}d</td><td>${num(s.minOrderQty||0)}</td><td>${sanitize(s.riskStatus||'watch')}</td><td>${num(s.qualityIssuesCount||0)}</td></tr>`).join('')||'<tr><td colspan="8">لا يوجد موردون</td></tr>');}
+  function renderSupplierPerformance(){
+    const ss=state.suppliers||[], pos=state.supplierOrders||[],ps=state.supplierPriceHistory||[];
+    html('supplierPerformanceTable',ss.map(s=>{const mine=pos.filter(p=>p.supplierId===s.id),withExpected=mine.filter(p=>p.expectedDate),onTime=withExpected.filter(p=>p.status==='received' && p.lastReceivedAt && p.expectedDate && String(p.lastReceivedAt).slice(0,10)<=p.expectedDate).length,ontime=withExpected.length?onTime/withExpected.length*100:null;const oq=mine.flatMap(p=>p.items||[]).reduce((a,x)=>a+num(x.orderedQty),0),rq=mine.flatMap(p=>p.items||[]).reduce((a,x)=>a+num(x.receivedQty),0),fill=oq?rq/oq*100:null;const hist=ps.filter(p=>p.supplierId===s.id).sort((a,b)=>num(b.createdAt)-num(a.createdAt));const prices=hist.map(x=>num(x.price)).filter(x=>x>0);const variance=prices.length>1?((prices[0]-prices[prices.length-1])/prices[prices.length-1])*100:null;return `<tr><td><strong>${sanitize(s.name||'—')}</strong></td><td>${ontime==null?'—':ontime.toFixed(0)+'%'}</td><td>${fill==null?'—':fill.toFixed(0)+'%'}</td><td>${variance==null?'—':(variance>0?'+':'')+variance.toFixed(1)+'%'}</td><td>${num(s.qualityIssuesCount||0)}</td><td>${mine.length}</td></tr>`;}).join('')||'<tr><td colspan="6">لا توجد بيانات أداء</td></tr>');}
+  const oldSaveSupplierOrder=window.saveSupplierOrder;
+  window.saveSupplierOrder=async function(){
+    const expected=el('spo-expected')?.value||'';await oldSaveSupplierOrder.apply(this,arguments);
+    const number=(el('spo-number')?.value||'').trim();const o=(state.supplierOrders||[]).find(x=>(x.orderNumber||'')===number);if(o)await updateDoc_('supplierOrders',o.id,{expectedDate:expected});
+  };
+
+  // ─────────────────────────────────────────────────────────────
+  // 34 / 35 / 47 marketing attribution + experimentation + social→sales
+  // ─────────────────────────────────────────────────────────────
+  window.saveExperiment=async function(){const id=el('ex-id')?.value||'';const data={area:(el('ex-area')?.value||'').trim(),hypothesis:(el('ex-hypothesis')?.value||'').trim(),metric:(el('ex-metric')?.value||'').trim(),baseline:(el('ex-base')?.value||'').trim(),target:(el('ex-target')?.value||'').trim(),variantA:(el('ex-a')?.value||'').trim(),variantB:(el('ex-b')?.value||'').trim(),startDate:el('ex-start')?.value||'',endDate:el('ex-end')?.value||'',status:el('ex-status')?.value||'planned',result:(el('ex-result')?.value||'').trim(),decision:(el('ex-decision')?.value||'').trim(),notes:(el('ex-notes')?.value||'').trim(),updatedAt:Date.now()};if(!data.hypothesis)return toast('الفرضية مطلوبة','error');if(id)await updateDoc_('experiments',id,data);else await addDoc_('experiments',data);closeModal('experimentModal');renderExperiments();toast('تم حفظ التجربة ✅','success');};
+  window.deleteExperiment=id=>{const x=(state.experiments||[]).find(v=>v.id===id);confirmDelete('experiments',id,x?.area||'Experiment');};
+  function renderExperiments(){const xs=state.experiments||[];set('experimentCount',xs.length);html('experimentTable',xs.map(x=>`<tr><td>${sanitize(x.area||'—')}</td><td>${sanitize(x.hypothesis||'—')}</td><td>${sanitize(x.metric||'—')}</td><td>${sanitize(x.baseline||'—')}</td><td>${sanitize(x.target||'—')}</td><td>${sanitize(x.status||'—')}</td><td>${sanitize(x.result||'—')}</td><td>${sanitize(x.decision||'—')}</td><td><button class="btn btn-sm btn-outline" onclick="window.openExperimentModal('${x.id}')">✏️</button> <button class="btn btn-sm btn-danger" onclick="window.deleteExperiment('${x.id}')">🗑</button></td></tr>`).join('')||'<tr><td colspan="9">لا توجد تجارب</td></tr>');}
+  window.openExperimentModal=function(id){['ex-id','ex-area','ex-hypothesis','ex-metric','ex-base','ex-target','ex-a','ex-b','ex-start','ex-end','ex-result','ex-decision','ex-notes'].forEach(i=>{if(el(i))el(i).value='';});if(el('ex-start'))el('ex-start').value=today();if(el('ex-status'))el('ex-status').value='planned';if(id){const x=(state.experiments||[]).find(v=>v.id===id);if(x)Object.entries(x).forEach(([k,v])=>{const map={id:'ex-id',area:'ex-area',hypothesis:'ex-hypothesis',metric:'ex-metric',baseline:'ex-base',target:'ex-target',variantA:'ex-a',variantB:'ex-b',startDate:'ex-start',endDate:'ex-end',status:'ex-status',result:'ex-result',decision:'ex-decision',notes:'ex-notes'};if(map[k]&&el(map[k]))el(map[k]).value=v??'';});}openModal('experimentModal');};
+  window.openContentAssetModal=function(id){
+    ['ca-id','ca-platform','ca-title','ca-type','ca-date','ca-source','ca-medium','ca-campaign','ca-content','ca-cta','ca-url','ca-notes'].forEach(i=>{if(el(i))el(i).value='';});
+    if(el('ca-date'))el('ca-date').value=today();if(el('ca-status'))el('ca-status').value='planned';
+    if(id){const x=(state.contentAssets||[]).find(v=>v.id===id);if(x){const m={id:'ca-id',platform:'ca-platform',title:'ca-title',contentType:'ca-type',publishDate:'ca-date',utmSource:'ca-source',utmMedium:'ca-medium',utmCampaign:'ca-campaign',utmContent:'ca-content',cta:'ca-cta',landingUrl:'ca-url',status:'ca-status',notes:'ca-notes'};Object.entries(m).forEach(([k,i])=>{if(el(i))el(i).value=x[k]??'';});}}
+    openModal('contentAssetModal');
+  };
+  window.saveContentAsset=async function(){const id=el('ca-id')?.value||'';const data={platform:(el('ca-platform')?.value||'').trim(),title:(el('ca-title')?.value||'').trim(),contentType:(el('ca-type')?.value||'').trim(),publishDate:el('ca-date')?.value||'',utmSource:(el('ca-source')?.value||'').trim(),utmMedium:(el('ca-medium')?.value||'').trim(),utmCampaign:(el('ca-campaign')?.value||'').trim(),utmContent:(el('ca-content')?.value||'').trim(),cta:(el('ca-cta')?.value||'').trim(),landingUrl:(el('ca-url')?.value||'').trim(),status:el('ca-status')?.value||'planned',notes:(el('ca-notes')?.value||'').trim(),createdAt:Date.now()};if(!data.title)return toast('اسم المحتوى مطلوب','error');if(id)await updateDoc_('contentAssets',id,data);else await addDoc_('contentAssets',data);closeModal('contentAssetModal');renderContentAssets();toast('تم حفظ Content Asset ✅','success');};
+  function attributedOrders(){return (state.orders||[]).filter(o=>o.status==='delivered');}
+  function attributionKey(o){return String(o.utmCampaign||o.campaign||'').trim()||String(o.source||o.channel||o.utmSource||'').trim()||'غير محدد';}
+  window.renderAttributionHealth=function(){const os=attributedOrders();const untracked=os.filter(o=>!(o.source||o.channel||o.utmSource||o.utmCampaign||o.utmContent)).length,untrackedRevenue=os.filter(o=>!(o.source||o.channel||o.utmSource||o.utmCampaign||o.utmContent)).reduce((s,o)=>s+num(o.price),0);set('attrTracked',os.length-untracked);set('attrUntracked',untracked);set('attrUntrackedRevenue',money(untrackedRevenue)+' JOD');const m={};os.forEach(o=>{const k=attributionKey(o);m[k]??={orders:0,revenue:0};m[k].orders++;m[k].revenue+=num(o.price);});html('attrTable',Object.entries(m).sort((a,b)=>b[1].revenue-a[1].revenue).map(([k,v])=>`<tr><td>${sanitize(k)}</td><td>${v.orders}</td><td>${money(v.revenue)}</td><td>${(v.revenue/v.orders||0).toFixed(2)}</td></tr>`).join('')||'<tr><td colspan="4">لا توجد طلبات</td></tr>');};
+  function renderContentAssets(){const xs=state.contentAssets||[],os=attributedOrders();set('contentAssetCount',xs.length);html('contentAssetTable',xs.map(x=>{const orders=os.filter(o=>x.utmContent&&o.utmContent===x.utmContent||x.utmCampaign&&o.utmCampaign===x.utmCampaign).length,rev=os.filter(o=>x.utmContent&&o.utmContent===x.utmContent||x.utmCampaign&&o.utmCampaign===x.utmCampaign).reduce((s,o)=>s+num(o.price),0);return `<tr><td>${sanitize(x.platform||'—')}</td><td>${sanitize(x.title||'—')}</td><td>${sanitize(x.contentType||'—')}</td><td>${sanitize(x.publishDate||'—')}</td><td>${sanitize(x.utmCampaign||'—')}</td><td>${sanitize(x.utmContent||'—')}</td><td>${sanitize(x.cta||'—')}</td><td>${orders}</td><td>${money(rev)} JOD</td><td>${sanitize(x.status||'—')}</td></tr>`;}).join('')||'<tr><td colspan="10">لا توجد Content Assets</td></tr>');}
+
+  window.openWasteModal=function(id){
+    ['wl-id','wl-item','wl-qty','wl-unit','wl-date','wl-stage','wl-reason','wl-cost','wl-notes'].forEach(i=>{if(el(i))el(i).value='';});
+    if(el('wl-date'))el('wl-date').value=today();
+    if(id){const x=(state.wasteLogs||[]).find(v=>v.id===id);if(x){const m={id:'wl-id',item:'wl-item',qty:'wl-qty',unit:'wl-unit',date:'wl-date',stage:'wl-stage',reason:'wl-reason',cost:'wl-cost',notes:'wl-notes'};Object.entries(m).forEach(([k,i])=>{if(el(i))el(i).value=x[k]??'';});}}
+    openModal('wasteModal');
+  };
+  // 36–38 finance: financial reporting, cash flow, working capital
+  window.saveCashFlowPlan=async function(){const data={openingCash:num(el('cfOpening')?.value),expectedCollections:num(el('cfCollections')?.value),plannedSupplierPayments:num(el('cfSupplier')?.value),plannedOperatingOutflows:num(el('cfOperating')?.value),otherPlannedOutflows:num(el('cfOther')?.value),horizonDays:Math.max(1,num(el('cfHorizon')?.value)),notes:(el('cfNotes')?.value||'').trim()};await ssave('cashFlowPlan',data);renderFinanceControls();toast('تم حفظ خطة التدفق النقدي ✅','success');};
+  function renderFinanceControls(){
+    const os=(state.orders||[]).filter(o=>o.status==='delivered'),rev=os.reduce((s,o)=>s+num(o.price),0),cogs=os.reduce((s,o)=>s+num(o.cogs||0),0),con=rev-cogs,opex=(state.expenses||[]).reduce((s,e)=>s+num(e.amount),0),marketing=(state.expenses||[]).filter(e=>String(e.type||e.category||'').includes('تسويق')||String(e.type||'').toLowerCase().includes('marketing')).reduce((s,e)=>s+num(e.amount),0),supplierPaid=(state.supplierPayments||[]).reduce((s,p)=>s+num(p.amount),0),net=con-opex;
+    set('frRev',money(rev));set('frCogs',money(cogs));set('frContribution',money(con));set('frOpex',money(opex));set('frMarketing',money(marketing));set('frNet',money(net));set('frSupplierCash',money(supplierPaid));
+    const cf=sget('cashFlowPlan',GAP_DEFAULTS.cashFlowPlan);['openingCash','expectedCollections','plannedSupplierPayments','plannedOperatingOutflows','otherPlannedOutflows','horizonDays'].forEach(k=>{const map={openingCash:'cfOpening',expectedCollections:'cfCollections',plannedSupplierPayments:'cfSupplier',plannedOperatingOutflows:'cfOperating',otherPlannedOutflows:'cfOther',horizonDays:'cfHorizon'};if(el(map[k]))el(map[k]).value=cf[k]??0;});if(el('cfNotes'))el('cfNotes').value=cf.notes||'';const projected=num(cf.openingCash)+num(cf.expectedCollections)-num(cf.plannedSupplierPayments)-num(cf.plannedOperatingOutflows)-num(cf.otherPlannedOutflows);set('cfProjected',money(projected)+' JOD');
+    const invVal=(state.inventory||[]).reduce((s,i)=>s+num(i.qty)*num(i.cost),0),recv=(state.receivables||[]).reduce((s,r)=>s+Math.max(0,num(r.amount)-num(r.paid)),0),payable=(state.supplierOrders||[]).reduce((s,o)=>s+Math.max(0,num(deebSupplierOutstanding(o))),0);set('wcInventory',money(invVal));set('wcReceivables',money(recv));set('wcPayable',money(payable));set('wcTied',money(invVal+recv-payable));
+  }
+
+  // 40–43 admin: KPI, data quality, continuity, automation
+  window.runDataQualityAudit=function(){
+    const issues=[];const os=state.orders||[],cs=state.customers||[],inv=state.inventory||[],ps=state.products||[],leads=state.b2bLeads||[],svc=state.serviceTickets||[];
+    const add=(type,ref,msg)=>issues.push({type,ref,msg});
+    os.forEach(o=>{if(!o.name)add('Orders','name','طلب بدون اسم');if(!o.phone)add('Orders',o.id,'طلب بدون هاتف');if(!orderDate(o))add('Orders',o.id,'طلب بدون تاريخ');if(num(o.price)<0)add('Orders',o.id,'سعر سلبي');if(!o.source&&!o.utmSource)add('Attribution',o.id,'طلب Delivered بدون source/UTM');if(!['pending','preparing','delivered','cancelled'].includes(o.status))add('Orders',o.id,'حالة طلب غير معروفة');});
+    const ph={};cs.forEach(c=>{const p=normPhone(c.phone);if(p){ph[p]??=[];ph[p].push(c);}if(num(c.spent)<0)add('Customers',c.id,'إنفاق سالب');});Object.entries(ph).forEach(([p,a])=>{if(a.length>1)add('Customers',p,'تكرار رقم هاتف العميل ('+a.length+')');});
+    inv.forEach(i=>{if(num(i.qty)<0)add('Inventory',i.id,'مخزون سالب');if(i.cost===undefined||i.cost===null)add('Inventory',i.id,'مادة بدون تكلفة');});ps.forEach(p=>{if(num(p.price)<=0)add('Products',p.id,'منتج بدون سعر صالح');if(num(p.cost)<0)add('Products',p.id,'تكلفة سالبة');});
+    leads.forEach(l=>{if(!['Won','Lost'].includes(l.status)&&!l.nextFollowUp)add('B2B',l.id,'Lead مفتوح بدون موعد Follow-Up');if(!['Won','Lost'].includes(l.status)&&!l.nextAction)add('B2B',l.id,'Lead مفتوح بدون Next Action');});
+    svc.forEach(t=>{if(t.status!=='resolved'&&t.dueAt&&t.dueAt<today())add('Service',t.id,'تذكرة خدمة متأخرة');});
+    const summary={};issues.forEach(i=>summary[i.type]=(summary[i.type]||0)+1);set('dqTotal',issues.length);set('dqOrders',summary.Orders||0);set('dqCustomers',summary.Customers||0);set('dqInventory',summary.Inventory||0);set('dqB2b',summary.B2B||0);set('dqService',summary.Service||0);set('dqAttr',summary.Attribution||0);html('dqTable',issues.slice(0,80).map(i=>`<tr><td>${sanitize(i.type)}</td><td>${sanitize(i.ref)}</td><td>${sanitize(i.msg)}</td></tr>`).join('')||'<tr><td colspan="3">✅ لا توجد مشاكل في الاختبارات الحالية</td></tr>');return issues;
+  };
+  window.saveAutomationConfig=async function(){const data={autoFollowupAlerts:!!el('autoFollow')?.checked,autoLowStockAlerts:!!el('autoStock')?.checked,autoCustomerSegmentation:!!el('autoSeg')?.checked,autoForecastRefresh:!!el('autoForecast')?.checked,autoDataQualityAlerts:!!el('autoDQ')?.checked};await ssave('automationConfig',data);renderAutomationHealth();toast('تم حفظ إعدادات الأتمتة ✅','success');};
+  function renderAutomationHealth(){const d=sget('automationConfig',GAP_DEFAULTS.automationConfig);[['autoFollow',d.autoFollowupAlerts],['autoStock',d.autoLowStockAlerts],['autoSeg',d.autoCustomerSegmentation],['autoForecast',d.autoForecastRefresh],['autoDQ',d.autoDataQualityAlerts]].forEach(([i,v])=>{if(el(i))el(i).checked=v!==false;});html('automationHealth',`<div class="gap-health-grid">${[['متابعة B2B',d.autoFollowupAlerts,'حسب فتح الصفحة/تحديث البيانات'],['Low Stock',d.autoLowStockAlerts,'تنبيهات مخزون القائمة الحالية'],['Segmentation',d.autoCustomerSegmentation,'محسوبة من الطلبات الحالية'],['Forecast refresh',d.autoForecastRefresh,'عند تغير الطلبات/المخزون'],['Data quality',d.autoDataQualityAlerts,'تدقيق محلي عند فتح الإدارة']].map(x=>`<div class="gap-health"><strong>${x[0]}</strong><span>${x[1]?'✅ فعّال':'⏸ متوقف'}</span><small>${x[2]}</small></div>`).join('')}</div><div class="strategy-note">هذه أتمتة داخل جلسة الويب وليست jobs خلفية في Cloud Functions.</div>`);}
+
+  // 43 backup + restore
+  window.exportJSON=async function(){
+    const payload={schemaVersion:'DEEB-OS-2026-09-GAP1',exportDate:nowStr(),project:'Deeb Chocolate OS',collections:{}};
+    const all=[...Object.keys(state)];all.forEach(k=>{if(Array.isArray(state[k]))payload.collections[k]=state[k];});
+    const blob=new Blob([safeJson(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='deeb-os-backup-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    try{await addDoc_('backupLogs',{kind:'export',fileName:a.download,exportedAt:nowStr(),schemaVersion:payload.schemaVersion,recordCount:Object.values(payload.collections).reduce((s,a)=>s+a.length,0)});}catch(e){}
+    renderBackupLogs();toast('تم إنشاء Backup JSON كامل ✅','success');
+  };
+  window.restoreBackup=async function(){
+    const f=el('backupFile')?.files?.[0];if(!f)return toast('اختر ملف Backup JSON','error');const confirmation=el('restoreConfirm')?.value||'';if(confirmation!=='RESTORE')return toast('اكتب RESTORE للتأكيد','warning');
+    let payload;try{payload=JSON.parse(await f.text());}catch(e){return toast('ملف JSON غير صالح','error');}
+    const collections=payload.collections||payload.data;if(!collections||typeof collections!=='object')return toast('لا توجد collections داخل النسخة الاحتياطية','error');
+    const skip=new Set(['activityLog','backupLogs']);let total=0;try{
+      for(const [col,items] of Object.entries(collections)){if(skip.has(col)||!Array.isArray(items))continue;for(let i=0;i<items.length;i+=400){const batch=db.batch();items.slice(i,i+400).forEach(item=>{if(!item||!item.id)return;(()=>{const clean=Object.assign({},item);delete clean.id;batch.set(db.collection(col).doc(String(item.id)),revive(clean),{merge:true});})();total++;});await batch.commit();}}
+      await addDoc_('backupLogs',{kind:'restore',fileName:f.name,restoredAt:nowStr(),schemaVersion:payload.schemaVersion||'legacy',recordCount:total,note:'Merge by document ID; no document is deleted just because it is absent from the backup.'});
+      if(el('backupFile'))el('backupFile').value='';if(el('restoreConfirm'))el('restoreConfirm').value='';renderBackupLogs();toast('تمت استعادة '+total+' سجل ✅','success');
+    }catch(e){console.error(e);toast('فشل الاستعادة: '+(e.message||e),'error');}
+  };
+  function renderBackupLogs(){const logs=state.backupLogs||[];html('backupLogTable',logs.slice().sort((a,b)=>num(b.createdAt)-num(a.createdAt)).slice(0,30).map(x=>`<tr><td>${sanitize(x.kind||'—')}</td><td>${sanitize(x.fileName||'—')}</td><td>${sanitize(x.exportedAt||x.restoredAt||'—')}</td><td>${num(x.recordCount||0)}</td><td>${sanitize(x.schemaVersion||'—')}</td></tr>`).join('')||'<tr><td colspan="5">لا توجد عمليات Backup</td></tr>');}
+
+  // Existing Website Analytics panel was missing its handlers; implement them here.
+  window.saveWebsiteAnalytics=async function(){const data={ga:(el('waGA')?.value||'').trim(),gtm:(el('waGTM')?.value||'').trim(),gsc:(el('waGSC')?.value||'').trim(),meta:(el('waMeta')?.value||'').trim(),updatedAt:Date.now()};await ssave('websiteAnalytics',data);toast('تم حفظ إعدادات التتبع ✅','success');};
+  function loadWebsiteAnalytics(){const d=sget('websiteAnalytics',{});[['waGA','ga'],['waGTM','gtm'],['waGSC','gsc'],['waMeta','meta']].forEach(([i,k])=>{if(el(i))el(i).value=d[k]||'';});}
+  // 44 legal readiness
+  window.saveLegalReadiness=async function(){await ssave('legalReadiness',{rows:rowsFromTable('legalReadinessRows')});toast('تم حفظ Legal Readiness ✅','success');};
+  // 45–46 website content + photography
+  window.saveWebsiteAudit=async function(){await ssave('websiteAudit',{rows:rowsFromTable('websiteAuditRows')});toast('تم حفظ Website Content Audit ✅','success');};
+  window.savePhotoAudit=async function(){await ssave('photoAudit',{rows:rowsFromTable('photoAuditRows')});toast('تم حفظ Photo Audit ✅','success');};
+  window.seedPhotoAudit=async function(){const existing=sget('photoAudit',{rows:[]}).rows||[];const names=[...(state.products||[]).map(p=>p.name),...(state.flavors||[]).slice(0,40).map(f=>f.name)].filter(Boolean);const merged=[...existing];names.forEach(n=>{if(!merged.some(r=>r.item===n))merged.push({item:n,hero:'',lighting:'',background:'',consistency:'',details:'',status:'Needs review'});});await ssave('photoAudit',{rows:merged});renderPhotoAudit();};
+
+  // 48 brand differentiation/moat + positioning
+  window.saveBrandMoat=async function(){const data={differentiation:(el('bmDifferentiation')?.value||'').trim(),signatureProducts:(el('bmSignature')?.value||'').trim(),proofPoints:(el('bmProof')?.value||'').trim(),defensibilityAssets:(el('bmAssets')?.value||'').trim(),positioning:(el('bmPositioning')?.value||'').trim(),notes:(el('bmNotes')?.value||'').trim()};await ssave('brandMoat',data);toast('تم حفظ Brand Differentiation & Moat ✅','success');};
+
+  // ─────────────────────────────────────────────────────────────
+  // Render all new controls / settings
+  // ─────────────────────────────────────────────────────────────
+  function renderStrategyExtras(){
+    const p=sget('portfolioStrategy',GAP_DEFAULTS.portfolioStrategy);const pRows=(p.rows&&p.rows.length?p.rows:[
+      {product:'Classic Box',tier:'Core',role:'Hero / Core',status:'Active',targetQty:0},{product:'Mix Box',tier:'Core',role:'Core Variety',status:'Active',targetQty:0},{product:'Dragee Box',tier:'Premium',role:'Gift Upgrade',status:'Active',targetQty:0},{product:'Custom Box',tier:'Premium',role:'Customization / AOV',status:'Active',targetQty:0},{product:'Acrylic Gift Box',tier:'Premium',role:'Gift Upgrade',status:'Active',targetQty:0}
+    ]);html('portfolioRows',pRows.map((r,i)=>`<tr><td><input class="form-input gap-cell" data-key="product" value="${sanitize(r.product||'')}"></td><td><select class="form-select gap-cell" data-key="tier"><option ${r.tier==='Entry'?'selected':''}>Entry</option><option ${r.tier==='Core'?'selected':''}>Core</option><option ${r.tier==='Premium'?'selected':''}>Premium</option><option ${r.tier==='Seasonal'?'selected':''}>Seasonal</option></select></td><td><input class="form-input gap-cell" data-key="role" value="${sanitize(r.role||'')}"></td><td><select class="form-select gap-cell" data-key="status"><option ${r.status==='Active'?'selected':''}>Active</option><option ${r.status==='Review'?'selected':''}>Review</option><option ${r.status==='Pause'?'selected':''}>Pause</option><option ${r.status==='Seasonal'?'selected':''}>Seasonal</option></select></td><td><input class="form-input gap-cell" type="number" data-key="targetQty" value="${sanitize(r.targetQty??0)}"></td><td><button class="btn btn-sm btn-danger" onclick="this.closest(\'tr\').remove()">🗑</button></td></tr>`).join(''));
+    const o=sget('occasionPlan',GAP_DEFAULTS.occasionPlan);const oRows=(o.rows&&o.rows.length?o.rows:[
+      {occasion:'Birthday',offer:'1KG / Acrylic / Sticker',content:'Reel / Story / UGC',cta:'Order via website',seasonWindow:'Always'},{occasion:'Graduation',offer:'1KG / Custom',content:'Reel / Carousel',cta:'Order via website',seasonWindow:'Graduation season'},{occasion:'Engagement / Wedding',offer:'B2B / Custom / Acrylic',content:'Portfolio / UGC',cta:'WhatsApp inquiry',seasonWindow:'Wedding season'},{occasion:'Thank You / Appreciation',offer:'Classic / Custom',content:'Story / Static',cta:'Order via website',seasonWindow:'Always'},{occasion:'Corporate',offer:'10KG+ B2B',content:'Case study / Direct outreach',cta:'WhatsApp inquiry',seasonWindow:'Always'}
+    ]);html('occasionRows',oRows.map(r=>`<tr><td><input class="form-input gap-cell" data-key="occasion" value="${sanitize(r.occasion||'')}"></td><td><input class="form-input gap-cell" data-key="offer" value="${sanitize(r.offer||'')}"></td><td><input class="form-input gap-cell" data-key="content" value="${sanitize(r.content||'')}"></td><td><input class="form-input gap-cell" data-key="cta" value="${sanitize(r.cta||'')}"></td><td><input class="form-input gap-cell" data-key="seasonWindow" value="${sanitize(r.seasonWindow||'')}"></td><td><button class="btn btn-sm btn-danger" onclick="this.closest(\'tr\').remove()">🗑</button></td></tr>`).join(''));
+    const sp=sget('seasonalPlan',{rows:[]});if(!sp.rows?.length){const seasons=[{season:'Ramadan',stockPrepDays:21},{season:'Eid Al-Fitr',stockPrepDays:14},{season:'Eid Al-Adha',stockPrepDays:14},{season:'Mother’s Day',stockPrepDays:14},{season:'Valentine’s Day',stockPrepDays:14},{season:'Graduation Season',stockPrepDays:14},{season:'Wedding Season',stockPrepDays:21},{season:'Christmas / Easter',stockPrepDays:14}];html('seasonalRows',seasons.map(r=>`<tr><td><input class="form-input gap-cell" data-key="season" value="${sanitize(r.season)}"></td><td><input class="form-input gap-cell" data-key="start" type="date"></td><td><input class="form-input gap-cell" data-key="end" type="date"></td><td><input class="form-input gap-cell" data-key="demandMultiplier" type="number" step="0.05" value="1"></td><td><input class="form-input gap-cell" data-key="stockPrepDays" type="number" value="${r.stockPrepDays}"></td><td><input class="form-input gap-cell" data-key="contentStart" type="date"></td><td><button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">🗑</button></td></tr>`).join(''));}else renderSeasonPlan();
+    const sc=sget('scalingPlan',GAP_DEFAULTS.scalingPlan);[['scRevenue','revenueMilestone'],['scOrders','ordersMilestone'],['scCapacity','capacityTrigger'],['scB2b','b2bPipelineTrigger'],['scStock','stockCoverageMinDays']].forEach(([i,k])=>{if(el(i))el(i).value=sc[k]??0;});if(el('scHire'))el('scHire').value=sc.hiringTrigger||'';if(el('scActions'))el('scActions').value=sc.nextActions||'';
+    const bm=sget('brandMoat',GAP_DEFAULTS.brandMoat);[['bmDifferentiation','differentiation'],['bmSignature','signatureProducts'],['bmProof','proofPoints'],['bmAssets','defensibilityAssets'],['bmPositioning','positioning'],['bmNotes','notes']].forEach(([i,k])=>{if(el(i))el(i).value=bm[k]||'';});
+    renderCompetitiveIntelligence();
+    const os=(state.orders||[]).filter(o=>o.status==='delivered');const now=new Date();const month=now.getMonth(),year=now.getFullYear();const m=os.filter(o=>{const d=parseDateLocal(orderDate(o));return d&&d.getMonth()===month&&d.getFullYear()===year;});const stageData={};m.forEach(o=>{const st=o.funnelStage||({'pending':'pending_confirmation','preparing':'preparing','delivered':'delivered','cancelled':'cancelled'}[o.status]||'pending_confirmation');stageData[st]=(stageData[st]||0)+1;});html('journeyStageTable',Object.entries(Object.assign({pending_confirmation:0,confirmed:0,preparing:0,out_for_delivery:0,delivered:0,cancelled:0},stageData)).map(([k,v])=>`<tr><td>${sanitize(k)}</td><td>${v}</td><td>${m.length?(v/m.length*100).toFixed(0)+'%':'—'}</td></tr>`).join(''));
+    set('journeyOrders',m.length);set('journeyRevenue',money(m.reduce((s,o)=>s+num(o.price),0))+' JOD');set('journeyWebsite',m.filter(o=>String(o.source||o.channel||'').toLowerCase().includes('website')).length);set('journeyRepeat',m.filter(o=>o.referredBy||o.referralCode||o.isRepeatCustomer).length);
+  }
+  function renderSeasonalIfPresent(){if(el('seasonalRows'))renderSeasonPlan();}
+  function renderWebsiteAudit(){
+    const d=sget('websiteAudit',{rows:[]});const rows=d.rows||[
+      {item:'Home / Shop',status:'Needs review',owner:'DEEB',notes:''},{item:'Product Details',status:'Needs review',owner:'DEEB',notes:''},{item:'Cart',status:'Needs review',owner:'DEEB',notes:''},{item:'Checkout',status:'Needs review',owner:'DEEB',notes:''},{item:'About',status:'Needs review',owner:'DEEB',notes:''},{item:'Contact',status:'Needs review',owner:'DEEB',notes:''},{item:'FAQ',status:'Needs review',owner:'DEEB',notes:''},{item:'Privacy',status:'Needs review',owner:'DEEB',notes:''},{item:'Terms',status:'Needs review',owner:'DEEB',notes:''},{item:'Reviews',status:'Needs review',owner:'DEEB',notes:''},{item:'Delivery areas',status:'Needs review',owner:'DEEB',notes:''},{item:'Analytics / SEO',status:'Needs review',owner:'DEEB',notes:''}
+    ];html('websiteAuditRows',rows.map(r=>`<tr><td><input class="form-input gap-cell" data-key="item" value="${sanitize(r.item||'')}"></td><td><select class="form-select gap-cell" data-key="status"><option ${r.status==='Ready'?'selected':''}>Ready</option><option ${r.status==='Needs review'?'selected':''}>Needs review</option><option ${r.status==='Missing'?'selected':''}>Missing</option><option ${r.status==='Update'?'selected':''}>Update</option></select></td><td><input class="form-input gap-cell" data-key="owner" value="${sanitize(r.owner||'')}"></td><td><input class="form-input gap-cell" data-key="notes" value="${sanitize(r.notes||'')}"></td></tr>`).join(''));
+  }
+  function renderPhotoAudit(){const d=sget('photoAudit',{rows:[]});const rows=d.rows||[];html('photoAuditRows',rows.map(r=>`<tr><td><input class="form-input gap-cell" data-key="item" value="${sanitize(r.item||'')}"></td><td><select class="form-select gap-cell" data-key="status"><option ${r.status==='Ready'?'selected':''}>Ready</option><option ${r.status==='Needs review'?'selected':''}>Needs review</option><option ${r.status==='Missing'?'selected':''}>Missing</option></select></td><td><input class="form-input gap-cell" data-key="hero" value="${sanitize(r.hero||'')}></td><td><input class="form-input gap-cell" data-key="lighting" value="${sanitize(r.lighting||'')}></td><td><input class="form-input gap-cell" data-key="background" value="${sanitize(r.background||'')}></td><td><input class="form-input gap-cell" data-key="consistency" value="${sanitize(r.consistency||'')}></td><td><input class="form-input gap-cell" data-key="details" value="${sanitize(r.details||'')}></td></tr>`).join(''));}
+  function renderLegalReadiness(){const d=sget('legalReadiness',{rows:[]});const rows=d.rows||[
+      {item:'Company / commercial registration evidence',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Required licenses / permits evidence',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Licensed factory / quality documents',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Terms & Conditions',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Privacy Policy',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Refund / Return Policy',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Delivery Policy',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Customer data handling',status:'Needs review',owner:'DEEB',nextReview:''},{item:'Analytics / tracking disclosures',status:'Needs review',owner:'DEEB',nextReview:''}
+    ];html('legalReadinessRows',rows.map(r=>`<tr><td><input class="form-input gap-cell" data-key="item" value="${sanitize(r.item||'')}"></td><td><select class="form-select gap-cell" data-key="status"><option ${r.status==='Ready'?'selected':''}>Ready</option><option ${r.status==='Needs review'?'selected':''}>Needs review</option><option ${r.status==='Missing'?'selected':''}>Missing</option><option ${r.status==='Expired'?'selected':''}>Expired</option></select></td><td><input class="form-input gap-cell" data-key="owner" value="${sanitize(r.owner||'')}"></td><td><input class="form-input gap-cell" data-key="nextReview" type="date" value="${sanitize(r.nextReview||'')}></td></tr>`).join(''));}
+
+
+  // Robust supplier save wrappers: capture extended fields before legacy handlers clear forms.
+  if(window.saveSupplier){
+    const _legacySaveSupplier=window.saveSupplier;
+    window.saveSupplier=async function(){
+      const snap={id:el('sup-id')?.value||'',name:(el('sup-name')?.value||'').trim(),phone:(el('sup-phone')?.value||'').trim(),
+        criticality:el('sup-criticality')?.value||'medium',soleSource:!!el('sup-sole')?.checked,backupSupplier:(el('sup-backup')?.value||'').trim(),
+        leadTimeDays:Math.max(0,num(el('sup-lead')?.value)),minOrderQty:Math.max(0,num(el('sup-minqty')?.value)),riskStatus:el('sup-risk-status')?.value||'watch',
+        riskNotes:(el('sup-risk-notes')?.value||'').trim(),qualityIssuesCount:Math.max(0,num(el('sup-quality-count')?.value)),qualityLastDate:el('sup-quality-date')?.value||''};
+      await _legacySaveSupplier();
+      let found=snap.id?deebSupplierById(snap.id):null;
+      if(!found)found=(state.suppliers||[]).find(x=>x.name===snap.name&&(!snap.phone||x.phone===snap.phone));
+      if(!found&&snap.name)found=(state.suppliers||[]).find(x=>x.name===snap.name);
+      if(!found&&snap.name){try{const q=await db.collection('suppliers').where('name','==',snap.name).get();const rows=q.docs.map(d=>({id:d.id,...d.data()}));found=rows.find(x=>!snap.phone||x.phone===snap.phone)||rows[0];}catch(e){console.warn('supplier lookup',e);}}
+      if(found)await updateDoc_('suppliers',found.id,{criticality:snap.criticality,soleSource:snap.soleSource,backupSupplier:snap.backupSupplier,leadTimeDays:snap.leadTimeDays,minOrderQty:snap.minOrderQty,riskStatus:snap.riskStatus,riskNotes:snap.riskNotes,qualityIssuesCount:snap.qualityIssuesCount,qualityLastDate:snap.qualityLastDate});
+    };
+  }
+  if(window.saveSupplierOrder){
+    const _legacySaveSupplierOrder=window.saveSupplierOrder;
+    window.saveSupplierOrder=async function(){
+      let number=(el('spo-number')?.value||'').trim();
+      if(!number){number='PO-'+Date.now().toString().slice(-7);if(el('spo-number'))el('spo-number').value=number;}
+      const snap={id:el('spo-id')?.value||'',number,expected:el('spo-expected')?.value||''};
+      await _legacySaveSupplierOrder();
+      let found=snap.id?(state.supplierOrders||[]).find(x=>x.id===snap.id):null;
+      if(!found)found=(state.supplierOrders||[]).find(x=>x.orderNumber===snap.number||x.number===snap.number);
+      if(!found){try{const q=await db.collection('supplierOrders').where('orderNumber','==',snap.number).get();found=q.docs.map(d=>({id:d.id,...d.data()}))[0]||null;}catch(e){console.warn('supplier order lookup',e);}}
+      if(found&&snap.expected)await updateDoc_('supplierOrders',found.id,{expectedDate:snap.expected});
+    };
+  }
+
+  function renderLiveKPI(){
+    const delivered=(state.orders||[]).filter(o=>o.status==='delivered'),now=new Date();
+    const m=delivered.filter(o=>{const d=parseDateLocal(orderDate(o));return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+    const rev=m.reduce((s,o)=>s+num(o.price),0),count=m.length,aov=count?rev/count:0,cogs=m.reduce((s,o)=>s+num(o.cogs),0);
+    const opex=(state.expenses||[]).filter(e=>{const d=parseDateLocal(e.date||e.dateRaw);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).reduce((s,e)=>s+num(e.amount),0);
+    const net=rev-cogs-opex,retained=net>0?net*.75:net;
+    const bs=(state.settings||[]).find(x=>x.id==='businessStrategy'||x.key==='businessStrategy')||{};
+    const targets={orders:num(bs.ordersTarget||46),revenue:num(bs.revenueTarget||920),retained:num(bs.profitTarget||200),aov:num(bs.aovTarget||20)};
+    const k=[['Orders',targets.orders,count],['Revenue',targets.revenue,rev],['DEEB retained',targets.retained,retained],['AOV',targets.aov,aov]];
+    html('liveKpiRows',k.map(x=>{const pct=x[1]?x[2]/x[1]*100:0;return `<tr><td>${x[0]}</td><td>${money(x[1])}</td><td>${money(x[2])}</td><td>${Math.max(0,pct).toFixed(0)}%</td><td><div class="gap-progress"><span style="width:${Math.max(0,Math.min(100,pct))}%"></span></div></td><td>${pct>=100?'✅':'⏳'}</td></tr>`}).join(''));
+    set('kpiLiveMonth',now.toLocaleDateString('ar-JO',{month:'long',year:'numeric'}));
+    set('ciTrackedOrders',count);set('ciLiveAov',money(aov));
+    const customerCounts={};m.forEach(o=>{const k=normPhone(o.phone||'')||String(o.name||'').trim().toLowerCase();if(k)customerCounts[k]=(customerCounts[k]||0)+1;});
+    set('ciLiveRepeat',Object.values(customerCounts).filter(n=>n>=2).length);
+    const vipLive=Object.entries(customerCounts).filter(([k,n])=>{const spent=m.filter(o=>(normPhone(o.phone||'')||String(o.name||'').trim().toLowerCase())===k).reduce((st,o)=>st+num(o.price),0);return spent>=100||n>=5;}).length;set('ciLiveVip',vipLive);
+  }
+  // Initial navigation/render hooks
+  const origShowPage=window.showPage;
+  window.showPage=function(id,nav){const r=origShowPage.apply(this,arguments);try{
+    if(id==='b2b'){window.renderB2BControlCenter();}
+    if(id==='orders'){window.renderOrderFunnel();renderAOVControl();window.renderServiceQueue();}
+    if(id==='products'){renderCustomBoxRules();}
+    if(id==='strategy'){renderStrategyExtras();}
+    if(id==='suppliers'){renderSupplierRisk();renderSupplierPerformance();renderProcurement();renderWastePanel();renderSupplierCapacity();}
+    if(id==='finance'){renderFinanceControls();}
+    if(id==='marketing'){window.renderAttributionHealth();renderExperiments();renderContentAssets();}
+    if(id==='admin'){window.runDataQualityAudit();renderAutomationHealth();renderBackupLogs();}
+    if(id==='brand'){renderBrandMoat();}
+    if(id==='legal'){renderLegalReadiness();}
+  }catch(e){console.warn('Gap render page',id,e);}return r;};
+
+  function renderSupplierCapacity(){const d=sget('opsCapacity',GAP_DEFAULTS.opsCapacity);[['ocOrders','dailyOrdersCapacity'],['ocPacking','dailyPackingBoxes'],['ocService','dailyServiceTickets'],['ocB2B','dailyB2bTouches'],['ocLead','defaultLeadTimeDays'],['ocSafety','safetyStockDays']].forEach(([i,k])=>{if(el(i))el(i).value=d[k]??0;});const day=new Date().toISOString().slice(0,10);const orderCount=(state.orders||[]).filter(o=>orderDate(o)===day&&['pending','preparing','delivered'].includes(o.status)).reduce((s,o)=>s+num(o.qty||1),0),serviceOpen=(state.serviceTickets||[]).filter(t=>t.status!=='resolved').length,b2bToday=(state.b2bActivities||[]).filter(a=>a.date===day).length;const util=Math.max(d.dailyOrdersCapacity?orderCount/d.dailyOrdersCapacity:0,d.dailyServiceTickets?serviceOpen/d.dailyServiceTickets:0,d.dailyB2bTouches?b2bToday/d.dailyB2bTouches:0);set('capacityUtil',Math.min(999,util*100).toFixed(0)+'%');set('capacityOrders',orderCount);set('capacityService',serviceOpen);set('capacityB2B',b2bToday);set('capacityStatus',util>=1?'🔴 تجاوز القدرة':util>=.8?'⚠️ قريب من الحد التشغيلي':'🟢 ضمن القدرة');}
+  window.saveOpsCapacity=async function(){const data={dailyOrdersCapacity:Math.max(1,num(el('ocOrders')?.value)),dailyPackingBoxes:Math.max(1,num(el('ocPacking')?.value)),dailyServiceTickets:Math.max(1,num(el('ocService')?.value)),dailyB2bTouches:Math.max(1,num(el('ocB2B')?.value)),defaultLeadTimeDays:Math.max(0,num(el('ocLead')?.value)),safetyStockDays:Math.max(0,num(el('ocSafety')?.value)),notes:(el('ocNotes')?.value||'').trim()};await ssave('opsCapacity',data);renderSupplierCapacity();toast('تم حفظ القدرة التشغيلية ✅','success');};
+
+  function renderBrandMoat(){const d=sget('brandMoat',Object.assign({},GAP_DEFAULTS.brandMoat,{differentiation:'Premium chocolate gifting experience + elegant packaging + occasion-led gifting in Amman.',signatureProducts:'Classic Box · Mix Box · Custom Box · Acrylic Gift Boxes',proofPoints:'Selected Italian chocolate · Licensed factory preparation · DEEB packaging experience · Amman delivery',defensibilityAssets:'Customer data · B2B relationships · packaging assets · signature gifting experiences',positioning:'Premium chocolate gifting for occasions, celebrations, corporate gifting and everyday gifting.'}));[['bmDifferentiation','differentiation'],['bmSignature','signatureProducts'],['bmProof','proofPoints'],['bmAssets','defensibilityAssets'],['bmPositioning','positioning'],['bmNotes','notes']].forEach(([i,k])=>{if(el(i))el(i).value=d[k]||'';});}
+
+  function addSeasonalDefaultIfEmpty(){if(!sget('seasonalPlan',{rows:[]}).rows?.length){return;}}
+
+  // Settings refresh hooks — runs whenever the settings collection changes.
+  const _oldGapRefresh=refreshUI;
+  refreshUI=function(col){try{_oldGapRefresh(col);}catch(e){console.error(e);}try{
+    if(col==='b2bActivities' && pageActive('b2b'))window.renderB2BControlCenter();
+    if(col==='wasteLogs' && pageActive('suppliers'))renderWastePanel();
+    if(col==='serviceTickets' && pageActive('orders'))window.renderServiceQueue();
+    if(col==='experiments' && pageActive('marketing'))renderExperiments();
+    if(col==='competitors' && pageActive('strategy'))renderCompetitiveIntelligence();
+    if(col==='contentAssets' && pageActive('marketing'))renderContentAssets();
+    if(col==='backupLogs' && pageActive('admin'))renderBackupLogs();
+    if(col==='orders'){window.renderOrderFunnel();renderAOVControl();renderLiveKPI();if(pageActive('strategy'))renderStrategyExtras();if(pageActive('marketing'))window.renderAttributionHealth();}
+    if(col==='suppliers'||col==='supplierOrders'||col==='supplierPriceHistory'){if(pageActive('suppliers')){renderSupplierRisk();renderSupplierPerformance();renderProcurement();renderSupplierCapacity();}}
+    if(col==='inventory'&&pageActive('suppliers'))renderProcurement();
+    if(col==='settings'){if(pageActive('strategy'))renderStrategyExtras();if(pageActive('admin')){renderAutomationHealth();window.runDataQualityAudit();}if(pageActive('legal'))renderLegalReadiness();if(pageActive('brand'))renderBrandMoat();if(pageActive('products'))renderCustomBoxRules();}
+    if(col==='b2bLeads'){if(pageActive('b2b'))window.renderB2BControlCenter();window.renderOrderFunnel();}
+  }catch(e){console.warn('gap refresh failed',col,e);}};
+
+  const oldSub=subscribeToData;
+  subscribeToData=function(){
+    oldSub.apply(this,arguments);GAP_COLLECTIONS.forEach(function(col){try{const unsub=db.collection(col).onSnapshot(snap=>{state[col]=snap.docs.map(d=>Object.assign({id:d.id},d.data()));try{refreshUI(col);}catch(e){}},err=>console.error('Gap listener',col,err));unsubscribers.push(unsub);}catch(e){console.error('Gap subscribe',col,e);}});
+  };
+
+  // Inject the new modals' runtime glue after the DOM is ready.
+  function init(){
+    try{renderCustomBoxRules();renderBrandMoat();renderWebsiteAudit();renderPhotoAudit();renderLegalReadiness();renderAutomationHealth();renderBackupLogs();renderLiveKPI();}catch(e){}
+    // Keep the selected flavor count in sync with the current picker.
+    setInterval(()=>{try{window._deebSelectedFlavorsCount=(typeof _customSelectedFlavors!=='undefined'?_customSelectedFlavors.length:(window._deebSelectedFlavorsCount||0));const r=customRuleCheck();set('customRuleStatus',r.ok?'✅ القواعد سليمة':'⚠️ '+r.msg);}catch(e){}},700);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+
+  // ─────────────────────────────────────────────────────────────
+  // Helpers used by injected HTML
+  // ─────────────────────────────────────────────────────────────
+  window.deebGapAddSeasonal=window.addSeasonRow;window.deebGapRowsFromTable=rowsFromTable;
+})();
 
 </script>
 <div style="text-align:center;padding:1rem;font-size:.65rem;color:var(--brown);opacity:.5">DEEB OS — Master ERP + Strategy + Economics Build</div>
