@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DEEB Chocolate OS — V2.4 Mobile</title>
+<title>Deeb Chocolate OS</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -771,663 +771,9 @@ tr:hover td{background:#faf6f3;}
 .btn-sm.btn-outline { padding:0.25rem 0.5rem; font-size:0.72rem; }
 
   
-/* ================================================================
-   DEEB OS V2.3 — PREMIUM UI / UX REDESIGN
-   Purpose: calmer visual hierarchy, better spacing, professional
-   dashboard ergonomics, stronger tables/forms, cleaner navigation.
-   ================================================================ */
-:root{
-  --sidebar-w:278px;
-  --page-bg:#f6f2ee;
-  --surface:#ffffff;
-  --surface-soft:#fbf8f5;
-  --line:#eadfd7;
-  --line-strong:#dfd0c6;
-  --ink:#2d1a0d;
-  --muted:#806f64;
-  --muted-2:#a59489;
-  --gold:#bf9e60;
-  --gold-deep:#9f7c3e;
-  --gold-soft:#f3eadb;
-  --brown:#735b53;
-  --dark:#2c180b;
-  --shadow-xs:0 1px 2px rgba(59,33,0,.04);
-  --shadow-sm:0 6px 18px rgba(59,33,0,.06);
-  --shadow-md:0 14px 38px rgba(59,33,0,.08);
-  --radius-sm:10px;
-  --radius-md:14px;
-  --radius-lg:18px;
-}
-
-html{scroll-behavior:smooth;}
-body{
-  background:var(--page-bg);
-  color:var(--ink);
-  font-size:14px;
-  line-height:1.55;
-  letter-spacing:-.01em;
-}
-
-/* ---------- APP SHELL ---------- */
-.sidebar{
-  width:var(--sidebar-w);
-  background:linear-gradient(180deg,#2b170a 0%,#241309 52%,#1e1008 100%);
-  border-left:1px solid rgba(255,255,255,.04);
-  box-shadow:-10px 0 30px rgba(34,16,5,.07);
-  padding-bottom:0;
-  scrollbar-width:thin;
-  scrollbar-color:rgba(191,158,96,.32) transparent;
-}
-.sidebar::-webkit-scrollbar{width:6px}
-.sidebar::-webkit-scrollbar-thumb{background:rgba(191,158,96,.28);border-radius:10px}
-.sidebar-logo{
-  padding:22px 20px 18px;
-  min-height:88px;
-  background:linear-gradient(180deg,rgba(191,158,96,.09),transparent);
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-.sidebar-logo .brand{
-  font-size:1.28rem;
-  letter-spacing:.5px;
-  color:#e6c984;
-}
-.sidebar-logo .sub{
-  color:#bda991;
-  font-size:.62rem;
-  letter-spacing:2.6px;
-  margin-top:4px;
-}
-.nav-section{
-  padding:13px 11px 0;
-}
-.nav-label{
-  font-size:.62rem;
-  letter-spacing:1.7px;
-  color:#a68e78;
-  padding:0 10px 7px;
-  font-weight:700;
-}
-.nav-item{
-  position:relative;
-  min-height:43px;
-  padding:9px 12px;
-  margin:2px 0;
-  border:1px solid transparent;
-  border-right:0;
-  border-radius:11px;
-  color:#c7b6a7;
-  font-size:.82rem;
-  font-weight:600;
-  gap:10px;
-  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
-}
-.nav-item .icon{
-  width:23px;
-  min-width:23px;
-  font-size:1rem;
-  opacity:.92;
-}
-.nav-item:hover{
-  background:rgba(255,255,255,.055);
-  border-color:rgba(191,158,96,.11);
-  color:#f0dfbb;
-  transform:translateX(-1px);
-}
-.nav-item.active{
-  background:linear-gradient(90deg,rgba(191,158,96,.20),rgba(191,158,96,.08));
-  border-color:rgba(191,158,96,.18);
-  color:#f0d58e;
-  box-shadow:inset 3px 0 0 var(--gold),0 4px 12px rgba(0,0,0,.08);
-}
-.nav-item.active .icon{opacity:1}
-.nav-logout{
-  margin-top:auto;
-  padding:13px 16px 17px;
-  border-top:1px solid rgba(255,255,255,.07);
-  background:linear-gradient(180deg,rgba(30,16,8,.86),#1e1008);
-}
-.btn-logout{
-  min-height:42px;
-  border-radius:11px;
-  background:rgba(139,32,32,.13);
-  border:1px solid rgba(248,113,113,.18);
-  color:#f2a4a4;
-  font-size:.78rem;
-}
-.btn-logout:hover{background:rgba(139,32,32,.22);border-color:rgba(248,113,113,.3);}
-
-.main{
-  margin-right:var(--sidebar-w);
-  min-width:0;
-  background:var(--page-bg);
-}
-.topbar{
-  min-height:72px;
-  padding:12px 26px;
-  background:rgba(255,255,255,.94);
-  border-bottom:1px solid var(--line);
-  box-shadow:0 3px 18px rgba(59,33,0,.045);
-  backdrop-filter:blur(12px);
-}
-.topbar-title{
-  font-size:1.05rem;
-  font-weight:800;
-  color:var(--ink);
-}
-.topbar-right{gap:12px}
-.topbar-user,.topbar-date{font-size:.72rem;color:var(--muted)}
-.dark-toggle{
-  min-height:36px;
-  border-color:var(--line);
-  background:var(--surface-soft);
-  border-radius:10px;
-  color:var(--muted);
-  padding:6px 10px;
-}
-.dark-toggle:hover{background:var(--gold-soft);border-color:#d8bf92;color:var(--gold-deep)}
-
-.breadcrumb{
-  margin:0;
-  padding:10px 26px;
-  background:rgba(255,255,255,.68);
-  border-bottom:1px solid var(--line);
-  min-height:43px;
-}
-.breadcrumb-item{font-size:.72rem;color:var(--muted)}
-.breadcrumb-item.active{color:var(--ink);font-weight:700}
-
-.content{
-  width:100%;
-  max-width:1680px;
-  margin:0 auto;
-  padding:26px 28px 42px;
-}
-
-/* ---------- PAGE HEADERS ---------- */
-.section-header{
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-  margin:0 0 18px;
-  padding:4px 0 15px;
-  border-bottom:1px solid var(--line);
-}
-.section-header:after{
-  content:"";
-  position:absolute;
-  right:0;
-  bottom:-1px;
-  width:54px;
-  height:2px;
-  background:var(--gold);
-  border-radius:2px;
-}
-.section-title-main{
-  font-size:1.24rem;
-  line-height:1.3;
-  font-weight:900;
-  color:var(--ink);
-  letter-spacing:-.025em;
-}
-.section-subtitle{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:.75rem;
-}
-
-/* ---------- KPI / CARDS ---------- */
-.stats-grid{
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:14px;
-  margin-bottom:16px;
-}
-.stat-card{
-  position:relative;
-  min-height:132px;
-  padding:19px 20px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-xs);
-  overflow:hidden;
-  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
-}
-.stat-card:hover{
-  transform:translateY(-2px);
-  border-color:#dfcba8;
-  box-shadow:var(--shadow-sm);
-}
-.stat-label{font-size:.73rem;color:var(--muted);font-weight:700;margin-bottom:7px}
-.stat-value{font-size:1.65rem;font-weight:900;letter-spacing:-.04em;color:var(--ink);line-height:1.1}
-.stat-sub,.kpi-change{font-size:.67rem;color:var(--muted-2);margin-top:7px}
-.stat-icon{
-  position:absolute;
-  left:17px;
-  top:17px;
-  width:40px;
-  height:40px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:12px;
-  background:var(--gold-soft);
-  font-size:1.1rem;
-}
-
-.card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-xs);
-  overflow:hidden;
-  margin-bottom:16px;
-}
-.card-header{
-  min-height:58px;
-  padding:13px 18px;
-  background:linear-gradient(180deg,#fff,#fdfaf8);
-  border-bottom:1px solid var(--line);
-}
-.card-title{font-size:.84rem;font-weight:800;color:var(--ink)}
-.card-body{padding:18px}
-.grid-2{gap:16px}
-
-/* ---------- TABLES ---------- */
-.table-wrap{
-  overflow:auto;
-  border-radius:0 0 var(--radius-lg) var(--radius-lg);
-}
-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface)}
-th{
-  position:sticky;
-  top:0;
-  z-index:2;
-  background:#faf6f2;
-  color:#76665c;
-  font-size:.69rem;
-  font-weight:800;
-  white-space:nowrap;
-  padding:11px 13px;
-  border-bottom:1px solid var(--line);
-}
-td{
-  padding:12px 13px;
-  font-size:.75rem;
-  color:#4d3c31;
-  border-bottom:1px solid #f0e8e2;
-  vertical-align:middle;
-}
-tbody tr:last-child td{border-bottom:0}
-tbody tr:hover td{background:#fcf8f4}
-
-/* ---------- BUTTONS ---------- */
-.btn{
-  min-height:38px;
-  border-radius:10px;
-  padding:7px 13px;
-  font-size:.74rem;
-  font-weight:800;
-  box-shadow:none;
-  transition:all .18s ease;
-}
-.btn-primary{
-  background:var(--dark);
-  color:#f1d89e;
-  border:1px solid var(--dark);
-}
-.btn-primary:hover{background:#43260f;border-color:#43260f;transform:translateY(-1px);box-shadow:0 6px 14px rgba(59,33,0,.12)}
-.btn-outline{background:var(--surface);border:1px solid var(--line-strong);color:var(--brown)}
-.btn-outline:hover{background:var(--gold-soft);border-color:#d9bf8c;color:var(--gold-deep)}
-.btn-danger{border-radius:10px}
-
-/* ---------- FORMS ---------- */
-.form-group{margin-bottom:14px}
-.form-label{display:block;font-size:.72rem;font-weight:800;color:#624f44;margin-bottom:6px}
-.form-input,.form-select,.form-textarea,.search-input{
-  min-height:40px;
-  padding:8px 11px;
-  background:var(--surface);
-  border:1px solid var(--line-strong);
-  border-radius:10px;
-  color:var(--ink);
-  font-size:.78rem;
-  box-shadow:inset 0 1px 1px rgba(59,33,0,.02);
-}
-.form-textarea{min-height:96px;resize:vertical}
-.form-input:hover,.form-select:hover,.form-textarea:hover,.search-input:hover{border-color:#d2bfae}
-.form-input:focus,.form-select:focus,.form-textarea:focus,.search-input:focus{
-  outline:none;
-  border-color:var(--gold);
-  box-shadow:0 0 0 3px rgba(191,158,96,.12);
-}
-.search-bar{
-  padding:11px;
-  margin-bottom:13px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:14px;
-  box-shadow:var(--shadow-xs);
-}
-.search-input{background:var(--surface-soft)}
-.results-count{background:var(--gold-soft);color:var(--gold-deep);font-weight:800;border:1px solid #ead9bb}
-.month-filter-bar{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  flex-wrap:wrap;
-  padding:9px;
-  margin-bottom:12px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:12px;
-}
-.month-filter-bar label{font-size:.7rem;color:var(--muted);font-weight:800;margin-left:4px}
-.mf-btn{border:1px solid var(--line-strong);background:var(--surface-soft);color:var(--muted);border-radius:8px;padding:6px 10px;font-family:'Cairo',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer}
-.mf-btn.active{background:var(--gold);border-color:var(--gold);color:#2b190b}
-
-/* ---------- MODALS ---------- */
-.modal-overlay{backdrop-filter:blur(5px);background:rgba(34,18,8,.48)}
-.modal{
-  border:1px solid var(--line);
-  border-radius:20px;
-  box-shadow:0 28px 80px rgba(39,20,7,.20);
-}
-.modal-header{padding:17px 20px;border-bottom:1px solid var(--line)}
-.modal-title{font-size:.92rem;font-weight:900}
-.modal-body{padding:20px}
-.modal-footer{padding:13px 20px;border-top:1px solid var(--line);background:#fcf9f6}
-
-/* ---------- DASHBOARD LAYOUT ---------- */
-#page-dashboard .grid-2{align-items:stretch}
-#page-dashboard .stats-grid:nth-of-type(2) .stat-card,
-#page-dashboard .stats-grid:nth-of-type(3) .stat-card{min-height:112px}
-#page-dashboard .card canvas{max-height:220px}
-
-/* ---------- BADGES / SMALL UI ---------- */
-.badge{border-radius:999px;padding:3px 8px;font-size:.62rem;font-weight:800;white-space:nowrap}
-.empty-state{padding:38px 18px!important;color:var(--muted)!important}
-.e-icon{opacity:.55;margin-bottom:6px}
-.e-title{font-size:.75rem;font-weight:700}
-
-/* ---------- ADMIN / DATA TABLES ---------- */
-.deeb-admin-shell,.admin-center-shell,.erp-shell{border-radius:18px}
-.deeb-admin-shell .card,.admin-center-shell .card,.erp-shell .card{box-shadow:var(--shadow-xs)}
-
-/* ---------- SCROLLBARS ---------- */
-*{scrollbar-width:thin;scrollbar-color:#d3c0af transparent}
-*::-webkit-scrollbar{width:8px;height:8px}
-*::-webkit-scrollbar-track{background:transparent}
-*::-webkit-scrollbar-thumb{background:#d3c0af;border-radius:20px}
-*::-webkit-scrollbar-thumb:hover{background:#bfa894}
-
-/* ---------- LOGIN ---------- */
-.auth-screen{
-  background:radial-gradient(circle at 50% 25%,#4b2b12 0%,#2b1608 42%,#170c05 100%);
-}
-.auth-box{
-  width:min(92%,400px);
-  padding:26px;
-  border-radius:22px;
-  background:rgba(48,25,9,.82);
-  border:1px solid rgba(191,158,96,.22);
-  box-shadow:0 30px 80px rgba(0,0,0,.28);
-  backdrop-filter:blur(12px);
-}
-.auth-title{font-size:.95rem;margin-bottom:18px}
-.auth-input{min-height:46px;border-radius:11px;background:rgba(255,255,255,.055)}
-.auth-btn{min-height:46px;border-radius:11px}
-
-/* ---------- MOBILE ---------- */
-@media (max-width:1200px){
-  .stats-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .content{padding:22px 20px 34px}
-  .topbar{padding:11px 20px}
-  .breadcrumb{padding:9px 20px}
-}
-@media (max-width:900px){
-  :root{--sidebar-w:270px}
-  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .grid-2{grid-template-columns:1fr!important}
-}
-@media (max-width:768px){
-  body{font-size:13px}
-  .main{margin-right:0}
-  .sidebar{width:min(86vw,300px);box-shadow:-20px 0 50px rgba(0,0,0,.25)}
-  .topbar{min-height:64px;padding:9px 13px}
-  .topbar-date{display:none}
-  .topbar-user{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .content{padding:17px 12px 28px}
-  .breadcrumb{padding:8px 13px}
-  .section-header{align-items:flex-start;flex-direction:column;gap:10px}
-  .section-header .btn{width:100%}
-  .stats-grid{grid-template-columns:1fr 1fr;gap:9px}
-  .stat-card{min-height:118px;padding:15px}
-  .stat-value{font-size:1.35rem}
-  .stat-icon{width:34px;height:34px;left:12px;top:12px;font-size:.95rem}
-  .card-header{padding:12px 14px}
-  .card-body{padding:14px}
-  th{padding:9px 10px}
-  td{padding:10px}
-}
-@media (max-width:480px){
-  .stats-grid{grid-template-columns:1fr}
-  .stat-card{min-height:104px}
-  .topbar-right .dark-toggle span:last-child{display:none}
-  .search-bar{align-items:stretch}
-  .search-input{min-width:100%}
-}
-
-/* ---------- DARK MODE V2.3 ---------- */
-[data-theme="dark"]{
-  --page-bg:#15100c;
-  --surface:#201811;
-  --surface-soft:#251c14;
-  --line:#34281f;
-  --line-strong:#47372b;
-  --ink:#f0e5d6;
-  --muted:#bca896;
-  --muted-2:#988474;
-  --gold-soft:#342917;
-}
-[data-theme="dark"] body{background:var(--page-bg);color:var(--ink)}
-[data-theme="dark"] .topbar{background:rgba(27,20,14,.94);border-color:var(--line)}
-[data-theme="dark"] .breadcrumb{background:rgba(27,20,14,.76);border-color:var(--line)}
-[data-theme="dark"] .card-header{background:#251c14;border-color:var(--line)}
-[data-theme="dark"] th{background:#291f16;color:#c6b4a2;border-color:var(--line)}
-[data-theme="dark"] td{color:#d8cabb;border-color:#30251d}
-[data-theme="dark"] tbody tr:hover td{background:#281f17!important}
-[data-theme="dark"] .search-bar,.dark-mode .month-filter-bar{background:var(--surface);border-color:var(--line)}
-[data-theme="dark"] .form-input,
-[data-theme="dark"] .form-select,
-[data-theme="dark"] .form-textarea,
-[data-theme="dark"] .search-input{background:#261d15;border-color:var(--line-strong);color:var(--ink)}
-[data-theme="dark"] .modal-footer{background:#251c14;border-color:var(--line)}
-[data-theme="dark"] .btn-outline{background:#241b13;border-color:var(--line-strong);color:#cdbbaa}
-[data-theme="dark"] .section-header{border-color:var(--line)}
-[data-theme="dark"] .stat-card{background:var(--surface);border-color:var(--line)}
-[data-theme="dark"] .stat-card:hover{border-color:#604d36}
-[data-theme="dark"] .results-count{border-color:#57462e}
-
-/* subtle page entrance, no distracting movement */
-.page.active{animation:deebPageIn .16s ease-out}
-@keyframes deebPageIn{from{opacity:.65;transform:translateY(3px)}to{opacity:1;transform:none}}
-
+.alert-danger{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.alert-warning{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
-<style>
-/* ==========================================================
-   DEEB OS V2.4.1 — MOBILE-FIRST / PHONE UX LAYER
-   Designed for iPhone/Android: touch-first, safe-area aware,
-   readable, fast, and operationally practical.
-   ========================================================== */
-:root{--mobile-nav-h:68px;--mobile-radius:14px;--touch-min:46px}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{-webkit-tap-highlight-color:transparent;overscroll-behavior-x:none}
-button,a,input,select,textarea{touch-action:manipulation}
-button,.btn,.nav-item,.deeb-tab,.mf-btn,.cal-nav-btn,.cal-view-btn,.modal-close{min-height:var(--touch-min)}
-input,select,textarea{max-width:100%}
-.table-wrap,.deeb-data-wrap,.cal-week{overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
-
-/* Desktop remains unchanged; mobile shell only appears on phones/tablets. */
-.deeb-mobile-bottom-nav{display:none}
-.deeb-mobile-menu-btn{display:none}
-.deeb-mobile-backdrop{display:none}
-
-@media (max-width: 768px){
-  body{padding-bottom:calc(var(--mobile-nav-h) + env(safe-area-inset-bottom));overflow-x:hidden}
-  .main{min-width:0;width:100%;margin-right:0!important}
-  .content{width:100%;box-sizing:border-box;overflow-x:hidden}
-  .topbar{position:sticky;top:0;z-index:150;min-height:62px;box-sizing:border-box;padding:8px 12px!important;gap:8px;box-shadow:0 2px 16px rgba(59,33,0,.07)}
-  .topbar-left{min-width:0;gap:7px}
-  .topbar-title{font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
-  .topbar-user{font-size:.7rem;max-width:120px}
-  .topbar-date{display:none!important}
-  .hamburger{display:flex!important;flex:0 0 42px;width:42px;height:42px;border:1px solid var(--light);background:var(--white);box-shadow:0 2px 8px rgba(59,33,0,.06)}
-  .hamburger span{width:19px}
-  .topbar-right{gap:6px;min-width:0}
-  .dark-toggle{height:42px;min-width:42px;padding:.35rem .55rem}
-  .dark-toggle span:last-child{display:none}
-
-  /* Sidebar = real mobile drawer */
-  .sidebar{width:min(88vw,340px)!important;max-width:340px;height:100dvh;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(84px + env(safe-area-inset-bottom));box-shadow:-24px 0 70px rgba(0,0,0,.22)!important}
-  .sidebar-logo{position:sticky;top:0;z-index:3;background:inherit;padding-top:max(14px,env(safe-area-inset-top))}
-  .sidebar-overlay{z-index:190!important}
-  .sidebar{z-index:200!important}
-  .nav-section{padding:5px 10px}
-  .nav-label{font-size:.63rem;margin:6px 7px 4px}
-  .nav-item{min-height:46px;padding:10px 12px;border-radius:11px;font-size:.78rem}
-  .nav-item .icon{width:26px}
-
-  /* Bottom navigation */
-  .deeb-mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);right:0;left:0;bottom:0;height:var(--mobile-nav-h);padding:6px 8px calc(6px + env(safe-area-inset-bottom));box-sizing:content-box;background:rgba(248,239,235,.96);border-top:1px solid rgba(115,91,83,.15);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:180;box-shadow:0 -8px 25px rgba(59,33,0,.08)}
-  .deeb-mobile-bottom-nav button{border:0;background:transparent;color:var(--brown);font-family:'Cairo',sans-serif;font-size:.61rem;font-weight:700;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:5px 2px;min-height:56px;line-height:1.1}
-  .deeb-mobile-bottom-nav button .m-icon{font-size:1.1rem;line-height:1}
-  .deeb-mobile-bottom-nav button.active{color:var(--dark);background:rgba(191,158,96,.16)}
-  .deeb-mobile-bottom-nav button:active{transform:scale(.96)}
-  [data-theme="dark"] .deeb-mobile-bottom-nav{background:rgba(26,20,16,.96);border-top-color:var(--line);box-shadow:0 -8px 25px rgba(0,0,0,.3)}
-  [data-theme="dark"] .deeb-mobile-bottom-nav button.active{background:rgba(232,201,122,.13);color:var(--gold)}
-
-  /* Content rhythm */
-  .breadcrumb{padding:8px 12px!important;min-height:38px;box-sizing:border-box;overflow:hidden;white-space:nowrap}
-  .breadcrumb-item{font-size:.66rem}
-  .content{padding:12px 11px 24px!important}
-  .section-header{margin-bottom:12px!important;gap:9px!important}
-  .section-title-main{font-size:1rem!important;line-height:1.45}
-  .section-subtitle{font-size:.68rem!important;line-height:1.55}
-  .section-header .btn{width:auto;max-width:100%;min-height:46px;padding:10px 14px}
-  .section-header .btn-group,.section-header .actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}
-
-  /* Cards */
-  .card,.stat-card,.note-card,.kanban-card{border-radius:14px!important;box-shadow:0 2px 12px rgba(59,33,0,.035)}
-  .card{overflow:hidden}
-  .card-header{padding:11px 13px!important;gap:8px}
-  .card-body{padding:13px!important}
-  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
-  .stat-card{min-height:102px!important;padding:12px!important}
-  .stat-label{font-size:.62rem!important;line-height:1.4}
-  .stat-value{font-size:1.15rem!important;line-height:1.25;word-break:break-word}
-  .stat-icon{font-size:1.1rem!important;opacity:.8}
-
-  /* Forms — one comfortable column */
-  .grid-2,.grid-3,.form-row,.form-row-3,.form-grid,.deeb-admin-grid{grid-template-columns:1fr!important}
-  .form-group{margin-bottom:11px}
-  .form-label{font-size:.72rem;margin-bottom:5px}
-  .form-input,.form-select,.form-textarea,.search-input,.auth-input,.confirm-input{min-height:46px!important;border-radius:10px!important;font-size:16px!important;line-height:1.35}
-  .form-textarea{min-height:110px!important}
-  .search-bar{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;align-items:stretch!important}
-  .search-bar>*{width:100%!important;box-sizing:border-box}
-  .mf-btn,.cal-view-btn{min-height:42px}
-  .month-filter-bar{display:grid!important;grid-template-columns:1fr 1fr;gap:7px!important}
-  .month-filter-bar label{grid-column:1/-1}
-
-  /* Buttons */
-  .btn{min-height:46px!important;border-radius:10px!important;padding:10px 13px!important;font-size:.75rem!important;white-space:normal}
-  .btn-sm{min-height:42px!important;padding:8px 11px!important}
-  .btn-danger,.btn-primary,.btn-outline{touch-action:manipulation}
-
-  /* Tables: keep data intact, make them swipeable */
-  .table-wrap,.deeb-data-wrap{width:100%;overflow-x:auto!important;overflow-y:hidden!important;border-radius:12px!important}
-  .table-wrap table{min-width:680px}
-  .deeb-data-table{min-width:760px!important}
-  th{font-size:.67rem!important;padding:9px 8px!important;white-space:nowrap}
-  td{font-size:.69rem!important;padding:9px 8px!important;vertical-align:middle}
-  .table-wrap::-webkit-scrollbar,.deeb-data-wrap::-webkit-scrollbar{height:5px}
-  .table-wrap::-webkit-scrollbar-thumb,.deeb-data-wrap::-webkit-scrollbar-thumb{background:rgba(191,158,96,.55);border-radius:10px}
-
-  /* Mobile data editor */
-  .deeb-collection-list{max-height:none!important}
-  .deeb-text-row{grid-template-columns:1fr!important;gap:6px!important;padding:10px 0!important}
-  .deeb-number-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
-  .deeb-number-card{padding:9px!important;border-radius:11px!important}
-  .deeb-admin-toolbar{display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important}
-  .deeb-admin-toolbar>*{width:100%!important;min-height:44px}
-  .deeb-editor{margin-top:10px!important}
-
-  /* Modals become bottom sheets, but stay usable */
-  .modal-overlay{align-items:flex-end!important;padding:0!important}
-  .modal{width:100%!important;max-width:none!important;max-height:min(94dvh,760px)!important;margin:0!important;border-radius:20px 20px 0 0!important;overflow:hidden!important;box-sizing:border-box!important;padding-bottom:env(safe-area-inset-bottom)!important}
-  .modal-header{position:sticky;top:0;z-index:4;padding:13px 14px!important;background:var(--white)!important;border-bottom:1px solid var(--light);min-height:54px;box-sizing:border-box}
-  .modal-body{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;max-height:calc(94dvh - 120px)!important;padding:14px!important}
-  .modal-footer{position:sticky;bottom:0;z-index:4;background:var(--white)!important;border-top:1px solid var(--light);padding:10px 14px!important;display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
-  .modal-footer .btn{width:100%!important}
-  .modal-close{width:42px!important;height:42px!important;min-height:42px!important}
-  .confirm-modal{align-items:flex-end!important}
-  .confirm-box{width:100%!important;max-width:none!important;border-radius:20px 20px 0 0!important;padding:18px 14px calc(18px + env(safe-area-inset-bottom))!important}
-
-  /* Calendar */
-  .cal-toolbar{display:grid;grid-template-columns:1fr;gap:8px}
-  .cal-nav{justify-content:space-between}
-  .cal-title{min-width:0;font-size:.9rem}
-  .cal-views{display:grid;grid-template-columns:repeat(3,1fr)}
-  .cal-month{overflow-x:auto}
-  .cal-grid{min-width:560px}
-  .cal-day{min-height:74px}
-  .cal-event{font-size:.56rem}
-
-  /* Kanban and analytics */
-  .kanban{grid-template-columns:1fr!important;overflow:visible}
-  .analytics-row,.analytics-grid{grid-template-columns:1fr!important}
-  .pw-overview-grid{grid-template-columns:1fr!important}
-
-  /* Long text / code / JSON never break the viewport */
-  pre,code,.json-view,.deeb-cell{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
-
-  /* Make destructive actions visually separated */
-  .btn-danger{order:2}
-}
-
-@media (max-width:480px){
-  .topbar-title{max-width:43vw}
-  .topbar-user{display:none!important}
-  .content{padding-left:9px!important;padding-right:9px!important}
-  .stats-grid{grid-template-columns:1fr 1fr!important}
-  .stat-card{min-height:96px!important;padding:10px!important}
-  .stat-value{font-size:1.05rem!important}
-  .stat-label{font-size:.59rem!important}
-  .deeb-number-grid{grid-template-columns:1fr!important}
-  .section-header .btn{width:100%!important}
-  .section-header .btn-group,.section-header .actions{grid-template-columns:1fr!important}
-  .modal-body{max-height:calc(94dvh - 118px)!important}
-}
-
-@media (max-width:360px){
-  .deeb-mobile-bottom-nav button{font-size:.56rem}
-  .deeb-mobile-bottom-nav button .m-icon{font-size:1rem}
-  .stats-grid{gap:6px!important}
-  .stat-card{padding:8px!important}
-  .topbar{padding-left:8px!important;padding-right:8px!important}
-}
-
-/* Reduce motion for users who request it */
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-}
-
-
-</style>
 </head>
 <body>
 
@@ -1509,6 +855,8 @@ input,select,textarea{max-width:100%}
   <nav class="nav-section">
     <div class="nav-label">التسويق</div>
     <div class="nav-item" onclick="showPage('marketing',this)"><span class="icon">📣</span>التسويق</div>
+    <div class="nav-item" onclick="showPage('strategy',this)"><span class="icon">🧭</span>الاستراتيجية</div>
+    <div class="nav-item" onclick="showPage('forecast',this)"><span class="icon">📈</span>التنبؤ بالطلب</div>
     <div class="nav-item" onclick="showPage('messages',this)"><span class="icon">💬</span>الرسائل</div>
   </nav>
   <nav class="nav-section">
@@ -1754,6 +1102,20 @@ input,select,textarea{max-width:100%}
         <div><div class="section-title-main">📦 المنتجات</div><div class="section-subtitle">قائمة البوكسات والأسعار</div></div>
         <button class="btn btn-primary" onclick="openModal('addProductModal')">+ منتج جديد</button>
       </div>
+      <div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)">
+        <div class="card-header"><div class="card-title">💵 التسعير الحالي المعتمد — مرجع DEEB</div><button class="btn btn-sm btn-outline" onclick="showPage('strategy',document.querySelector('.nav-item[onclick*=\"strategy\"]'))">🧭 الاستراتيجية</button></div>
+        <div class="card-body" style="font-size:.78rem;line-height:1.9">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem">
+            <div><strong>Classic</strong><br>500g = 12 JOD · 1KG = 20 JOD</div>
+            <div><strong>Mix</strong><br>500g = 12 JOD · 1KG = 20 JOD</div>
+            <div><strong>Dragee</strong><br>500g = 12 JOD · 1KG = 20 JOD</div>
+            <div><strong>Custom</strong><br>500g = 13 JOD · 1KG = 22 JOD</div>
+            <div><strong>Acrylic</strong><br>1KG = 12 · 1.5KG = 17 · 2KG = 22</div>
+          </div>
+          <div style="margin-top:.7rem;padding:.55rem .7rem;border-radius:8px;background:var(--cream);color:var(--brown)">هذا مرجع التسعير الاستراتيجي. لا يتم تعديل سجلات المنتجات الموجودة تلقائياً؛ حدّث المنتج الفعلي من جدول المنتجات عند الحاجة.</div>
+        </div>
+      </div>
+
       <div class="search-bar">
         <input class="search-input" id="searchProducts" placeholder="🔍 بحث في المنتجات..." oninput="filterProducts()">
         <select class="form-select" style="width:auto;font-size:0.8rem" id="filterProductStatus" onchange="filterProducts()">
@@ -1824,6 +1186,24 @@ input,select,textarea{max-width:100%}
         <button class="btn btn-primary" onclick="openModal('addRegionModal')">+ منطقة جديدة</button>
       </div>
       <div id="regionsList"><div class="empty-state"><div class="e-icon">🗺️</div><div class="e-title">لا توجد مناطق</div></div></div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header"><div class="card-title">💰 Delivery Economics — اقتصاديات التوصيل</div></div>
+        <div class="card-body" style="font-size:.78rem;color:var(--brown);line-height:1.8">
+          نحلل تكلفة/رسوم التوصيل حسب المنطقة وقيمة الطلب، مع إبراز أثر التوصيل على الطلبات الصغيرة ونصف الكيلو. <strong>تكلفة المندوب الفعلية</strong> اختيارية؛ إذا لم تُدخل فلا يتم افتراضها أو اختراعها.
+        </div>
+        <div class="stats-grid" style="margin:0 0 1rem">
+          <div class="stat-card"><div class="stat-icon">🚚</div><div class="stat-label">متوسط رسوم التوصيل</div><div class="stat-value" id="deAvgDelivery">0</div><div class="stat-sub">JOD / طلب</div></div>
+          <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-label">متوسط قيمة الطلب</div><div class="stat-value" id="deAvgOrder">0</div><div class="stat-sub">JOD / طلب</div></div>
+          <div class="stat-card"><div class="stat-icon">⚠️</div><div class="stat-label">نسبة التوصيل من الطلب</div><div class="stat-value" id="deDeliveryShare">0%</div><div class="stat-sub">Delivered orders</div></div>
+          <div class="stat-card"><div class="stat-icon">🏷️</div><div class="stat-label">طلبات 500g</div><div class="stat-value" id="deHalfKg">0</div><div class="stat-sub">تحليل أثر التوصيل</div></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>المنطقة</th><th>الطلبات المكتملة</th><th>متوسط الطلب</th><th>رسوم العميل</th><th>تكلفة التوصيل الفعلية</th><th>دعم DEEB</th><th>نسبة التوصيل</th><th>الحالة</th></tr></thead>
+          <tbody id="deliveryEconomicsTable"><tr><td colspan="8">جاري التحليل...</td></tr></tbody>
+        </table></div>
+        <div id="deliveryEconomicsAlerts" style="margin-top:1rem"></div>
+      </div>
     </div>
 
     <!-- FINANCE -->
@@ -2049,6 +1429,98 @@ input,select,textarea{max-width:100%}
       </div>
     </div>
 
+    <!-- STRATEGY CENTER -->
+    <div class="page" id="page-strategy">
+      <div class="section-header">
+        <div><div class="section-title-main">🧭 استراتيجية DEEB</div><div class="section-subtitle">مركز واحد للاستراتيجية، التسعير، الربحية، النمو، والمقاييس</div></div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="btn btn-gold" onclick="window.saveBusinessStrategy()">💾 حفظ</button><button class="btn btn-outline" onclick="window.resetBusinessStrategy()">↩️ افتراضي</button></div>
+      </div>
+      <div class="card" style="background:linear-gradient(135deg,var(--dark),#5a3b1f);color:#fff"><div class="card-body"><div style="font-size:1.08rem;font-weight:900;margin-bottom:.35rem">Every moment deserves DEEB.</div><div style="font-size:.78rem;opacity:.86;line-height:1.9">منصة الاستراتيجية تربط التسويق → الطلبات → المخزون → التكلفة → الربحية. الأهداف والافتراضات قابلة للحفظ والتعديل.</div></div></div>
+      <div id="strategySummaryStats" class="stats-grid" style="margin-bottom:1rem"></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">01. التوجه الاستراتيجي</div></div><div class="card-body">
+        <div class="form-group"><label class="form-label">الرؤية</label><textarea id="bsVision" class="form-textarea" rows="2"></textarea></div>
+        <div class="form-group"><label class="form-label">التموضع</label><textarea id="bsPositioning" class="form-textarea" rows="3"></textarea></div>
+        <div class="form-group"><label class="form-label">الفكرة الأساسية</label><textarea id="bsCoreIdea" class="form-textarea" rows="2"></textarea></div>
+      </div></div>
+
+      <div class="grid-2"><div class="card"><div class="card-header"><div class="card-title">02. الأهداف</div></div><div class="card-body">
+        <div class="form-group"><label class="form-label">هدف DEEB المحتفظ به شهرياً — JOD</label><input id="bsProfitTarget" class="form-input" type="number" step="0.01"></div>
+        <div class="form-group"><label class="form-label">هدف الإيرادات الشهري — JOD</label><input id="bsRevenueTarget" class="form-input" type="number" step="0.01"></div>
+        <div class="form-group"><label class="form-label">هدف الطلبات 1KG-equivalent / شهر</label><input id="bsOrdersTarget" class="form-input" type="number" step="1"></div>
+        <div class="form-group"><label class="form-label">ملاحظات الهدف</label><textarea id="bsGoalsNotes" class="form-textarea" rows="3"></textarea></div>
+      </div></div><div class="card"><div class="card-header"><div class="card-title">03. الجمهور والمحتوى والـFunnel</div></div><div class="card-body">
+        <div class="form-group"><label class="form-label">الجمهور</label><textarea id="bsAudience" class="form-textarea" rows="3"></textarea></div>
+        <div class="form-group"><label class="form-label">Content Pillars</label><textarea id="bsContentPillars" class="form-textarea" rows="4"></textarea></div>
+        <div class="form-group"><label class="form-label">Funnel</label><textarea id="bsFunnel" class="form-textarea" rows="4"></textarea></div>
+      </div></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">04. Pricing Strategy &amp; Unit Economics</div></div><div class="card-body">
+        <div class="alert">القواعد الحالية: الشوكولاتة هي محرك الإيراد الأساسي، 1KG هو Hero Product، لا توجد خصومات B2C دائمة، التوصيل منفصل، وB2B مستقل.</div>
+        <div class="table-wrap"><table><thead><tr><th>الفئة</th><th>500g / سعر المرجع</th><th>1KG / سعر المرجع</th><th>ملاحظة</th></tr></thead><tbody id="pricingTable"></tbody></table></div>
+        <div style="margin-top:1rem" class="table-wrap"><table><thead><tr><th>افتراض التكلفة</th><th>القيمة</th><th>ملاحظات</th></tr></thead><tbody id="unitEconomicsTable"></tbody></table></div>
+      </div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">05. AOV — Upsell &amp; Cross-sell</div></div><div class="card-body"><div class="grid-2">
+        <div><strong>Upsell</strong><p>500g = 12 JOD → 1KG = 20 JOD.</p></div><div><strong>Cross-sell</strong><p>Custom Sticker = 0.40 · Custom Acrylic = 0.40 · Acrylic = 12 / 17 / 22 JOD.</p></div>
+        <div><strong>Gift Upgrade</strong><p>1KG + Small = 32 · 1.5KG + Medium = 47 · 2KG + Large = 62 JOD.</p></div><div><strong>Custom Premium</strong><p>Custom 500g = 13 · Custom 1KG = 22 JOD.</p></div>
+      </div><div class="alert">KPIs: AOV، 1KG upgrade rate، add-on attachment rate. لا نستخدم خصومات دائمة كحل أساسي لرفع AOV.</div></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">06. B2B Strategy</div></div><div class="card-body"><p>الشركات، الفعاليات، الأعراس، التخرج، الفنادق، المطاعم، المدارس والجامعات، الوكالات والمناسبات الخاصة. الحد الأدنى 10KG.</p><div class="table-wrap"><table><thead><tr><th>الكمية</th><th>السعر</th><th>JOD / KG</th></tr></thead><tbody><tr><td>10KG</td><td>180 JOD</td><td>18</td></tr><tr><td>20KG</td><td>340 JOD</td><td>17</td></tr><tr><td>30KG+</td><td>16 JOD/KG</td><td>16</td></tr></tbody></table></div><div class="alert">لا يشمل custom packaging / sticker / acrylic / boxes. الإنتاج 3–7 أيام عمل حسب الكمية والتخصيص، الدفع 50% مقدماً و50% بعد التسليم. هامش B2B النهائي غير محسوب بدون تكاليف التخصيص الفعلية.</div></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">07. 90-Day Plan + KPI Center</div></div><div class="card-body"><div class="grid-2"><div><strong>Month 1 — Foundation</strong><p>تأسيس القياس، اختبار الرسائل، ضبط AOV والتسعير، attribution، وتنظيف البيانات.</p></div><div><strong>Month 2 — Optimize</strong><p>تحسين Funnel، CAC، ROAS، النكهات، والتوصيل.</p></div><div><strong>Month 3 — Scale</strong><p>توسيع B2B والقنوات المناسبة، توقع الطلب، تحسين المخزون والـretention.</p></div><div><strong>KPI Center</strong><p id="bsKPIs" style="white-space:pre-wrap"></p></div></div></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">07. Best-Selling + Highest-Margin Flavors</div><button class="btn btn-sm btn-gold" onclick="window.addFlavorProfitRow()">+ نكهة</button></div><div class="card-body"><div class="alert">يربط حجم المبيعات بالربحية. لا يتم اختراع هامش النكهة؛ يمكن إدخال التكلفة المباشرة عندما تكون متاحة. عدد مرات اختيار النكهة في custom flavor orders يظهر تلقائياً؛ الإيراد والتكلفة على مستوى النكهة يحتاجان إسناداً منفصلاً ولا يتم اختراعهما.</div><div class="table-wrap"><table><thead><tr><th>النكهة</th><th>الكمية</th><th>الإيراد JOD</th><th>التكلفة JOD</th><th>الربح JOD</th><th>الهامش %</th><th>التصنيف</th><th>المصدر</th><th></th></tr></thead><tbody id="flavorProfitRows"></tbody></table></div><div style="font-size:.74rem;line-height:1.8;margin-top:.7rem;color:var(--brown)">High Volume + High Margin = تركيز · High Volume + Low Margin = تحسين · Low Volume + High Margin = اختبار · Low Volume + Low Margin = مراجعة.</div></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">08. Demand Forecasting</div><button class="btn btn-sm btn-outline" onclick="showPage('forecast',document.querySelector('.nav-item[onclick*=\"forecast\"]'))">فتح المحرك ↗</button></div><div class="card-body"><p>يحلل Delivered Orders حسب التاريخ، اليوم، المنطقة، المنتج/النكهة، والموسمية، ثم يقارن الطلب المتوقع بالمخزون والتنبيهات.</p><div class="alert">لا يتم بناء forecast رقمي دون بيانات تاريخية قابلة للتحليل.</div></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">09. Delivery Economics</div><button class="btn btn-sm btn-outline" onclick="showPage('delivery',document.querySelector('.nav-item[onclick*=\"delivery\"]'))">فتح ↗</button></div><div class="card-body"><p>تحليل أثر التوصيل حسب المنطقة وقيمة الطلب، مع إبراز أثر 500g والطلبات الصغيرة ودعم DEEB المحتمل.</p><div class="alert">تكلفة المندوب الفعلية اختيارية؛ لا يتم افتراض رقم غير موجود.</div></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">10. Customer Acquisition Cost (CAC)</div><button class="btn btn-sm btn-outline" onclick="showPage('marketing',document.querySelector('.nav-item[onclick*=\"marketing\"]'))">فتح ↗</button></div><div class="card-body"><p>CAC = Spend ÷ New Customers المنسوبين للقناة. تتبع القنوات يبدأ من source / channel / utmSource داخل الطلب عندما تكون موجودة.</p></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">11. Marketing ROAS &amp; Profitability</div><button class="btn btn-sm btn-outline" onclick="showPage('marketing',document.querySelector('.nav-item[onclick*=\"marketing\"]'))">فتح ↗</button></div><div class="card-body"><p>Spend → Orders → Revenue → Direct Cost → Net Profit. الوصول والمشاهدات والتفاعل مؤشرات دعم وليست قياس الربحية النهائي.</p></div></div>
+
+      <div class="card"><div class="card-header"><div class="card-title">12. المخاطر والافتراضات والفرص</div></div><div class="card-body"><div class="grid-2"><div><strong>Risks</strong><p id="bsRisks" style="white-space:pre-wrap"></p></div><div><strong>Assumptions</strong><p id="bsAssumptions" style="white-space:pre-wrap"></p></div><div><strong>Opportunities</strong><p id="bsOpportunities" style="white-space:pre-wrap"></p></div><div><strong>Challenges</strong><p id="bsChallenges" style="white-space:pre-wrap"></p></div></div></div></div>
+    </div>
+
+    <!-- DEMAND FORECASTING -->
+    <div class="page" id="page-forecast">
+      <div class="section-header">
+        <div><div class="section-title-main">📈 التنبؤ بالطلب</div><div class="section-subtitle">توقع الطلب المستقبلي من بيانات الطلبات الفعلية وربطه بالمخزون</div></div>
+        <button class="btn btn-primary" onclick="window.renderDemandForecast()">🔄 تحديث التوقعات</button>
+      </div>
+      <div class="card" style="margin-bottom:1rem;background:linear-gradient(135deg,var(--dark),#5a3b1f);color:#fff">
+        <div class="card-body">
+          <div style="font-size:1rem;font-weight:800;margin-bottom:.35rem">Demand Forecasting Engine</div>
+          <div style="font-size:.78rem;opacity:.82;line-height:1.8">يحلل الطلبات المسجلة فعلياً حسب التاريخ، اليوم، المنطقة، المنتج/النكهة، والموسمية. لا يتم اختراع أرقام عند عدم توفر بيانات كافية.</div>
+        </div>
+      </div>
+      <div class="stats-grid" style="margin-bottom:1rem">
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-label">الطلب المتوقع</div><div class="stat-value" id="fcTotalDemand">0</div><div class="stat-sub">وحدة خلال الفترة</div></div>
+        <div class="stat-card"><div class="stat-icon">🍫</div><div class="stat-label">أعلى طلب متوقع</div><div class="stat-value" id="fcTopItem">—</div><div class="stat-sub" id="fcTopItemQty">—</div></div>
+        <div class="stat-card"><div class="stat-icon">📍</div><div class="stat-label">أعلى منطقة</div><div class="stat-value" id="fcTopRegion">—</div><div class="stat-sub" id="fcTopRegionQty">—</div></div>
+        <div class="stat-card"><div class="stat-icon">🗄️</div><div class="stat-label">تغطية المخزون</div><div class="stat-value" id="fcCoverage">—</div><div class="stat-sub">بالأيام</div></div>
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-header"><div class="card-title">⚙️ إعدادات التوقع</div></div>
+        <div class="card-body" style="display:flex;gap:.7rem;flex-wrap:wrap;align-items:end">
+          <div class="form-group"><label class="form-label">الفترة المستقبلية</label><select id="fcHorizon" class="form-select" onchange="window.renderDemandForecast()"><option value="7">7 أيام</option><option value="14">14 يوم</option><option value="30" selected>30 يوم</option></select></div>
+          <div class="form-group"><label class="form-label">بيانات تاريخية</label><select id="fcLookback" class="form-select" onchange="window.renderDemandForecast()"><option value="30">آخر 30 يوم</option><option value="60">آخر 60 يوم</option><option value="90" selected>آخر 90 يوم</option><option value="180">آخر 180 يوم</option><option value="365">آخر سنة</option></select></div>
+          <div id="fcDataQuality" class="alert" style="margin:0;flex:1;min-width:260px">⏳ جاري التحليل...</div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-header"><div class="card-title">🍫 توقع الطلب حسب المنتج / النكهة</div></div>
+        <div class="table-wrap"><table><thead><tr><th>المنتج / النكهة</th><th>المبيعات التاريخية</th><th>متوسط يومي</th><th>المتوقع</th><th>الاتجاه</th><th>الثقة</th><th>المخزون</th><th>تغطية</th><th>الإجراء</th></tr></thead><tbody id="fcItemsTable"><tr><td colspan="9">جاري التحليل...</td></tr></tbody></table></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="card"><div class="card-header"><div class="card-title">📅 التوقع حسب اليوم</div></div><div class="table-wrap"><table><thead><tr><th>اليوم</th><th>الطلب المتوقع</th><th>النسبة</th></tr></thead><tbody id="fcDaysTable"></tbody></table></div></div>
+        <div class="card"><div class="card-header"><div class="card-title">📍 التوقع حسب المنطقة</div></div><div class="table-wrap"><table><thead><tr><th>المنطقة</th><th>الطلبات التاريخية</th><th>المتوقع</th><th>النسبة</th></tr></thead><tbody id="fcRegionsTable"></tbody></table></div></div>
+      </div>
+      <div class="card" style="margin-top:1rem"><div class="card-header"><div class="card-title">⚠️ تنبيهات المخزون المتوقعة</div></div><div class="card-body" id="fcAlerts"><div class="empty-state">لا توجد تنبيهات</div></div></div>
+      <div class="card" style="margin-top:1rem"><div class="card-body" style="font-size:.75rem;color:var(--brown);line-height:1.9"><strong>كيف يعمل النظام؟</strong><br>يستخدم الطلبات المكتملة (Delivered) فقط، ويحسب خط أساس يومي من البيانات التاريخية، ثم يضبطه حسب يوم الأسبوع والموسمية ويُسقطه على الفترة القادمة. المناطق تعتمد على توزيع الطلبات التاريخي. النكهات تُحلل مباشرة عندما تكون محفوظة في <code>customFlavors</code>، وإلا يُستخدم المنتج/البوكس كبديل. التوقعات تقديرية وليست ضماناً للمبيعات.</div></div>
+    </div>
+
     <!-- MARKETING -->
     <div class="page" id="page-marketing">
       <div class="section-header">
@@ -2057,6 +1529,48 @@ input,select,textarea{max-width:100%}
       </div>
       <div class="card"><div class="card-header"><div class="card-title">🎯 الحملات</div></div><div class="table-wrap"><table><thead><tr><th>الحملة</th><th>المنصة</th><th>الميزانية</th><th>التاريخ</th><th>إجراء</th></tr></thead><tbody id="campaignsTable"><tr><td colspan="5"><div class="empty-state"><div class="e-icon">📣</div><div class="e-title">لا توجد حملات</div></div></td></tr></tbody></table></div></div>
       <div class="card"><div class="card-header"><div class="card-title">🏷️ الكوبونات</div><button class="btn btn-sm btn-outline" onclick="openModal('addCouponModal')">+ كوبون</button></div><div class="table-wrap"><table><thead><tr><th>الكود</th><th>الخصم</th><th>النوع</th><th>إجراء</th></tr></thead><tbody id="couponsTable"><tr><td colspan="4"><div class="empty-state"><div class="e-icon">🏷️</div><div class="e-title">لا توجد كوبونات</div></div></td></tr></tbody></table></div></div>
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header"><div class="card-title">💰 10. Customer Acquisition Cost — تكلفة اكتساب العميل (CAC)</div></div>
+        <div class="card-body" style="font-size:.78rem;color:var(--brown);line-height:1.8">
+          يقيس النظام تكلفة الحصول على عميل جديد حسب القناة التسويقية. إذا كانت الطلبات تحتوي على <code>source</code> أو <code>channel</code> أو <code>utmSource</code> فسيتم استخدام بيانات الطلبات تلقائياً، وإلا يمكنك إدخال عدد العملاء الجدد لكل قناة يدوياً. لا يتم افتراض أي تكلفة أو attribution غير موجودة في البيانات.
+        </div>
+        <div class="stats-grid" style="margin:0 0 1rem">
+          <div class="stat-card"><div class="stat-icon">💸</div><div class="stat-label">إجمالي الإنفاق</div><div class="stat-value" id="cacTotalSpend">0</div><div class="stat-sub">JOD</div></div>
+          <div class="stat-card"><div class="stat-icon">👤</div><div class="stat-label">عملاء جدد</div><div class="stat-value" id="cacTotalCustomers">0</div><div class="stat-sub">البيانات المتاحة</div></div>
+          <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">CAC الإجمالي</div><div class="stat-value" id="cacOverall">—</div><div class="stat-sub">JOD / عميل</div></div>
+          <div class="stat-card"><div class="stat-icon">📣</div><div class="stat-label">القنوات المقاسة</div><div class="stat-value" id="cacChannelsCount">0</div><div class="stat-sub">قناة</div></div>
+        </div>
+        <div class="search-bar" style="margin-bottom:1rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:end">
+          <div class="form-group"><label class="form-label">القناة</label><input class="form-input" id="cacChannel" placeholder="Instagram / TikTok / Organic / B2B"></div>
+          <div class="form-group"><label class="form-label">الإنفاق JOD</label><input class="form-input" id="cacSpend" type="number" min="0" step="0.01" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">عملاء جدد</label><input class="form-input" id="cacNewCustomers" type="number" min="0" step="1" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">الإيراد المنسوب JOD</label><input class="form-input" id="cacRevenue" type="number" min="0" step="0.01" placeholder="اختياري"></div>
+          <button class="btn btn-gold" onclick="window.addCACChannel()">+ إضافة / تحديث</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>القناة</th><th>الإنفاق</th><th>عملاء جدد</th><th>CAC</th><th>الإيراد</th><th>Revenue / Customer</th><th>ROAS</th><th>مصدر البيانات</th><th>إجراء</th></tr></thead><tbody id="cacTable"><tr><td colspan="9">جاري التحليل...</td></tr></tbody></table></div>
+        <div id="cacNotes" style="margin-top:1rem"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
+      <div class="card-header"><div class="card-title">📊 11. Marketing ROAS &amp; Profitability — عائد وربحية التسويق</div></div>
+      <div class="card-body" style="font-size:.78rem;color:var(--brown);line-height:1.8">ربط الإنفاق التسويقي مباشرة بالطلبات والإيرادات والتكلفة المباشرة والربح قبل المصاريف التشغيلية، وليس الوصول والمشاهدات والتفاعل فقط. عندما توجد قناة داخل الطلبات، تُستخدم تلقائياً؛ ويمكن أيضاً إدخال بيانات القناة يدوياً.</div>
+      <div class="stats-grid" style="margin:0 0 1rem">
+        <div class="stat-card"><div class="stat-icon">💸</div><div class="stat-label">Marketing Spend</div><div class="stat-value" id="roasSpend">0.00 JOD</div></div>
+        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-label">Attributed Revenue</div><div class="stat-value" id="roasRevenue">0.00 JOD</div></div>
+        <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-label">Attributed Profit (Direct Cost)</div><div class="stat-value" id="roasProfit">0.00 JOD</div></div>
+        <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">ROAS</div><div class="stat-value" id="roasValue">—</div></div>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>القناة</th><th>الإنفاق JOD</th><th>الطلبات</th><th>الإيراد JOD</th><th>التكلفة المباشرة JOD</th><th>الربح JOD</th><th>ROAS</th><th>Profit / Spend</th><th>المصدر</th></tr></thead><tbody id="marketingRoasRows"><tr><td colspan="9">جاري التحليل...</td></tr></tbody></table></div>
+      <div class="search-bar" style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:end">
+        <div class="form-group"><label class="form-label">القناة</label><input class="form-input" id="roasChannel" placeholder="Instagram / TikTok / Organic"></div>
+        <div class="form-group"><label class="form-label">الإنفاق JOD</label><input class="form-input" id="roasSpendInput" type="number" step="0.01" min="0"></div>
+        <div class="form-group"><label class="form-label">الطلبات</label><input class="form-input" id="roasOrdersInput" type="number" step="1" min="0"></div>
+        <div class="form-group"><label class="form-label">الإيراد JOD</label><input class="form-input" id="roasRevenueInput" type="number" step="0.01" min="0"></div>
+        <div class="form-group"><label class="form-label">التكلفة المباشرة JOD</label><input class="form-input" id="roasCostInput" type="number" step="0.01" min="0"></div>
+        <button class="btn btn-gold" onclick="window.addROASChannel()">+ حفظ القناة</button>
+      </div>
+      <div id="roasNotes" style="margin-top:.8rem"></div>
     </div>
 
     <!-- MESSAGES -->
@@ -3043,6 +2557,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       </div>
       <div class="form-row"><div class="form-group"><div class="form-label">التاريخ *</div><input class="form-input" id="o-date" type="date"></div><div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="o-status"><option value="pending">⏳ Pending</option><option value="preparing">🔧 Preparing</option><option value="delivered">✅ Delivered</option><option value="cancelled">❌ Cancelled</option></select></div></div>
       <div class="form-row"><div class="form-group"><div class="form-label">منطقة التوصيل</div><select class="form-select" id="o-region"><option value="">اختر المنطقة</option></select></div><div class="form-group"><div class="form-label">تكلفة التوصيل</div><input class="form-input" id="o-delivery" type="number" placeholder="0" oninput="calcOrderTotal()"></div></div>
+      <div class="form-group"><div class="form-label">قناة التسويق / المصدر</div><input class="form-input" id="o-source" placeholder="Instagram / TikTok / WhatsApp / Referral / Organic"></div>
       <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="o-notes" placeholder="ملاحظات خاصة..."></textarea></div>
       <input type="hidden" id="o-edit-id">
       <div id="invImpactPreview" style="display:none;background:rgba(191,158,96,0.08);border:1px solid rgba(191,158,96,0.25);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--dark);margin-top:0.5rem"></div>
@@ -3100,7 +2615,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
     <div class="modal-header"><div class="modal-title">🗺️ منطقة جديدة</div><button class="modal-close" onclick="closeModal('addRegionModal')">✕</button></div>
     <div class="modal-body">
       <div class="form-group"><div class="form-label">اسم المنطقة *</div><input class="form-input" id="r-name" placeholder="مثال: عمان"></div>
-      <div class="form-row"><div class="form-group"><div class="form-label">سعر التوصيل *</div><input class="form-input" id="r-price" type="number" placeholder="0"></div><div class="form-group"><div class="form-label">وقت التوصيل</div><input class="form-input" id="r-time" placeholder="1-2 يوم"></div></div>
+      <div class="form-row"><div class="form-group"><div class="form-label">رسوم التوصيل على العميل *</div><input class="form-input" id="r-price" type="number" placeholder="0"></div><div class="form-group"><div class="form-label">تكلفة المندوب الفعلية (اختياري)</div><input class="form-input" id="r-cost" type="number" placeholder="غير معروفة"></div></div><div class="form-group"><div class="form-label">وقت التوصيل</div><input class="form-input" id="r-time" placeholder="1-2 يوم"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addRegionModal')">إلغاء</button><button class="btn btn-primary" onclick="addRegion()">✅ إضافة</button></div>
   </div>
@@ -3114,9 +2629,10 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <input type="hidden" id="er-id">
       <div class="form-group"><div class="form-label">اسم المنطقة *</div><input class="form-input" id="er-name" placeholder="مثال: عمان"></div>
       <div class="form-row">
-        <div class="form-group"><div class="form-label">سعر التوصيل *</div><input class="form-input" id="er-price" type="number" placeholder="0"></div>
-        <div class="form-group"><div class="form-label">وقت التوصيل</div><input class="form-input" id="er-time" placeholder="1-2 يوم"></div>
+        <div class="form-group"><div class="form-label">رسوم التوصيل على العميل *</div><input class="form-input" id="er-price" type="number" placeholder="0"></div>
+        <div class="form-group"><div class="form-label">تكلفة المندوب الفعلية (اختياري)</div><input class="form-input" id="er-cost" type="number" placeholder="غير معروفة"></div>
       </div>
+      <div class="form-group"><div class="form-label">وقت التوصيل</div><input class="form-input" id="er-time" placeholder="1-2 يوم"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('editRegionModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveEditRegion()">💾 حفظ</button></div>
   </div>
@@ -3225,6 +2741,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       <div class="form-row"><div class="form-group"><div class="form-label">المنتج</div><select class="form-select" id="eo-product"><option value="">اختر المنتج</option></select></div><div class="form-group"><div class="form-label">الكمية</div><input class="form-input" id="eo-qty" type="number" min="1" value="1"></div></div>
       <div class="form-row"><div class="form-group"><div class="form-label">السعر *</div><input class="form-input" id="eo-price" type="number" placeholder="0"></div><div class="form-group"><div class="form-label">التاريخ *</div><input class="form-input" id="eo-date" type="date"></div></div>
       <div class="form-row"><div class="form-group"><div class="form-label">منطقة التوصيل</div><select class="form-select" id="eo-region"><option value="">اختر المنطقة</option></select></div><div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="eo-status"><option value="pending">⏳ Pending</option><option value="preparing">🔧 Preparing</option><option value="delivered">✅ Delivered</option><option value="cancelled">❌ Cancelled</option></select></div></div>
+      <div class="form-group"><div class="form-label">قناة التسويق / المصدر</div><input class="form-input" id="eo-source" placeholder="Instagram / TikTok / WhatsApp / Referral / Organic"></div>
       <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="eo-notes" placeholder="ملاحظات..."></textarea></div>
       <input type="hidden" id="eo-id">
     </div>
@@ -3709,7 +3226,7 @@ window.showPage = (id, el) => {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 الرئيسية', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', b2b:'🏢 B2B Leads', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ خطوات التجهيز', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط' };
+  const titles = { dashboard:'📊 الرئيسية', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', b2b:'🏢 B2B Leads', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ خطوات التجهيز', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط', strategy:'🧭 الاستراتيجية', forecast:'📈 التنبؤ بالطلب' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
 
@@ -3730,6 +3247,8 @@ window.showPage = (id, el) => {
   if(id==='calculations') { loadCalculations(); updateCalc(); }
   if(id==='activitylog') { subscribeActivityLog(); window.renderActivityLog(); }
   if(id==='calendar') { loadCalEvents().then(()=>{ calState.date=new Date(); renderCal(); window.renderNotificationsPanel(); }); }
+  if(id==='strategy') { window.renderBusinessStrategy(); }
+  if(id==='forecast') { window.renderDemandForecast(); }
 };
 
 // ── MODALS ──
@@ -3836,38 +3355,66 @@ function renderInventory() {
 window.addRegion = async () => {
   const name=document.getElementById('r-name').value.trim();
   if(!name) return toast('اسم المنطقة مطلوب', 'error');
-  await addDoc_('regions',{name,price:parseFloat(document.getElementById('r-price').value)||0,time:document.getElementById('r-time').value});
-  closeModal('addRegionModal'); ['r-name','r-price','r-time'].forEach(id=>document.getElementById(id).value='');
+  const price=parseFloat(document.getElementById('r-price').value)||0;
+  const costRaw=document.getElementById('r-cost').value.trim();
+  const cost=costRaw==='' ? null : (parseFloat(costRaw)||0);
+  await addDoc_('regions',{name,price,cost,time:document.getElementById('r-time').value});
+  closeModal('addRegionModal'); ['r-name','r-price','r-cost','r-time'].forEach(id=>document.getElementById(id).value=''); toast('تم إضافة المنطقة ✅','success');
 };
 window.deleteRegion = (id) => { const r=state.regions.find(x=>x.id===id); confirmDelete('regions',id,r?.name||'المنطقة'); };
 
 window.editRegion = function(id) {
   const r = state.regions.find(x => x.id === id);
   if(!r) return;
-  document.getElementById('er-id').value   = id;
-  document.getElementById('er-name').value  = r.name  || '';
-  document.getElementById('er-price').value = r.price || 0;
-  document.getElementById('er-time').value  = r.time  || '';
+  document.getElementById('er-id').value=id; document.getElementById('er-name').value=r.name||'';
+  document.getElementById('er-price').value=r.price||0;
+  document.getElementById('er-cost').value=(r.cost ?? '') === null ? '' : (r.cost ?? '');
+  document.getElementById('er-time').value=r.time||'';
   openModal('editRegionModal');
 };
 
 window.saveEditRegion = async function() {
-  const id    = document.getElementById('er-id').value;
-  const name  = document.getElementById('er-name').value.trim();
-  const price = parseFloat(document.getElementById('er-price').value) || 0;
-  const time  = document.getElementById('er-time').value.trim();
-  if(!name)  { toast('اسم المنطقة مطلوب', 'error'); return; }
-  if(!price) { toast('سعر التوصيل مطلوب', 'error'); return; }
-  await updateDoc_('regions', id, { name, price, time });
-  closeModal('editRegionModal');
-  toast('تم تحديث المنطقة ✅', 'success');
+  const id=document.getElementById('er-id').value, name=document.getElementById('er-name').value.trim();
+  const price=parseFloat(document.getElementById('er-price').value)||0;
+  const raw=document.getElementById('er-cost').value.trim(); const cost=raw===''?null:(parseFloat(raw)||0);
+  const time=document.getElementById('er-time').value.trim();
+  if(!name) return toast('اسم المنطقة مطلوب','error');
+  if(!price) return toast('سعر التوصيل مطلوب','error');
+  await updateDoc_('regions',id,{name,price,cost,time}); closeModal('editRegionModal'); toast('تم تحديث المنطقة ✅','success');
 };
 
 function renderRegions() {
   const el=document.getElementById('regionsList');
-  if(!state.regions.length){ el.innerHTML='<div class="empty-state"><div class="e-icon">🗺️</div><div class="e-title">لا توجد مناطق</div></div>'; return; }
-  el.innerHTML=state.regions.map(r=>`<div class="region-item"><div><div class="region-name">📍 ${sanitize(r.name)}</div><div style="font-size:0.72rem;color:var(--brown)">${r.time||'—'}</div></div><div style="display:flex;align-items:center;gap:0.6rem"><div class="region-price">${r.price} توصيل</div><button class="btn btn-sm btn-outline" onclick="editRegion('${r.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteRegion('${r.id}')">🗑</button></div></div>`).join('');
+  if(!state.regions.length){ el.innerHTML='<div class="empty-state"><div class="e-icon">🗺️</div><div class="e-title">لا توجد مناطق</div></div>'; renderDeliveryEconomics(); return; }
+  el.innerHTML=state.regions.map(r=>`<div class="region-item"><div><div class="region-name">📍 ${sanitize(r.name)}</div><div style="font-size:0.72rem;color:var(--brown)">${r.time||'—'}${r.cost!=null?' · تكلفة فعلية '+r.cost:' · التكلفة الفعلية غير مدخلة'}</div></div><div style="display:flex;align-items:center;gap:0.6rem"><div class="region-price">${r.price} توصيل</div><button class="btn btn-sm btn-outline" onclick="editRegion('${r.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteRegion('${r.id}')">🗑</button></div></div>`).join('');
+  renderDeliveryEconomics();
 }
+
+function renderDeliveryEconomics(){
+  const orders=(state.orders||[]).filter(o=>(o.status||'').toLowerCase()==='delivered');
+  const avgOrder=orders.length?orders.reduce((s,o)=>s+(parseFloat(o.price)||0),0)/orders.length:0;
+  const avgDelivery=orders.length?orders.reduce((s,o)=>s+(parseFloat(o.delivery)||0),0)/orders.length:0;
+  const share=avgOrder?avgDelivery/avgOrder*100:0;
+  const half=orders.filter(o=>{const txt=JSON.stringify(o.products||[]).toLowerCase()+' '+(o.product||'').toLowerCase(); return /500|half|0\.5\s*kg|نصف/.test(txt);}).length;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('deAvgDelivery',avgDelivery.toFixed(2)); set('deAvgOrder',avgOrder.toFixed(2)); set('deDeliveryShare',share.toFixed(1)+'%'); set('deHalfKg',half);
+  const tb=document.getElementById('deliveryEconomicsTable'); if(!tb)return;
+  if(!orders.length){tb.innerHTML='<tr><td colspan="8"><div class="empty-state"><div class="e-icon">🚚</div><div class="e-title">لا توجد طلبات Delivered كافية للتحليل</div></div></td></tr>'; document.getElementById('deliveryEconomicsAlerts').innerHTML=''; return;}
+  const rows=state.regions.map(r=>{
+    const ro=orders.filter(o=>(o.region||'')===r.name); const n=ro.length;
+    const ao=n?ro.reduce((s,o)=>s+(parseFloat(o.price)||0),0)/n:0;
+    const fee=n?ro.reduce((s,o)=>s+(parseFloat(o.delivery)||0),0)/n:(parseFloat(r.price)||0);
+    const actual=r.cost==null?null:parseFloat(r.cost); const subsidy=actual==null?null:Math.max(0,actual-fee); const pct=ao?fee/ao*100:0;
+    const status=actual==null?'بيانات التكلفة ناقصة':(subsidy>0?'DEEB يتحمل جزءاً':'التوصيل مغطى');
+    return `<tr><td><strong>${sanitize(r.name)}</strong></td><td>${n}</td><td>${ao.toFixed(2)} JOD</td><td>${fee.toFixed(2)} JOD</td><td>${actual==null?'—':actual.toFixed(2)+' JOD'}</td><td>${subsidy==null?'—':subsidy.toFixed(2)+' JOD'}</td><td>${pct.toFixed(1)}%</td><td>${status}</td></tr>`;
+  }).filter(Boolean);
+  tb.innerHTML=rows.length?rows.join(''):'<tr><td colspan="8">لا توجد مناطق مسجلة</td></tr>';
+  const alerts=[];
+  if(share>=15) alerts.push(`<div class="alert alert-warning">⚠️ رسوم التوصيل تمثل ${share.toFixed(1)}% من متوسط قيمة الطلبات المكتملة. راقب الطلبات الصغيرة ونصف الكيلو.</div>`);
+  state.regions.filter(r=>r.cost!=null).forEach(r=>{const actual=parseFloat(r.cost)||0, fee=parseFloat(r.price)||0;if(actual>fee)alerts.push(`<div class="alert alert-warning">⚠️ ${sanitize(r.name)}: تكلفة التوصيل الفعلية (${actual.toFixed(2)}) أعلى من الرسوم المحصلة (${fee.toFixed(2)}).</div>`);});
+  document.getElementById('deliveryEconomicsAlerts').innerHTML=alerts.join('')||'<div class="alert alert-success">✅ لا توجد فجوة توصيل واضحة بالبيانات المدخلة.</div>';
+}
+window.renderDeliveryEconomics=renderDeliveryEconomics;
 
 // ── FINANCE ──
 window.addExpense = async () => {
@@ -3923,9 +3470,74 @@ window.addCoupon = async () => {
 };
 window.deleteCoupon = (id) => { const c=state.coupons.find(x=>x.id===id); confirmDelete('coupons',id,c?.code||'الكوبون'); };
 
+const CAC_KEY='businessCAC';
+const DEFAULT_CAC_CHANNELS=[
+  {channel:'Instagram',spend:0,newCustomers:0,revenue:0},
+  {channel:'TikTok',spend:0,newCustomers:0,revenue:0},
+  {channel:'Organic / Direct',spend:0,newCustomers:0,revenue:0},
+  {channel:'B2B',spend:0,newCustomers:0,revenue:0}
+];
+function getCACSettings(){
+  const doc=(state.settings||[]).find(x=>x.id===CAC_KEY || x.key===CAC_KEY);
+  return Array.isArray(doc?.channels)?doc.channels:DEFAULT_CAC_CHANNELS;
+}
+function getOrderChannel(o){ return String(o.source||o.channel||o.utmSource||o.marketingChannel||'').trim(); }
+function autoCACByChannel(){
+  const orders=(state.orders||[]).filter(o=>o.status==='delivered');
+  const customers={};
+  orders.forEach(o=>{
+    const ch=getOrderChannel(o); if(!ch) return;
+    const phone=String(o.phone||o.customerPhone||o.customer||o.customerId||'').trim();
+    const key=phone||String(o.customerId||o.id);
+    if(!customers[ch]) customers[ch]={keys:new Set(),orders:0,revenue:0};
+    customers[ch].orders++;
+    customers[ch].revenue += parseFloat(o.total||o.totalAmount||o.amount||o.price||0)||0;
+    customers[ch].keys.add(key);
+  });
+  const out={}; Object.entries(customers).forEach(([ch,d])=>out[ch]={newCustomers:d.keys.size,revenue:d.revenue,orders:d.orders}); return out;
+}
+window.renderCAC=function(){
+  const manual=getCACSettings(); const auto=autoCACByChannel(); const map={};
+  manual.forEach(x=>{ if(x.channel) map[String(x.channel).trim()]={...x}; });
+  Object.entries(auto).forEach(([ch,d])=>{
+    if(!map[ch]) map[ch]={channel:ch,spend:0,newCustomers:0,revenue:0};
+    map[ch].autoNewCustomers=d.newCustomers; map[ch].autoRevenue=d.revenue; map[ch].autoOrders=d.orders;
+  });
+  const rows=Object.values(map).filter(x=>x.channel).map(x=>{
+    const spend=parseFloat(x.spend)||0;
+    const hasAuto=auto[x.channel] && auto[x.channel].newCustomers>0;
+    const nc=hasAuto?auto[x.channel].newCustomers:(parseFloat(x.newCustomers)||0);
+    const rev=(hasAuto?auto[x.channel].revenue:(parseFloat(x.revenue)||0));
+    return {...x,spend,nc,rev,cac:nc>0?spend/nc:null,rpc:nc>0?rev/nc:null,roas:spend>0?rev/spend:null,source:hasAuto?'طلبات Delivered':'إدخال يدوي'};
+  }).sort((a,b)=>((a.cac??Infinity)-(b.cac??Infinity)));
+  const totalSpend=rows.reduce((s,r)=>s+r.spend,0), totalCustomers=rows.reduce((s,r)=>s+r.nc,0), totalRev=rows.reduce((s,r)=>s+r.rev,0);
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('cacTotalSpend',totalSpend.toFixed(2)); set('cacTotalCustomers',totalCustomers); set('cacOverall',totalCustomers?(totalSpend/totalCustomers).toFixed(2):'—'); set('cacChannelsCount',rows.length);
+  const t=document.getElementById('cacTable');
+  if(t)t.innerHTML=rows.length?rows.map((r,i)=>`<tr><td><strong>${sanitize(r.channel)}</strong></td><td>${r.spend.toFixed(2)}</td><td>${r.nc||0}</td><td>${r.cac==null?'—':r.cac.toFixed(2)}</td><td>${r.rev? r.rev.toFixed(2):'—'}</td><td>${r.rpc==null?'—':r.rpc.toFixed(2)}</td><td>${r.roas==null?'—':r.roas.toFixed(2)+'x'}</td><td>${r.source}</td><td><button class="btn btn-sm btn-danger" onclick="window.deleteCACChannel(${JSON.stringify(r.channel)})">🗑</button></td></tr>`).join(''):'<tr><td colspan="9"><div class="empty-state">لا توجد قنوات CAC بعد</div></td></tr>';
+  const notes=document.getElementById('cacNotes');
+  if(notes)notes.innerHTML=`<div class="alert">📌 CAC = إجمالي الإنفاق على القناة ÷ عدد العملاء الجدد المنسوبين إليها. انخفاض CAC وحده لا يكفي لاتخاذ قرار؛ راقب معه Revenue / Customer وROAS وجودة العملاء. القنوات التي لا تحتوي على attribution في الطلبات تظهر كبيانات يدوية.</div>`;
+};
+window.addCACChannel=async function(){
+  const channel=document.getElementById('cacChannel')?.value.trim(); if(!channel)return toast('اسم القناة مطلوب','error');
+  const spend=parseFloat(document.getElementById('cacSpend')?.value)||0;
+  const newCustomers=parseInt(document.getElementById('cacNewCustomers')?.value)||0;
+  const revenue=parseFloat(document.getElementById('cacRevenue')?.value)||0;
+  const rows=getCACSettings().filter(x=>String(x.channel).trim().toLowerCase()!==channel.toLowerCase()); rows.push({channel,spend,newCustomers,revenue});
+  await setDoc_( 'settings', CAC_KEY, {channels:rows});
+  ['cacChannel','cacSpend','cacNewCustomers','cacRevenue'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  window.renderCAC(); toast('تم حفظ بيانات CAC ✅','success');
+};
+window.deleteCACChannel=async function(channel){
+  const rows=getCACSettings().filter(x=>String(x.channel).trim()!==String(channel).trim());
+  await setDoc_('settings',CAC_KEY,{channels:rows}); window.renderCAC();
+};
+
 function renderMarketing() {
   const ct=document.getElementById('campaignsTable');
   ct.innerHTML=state.campaigns.length?state.campaigns.map(c=>`<tr><td><strong>${sanitize(c.name)}</strong></td><td>${sanitize(c.platform)}</td><td>${c.budget||'—'}</td><td>${c.date||'—'}</td><td><button class="btn btn-sm btn-danger" onclick="deleteCampaign('${c.id}')">🗑</button></td></tr>`).join(''):'<tr><td colspan="5"><div class="empty-state"><div class="e-icon">📣</div><div class="e-title">لا توجد حملات</div></div></td></tr>';
+  window.renderCAC();
+  window.renderMarketingROAS();
   const cot=document.getElementById('couponsTable');
   cot.innerHTML=state.coupons.length?state.coupons.map(c=>`<tr><td><strong style="font-family:monospace;color:var(--gold)">${sanitize(c.code)}</strong></td><td>${c.value}${c.type==='percent'?'%':''}</td><td>${c.type==='percent'?'نسبة':'ثابت'}</td><td><button class="btn btn-sm btn-danger" onclick="deleteCoupon('${c.id}')">🗑</button></td></tr>`).join(''):'<tr><td colspan="4"><div class="empty-state"><div class="e-icon">🏷️</div><div class="e-title">لا توجد كوبونات</div></div></td></tr>';
 }
@@ -4552,6 +4164,7 @@ window.editOrder = function(id) {
   const eoqty = document.getElementById('eo-qty'); if(eoqty) eoqty.value = o.qty||1;
   const eodate = document.getElementById('eo-date'); if(eodate) eodate.value = o.dateRaw||'';
   const eonotes = document.getElementById('eo-notes'); if(eonotes) eonotes.value = o.notes||'';
+  const eosource = document.getElementById('eo-source'); if(eosource) eosource.value = o.source||o.channel||o.utmSource||'';
   const eostatus = document.getElementById('eo-status'); if(eostatus) eostatus.value = o.status||'pending';
   // Populate product select
   let ps = document.getElementById('eo-product');
@@ -4587,6 +4200,7 @@ window.saveEditOrder = async function() {
     region: document.getElementById('eo-region').value,
     status: newStatus,
     notes: document.getElementById('eo-notes').value,
+    source: (document.getElementById('eo-source')?.value||'').trim(),
     dateRaw: dateVal,
     date: dateVal ? new Date(dateVal).toLocaleDateString('ar') : ''
   });
@@ -4689,7 +4303,7 @@ window.addOrderProductRow = function() {
   let div = document.createElement('div');
   div.className = 'order-product-row';
   div.style.cssText = 'display:grid;grid-template-columns:1fr auto auto auto;gap:0.4rem;align-items:center;margin-bottom:0.5rem';
-  const opts = '<option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'">'+sanitize(p.name)+'</option>'; }).join('');
+  const opts = '<option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'" data-cost="'+(p.cost||0)+'">'+sanitize(p.name)+'</option>'; }).join('');
   div.innerHTML = '<select class="form-select" style="font-size:0.8rem" onchange="calcOrderTotal()">'+opts+'</select><input class="form-input" type="number" min="1" value="1" placeholder="كمية" style="width:70px;font-size:0.8rem" oninput="calcOrderTotal()"><input class="form-input" type="number" placeholder="سعر" style="width:80px;font-size:0.8rem" oninput="calcOrderTotal()"><button type="button" class="btn btn-sm btn-danger" onclick="removeOrderProductRow(this)" style="padding:0.3rem 0.5rem">✕</button>';
   div.querySelector('select').addEventListener('change', function() {
     let price = this.options[this.selectedIndex].dataset.price;
@@ -4809,7 +4423,7 @@ window.addOrder = async function() {
     if(prodName && prodName !== 'اختر المنتج') {
       let qty = parseInt(inputs[0]?.value)||1;
       let price = parseFloat(inputs[1]?.value)||0;
-      products.push({ name: prodName, qty: qty, price: price });
+      const cost = parseFloat(sel?.options[sel.selectedIndex]?.dataset?.cost)||0; products.push({ name: prodName, qty: qty, price: price, cost: cost });
       totalPrice += qty * price;
     }
   });
@@ -4834,7 +4448,8 @@ window.addOrder = async function() {
     qty: products.reduce(function(s,p){ return s+p.qty; }, 0),
     region, delivery, notes, status, date,
     dateRaw: dateVal || new Date().toISOString().split('T')[0],
-    customFlavors: _customSelectedFlavors.length ? [..._customSelectedFlavors] : []
+    customFlavors: _customSelectedFlavors.length ? [..._customSelectedFlavors] : [],
+    source: (document.getElementById('o-source')?.value||'').trim()
   };
 
   // Deduct packaging inventory (boxes/stickers/bags) based on total quantity
@@ -4892,6 +4507,7 @@ window.addOrder = async function() {
   document.getElementById('o-phone').value='';
   document.getElementById('o-notes').value='';
   document.getElementById('o-delivery').value='';
+  const srcEl = document.getElementById('o-source'); if(srcEl) srcEl.value='';
   document.getElementById('o-date').value='';
   const debtCb = document.getElementById('o-add-debt'); if(debtCb) debtCb.checked=false;
   const debtPaidWrap = document.getElementById('o-debt-paid-wrap'); if(debtPaidWrap) debtPaidWrap.style.display='none';
@@ -4899,7 +4515,7 @@ window.addOrder = async function() {
   // Reset product rows
   let container = document.getElementById('orderProductRows');
   if(container) {
-    container.innerHTML = '<div class="order-product-row" style="display:grid;grid-template-columns:1fr auto auto auto;gap:0.4rem;align-items:center;margin-bottom:0.5rem"><select class="form-select" style="font-size:0.8rem" onchange="calcOrderTotal()"><option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'">'+sanitize(p.name)+'</option>'; }).join('') + '</select><input class="form-input" type="number" min="1" value="1" placeholder="كمية" style="width:70px;font-size:0.8rem" oninput="calcOrderTotal()"><input class="form-input" type="number" placeholder="سعر" style="width:80px;font-size:0.8rem" oninput="calcOrderTotal()"><button type="button" class="btn btn-sm btn-danger" onclick="removeOrderProductRow(this)" style="padding:0.3rem 0.5rem;visibility:hidden">✕</button></div>';
+    container.innerHTML = '<div class="order-product-row" style="display:grid;grid-template-columns:1fr auto auto auto;gap:0.4rem;align-items:center;margin-bottom:0.5rem"><select class="form-select" style="font-size:0.8rem" onchange="calcOrderTotal()"><option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'" data-cost="'+(p.cost||0)+'">'+sanitize(p.name)+'</option>'; }).join('') + '</select><input class="form-input" type="number" min="1" value="1" placeholder="كمية" style="width:70px;font-size:0.8rem" oninput="calcOrderTotal()"><input class="form-input" type="number" placeholder="سعر" style="width:80px;font-size:0.8rem" oninput="calcOrderTotal()"><button type="button" class="btn btn-sm btn-danger" onclick="removeOrderProductRow(this)" style="padding:0.3rem 0.5rem;visibility:hidden">✕</button></div>';
   }
   const disp = document.getElementById('o-total-display'); if(disp) disp.textContent='0';
   toast('تم إضافة الطلب بنجاح ✅', 'success');
@@ -4912,7 +4528,7 @@ window.populateSelects = function() {
   if(container) {
     container.querySelectorAll('.order-product-row select').forEach(function(sel) {
       const currentVal = sel.value;
-      sel.innerHTML = '<option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'">'+sanitize(p.name)+'</option>'; }).join('');
+      sel.innerHTML = '<option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'" data-cost="'+(p.cost||0)+'">'+sanitize(p.name)+'</option>'; }).join('');
       sel.value = currentVal;
     });
   }
@@ -5376,6 +4992,101 @@ window.setMonthFilter = function(period, btn, page) {
 };
 
 // ── FIX: notes subscribeToData needs notes collection ──
+
+// ══════════════════════════════════════════════════════════════
+// DEMAND FORECASTING ENGINE
+// ══════════════════════════════════════════════════════════════
+function fcDate(raw){
+  if(!raw) return null;
+  if(raw && typeof raw.toDate==='function') return raw.toDate();
+  if(raw && raw.seconds) return new Date(raw.seconds*1000);
+  const d = new Date(raw); return isNaN(d) ? null : d;
+}
+function fcDeliveredOrders(){ return (state.orders||[]).filter(o=>o.status==='delivered').map(o=>({...o,__d:fcDate(o.dateRaw)||fcDate(o.createdAt)})).filter(o=>o.__d); }
+function fcDayName(i){ return ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][i]; }
+function fcSeasonFactor(month){
+  const counts={}; const all=fcDeliveredOrders();
+  all.forEach(o=>{const m=o.__d.getMonth(); counts[m]=(counts[m]||0)+1;});
+  const vals=Object.values(counts); if(vals.length<3) return 1;
+  const avg=vals.reduce((a,b)=>a+b,0)/vals.length; return avg ? ((counts[month]||avg)/avg) : 1;
+}
+function fcItemMap(orders){
+  const m={};
+  orders.forEach(o=>{
+    let names=[];
+    if(Array.isArray(o.customFlavors) && o.customFlavors.length){
+      o.customFlavors.forEach(x=>names.push(typeof x==='string'?x:(x.name||x.nameAr||x.nameEn||'')));
+    }
+    if(!names.length) names=[o.product||'غير محدد'];
+    const qty=Math.max(1,parseFloat(o.qty)||1);
+    names.filter(Boolean).forEach(n=>{
+      if(!m[n]) m[n]={hist:0,days:{},dow:{},regions:{}};
+      m[n].hist += qty;
+      const key=o.__d.toISOString().slice(0,10); m[n].days[key]=(m[n].days[key]||0)+qty;
+      const dow=o.__d.getDay(); m[n].dow[dow]=(m[n].dow[dow]||0)+qty;
+      const r=o.region||'غير محدد'; m[n].regions[r]=(m[n].regions[r]||0)+qty;
+    });
+  }); return m;
+}
+function fcInventoryFor(name){
+  const inv=(state.inventory||[]).find(i=>String(i.name||'').trim().toLowerCase()===String(name||'').trim().toLowerCase());
+  if(inv) return parseFloat(inv.qty ?? inv.quantity ?? inv.stock ?? 0)||0;
+  const prod=(state.products||[]).find(p=>String(p.name||'').trim().toLowerCase()===String(name||'').trim().toLowerCase());
+  if(prod && prod.inventory!=null) return parseFloat(prod.inventory)||0;
+  return null;
+}
+window.renderDemandForecast=function(){
+  const horizon=parseInt(document.getElementById('fcHorizon')?.value||30,10);
+  const lookback=parseInt(document.getElementById('fcLookback')?.value||90,10);
+  const all=fcDeliveredOrders();
+  const now=new Date(); now.setHours(23,59,59,999);
+  const cutoff=new Date(now); cutoff.setDate(cutoff.getDate()-lookback);
+  const hist=all.filter(o=>o.__d>=cutoff && o.__d<=now);
+  const quality=document.getElementById('fcDataQuality');
+  const uniqueDays=new Set(hist.map(o=>o.__d.toISOString().slice(0,10))).size;
+  if(!hist.length){
+    if(quality) quality.innerHTML='⚠️ لا توجد طلبات Delivered كافية لبناء توقع فعلي.';
+    ['fcTotalDemand','fcTopItem','fcTopRegion','fcCoverage'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=id==='fcTopItem'||id==='fcTopRegion'||id==='fcCoverage'?'—':'0';});
+    ['fcItemsTable','fcDaysTable','fcRegionsTable'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML='<tr><td colspan="9" class="empty-state">لا توجد بيانات تاريخية</td></tr>';});
+    const a=document.getElementById('fcAlerts');if(a)a.innerHTML='<div class="empty-state">لا توجد بيانات كافية لإصدار تنبيهات</div>'; return;
+  }
+  const itemMap=fcItemMap(hist), start=new Date(now); start.setDate(start.getDate()+1);
+  const rows=[];
+  Object.entries(itemMap).forEach(([name,d])=>{
+    const avg=d.hist/Math.max(1,uniqueDays);
+    let expected=0;
+    for(let k=0;k<horizon;k++){
+      const dt=new Date(start); dt.setDate(start.getDate()+k);
+      const dow=d.dow[dt.getDay()] ? (d.dow[dt.getDay()]/Math.max(1,Math.round(uniqueDays/7))) : avg;
+      const dayFactor=avg>0 ? Math.min(2,Math.max(.5,dow/avg)) : 1;
+      const sf=Math.min(1.5,Math.max(.7,fcSeasonFactor(dt.getMonth())));
+      expected += avg*dayFactor*sf;
+    }
+    const recentCut=new Date(now); recentCut.setDate(recentCut.getDate()-Math.min(14,lookback));
+    const recent=hist.filter(o=>o.__d>=recentCut); const recentQty=recent.reduce((s,o)=>s+(parseFloat(o.qty)||1),0)/Math.max(1,Math.min(14,lookback));
+    const trend=recentQty>avg*1.15?'↑ صاعد':recentQty<avg*.85?'↓ منخفض':'→ مستقر';
+    const conf=uniqueDays>=60?'عالية':uniqueDays>=30?'متوسطة':uniqueDays>=14?'محدودة':'ضعيفة';
+    const stock=fcInventoryFor(name); const daily=expected/Math.max(1,horizon); const coverage=stock==null?null:(daily>0?stock/daily:null);
+    rows.push({name,hist:d.hist,avg,expected,trend,conf,stock,coverage});
+  });
+  rows.sort((a,b)=>b.expected-a.expected);
+  const total=rows.reduce((s,r)=>s+r.expected,0); const top=rows[0];
+  const fi=document.getElementById('fcTotalDemand');if(fi)fi.textContent=Math.ceil(total)+' وحدة';
+  const ti=document.getElementById('fcTopItem');if(ti)ti.textContent=top?sanitize(top.name):'—';
+  const tq=document.getElementById('fcTopItemQty');if(tq)tq.textContent=top?Math.ceil(top.expected)+' وحدة متوقعة':'—';
+  const regions={}; hist.forEach(o=>{const r=o.region||'غير محدد';regions[r]=(regions[r]||0)+Math.max(1,parseFloat(o.qty)||1);});
+  const regionRows=Object.entries(regions).map(([name,q])=>({name,q,expected: q/hist.length*horizon})).sort((a,b)=>b.expected-a.expected);
+  const tr=regionRows[0];const re=document.getElementById('fcTopRegion');if(re)re.textContent=tr?sanitize(tr.name):'—';const rq=document.getElementById('fcTopRegionQty');if(rq)rq.textContent=tr?Math.ceil(tr.expected)+' وحدة':'—';
+  const cover=rows.filter(r=>r.coverage!=null).sort((a,b)=>a.coverage-b.coverage)[0];const ce=document.getElementById('fcCoverage');if(ce)ce.textContent=cover?cover.coverage.toFixed(1):'—';
+  if(quality) quality.innerHTML=`📊 تم تحليل <strong>${hist.length}</strong> طلب Delivered عبر <strong>${uniqueDays}</strong> يوم فعلي. دقة البيانات: <strong>${uniqueDays>=60?'عالية':uniqueDays>=30?'متوسطة':uniqueDays>=14?'محدودة':'ضعيفة'}</strong>.`;
+  const it=document.getElementById('fcItemsTable');if(it)it.innerHTML=rows.map(r=>`<tr><td><strong>${sanitize(r.name)}</strong></td><td>${r.hist.toFixed(0)}</td><td>${r.avg.toFixed(2)}</td><td><strong>${Math.ceil(r.expected)}</strong></td><td>${r.trend}</td><td>${r.conf}</td><td>${r.stock==null?'—':r.stock}</td><td>${r.coverage==null?'—':r.coverage.toFixed(1)+' يوم'}</td><td>${r.coverage!=null&&r.coverage<7?'🔴 إعادة طلب':r.coverage!=null&&r.coverage<14?'🟡 راقب':'🟢 كافي'}</td></tr>`).join('')||'<tr><td colspan="9">لا توجد بيانات</td></tr>';
+  const dayRows=[];for(let d=0;d<7;d++){let base=0;hist.forEach(o=>{if(o.__d.getDay()===d)base+=Math.max(1,parseFloat(o.qty)||1);});const days=hist.filter(o=>o.__d.getDay()===d).length;const per=days?base/days:0;let future=0;for(let k=0;k<horizon;k++){const dt=new Date(start);dt.setDate(start.getDate()+k);if(dt.getDay()===d)future+=per*fcSeasonFactor(dt.getMonth());}dayRows.push({d,future});}
+  const dt=document.getElementById('fcDaysTable');if(dt)dt.innerHTML=dayRows.map(x=>`<tr><td>${fcDayName(x.d)}</td><td>${Math.ceil(x.future)}</td><td>${total?Math.round(x.future/total*100):0}%</td></tr>`).join('');
+  const rt=document.getElementById('fcRegionsTable');if(rt)rt.innerHTML=regionRows.map(x=>`<tr><td>${sanitize(x.name)}</td><td>${x.q.toFixed(0)}</td><td>${Math.ceil(x.expected)}</td><td>${total?Math.round(x.expected/regionRows.reduce((s,z)=>s+z.expected,0)*100):0}%</td></tr>`).join('')||'<tr><td colspan="4">لا توجد بيانات مناطق</td></tr>';
+  const alerts=rows.filter(r=>r.coverage!=null&&r.coverage<14).sort((a,b)=>a.coverage-b.coverage);
+  const ae=document.getElementById('fcAlerts');if(ae)ae.innerHTML=alerts.length?alerts.map(r=>`<div class="alert ${r.coverage<7?'alert-danger':'alert-warning'}">${r.coverage<7?'🔴':'🟡'} <strong>${sanitize(r.name)}</strong> — المخزون المتوقع يغطي ${r.coverage.toFixed(1)} يوم فقط، مقابل طلب متوقع ${Math.ceil(r.expected)} وحدة خلال ${horizon} يوم.</div>`).join(''):'<div class="empty-state">🟢 لا توجد تنبيهات مخزون مبنية على البيانات المتاحة.</div>';
+};
+
 function subscribeToData() {
   const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads'];
   if(!window.unsubscribers) window.unsubscribers = [];
@@ -5395,16 +5106,17 @@ function subscribeToData() {
 // ── FIX: refreshUI to handle notes ──
 function refreshUI(col) {
   try {
-    if(col==='orders')      { filterOrders(); refreshDashboard(); refreshProductAnalytics(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); }
+    if(col==='orders')      { filterOrders(); refreshDashboard(); refreshProductAnalytics(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); if(document.getElementById('page-forecast')?.classList.contains('active')) window.renderDemandForecast(); if(document.getElementById('page-marketing')?.classList.contains('active')) window.renderMarketingROAS(); if(document.getElementById('page-strategy')?.classList.contains('active')) window.renderBusinessStrategy(); }
     if(col==='customers')   { renderCustomers(); refreshDashboard(); }
     if(col==='products')    { renderProducts(); }
-    if(col==='inventory')   { seedDefaultPackagingIfEmpty(); renderInventory(); }
+    if(col==='inventory')   { seedDefaultPackagingIfEmpty(); renderInventory(); if(document.getElementById('page-forecast')?.classList.contains('active')) window.renderDemandForecast(); }
     if(col==='regions')     { renderRegions(); }
     if(col==='expenses')    { if(window.renderFinance) renderFinance(); refreshDashboard(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); }
     if(col==='campaigns' || col==='coupons') { renderMarketing(); }
+    if(col==='settings') { try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} if(document.getElementById('page-marketing')?.classList.contains('active')) { window.renderCAC(); window.renderMarketingROAS(); } if(document.getElementById('page-strategy')?.classList.contains('active')) window.renderBusinessStrategy(); }
     if(col==='trash')       { renderTrash(); }
     if(col==='certificates'){ renderCertificates(); }
-    if(col==='settings')    { try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} }
+    if(col==='settings')    { try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} if(document.getElementById('page-marketing')?.classList.contains('active')) { window.renderCAC(); window.renderMarketingROAS(); } if(document.getElementById('page-strategy')?.classList.contains('active')) window.renderBusinessStrategy(); }
     if(col==='notes')       { if(window.filterNotes) filterNotes(); }
     if(col==='flavors')     { if(document.getElementById('page-flavors')?.classList.contains('active')) window.filterFlavors(); updateFlavorStats(); }
     if(col==='freelancers') { if(document.getElementById('page-freelancers')?.classList.contains('active')) window.filterFreelancers(); updateFreelancerStats(); if(document.getElementById('freelancerDetailModal')?.classList.contains('open') && document.getElementById('frd-id')?.value) window.refreshFreelancerDetail(); }
@@ -5427,7 +5139,7 @@ window.openAddOrderModal = function() {
       let sel = row.querySelector('select');
       if(sel) {
         const cur = sel.value;
-        sel.innerHTML = '<option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'">'+sanitize(p.name)+'</option>'; }).join('');
+        sel.innerHTML = '<option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'" data-cost="'+(p.cost||0)+'">'+sanitize(p.name)+'</option>'; }).join('');
         sel.value = cur;
         sel.onchange = function(){ let pr=this.options[this.selectedIndex].dataset.price; if(pr){const inp=this.parentElement.querySelectorAll('input')[1]; if(inp&&!inp.value)inp.value=pr;} calcOrderTotal(); };
       }
@@ -8183,611 +7895,93 @@ function updateLeadStats() {
   el('leadWonCount', all.filter(l=>l.status==='Won').length);
 }
 
-</script>
-<script>
-(function(){
-'use strict';
 
-/* DEEB OS V2 — centralized ERP module */
-const ERP_COLLECTIONS = ['suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','priceHistory','inventoryLedger'];
-const ERP_VERSION = '2.2.0';
-const MONEY = n => Math.round((Number(n)||0)*100)/100;
-const NUM = n => Number.isFinite(Number(n)) ? Number(n) : 0;
-const esc = v => typeof sanitize === 'function' ? sanitize(v) : String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-const tsNow = () => Date.now();
-function dateObj(v){
-  if(!v) return null;
-  if(v.toDate) return v.toDate();
-  if(typeof v==='object' && v.seconds) return new Date(v.seconds*1000);
-  const d=new Date(v); return isNaN(d)?null:d;
-}
-function dateKey(v){ const d=dateObj(v); return d?d.toISOString().slice(0,10):''; }
-function monthKey(v){ const d=dateObj(v); return d?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`:''; }
-function deliveredOrders(){ return (state.orders||[]).filter(o=>o.status==='delivered' || o.status==='completed'); }
-function orderRevenue(o){ return MONEY(NUM(o.subtotal ?? o.totalBeforeDelivery ?? o.price) + NUM(o.discount ? -NUM(o.discount) : 0)); }
-function orderTotal(o){ return MONEY(NUM(o.total ?? o.price)); }
-function productCostForItem(item){
-  const name=String(item?.name||item?.product||'').trim().toLowerCase();
-  const p=(state.products||[]).find(x=>String(x.name||'').trim().toLowerCase()===name);
-  if(p && NUM(p.cost)>0) return MONEY(p.cost);
-  const inv=(state.inventory||[]).find(x=>String(x.name||'').trim().toLowerCase()===name);
-  if(inv && NUM(inv.avgCost ?? inv.cost)>0) return MONEY(inv.avgCost ?? inv.cost);
-  return 0;
-}
-function orderItems(o){
-  if(Array.isArray(o.products)) return o.products;
-  if(Array.isArray(o.items)) return o.items;
-  if(o.product) return [{name:o.product,qty:NUM(o.qty)||1,price:NUM(o.price)}];
-  return [];
-}
-function calculateOrderCOGS(o){
-  if(NUM(o.cogs)>=0 && o.cogsSnapshot) return MONEY(o.cogs);
-  return MONEY(orderItems(o).reduce((s,it)=>s + NUM(it.qty||1)*productCostForItem(it),0));
-}
-function calculateOrderRevenue(o){ return orderTotal(o); }
-function calculateGrossProfit(o){ return MONEY(calculateOrderRevenue(o)-calculateOrderCOGS(o)); }
-function calculateAOV(orders){ return orders.length?MONEY(orders.reduce((s,o)=>s+calculateOrderRevenue(o),0)/orders.length):0; }
-function operatingExpenses(start,end){
-  return MONEY((state.expenses||[]).reduce((s,e)=>{const d=dateObj(e.date||e.dateRaw||e.createdAt); return d&&d>=start&&d<=end?s+NUM(e.amount):s;},0));
-}
-function periodBounds(type='month', ref=new Date()){
-  let y=ref.getFullYear(),m=ref.getMonth();
-  if(type==='today'){const s=new Date(y,m,ref.getDate());return [s,new Date(y,m,ref.getDate(),23,59,59,999)];}
-  if(type==='year')return [new Date(y,0,1),new Date(y,11,31,23,59,59,999)];
-  return [new Date(y,m,1),new Date(y,m+1,0,23,59,59,999)];
-}
-function financialSummary(start,end){
-  const os=deliveredOrders().filter(o=>{const d=dateObj(o.dateRaw||o.date||o.createdAt);return d&&d>=start&&d<=end;});
-  const revenue=MONEY(os.reduce((s,o)=>s+calculateOrderRevenue(o),0));
-  const cogs=MONEY(os.reduce((s,o)=>s+calculateOrderCOGS(o),0));
-  const gross=MONEY(revenue-cogs);
-  const expenses=operatingExpenses(start,end);
-  const net=MONEY(gross-expenses);
-  return {orders:os.length,revenue,cogs,gross,expenses,net,grossMargin:revenue?MONEY(gross/revenue*100):0,netMargin:revenue?MONEY(net/revenue*100):0,aov:calculateAOV(os),items:os};
-}
-function weightedAverageCost(oldQty,oldCost,receivedQty,purchaseCost){
-  oldQty=NUM(oldQty); oldCost=NUM(oldCost); receivedQty=NUM(receivedQty); purchaseCost=NUM(purchaseCost);
-  const total=oldQty+receivedQty;
-  return total>0?MONEY(((oldQty*oldCost)+(receivedQty*purchaseCost))/total):MONEY(purchaseCost);
-}
-function actor(){const u=auth.currentUser;return {uid:u?.uid||'',email:u?.email||''};}
-async function activity(action,entityType,entityId,description,before=null,after=null){
-  try{await db.collection('activityLog').add({actorUid:actor().uid,actorName:actor().email,action,entityType,entityId,description,before,after,timestamp:tsNow(),ts:tsNow()});}catch(e){console.warn('ERP activity log:',e);}
-}
-
-/* ---------- UI ---------- */
-const css=`
-.erp-v2-page{display:none}.erp-v2-page.active{display:block}.erp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.erp-card{background:var(--card,#fff);border:1px solid rgba(115,91,83,.12);border-radius:14px;padding:16px;box-shadow:0 5px 20px rgba(59,33,0,.05)}.erp-kpi{font-size:1.55rem;font-weight:800;color:var(--brown,#3b2100);margin-top:5px}.erp-muted{color:#806f69;font-size:.78rem}.erp-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.erp-toolbar input,.erp-toolbar select{min-width:160px}.erp-table-wrap{overflow:auto;border:1px solid rgba(115,91,83,.12);border-radius:12px}.erp-table{width:100%;border-collapse:collapse;min-width:850px}.erp-table th{position:sticky;top:0;background:#f8efeb;color:#3b2100;z-index:1}.erp-table th,.erp-table td{padding:10px;border-bottom:1px solid rgba(115,91,83,.1);text-align:right;font-size:.78rem}.erp-table tr:hover td{background:rgba(235,221,212,.22)}.erp-badge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:.7rem;font-weight:700;background:#f1e8e3}.erp-badge.ok{background:#e6f5ed;color:#147447}.erp-badge.warn{background:#fff3d8;color:#8a5a00}.erp-badge.danger{background:#fde7e7;color:#a12626}.erp-badge.info{background:#e8f0fb;color:#315a91}.erp-section-title{font-size:1rem;font-weight:800;color:#3b2100;margin:18px 0 10px}.erp-detail{display:grid;grid-template-columns:1.1fr 1.9fr;gap:14px}.erp-actions{display:flex;gap:7px;flex-wrap:wrap}.erp-empty{text-align:center;padding:35px;color:#806f69}.erp-report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.erp-search{width:min(520px,100%);padding:11px 14px;border-radius:10px;border:1px solid rgba(115,91,83,.2)}.erp-command{position:fixed;inset:0;background:rgba(20,12,8,.55);z-index:99999;display:none;align-items:flex-start;justify-content:center;padding-top:12vh}.erp-command.open{display:flex}.erp-command-box{background:#fff;width:min(700px,92vw);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.25)}.erp-command-box input{width:100%;padding:16px;border:0;border-bottom:1px solid #eee;font-size:1rem}.erp-results{max-height:60vh;overflow:auto}.erp-result{padding:12px 16px;border-bottom:1px solid #eee;cursor:pointer}.erp-result:hover{background:#f8efeb}.erp-alert{padding:12px;border-radius:10px;background:#fff5df;margin-bottom:8px}.dark-mode .erp-card,.dark-mode .erp-command-box{background:#211916;color:#f8efeb}.dark-mode .erp-table th{background:#30231f;color:#f8efeb}.dark-mode .erp-table td{color:#eee}.dark-mode .erp-search,.dark-mode .erp-toolbar input,.dark-mode .erp-toolbar select{background:#2a201d;color:#fff;border-color:#51423c}
-@media(max-width:1100px){.erp-grid{grid-template-columns:repeat(2,1fr)}.erp-detail{grid-template-columns:1fr}.erp-report-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.erp-grid,.erp-report-grid{grid-template-columns:1fr}.erp-toolbar>*{width:100%}.erp-table th,.erp-table td{padding:8px 6px}}
-`;
-if(!document.getElementById('erp-v2-css')){const st=document.createElement('style');st.id='erp-v2-css';st.textContent=css;document.head.appendChild(st);}
-
-function addNav(id,label,icon){
-  const nav=document.querySelector('.sidebar-nav')||document.querySelector('.sidebar-menu')||document.querySelector('aside');
-  if(!nav||document.getElementById('erp-nav-'+id))return;
-  const b=document.createElement('div');b.className='nav-item';b.id='erp-nav-'+id;b.innerHTML=`<span>${icon}</span><span>${label}</span>`;b.onclick=()=>showERPPage(id,b);nav.appendChild(b);
-}
-function addPage(id,title,html){
-  if(document.getElementById('page-'+id))return;
-  const main=document.querySelector('.content'); if(!main)return;
-  const p=document.createElement('div');p.className='page erp-v2-page';p.id='page-'+id;p.innerHTML=`<div class="page-header"><div><h2>${title}</h2><div class="erp-muted">DEEB OS V2 · ${ERP_VERSION}</div></div></div>${html}`;main.appendChild(p);
-}
-function showERPPage(id,el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-'+id)?.classList.add('active');el?.classList.add('active');
-  if(id==='suppliers')renderSuppliers();if(id==='supplier-orders')renderSupplierOrders();if(id==='erp-inventory')renderERPInventory();if(id==='erp-finance')renderERPFinance();if(id==='monthly-report')renderMonthlyReport();if(id==='erp-analytics')renderERPAnalytics();if(id==='erp-search')focusERPSearch();if(id==='erp-settings')renderERPSettings();if(id==='erp-backup')renderERPBackup();
-}
-function setupUI(){
-  ['suppliers','supplier-orders','erp-inventory','erp-finance','monthly-report','erp-analytics','erp-search','erp-settings','erp-backup'].forEach((id,i)=>addNav(id,['الموردون','طلبات الموردين','المخزون المتقدم','المالية','التقرير الشهري','التحليلات','البحث الشامل','إعدادات ERP','النسخ الاحتياطي'][i],['🏭','📦','🗄️','💰','📊','📈','🔎','⚙️','💾'][i]));
-  addPage('suppliers','🏭 الموردون',`<div id="erp-suppliers"></div>`);
-  addPage('supplier-orders','📦 طلبات الموردين',`<div id="erp-supplier-orders"></div>`);
-  addPage('erp-inventory','🗄️ المخزون المتقدم',`<div id="erp-inventory-root"></div>`);
-  addPage('erp-finance','💰 المالية',`<div id="erp-finance-root"></div>`);
-  addPage('monthly-report','📊 التقرير المالي الشهري',`<div id="erp-monthly-root"></div>`);
-  addPage('erp-analytics','📈 التحليلات والـ Peak Analysis',`<div id="erp-analytics-root"></div>`);
-  addPage('erp-search','🔎 البحث الشامل',`<div class="erp-card"><input id="erp-global-search" class="erp-search" placeholder="ابحث في الطلبات، العملاء، المنتجات، الموردين، المخزون... (Ctrl/Cmd + K)"><div id="erp-search-results" class="erp-results" style="margin-top:12px"></div></div>`);
-  addPage('erp-settings','⚙️ إعدادات ERP',`<div id="erp-settings-root"></div>`);
-  addPage('erp-backup','💾 النسخ الاحتياطي والاستعادة',`<div id="erp-backup-root"></div>`);
-  const cmd=document.createElement('div');cmd.id='erp-command';cmd.className='erp-command';cmd.innerHTML='<div class="erp-command-box"><input id="erp-command-input" placeholder="اكتب للبحث..."><div id="erp-command-results" class="erp-results"></div></div>';document.body.appendChild(cmd);cmd.addEventListener('click',e=>{if(e.target===cmd)cmd.classList.remove('open');});
-  document.getElementById('erp-global-search')?.addEventListener('input',renderGlobalSearch);document.getElementById('erp-command-input')?.addEventListener('input',renderCommandSearch);
-  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('erp-command').classList.add('open');setTimeout(()=>document.getElementById('erp-command-input')?.focus(),0)}if(e.key==='Escape')document.getElementById('erp-command')?.classList.remove('open');});
-}
-
-/* ---------- supplier ERP ---------- */
-function supplierStats(s){const os=(state.supplierOrders||[]).filter(o=>o.supplierId===s.id);const total=MONEY(os.reduce((x,o)=>x+NUM(o.total),0));const paid=MONEY(os.reduce((x,o)=>x+NUM(o.paid),0));return {orders:os.length,total,paid,outstanding:MONEY(total-paid),last:os.sort((a,b)=>NUM(b.date||b.createdAt)-NUM(a.date||a.createdAt))[0]};}
-function renderSuppliers(){const root=document.getElementById('erp-suppliers');if(!root)return;const ss=state.suppliers||[];const totalPurch=MONEY((state.supplierOrders||[]).reduce((s,o)=>s+NUM(o.total),0));const out=MONEY((state.supplierOrders||[]).reduce((s,o)=>s+Math.max(0,NUM(o.outstanding??(NUM(o.total)-NUM(o.paid)))),0));root.innerHTML=`<div class="erp-grid"><div class="erp-card"><div class="erp-muted">إجمالي الموردين</div><div class="erp-kpi">${ss.length}</div></div><div class="erp-card"><div class="erp-muted">المشتريات</div><div class="erp-kpi">${totalPurch.toFixed(2)} JOD</div></div><div class="erp-card"><div class="erp-muted">المستحق للموردين</div><div class="erp-kpi">${out.toFixed(2)} JOD</div></div><div class="erp-card"><div class="erp-muted">طلبات معلقة</div><div class="erp-kpi">${(state.supplierOrders||[]).filter(o=>!['Fully Received','Cancelled','Paid'].includes(o.status)).length}</div></div></div><div class="erp-toolbar"><input id="supplier-q" class="erp-search" placeholder="بحث بالمورد..."><button class="btn btn-primary" onclick="window.erpAddSupplier()">+ إضافة مورد</button></div><div class="erp-table-wrap"><table class="erp-table"><thead><tr><th>المورد</th><th>التصنيف</th><th>التواصل</th><th>المشتريات</th><th>المدفوع</th><th>المتبقي</th><th>آخر شراء</th><th>إجراء</th></tr></thead><tbody>${ss.length?ss.map(s=>{const x=supplierStats(s);return `<tr><td><strong>${esc(s.name)}</strong></td><td>${esc(s.category||'—')}</td><td>${esc(s.phone||s.email||'—')}</td><td>${x.total.toFixed(2)}</td><td>${x.paid.toFixed(2)}</td><td>${x.outstanding.toFixed(2)}</td><td>${esc(dateKey(x.last?.date||x.last?.createdAt)||'—')}</td><td><button class="btn btn-sm btn-outline" onclick="window.erpSupplierDetail('${s.id}')">عرض</button> <button class="btn btn-sm btn-gold" onclick="window.erpAddSupplierOrder('${s.id}')">+ طلب</button></td></tr>`}).join(''):'<tr><td colspan="8" class="erp-empty">لا يوجد موردون بعد</td></tr>'}</tbody></table></div>`;document.getElementById('supplier-q')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#erp-suppliers tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')});}
-window.erpAddSupplier=async()=>{const name=prompt('اسم المورد:');if(!name?.trim())return;const category=prompt('التصنيف (اختياري):')||'';const phone=prompt('الهاتف (اختياري):')||'';await addDoc_('suppliers',{name:name.trim(),category,phone,status:'active',createdBy:actor().uid});toast('تم إضافة المورد ✅');};
-window.erpSupplierDetail=(id)=>{const s=(state.suppliers||[]).find(x=>x.id===id);if(!s)return;const x=supplierStats(s);alert(`المورد: ${s.name}\nالمشتريات: ${x.total.toFixed(2)} JOD\nالمدفوع: ${x.paid.toFixed(2)} JOD\nالمتبقي: ${x.outstanding.toFixed(2)} JOD`);};
-window.erpAddSupplierOrder=async(supplierId)=>{const s=(state.suppliers||[]).find(x=>x.id===supplierId);if(!s)return;const name=prompt('اسم المادة/الصنف:');if(!name)return;const qty=NUM(prompt('الكمية المطلوبة:'));if(qty<=0)return;const unitPrice=NUM(prompt('سعر الشراء للوحدة:'));if(unitPrice<0)return;const due=prompt('تاريخ الاستحقاق YYYY-MM-DD (اختياري):')||'';const item={itemId:'',itemName:name,orderedQty:qty,receivedQty:0,unit:'unit',unitPrice,total:MONEY(qty*unitPrice)};await addDoc_('supplierOrders',{supplierId,supplierName:s.name,orderNumber:'PO-'+Date.now(),date:tsNow(),status:'Ordered',items:[item],subtotal:item.total,discount:0,tax:0,total:item.total,paid:0,outstanding:item.total,paymentStatus:'Unpaid',dueDate:due,createdBy:actor().uid,createdAt:tsNow(),updatedAt:tsNow()});toast('تم إنشاء طلب المورد ✅');};
-
-function renderSupplierOrders(){const root=document.getElementById('erp-supplier-orders');if(!root)return;const os=state.supplierOrders||[];root.innerHTML=`<div class="erp-toolbar"><input id="po-q" class="erp-search" placeholder="بحث برقم الطلب أو المورد..."><select id="po-status"><option value="">كل الحالات</option><option>Ordered</option><option>Partially Received</option><option>Fully Received</option><option>Cancelled</option></select></div><div class="erp-table-wrap"><table class="erp-table"><thead><tr><th>رقم الطلب</th><th>المورد</th><th>التاريخ</th><th>الإجمالي</th><th>المستلم</th><th>الحالة</th><th>المستحق</th><th>إجراء</th></tr></thead><tbody>${os.length?os.map(o=>{const rec=(o.items||[]).reduce((s,i)=>s+NUM(i.receivedQty),0);const ord=(o.items||[]).reduce((s,i)=>s+NUM(i.orderedQty??i.qty),0);return `<tr><td>${esc(o.orderNumber||o.id.slice(0,8))}</td><td>${esc(o.supplierName||'—')}</td><td>${esc(dateKey(o.date||o.createdAt))}</td><td>${NUM(o.total).toFixed(2)}</td><td>${rec}/${ord}</td><td><span class="erp-badge ${o.status==='Fully Received'?'ok':o.status==='Partially Received'?'warn':'info'}">${esc(o.status||'Ordered')}</span></td><td>${NUM(o.outstanding??(NUM(o.total)-NUM(o.paid))).toFixed(2)}</td><td><button class="btn btn-sm btn-primary" onclick="window.erpReceiveSupplierOrder('${o.id}')">استلام</button> <button class="btn btn-sm btn-outline" onclick="window.erpPaySupplier('${o.id}')">دفع</button></td></tr>`}).join(''):'<tr><td colspan="8" class="erp-empty">لا توجد طلبات موردين</td></tr>'}</tbody></table></div>`;}
-
-window.erpPaySupplier=async(id)=>{const o=(state.supplierOrders||[]).find(x=>x.id===id);if(!o)return;const outstanding=MONEY(NUM(o.outstanding??(NUM(o.total)-NUM(o.paid))));if(outstanding<=0){toast('لا يوجد مبلغ مستحق','warning');return;}const amount=NUM(prompt(`المتبقي: ${outstanding.toFixed(2)} JOD\nأدخل مبلغ الدفع:`));if(amount<=0||amount>outstanding){toast('مبلغ الدفع غير صالح','error');return;}const method=prompt('طريقة الدفع (Cash / CliQ / Bank):')||'Cash';const batch=db.batch();const ref=db.collection('supplierOrders').doc(id);const pay=db.collection('supplierPayments').doc();const newPaid=MONEY(NUM(o.paid)+amount);batch.update(ref,{paid:newPaid,outstanding:MONEY(NUM(o.total)-newPaid),paymentStatus:newPaid>=NUM(o.total)?'Paid':'Partially Paid',updatedAt:tsNow()});batch.set(pay,{supplierId:o.supplierId||'',supplierOrderId:id,amount,paymentDate:tsNow(),method,reference:'',notes:'',createdBy:actor().uid,createdAt:tsNow()});await batch.commit();await activity('payment','supplierOrder',id,`دفعة للمورد ${amount.toFixed(2)} JOD`);toast('تم تسجيل الدفعة ✅');};
-window.erpReceiveSupplierOrder=async(id)=>{
-  const ref=db.collection('supplierOrders').doc(id);let order=(state.supplierOrders||[]).find(x=>x.id===id);if(!order)return;
-  const currentItems=(order.items||[]).map((it,i)=>({...it,orderedQty:NUM(it.orderedQty??it.qty),receivedQty:NUM(it.receivedQty)}));
-  const received=currentItems.map((it,i)=>{const answer=prompt(`المادة: ${it.itemName||it.name||'—'}\nالمطلوب: ${it.orderedQty}\nالمستلم سابقاً: ${it.receivedQty}\nأدخل إجمالي الكمية المستلمة حتى الآن:`,String(it.receivedQty));if(answer===null)return null;const q=NUM(answer);if(q<0||q>it.orderedQty){toast('الكمية المستلمة يجب أن تكون بين 0 والكمية المطلوبة','error');return null}return {...it,receivedQty:q};});
-  if(received.some(x=>!x))return;
-  try{
-    await db.runTransaction(async tx=>{
-      const snap=await tx.get(ref);if(!snap.exists)throw new Error('طلب المورد غير موجود');const fresh=snap.data();
-      const items=(fresh.items||[]).map((it,i)=>({...it,orderedQty:NUM(it.orderedQty??it.qty),receivedQty:NUM(received[i].receivedQty),unitPrice:NUM(it.unitPrice),total:MONEY(NUM(received[i].receivedQty)*NUM(it.unitPrice))}));
-      const oldReceived=(fresh.items||[]).reduce((s,it)=>s+NUM(it.receivedQty),0);const newReceived=items.reduce((s,it)=>s+NUM(it.receivedQty),0);
-      if(newReceived<oldReceived)throw new Error('لا يمكن تقليل الكمية المستلمة بعد تسجيلها');
-      const inventoryWrites=[];const movementWrites=[];
-      for(const it of items){
-        const delta=NUM(it.receivedQty)-NUM((fresh.items||[]).find(x=>(x.itemId||x.itemName)===(it.itemId||it.itemName))?.receivedQty);
-        if(delta<=0)continue;
-        let q=it.itemId?db.collection('inventory').doc(it.itemId):null;let invSnap=q?await tx.get(q):null;
-        if(!q||!invSnap?.exists){
-          const found=(state.inventory||[]).find(x=>String(x.name||'').toLowerCase()===String(it.itemName||'').toLowerCase());
-          if(found){q=db.collection('inventory').doc(found.id);invSnap=await tx.get(q);}
-        }
-        if(!q||!invSnap?.exists){q=db.collection('inventory').doc();inventoryWrites.push({ref:q,data:{name:it.itemName||it.name||'Unnamed',qty:delta,min:0,avgCost:MONEY(it.unitPrice),cost:MONEY(it.unitPrice),unit:it.unit||'unit',createdAt:tsNow(),updatedAt:tsNow()}});}
-        else{const old=invSnap.data();const oldQty=NUM(old.qty);const oldCost=NUM(old.avgCost??old.cost);const avg=weightedAverageCost(oldQty,oldCost,delta,NUM(it.unitPrice));inventoryWrites.push({ref:q,data:{qty:MONEY(oldQty+delta),avgCost:avg,cost:avg,updatedAt:tsNow(),lastMovementAt:tsNow()}});}
-        const mv=db.collection('stockMovements').doc();movementWrites.push({ref:mv,data:{itemId:q.id,itemName:it.itemName||it.name||'',qty:delta,unitCost:MONEY(it.unitPrice),totalCost:MONEY(delta*NUM(it.unitPrice)),movementType:'Purchase',referenceType:'supplierOrder',referenceId:id,userId:actor().uid,timestamp:tsNow(),createdAt:tsNow()}});
-      }
-      inventoryWrites.forEach(w=>tx.set(w.ref,w.data,{merge:true}));movementWrites.forEach(w=>tx.set(w.ref,w.data));
-      const allReceived=items.every(it=>NUM(it.receivedQty)>=NUM(it.orderedQty));const anyReceived=items.some(it=>NUM(it.receivedQty)>0);const status=allReceived?'Fully Received':anyReceived?'Partially Received':'Ordered';
-      const incrementalTotal=MONEY(items.reduce((s,it)=>s+NUM(it.receivedQty)*NUM(it.unitPrice),0));
-      const oldPayable=MONEY(NUM(fresh.receivedTotal??0));const receivedTotal=Math.max(oldPayable,incrementalTotal);
-      tx.update(ref,{items,status,receivedDate:allReceived?tsNow():(fresh.receivedDate||null),receivedTotal,subtotal:NUM(fresh.subtotal),updatedAt:tsNow()});
-      const payRef=db.collection('supplierOrders').doc(id); // same doc holds liability summary
-      tx.update(payRef,{outstanding:MONEY(Math.max(0,receivedTotal-NUM(fresh.paid))),paymentStatus:NUM(fresh.paid)>=receivedTotal?'Paid':NUM(fresh.paid)>0?'Partially Paid':'Unpaid'});
-    });
-    await activity('receive','supplierOrder',id,'تم استلام بضاعة من طلب المورد');toast('تم تسجيل الاستلام وتحديث المخزون بشكل ذري ✅');
-  }catch(e){console.error(e);toast('فشل الاستلام: '+(e.message||e.code),'error');}
+// ═══════════════════════════════════════════════════════════
+// DEEB BUSINESS STRATEGY CENTER — persisted in settings
+// ═══════════════════════════════════════════════════════════
+const BUSINESS_STRATEGY_KEY='businessStrategy';
+const DEFAULT_BUSINESS_STRATEGY={
+  vision:'أن تصبح DEEB علامة هدايا شوكولاتة فاخرة يُرتبط اسمها بالمناسبات والتفاصيل التي تترك أثراً.',
+  positioning:'Premium chocolate gifting experiences for special occasions, celebrations, corporate gifting, weddings, graduations and everyday gifting in Amman.',
+  coreIdea:'لا نبيع الشوكولاتة فقط؛ نبيع اللحظة، ثم نصنع تجربة الهدية من أول نظرة إلى آخر قطعة.',
+  profitTarget:200,revenueTarget:920,ordersTarget:46,
+  goalsNotes:'الوصول للهدف من خلال رفع AOV، الحفاظ على مساهمة صحية، زيادة الطلب العضوي، وبناء B2B.',
+  audience:'رجال ونساء 18–35 في عمّان؛ مناسبات خاصة، هدايا، تخرج، أعراس، تقدير، وشراء شخصي.',
+  contentPillars:'Moments 40%\nProduct Desire 20%\nBrand Story 15%\nTaste & Education 10%\nSocial Proof 10%\nOffers / Conversion 5%',
+  funnel:'Awareness → Interest → Desire → Trust / Consideration → deebchocolate.com → Order → Experience → Repeat',
+  kpis:'Orders: 46+ 1KG-equivalent / month\nRevenue: ≥ 920 JOD / month\nDEEB retained profit: ≥ 200 JOD / month\nAOV: ≥ 20 JOD\n1KG upgrade rate: improve vs baseline\nAdd-on attachment rate: improve vs baseline\nOrganic reach, non-follower reach, views/watch time, shares, saves, profile visits, website clicks\nWebsite conversion, repeat customers, B2B contacted leads, qualified B2B opportunities',
+  risks:'بيانات attribution غير مكتملة\nبيانات النكهة ليست مفصّلة في كل أنواع الطلبات\nتغير أسعار المصنع أو التغليف أو التوصيل\nنقص المخزون حول المواسم',
+  assumptions:'تكلفة الشوكولاتة 12 JOD/KG ضمن الافتراض الحالي\nالتوصيل منفصل حسب إعدادات المناطق\nهامش B2B النهائي يحتاج تكاليف التخصيص الفعلية',
+  opportunities:'B2B events & corporate\nAOV upgrades\nCustomization\nSeasonal gifting\nDemand forecasting\nRetention & repeat orders',
+  challenges:'بناء attribution موثوق\nتجميع بيانات تاريخية كافية للتوقع\nربط النكهة بالتكلفة والمبيعات على مستوى أدق\nضبط ربحية التوصيل',
+  pricing:[
+    {cat:'Classic Box',half:12,one:20,note:'500g / 1KG'},
+    {cat:'Mix Box',half:12,one:20,note:'500g / 1KG'},
+    {cat:'Dragee Box',half:12,one:20,note:'500g / 1KG'},
+    {cat:'Custom Box',half:13,one:22,note:'Premium for selection/customization'},
+    {cat:'Custom Sticker',half:0.40,one:0.40,note:'price per piece'},
+    {cat:'Custom Acrylic',half:0.40,one:0.40,note:'price per piece'},
+    {cat:'Acrylic Small 1KG',half:12,one:12,note:'ready-made box'},
+    {cat:'Acrylic Medium 1.5KG',half:17,one:17,note:'ready-made box'},
+    {cat:'Acrylic Large 2KG',half:22,one:22,note:'ready-made box'}
+  ],
+  unitEconomics:[
+    {key:'Chocolate purchase cost',value:'12.00 JOD / KG',note:'fixed current assumption'},
+    {key:'Standard box',value:'0.75 JOD',note:'same for 500g / 1KG'},
+    {key:'Standard sticker',value:'0.09 JOD',note:''},
+    {key:'Mandatory bag',value:'0.35 JOD',note:'delivery separate'},
+    {key:'500g direct cost',value:'7.19 JOD',note:'6 + 0.75 + 0.09 + 0.35'},
+    {key:'1KG direct cost',value:'13.19 JOD',note:'12 + 0.75 + 0.09 + 0.35'},
+    {key:'500g gross profit',value:'4.81 JOD / 40.08%',note:'at 12 JOD'},
+    {key:'1KG gross profit',value:'6.81 JOD / 34.05%',note:'at 20 JOD'},
+    {key:'Custom 500g',value:'5.81 JOD / 44.69%',note:'price 13 JOD'},
+    {key:'Custom 1KG',value:'8.81 JOD / 40.05%',note:'price 22 JOD'},
+    {key:'Sticker / acrylic add-on',value:'0.15 JOD profit / 37.5%',note:'cost 0.25, sell 0.40'},
+    {key:'1KG + Small Acrylic',value:'32 JOD / 9.56 JOD profit',note:'29.88% margin'},
+    {key:'1.5KG + Medium',value:'47 JOD / 13.56 JOD profit',note:'28.85% margin'},
+    {key:'2KG + Large',value:'62 JOD / 17.56 JOD profit',note:'28.32% margin'},
+    {key:'Fixed monthly expenses',value:'≈44.26 JOD',note:'current planning assumption'},
+    {key:'Break-even',value:'≈7 core 1KG orders / month',note:'mathematical ≈6.50'},
+    {key:'46 core 1KG orders',value:'≈201.75 JOD DEEB retained',note:'after fixed costs and 25% Lia share of positive net profit'}
+  ],
+  flavorProfitability:['Kinder Milk','Oreo','Lotus','Reese’s','Kinder Nutella','Classico Bueno','Cheesecake','Croquant Hazelnuts','Wafer','Dragee Almonds'].map(name=>({name}))
 };
-
-/* ---------- advanced inventory ---------- */
-function renderERPInventory(){const root=document.getElementById('erp-inventory-root');if(!root)return;const inv=state.inventory||[];const value=MONEY(inv.reduce((s,i)=>s+NUM(i.qty)*NUM(i.avgCost??i.cost),0));root.innerHTML=`<div class="erp-grid"><div class="erp-card"><div class="erp-muted">SKUs</div><div class="erp-kpi">${inv.length}</div></div><div class="erp-card"><div class="erp-muted">إجمالي الوحدات</div><div class="erp-kpi">${MONEY(inv.reduce((s,i)=>s+NUM(i.qty),0))}</div></div><div class="erp-card"><div class="erp-muted">قيمة المخزون</div><div class="erp-kpi">${value.toFixed(2)} JOD</div></div><div class="erp-card"><div class="erp-muted">منخفض/منقطع</div><div class="erp-kpi">${inv.filter(i=>NUM(i.qty)<=NUM(i.min)).length}</div></div></div><div class="erp-toolbar"><input id="inv-q" class="erp-search" placeholder="بحث بالمخزون..."><button class="btn btn-primary" onclick="window.erpStockAdjust()">± تعديل مخزون</button></div><div class="erp-table-wrap"><table class="erp-table"><thead><tr><th>الصنف</th><th>SKU</th><th>الكمية</th><th>متوسط التكلفة</th><th>القيمة</th><th>Reorder</th><th>الحالة</th></tr></thead><tbody>${inv.map(i=>{const q=NUM(i.qty),c=NUM(i.avgCost??i.cost),low=q<=NUM(i.min);return `<tr><td>${esc(i.name)}</td><td>${esc(i.sku||'—')}</td><td>${q}</td><td>${c.toFixed(2)}</td><td>${MONEY(q*c).toFixed(2)}</td><td>${NUM(i.min)}</td><td><span class="erp-badge ${q<=0?'danger':low?'warn':'ok'}">${q<=0?'Out':low?'Low':'OK'}</span></td></tr>`}).join('')}</tbody></table></div>`;document.getElementById('inv-q')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#erp-inventory-root tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')});}
-window.erpStockAdjust=async()=>{const name=prompt('اسم الصنف:');if(!name)return;const delta=Number(prompt('التعديل (+/-):'));if(!Number.isFinite(delta)||delta===0)return;const item=(state.inventory||[]).find(i=>String(i.name).toLowerCase()===name.toLowerCase());if(!item){toast('الصنف غير موجود','error');return;}const old=NUM(item.qty),next=old+delta;if(next<0){toast('لا يمكن أن يصبح المخزون سالباً','error');return;}const batch=db.batch();batch.update(db.collection('inventory').doc(item.id),{qty:next,updatedAt:tsNow()});const mv=db.collection('stockMovements').doc();batch.set(mv,{itemId:item.id,itemName:item.name,qty:Math.abs(delta),unitCost:NUM(item.avgCost??item.cost),totalCost:MONEY(Math.abs(delta)*NUM(item.avgCost??item.cost)),movementType:delta>0?'Adjustment+':'Adjustment-',referenceType:'manual',referenceId:mv.id,userId:actor().uid,timestamp:tsNow(),createdAt:tsNow()});await batch.commit();await activity('adjust','inventory',item.id,`تعديل مخزون ${delta>0?'+':''}${delta}`);toast('تم تعديل المخزون ✅');};
-
-/* ---------- finance/reporting ---------- */
-function renderERPFinance(){const root=document.getElementById('erp-finance-root');if(!root)return;const [s,e]=periodBounds('month');const f=financialSummary(s,e);root.innerHTML=`<div class="erp-toolbar"><button class="btn btn-primary" onclick="window.showERPPageById('erp-finance')">هذا الشهر</button><button class="btn btn-outline" onclick="window.showERPPageById('monthly-report')">فتح التقرير الشهري</button></div><div class="erp-grid"><div class="erp-card"><div class="erp-muted">Revenue</div><div class="erp-kpi">${f.revenue.toFixed(2)}</div></div><div class="erp-card"><div class="erp-muted">COGS</div><div class="erp-kpi">${f.cogs.toFixed(2)}</div></div><div class="erp-card"><div class="erp-muted">Gross Profit</div><div class="erp-kpi">${f.gross.toFixed(2)}</div></div><div class="erp-card"><div class="erp-muted">Gross Margin</div><div class="erp-kpi">${f.grossMargin.toFixed(2)}%</div></div><div class="erp-card"><div class="erp-muted">Operating Expenses</div><div class="erp-kpi">${f.expenses.toFixed(2)}</div></div><div class="erp-card"><div class="erp-muted">Net Profit</div><div class="erp-kpi">${f.net.toFixed(2)}</div></div><div class="erp-card"><div class="erp-muted">Net Margin</div><div class="erp-kpi">${f.netMargin.toFixed(2)}%</div></div><div class="erp-card"><div class="erp-muted">Orders</div><div class="erp-kpi">${f.orders}</div></div></div><div class="erp-section-title">تعريفات النظام</div><div class="erp-card">Revenue − COGS = Gross Profit<br>Gross Profit − Operating Expenses = Net Profit<br><span class="erp-muted">مشتريات الموردين ليست مصروف تشغيل تلقائياً؛ يتم التعامل معها كالتزام/تكلفة مخزون حتى تتحقق COGS.</span></div>`;}
-window.showERPPageById=id=>{const b=document.getElementById('erp-nav-'+id);showERPPage(id,b)};
-function renderMonthlyReport(){const root=document.getElementById('erp-monthly-root');if(!root)return;const now=new Date(),[s,e]=periodBounds('month',now),prevRef=new Date(now.getFullYear(),now.getMonth()-1,1),[ps,pe]=periodBounds('month',prevRef),f=financialSummary(s,e),p=financialSummary(ps,pe);const row=(label,a,b)=>`<tr><td>${label}</td><td>${a.toFixed(2)}</td><td>${b.toFixed(2)}</td><td>${MONEY(a-b).toFixed(2)}</td><td>${b?MONEY((a-b)/b*100).toFixed(2):'—'}%</td></tr>`;root.innerHTML=`<div class="erp-toolbar"><button class="btn btn-primary" onclick="window.print()">🖨 طباعة / PDF</button></div><div class="erp-card"><h3>التقرير المالي — ${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}</h3><div class="erp-report-grid"><div><b>Revenue</b><br>${f.revenue.toFixed(2)} JOD</div><div><b>COGS</b><br>${f.cogs.toFixed(2)} JOD</div><div><b>Gross Profit</b><br>${f.gross.toFixed(2)} JOD</div><div><b>Operating Expenses</b><br>${f.expenses.toFixed(2)} JOD</div><div><b>Net Profit</b><br>${f.net.toFixed(2)} JOD</div><div><b>Net Margin</b><br>${f.netMargin.toFixed(2)}%</div></div></div><div class="erp-section-title">مقارنة الشهر السابق</div><div class="erp-table-wrap"><table class="erp-table"><thead><tr><th>المؤشر</th><th>الحالي</th><th>السابق</th><th>التغيير</th><th>%</th></tr></thead><tbody>${row('Revenue',f.revenue,p.revenue)}${row('COGS',f.cogs,p.cogs)}${row('Gross Profit',f.gross,p.gross)}${row('Expenses',f.expenses,p.expenses)}${row('Net Profit',f.net,p.net)}${row('Orders',f.orders,p.orders)}${row('AOV',f.aov,p.aov)}</tbody></table></div>`;}
-
-/* ---------- customer 360 / analytics ---------- */
-function customerMetrics(c){const os=deliveredOrders().filter(o=>String(o.phone||'')===String(c.phone||'')||String(o.customerId||'')===String(c.id));const dates=os.map(o=>dateObj(o.dateRaw||o.date||o.createdAt)).filter(Boolean).sort((a,b)=>a-b);const flavors={};os.forEach(o=>(o.customFlavors||[]).forEach(f=>flavors[f]=(flavors[f]||0)+1));const fav=Object.entries(flavors).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);let gap=0;if(dates.length>1){for(let i=1;i<dates.length;i++)gap+=(dates[i]-dates[i-1])/86400000;gap/=dates.length-1;}return {orders:os.length,spent:MONEY(os.reduce((s,o)=>s+orderTotal(o),0)),aov:calculateAOV(os),first:dates[0],last:dates[dates.length-1],favoriteFlavors:fav,avgDays:MONEY(gap),grossProfit:MONEY(os.reduce((s,o)=>s+calculateGrossProfit(o),0))};}
-function renderERPAnalytics(){const root=document.getElementById('erp-analytics-root');if(!root)return;const [s,e]=periodBounds('month');const f=financialSummary(s,e);const byDay=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].map((d,i)=>{const all=deliveredOrders().filter(o=>{const dt=dateObj(o.dateRaw||o.date||o.createdAt);return dt&&dt>=s&&dt<=e&&dt.getDay()===i});const weeks=Math.max(1,Math.ceil((e-s+1)/604800000));return {d,total:all.length,avg:MONEY(all.length/weeks),rev:MONEY(all.reduce((x,o)=>x+orderTotal(o),0))}});const best=byDay.slice().sort((a,b)=>b.avg-a.avg)[0];root.innerHTML=`<div class="erp-grid"><div class="erp-card"><div class="erp-muted">Orders this month</div><div class="erp-kpi">${f.orders}</div></div><div class="erp-card"><div class="erp-muted">AOV</div><div class="erp-kpi">${f.aov.toFixed(2)}</div></div><div class="erp-card"><div class="erp-muted">Average peak weekday</div><div class="erp-kpi">${best.avg.toFixed(2)}</div><div class="erp-muted">${best.d}</div></div><div class="erp-card"><div class="erp-muted">Gross Profit</div><div class="erp-kpi">${f.gross.toFixed(2)}</div></div></div><div class="erp-section-title">Peak Analysis — أيام الأسبوع</div><div class="erp-table-wrap"><table class="erp-table"><thead><tr><th>اليوم</th><th>إجمالي الطلبات</th><th>متوسط الطلبات/حدوث</th><th>الإيراد</th></tr></thead><tbody>${byDay.map(x=>`<tr><td>${x.d}</td><td>${x.total}</td><td>${x.avg.toFixed(2)}</td><td>${x.rev.toFixed(2)}</td></tr>`).join('')}</tbody></table></div><div class="erp-section-title">Customer 360</div><div class="erp-table-wrap"><table class="erp-table"><thead><tr><th>العميل</th><th>الطلبات</th><th>الإجمالي</th><th>AOV</th><th>أول طلب</th><th>آخر طلب</th><th>متوسط الأيام</th><th>Gross Profit</th></tr></thead><tbody>${(state.customers||[]).map(c=>{const m=customerMetrics(c);return `<tr><td>${esc(c.name)}</td><td>${m.orders}</td><td>${m.spent.toFixed(2)}</td><td>${m.aov.toFixed(2)}</td><td>${esc(dateKey(m.first)||'—')}</td><td>${esc(dateKey(m.last)||'—')}</td><td>${m.avgDays||'—'}</td><td>${m.grossProfit.toFixed(2)}</td></tr>`}).join('')}</tbody></table></div>`;}
-
-/* ---------- global search ---------- */
-const SEARCH_MAP={orders:['name','phone','product','orderNumber'],customers:['name','phone','email'],products:['name','category'],inventory:['name','sku'],suppliers:['name','phone','email'],supplierOrders:['orderNumber','supplierName'],expenses:['description','category'],b2bLeads:['company','contact','phone','email'],projects:['name'],freelancers:['name'],receivables:['customerName','reference']};
-function globalResults(q){if(!q)return[];const out=[];Object.entries(SEARCH_MAP).forEach(([col,fields])=>(state[col]||[]).forEach(x=>{const hay=fields.map(f=>x[f]).filter(Boolean).join(' ').toLowerCase();if(hay.includes(q.toLowerCase()))out.push({col,id:x.id,name:x.name||x.company||x.orderNumber||x.customerName||x.description||x.supplierName||x.id,meta:fields.map(f=>x[f]).filter(Boolean).slice(0,2).join(' · ')})}));return out.slice(0,50);}
-function renderGlobalSearch(){const q=document.getElementById('erp-global-search')?.value||'';const el=document.getElementById('erp-search-results');if(!el)return;const r=globalResults(q);el.innerHTML=r.length?r.map(x=>`<div class="erp-result" onclick="window.erpSearchOpen('${x.col}','${x.id}')"><b>${esc(x.name)}</b><div class="erp-muted">${esc(x.col)} · ${esc(x.meta)}</div></div>`).join(''):'<div class="erp-empty">اكتب كلمة للبحث</div>';}
-function renderCommandSearch(){const q=document.getElementById('erp-command-input')?.value||'';const el=document.getElementById('erp-command-results');if(!el)return;const r=globalResults(q);el.innerHTML=r.map(x=>`<div class="erp-result" onclick="window.erpSearchOpen('${x.col}','${x.id}')"><b>${esc(x.name)}</b><div class="erp-muted">${esc(x.col)} · ${esc(x.meta)}</div></div>`).join('')||'<div class="erp-empty">لا نتائج</div>';}
-window.erpSearchOpen=(col,id)=>{document.getElementById('erp-command')?.classList.remove('open');if(col==='suppliers'){showERPPage('suppliers',document.getElementById('erp-nav-suppliers'));window.erpSupplierDetail(id)}else if(col==='supplierOrders'){showERPPage('supplier-orders',document.getElementById('erp-nav-supplier-orders'))}else if(col==='inventory'){showERPPage('erp-inventory',document.getElementById('erp-nav-erp-inventory'))}else if(col==='customers'){showERPPage('erp-analytics',document.getElementById('erp-nav-erp-analytics'))}else{try{showPage(col)}catch(e){}}};function focusERPSearch(){setTimeout(()=>document.getElementById('erp-global-search')?.focus(),50);}
-
-/* ---------- backup / settings ---------- */
-const BACKUP_COLLECTIONS=['orders','customers','products','inventory','regions','expenses','campaigns','coupons','certificates','flavors','suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','receivables','b2bLeads','freelancers','projects','settings','activityLog'];
-async function exportBackup(){const data={schemaVersion:'2.0',projectVersion:ERP_VERSION,exportedAt:new Date().toISOString(),collections:{}};for(const c of BACKUP_COLLECTIONS){const snap=await db.collection(c).get();data.collections[c]=snap.docs.map(d=>({id:d.id,data:d.data()}));}const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`deeb-os-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);}
-async function restoreBackup(file){const text=await file.text();let data;try{data=JSON.parse(text)}catch(e){toast('JSON غير صالح','error');return}if(!data?.schemaVersion||!data?.collections){toast('ملف backup غير مدعوم','error');return}const counts=Object.fromEntries(Object.entries(data.collections).map(([k,v])=>[k,v.length]));if(!confirm('سيتم إنشاء Safety Backup؟ تأكد أنك تريد المتابعة.\n'+JSON.stringify(counts)))return;await exportBackup();for(const [c,rows] of Object.entries(data.collections)){const batch=db.batch();rows.forEach(r=>batch.set(db.collection(c).doc(r.id),r.data,{merge:true}));await batch.commit();}toast('تمت الاستعادة بعد Safety Backup ✅');}
-function renderERPBackup(){const root=document.getElementById('erp-backup-root');if(!root)return;root.innerHTML=`<div class="erp-card"><h3>Backup</h3><p class="erp-muted">يشمل بيانات ERP الحرجة مع schemaVersion ووقت التصدير.</p><button class="btn btn-primary" onclick="window.erpExportBackup()">⬇️ تصدير Backup كامل</button><hr><h3>Restore</h3><input id="erp-restore-file" type="file" accept="application/json,.json"><button class="btn btn-danger" onclick="window.erpRestoreBackup()">استعادة بعد المعاينة</button></div><div class="erp-card" style="margin-top:12px"><b>Collections</b><div class="erp-muted">${BACKUP_COLLECTIONS.join(' · ')}</div></div>`;}
-window.erpExportBackup=exportBackup;window.erpRestoreBackup=async()=>{const f=document.getElementById('erp-restore-file')?.files?.[0];if(f)await restoreBackup(f);else toast('اختر ملف JSON أولاً','error')};
-function renderERPSettings(){const root=document.getElementById('erp-settings-root');if(!root)return;root.innerHTML=`<div class="erp-grid"><div class="erp-card"><b>Pricing</b><p class="erp-muted">الأسعار الحالية تبقى كما هي، وتُدار مركزياً.</p><button class="btn btn-outline" onclick="window.erpShowPricing()">عرض الأسعار</button></div><div class="erp-card"><b>Customer Segmentation</b><p class="erp-muted">New / Active / Repeat / VIP / At Risk / Inactive</p><button class="btn btn-outline" onclick="window.erpShowSegments()">عرض الحدود الحالية</button></div><div class="erp-card"><b>System</b><p class="erp-muted">Version ${ERP_VERSION}</p></div></div>`;}
-window.erpShowPricing=()=>alert('Classic 500g 12 JOD | 1KG 20 JOD\nMix 500g 12 | 1KG 20\nDragee 500g 12 | 1KG 20\nCustom 500g 13 | 1KG 22\nSticker 0.40 | Acrylic 0.40');window.erpShowSegments=()=>alert('حدود التصنيف قابلة للإضافة في settings؛ لم يتم اختراع thresholds غير موجودة.');
-
-/* ---------- safe subscription override ---------- */
-const originalSubscribe=window.subscribeToData;
-window.subscribeToData=async function(){
-  try{const u=auth.currentUser;if(!u) return;const admin=await db.collection('admins').doc(u.uid).get();if(!admin.exists||admin.data().active!==true){toast('هذا الحساب ليس Admin فعالاً','error');await auth.signOut();return;}}
-  catch(e){console.error('Admin bootstrap check failed',e);toast('تعذر التحقق من صلاحية Admin','error');return;}
-  const collections=['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads',...ERP_COLLECTIONS];
-  unsubscribers.forEach(u=>{try{u()}catch(e){}});unsubscribers=[];
-  collections.forEach(col=>{const unsub=db.collection(col).onSnapshot(snap=>{state[col]=snap.docs.map(d=>({id:d.id,...d.data()}));try{refreshUI(col)}catch(e){};try{if(col.startsWith('supplier')||col==='stockMovements'||col==='inventoryLedger')refreshERPVisible(col)}catch(e){}},err=>console.error('ERP listener',col,err));unsubscribers.push(unsub);});
+function getStrategySetting(){const d=(state.settings||[]).find(x=>x.id===BUSINESS_STRATEGY_KEY||x.key===BUSINESS_STRATEGY_KEY);return {...DEFAULT_BUSINESS_STRATEGY,...(d||{})};}
+window.renderBusinessStrategy=function(){
+  const d=getStrategySetting(), ids={vision:'bsVision',positioning:'bsPositioning',coreIdea:'bsCoreIdea',profitTarget:'bsProfitTarget',revenueTarget:'bsRevenueTarget',ordersTarget:'bsOrdersTarget',goalsNotes:'bsGoalsNotes',audience:'bsAudience',contentPillars:'bsContentPillars',funnel:'bsFunnel'};
+  Object.entries(ids).forEach(([k,id])=>{const e=document.getElementById(id);if(e)e.value=d[k]??'';});
+  ['bsKPIs','bsRisks','bsAssumptions','bsOpportunities','bsChallenges'].forEach((id)=>{const e=document.getElementById(id);if(!e)return;const k=id.slice(2);const map={KPIs:'kpis',Risks:'risks',Assumptions:'assumptions',Opportunities:'opportunities',Challenges:'challenges'};e.textContent=d[map[k]]||'';});
+  const pt=document.getElementById('pricingTable');if(pt)pt.innerHTML=(d.pricing||[]).map((x,i)=>`<tr><td><strong>${sanitize(x.cat||'')}</strong></td><td>${Number(x.half||0).toFixed(2)} JOD</td><td>${Number(x.one||0).toFixed(2)} JOD</td><td>${sanitize(x.note||'')}</td></tr>`).join('');
+  const ue=document.getElementById('unitEconomicsTable');if(ue)ue.innerHTML=(d.unitEconomics||[]).map(x=>`<tr><td>${sanitize(x.key||'')}</td><td><strong>${sanitize(x.value||'')}</strong></td><td>${sanitize(x.note||'')}</td></tr>`).join('');
+  window.renderFlavorProfitRows();
+  const st=document.getElementById('strategySummaryStats');if(st)st.innerHTML=`<div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">هدف الطلبات</div><div class="stat-value">${Number(d.ordersTarget||0)}</div><div class="stat-sub">1KG-equivalent / شهر</div></div><div class="stat-card"><div class="stat-icon">💰</div><div class="stat-label">هدف الإيرادات</div><div class="stat-value">${Number(d.revenueTarget||0)}</div><div class="stat-sub">JOD / شهر</div></div><div class="stat-card"><div class="stat-icon">💎</div><div class="stat-label">هدف DEEB المحتفظ به</div><div class="stat-value">${Number(d.profitTarget||0)}</div><div class="stat-sub">JOD / شهر</div></div><div class="stat-card"><div class="stat-icon">🧩</div><div class="stat-label">وحدات الاستراتيجية</div><div class="stat-value">12</div><div class="stat-sub">modules</div></div>`;
 };
-function refreshERPVisible(col){if(document.getElementById('page-suppliers')?.classList.contains('active'))renderSuppliers();if(document.getElementById('page-supplier-orders')?.classList.contains('active'))renderSupplierOrders();if(document.getElementById('page-erp-inventory')?.classList.contains('active'))renderERPInventory();if(document.getElementById('page-erp-finance')?.classList.contains('active'))renderERPFinance();}
+window.saveBusinessStrategy=async function(){
+  const d=getStrategySetting(), ids={vision:'bsVision',positioning:'bsPositioning',coreIdea:'bsCoreIdea',goalsNotes:'bsGoalsNotes',audience:'bsAudience',contentPillars:'bsContentPillars',funnel:'bsFunnel'};
+  Object.entries(ids).forEach(([k,id])=>d[k]=(document.getElementById(id)?.value||'').trim());
+  d.profitTarget=parseFloat(document.getElementById('bsProfitTarget')?.value)||0;d.revenueTarget=parseFloat(document.getElementById('bsRevenueTarget')?.value)||0;d.ordersTarget=parseInt(document.getElementById('bsOrdersTarget')?.value)||0;d.flavorProfitability=window.collectFlavorProfitRows();
+  await setDoc_('settings',BUSINESS_STRATEGY_KEY,d);window.renderBusinessStrategy();toast('تم حفظ استراتيجية DEEB ✅','success');
+};
+window.resetBusinessStrategy=async function(){if(!confirm('استعادة الافتراضي؟'))return;await setDoc_('settings',BUSINESS_STRATEGY_KEY,DEFAULT_BUSINESS_STRATEGY);window.renderBusinessStrategy();toast('تمت الاستعادة ✅','success');};
+function autoFlavorSales(){const map={};(state.orders||[]).filter(o=>o.status==='delivered').forEach(o=>{const fs=Array.isArray(o.customFlavors)?o.customFlavors:[];fs.forEach(fid=>{const f=(state.flavors||[]).find(x=>x.id===fid);const n=f?(f.nameEn||f.nameAr):String(fid);if(!map[n])map[n]={qty:0};map[n].qty++;});});return map;}
+window.renderFlavorProfitRows=function(){const d=getStrategySetting(),rows=Array.isArray(d.flavorProfitability)?d.flavorProfitability:[],tb=document.getElementById('flavorProfitRows');if(!tb)return;const auto=autoFlavorSales();const prepared=rows.length?rows:[{name:''}];
+  const margins=prepared.map(r=>{const a=auto[r.name]||{};const q=r.qty??a.qty??0;const rev=r.revenue??a.revenue??0;const c=r.cost??'';return (c!==''&&rev>0)?(rev-parseFloat(c))/rev*100:null;});const qvals=prepared.map((r,i)=>r.qty??auto[r.name]?.qty??0).filter(n=>n>0).sort((a,b)=>a-b);const med=qvals.length?qvals[Math.floor(qvals.length/2)]:0;
+  tb.innerHTML=prepared.map((r,i)=>{const a=auto[r.name]||{};const qty=r.qty??a.qty??0,rev=r.revenue??a.revenue??0,cost=r.cost??'',profit=cost!==''&&rev>0?rev-parseFloat(cost):null,margin=profit!==null&&rev>0?profit/rev*100:null;let cls=r.classification||'Unclassified';if(!r.classification&&margin!==null&&qvals.length){const highQ=qty>=med,highM=margin>=30;cls=highQ?(highM?'High Volume + High Margin':'High Volume + Low Margin'):(highM?'Low Volume + High Margin':'Low Volume + Low Margin');}const source=r.revenue!=null&&r.qty!=null?'Manual':(a.qty?'Orders':'Manual');return `<tr><td><input class="form-input" value="${sanitize(r.name||'')}" oninput="this.dataset.dirty=1"></td><td><input class="form-input" type="number" min="0" step="1" value="${qty}" oninput="this.dataset.dirty=1"></td><td><input class="form-input" type="number" min="0" step="0.01" value="${rev}" oninput="this.dataset.dirty=1"></td><td><input class="form-input" type="number" min="0" step="0.01" value="${cost}" placeholder="غير متاح" oninput="this.dataset.dirty=1"></td><td>${profit===null?'—':profit.toFixed(2)}</td><td>${margin===null?'—':margin.toFixed(2)+'%'}</td><td><select class="form-select"><option ${cls==='Unclassified'?'selected':''}>Unclassified</option><option ${cls==='High Volume + High Margin'?'selected':''}>High Volume + High Margin</option><option ${cls==='High Volume + Low Margin'?'selected':''}>High Volume + Low Margin</option><option ${cls==='Low Volume + High Margin'?'selected':''}>Low Volume + High Margin</option><option ${cls==='Low Volume + Low Margin'?'selected':''}>Low Volume + Low Margin</option></select></td><td>${source}</td><td><button class="btn btn-sm btn-danger" onclick="window.deleteFlavorProfitRow(${i})">🗑</button></td></tr>`;}).join('');};
+window.addFlavorProfitRow=function(){const d=getStrategySetting();d.flavorProfitability=(d.flavorProfitability||[]).concat([{name:''}]);setDoc_('settings',BUSINESS_STRATEGY_KEY,{flavorProfitability:d.flavorProfitability}).then(()=>window.renderFlavorProfitRows());};
+window.deleteFlavorProfitRow=function(i){const d=getStrategySetting();d.flavorProfitability=(d.flavorProfitability||[]).filter((_,idx)=>idx!==i);setDoc_('settings',BUSINESS_STRATEGY_KEY,{flavorProfitability:d.flavorProfitability}).then(()=>window.renderFlavorProfitRows());};
+window.collectFlavorProfitRows=function(){const out=[];document.querySelectorAll('#flavorProfitRows tr').forEach(tr=>{const i=tr.querySelectorAll('input'),s=tr.querySelector('select');if(!i.length)return;const name=(i[0].value||'').trim();if(!name)return;out.push({name,qty:parseFloat(i[1].value)||0,revenue:parseFloat(i[2].value)||0,cost:i[3].value===''?'':parseFloat(i[3].value),classification:s?.value||'Unclassified'});});return out;};
 
-/* Customer 360 enhancement — keeps the existing customer page and adds the requested metrics. */
-const oldRenderCustomersPage=window._renderCustomersPage;
-function renderCustomersV2Page(){
-  const page=typeof pagGetPage==='function'?pagGetPage('customers'):(state.customers||[]);
-  const tb=document.getElementById('customersTable');if(!tb)return;
-  if(!page.length){tb.innerHTML='<tr><td colspan="12"><div class="empty-state"><div class="e-icon">👥</div><div class="e-title">لا يوجد عملاء</div></div></td></tr>';return;}
-  tb.innerHTML=page.map(c=>{const m=customerMetrics(c);return `<tr><td><strong>${esc(c.name)}</strong></td><td>${esc(c.phone||'—')}</td><td>${esc(c.region||'—')}</td><td>${m.orders}</td><td>${m.spent.toFixed(2)}</td><td>${esc(dateKey(m.first)||'—')}</td><td>${esc(dateKey(m.last)||'—')}</td><td>${m.orders?m.aov.toFixed(2):'0.00'}</td><td>${esc(m.favoriteFlavors.join(', ')||'—')}</td><td>${m.avgDays?m.avgDays.toFixed(1):'—'}</td><td>${m.grossProfit.toFixed(2)}</td><td><button class="btn btn-sm btn-outline" onclick="window.showERPPageById('erp-analytics')">360°</button></td></tr>`}).join('');
-  if(typeof pagRender==='function')pagRender('customers','customersPagination','customersPagInfo');
-}
-window._renderCustomersPage=renderCustomersV2Page;
-/* Keep existing filter/pagination behavior but use the V2 row renderer. */
-const originalPagInit=window.pagInit;
-window.filterCustomers=function(){let q=(document.getElementById('searchCustomers')?.value||'').toLowerCase(),vip=document.getElementById('filterVip')?.value||'';let filtered=(state.customers||[]).filter(c=>(!q||(c.name||'').toLowerCase().includes(q)||(c.phone||'').includes(q)||(c.region||'').toLowerCase().includes(q))&&(!vip||c.vip===vip));const cnt=document.getElementById('customersCount');if(cnt)cnt.textContent=filtered.length+' عميل';if(typeof pagInit==='function')pagInit('customers',filtered);renderCustomersV2Page();};
-
-/* Customer table headers */
-function upgradeCustomerHeaders(){const t=document.querySelector('#page-customers table thead tr');if(t)t.innerHTML='<th>الاسم</th><th>الهاتف</th><th>المنطقة</th><th>Orders Count</th><th>Total Spent</th><th>First Order Date</th><th>Last Order Date</th><th>Average Order Value</th><th>Favorite Flavors</th><th>Avg Days</th><th>Gross Profit</th><th>إجراء</th>';}
-
-
-
-
-/* Fix order status: store historical COGS once when delivered. Do not overwrite later. */
-const oldUpdateOrderStatus=window.updateOrderStatus;window.updateOrderStatus=async function(id,status){const before=(state.orders||[]).find(o=>o.id===id);await oldUpdateOrderStatus(id,status);if(status==='delivered'&&before&&!before.cogsSnapshot){const cogs=calculateOrderCOGS(before);try{await updateDoc_('orders',id,{cogs, cogsSnapshot:true, cogsRecordedAt:tsNow(),grossProfit:MONEY(calculateOrderRevenue(before)-cogs)});await activity('cost','order',id,'تثبيت COGS تاريخياً عند التسليم',null,{cogs});}catch(e){console.error('COGS snapshot',e);}}};
-
-/* setup after DOM is ready */
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{setupUI();upgradeCustomerHeaders();});else{setupUI();upgradeCustomerHeaders();}
-window.DEEB_ERP_V2={MONEY,weightedAverageCost,calculateOrderCOGS,calculateGrossProfit,financialSummary,exportBackup,restoreBackup};
-})();
+// ═══════════════════════════════════════════════════════════
+// MARKETING ROAS & PROFITABILITY
+// ═══════════════════════════════════════════════════════════
+const ROAS_KEY='businessROAS';
+const DEFAULT_ROAS_CHANNELS=['Instagram','TikTok','WhatsApp','Organic / Direct','Referral','B2B'];
+function getROASSettings(){const d=(state.settings||[]).find(x=>x.id===ROAS_KEY||x.key===ROAS_KEY);return Array.isArray(d?.channels)?d.channels:DEFAULT_ROAS_CHANNELS.map(channel=>({channel,spend:0,orders:0,revenue:0,cost:0}));}
+function autoROAS(){const out={};(state.orders||[]).filter(o=>o.status==='delivered').forEach(o=>{const ch=getOrderChannel(o);if(!ch)return;if(!out[ch])out[ch]={orders:0,revenue:0,cost:0};out[ch].orders++;out[ch].revenue+=parseFloat(o.total||o.totalAmount||o.price||0)||0;let c=0;if(Array.isArray(o.products)){o.products.forEach(p=>{let pc=parseFloat(p.cost);if(!Number.isFinite(pc)||pc<=0){const found=(state.products||[]).find(x=>String(x.name||'').trim()===String(p.name||'').trim());pc=parseFloat(found?.cost)||0;}c+=pc*(parseFloat(p.qty)||1);});}else if(o.product){const qty=parseFloat(o.qty)||1;const found=(state.products||[]).find(x=>String(x.name||'').trim()===String(o.product||'').trim());c+=(parseFloat(found?.cost)||0)*qty;}out[ch].cost+=c;});return out;}
+window.renderMarketingROAS=function(){const manual=getROASSettings(),auto=autoROAS(),map={};manual.forEach(x=>{if(x.channel)map[x.channel]={...x};});Object.entries(auto).forEach(([ch,d])=>{if(!map[ch])map[ch]={channel:ch,spend:0,orders:0,revenue:0,cost:0};map[ch].auto=d;});const rows=Object.values(map).map(x=>{const a=auto[x.channel],orders=a?a.orders:(parseFloat(x.orders)||0),revenue=a?a.revenue:(parseFloat(x.revenue)||0),cost=a?a.cost:(parseFloat(x.cost)||0),spend=parseFloat(x.spend)||0;return {...x,orders,revenue,cost,spend,profit:revenue-cost,roas:spend?revenue/spend:null,pps:spend?(revenue-cost)/spend:null,source:a?'طلبات Delivered':'إدخال يدوي'};});const tb=document.getElementById('marketingRoasRows');if(tb)tb.innerHTML=rows.length?rows.map(r=>`<tr><td><strong>${sanitize(r.channel)}</strong></td><td>${r.spend.toFixed(2)}</td><td>${r.orders}</td><td>${r.revenue.toFixed(2)}</td><td>${r.cost.toFixed(2)}</td><td>${r.profit.toFixed(2)}</td><td>${r.roas==null?'—':r.roas.toFixed(2)+'x'}</td><td>${r.pps==null?'—':r.pps.toFixed(2)+'x'}</td><td>${r.source}</td></tr>`).join(''):'<tr><td colspan="9">لا توجد قنوات</td></tr>';const spend=rows.reduce((a,r)=>a+r.spend,0),rev=rows.reduce((a,r)=>a+r.revenue,0),profit=rows.reduce((a,r)=>a+r.profit,0),set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('roasSpend',spend.toFixed(2)+' JOD');set('roasRevenue',rev.toFixed(2)+' JOD');set('roasProfit',profit.toFixed(2)+' JOD');set('roasValue',spend?(rev/spend).toFixed(2)+'x':'—');const n=document.getElementById('roasNotes');if(n)n.innerHTML='<div class="alert">📌 ROAS = Revenue ÷ Spend. Profit / Spend = (Revenue − Direct Cost) ÷ Spend؛ وهذا ليس صافي الربح المحاسبي الكامل ما لم تُوزّع المصاريف التشغيلية على القناة. إذا لم تتوفر تكلفة المنتج في الطلب، يظل الربح المعروض غير مكتمل ولا يتم اختراع تكلفة.</div>';};
+window.addROASChannel=async function(){const channel=(document.getElementById('roasChannel')?.value||'').trim();if(!channel)return toast('اسم القناة مطلوب','error');const rows=getROASSettings().filter(x=>String(x.channel).trim().toLowerCase()!==channel.toLowerCase());rows.push({channel,spend:parseFloat(document.getElementById('roasSpendInput')?.value)||0,orders:parseInt(document.getElementById('roasOrdersInput')?.value)||0,revenue:parseFloat(document.getElementById('roasRevenueInput')?.value)||0,cost:parseFloat(document.getElementById('roasCostInput')?.value)||0});await setDoc_('settings',ROAS_KEY,{channels:rows});['roasChannel','roasSpendInput','roasOrdersInput','roasRevenueInput','roasCostInput'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});window.renderMarketingROAS();toast('تم حفظ بيانات ROAS ✅','success');};
 
 </script>
-
-<script>
-/* =========================================================
-   DEEB OS V2.2 — SINGLE SOURCE OF TRUTH + FULL DATA EDITOR
-   - Removes duplicate ERP navigation/pages
-   - Keeps one canonical page per business domain
-   - Adds table-based universal CRUD editor for all Firestore data
-   - Adds persistent UI text/content editor
-   - Adds editable business numbers/configuration
-   ========================================================= */
-(function(){
-  'use strict';
-  const V='2.2.0';
-  const EDITABLE_COLLECTIONS=['orders','customers','products','inventory','regions','expenses','campaigns','coupons','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads','suppliers','supplierOrders','supplierPriceHistory','stockMovements','supplierPayments','priceHistory','inventoryLedger'];
-  const COLLECTION_LABELS={
-    orders:'الطلبات',customers:'العملاء',products:'المنتجات',inventory:'المخزون',regions:'مناطق التوصيل',expenses:'المصاريف',campaigns:'الحملات',coupons:'الكوبونات',certificates:'الشهادات',settings:'الإعدادات',notes:'الملاحظات',flavors:'النكهات',freelancers:'الفريلانسرز',projects:'المشاريع',receivables:'الديون والمستحقات',b2bLeads:'B2B Leads',suppliers:'الموردون',supplierOrders:'طلبات الموردين',supplierPriceHistory:'سجل أسعار الموردين',stockMovements:'حركات المخزون',supplierPayments:'دفعات الموردين',priceHistory:'سجل الأسعار',inventoryLedger:'دفتر المخزون'
-  };
-  const esc2=v=>typeof esc==='function'?esc(String(v??'')):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const money2=v=>typeof MONEY==='function'?MONEY(v):Math.round((Number(v)||0)*100)/100;
-  const typeOf=v=>Array.isArray(v)?'array':(v===null?'null':typeof v);
-  const clone=v=>JSON.parse(JSON.stringify(v));
-  function admin(){return auth.currentUser;}
-  async function saveDoc(col,id,data){
-    if(!admin()) throw new Error('غير مسجل');
-    const clean=clone(data||{}); delete clean.id;
-    await db.collection(col).doc(id).set({...clean,updatedAt:tsNow(),updatedBy:admin().uid},{merge:true});
-    try{await activity('edit',col,id,'تعديل من مركز الإدارة',null,clean);}catch(e){}
-  }
-  async function addDocFull(col,data){
-    if(!admin()) throw new Error('غير مسجل');
-    const ref=db.collection(col).doc();
-    const clean=clone(data||{}); delete clean.id;
-    clean.createdAt=clean.createdAt||tsNow(); clean.updatedAt=tsNow(); clean.createdBy=clean.createdBy||admin().uid;
-    await ref.set(clean); return ref.id;
-  }
-  async function deleteFull(col,id){
-    if(!admin()) throw new Error('غير مسجل');
-    if(!confirm('تأكيد حذف السجل؟'))return;
-    await db.collection(col).doc(id).delete();
-    try{await activity('delete',col,id,'حذف من مركز الإدارة');}catch(e){}
-  }
-
-  /* ---- remove duplicated navigation/pages ---- */
-  function removeDuplicates(){
-    // Canonical pages remain: inventory, finance, calculations, suppliers, supplier-orders, analytics/search/settings/backup.
-    const duplicateIds=['erp-inventory','erp-finance','monthly-report'];
-    duplicateIds.forEach(id=>{
-      document.getElementById('erp-nav-'+id)?.remove();
-      document.getElementById('page-'+id)?.remove();
-    });
-    // Calculations becomes the single reporting/analysis page.
-    const calcNav=document.querySelector('.nav-item[onclick*="showPage(\'calculations\'"]');
-    if(calcNav) calcNav.innerHTML='<span class="icon">📊</span>التحليلات والتقارير';
-    // Rename canonical finance/inventory to make clear they are the only versions.
-    const finNav=document.querySelector('.nav-item[onclick*="showPage(\'finance\'"]');
-    if(finNav) finNav.innerHTML='<span class="icon">💰</span>المالية والأرباح';
-    const invNav=document.querySelector('.nav-item[onclick*="showPage(\'inventory\'"]');
-    if(invNav) invNav.innerHTML='<span class="icon">🗄️</span>المخزون';
-    // Move all ERP admin items before logout and keep logout last.
-    const aside=document.getElementById('appSidebar')||document.querySelector('aside');
-    const logout=aside?.querySelector('.nav-logout');
-    if(aside && logout){
-      const navIds=['erp-nav-suppliers','erp-nav-supplier-orders','erp-nav-erp-analytics','erp-nav-erp-search','erp-nav-erp-settings','erp-nav-erp-backup','deeb-nav-admin-center'];
-      const nodes=navIds.map(id=>document.getElementById(id)).filter(Boolean);
-      const existingLabel=aside.querySelector('#deeb-advanced-label');
-      if(nodes.length){
-        if(!existingLabel){const l=document.createElement('div');l.id='deeb-advanced-label';l.className='nav-label';l.textContent='الإدارة المتقدمة';logout.before(l);}
-        nodes.forEach(n=>logout.before(n));
-      }
-      logout.parentElement?.parentElement?.appendChild(logout.parentElement); // keep footer structure
-    }
-  }
-
-  /* ---- universal editor UI ---- */
-  function ensureCSS(){
-    if(document.getElementById('deeb-v22-css'))return;
-    const st=document.createElement('style');st.id='deeb-v22-css';st.textContent=`
-      .deeb-admin-grid{display:grid;grid-template-columns:280px 1fr;gap:14px}.deeb-admin-card{background:var(--card,#fff);border:1px solid rgba(115,91,83,.14);border-radius:14px;padding:14px}.deeb-admin-card h3{margin:0 0 10px;color:var(--brown,#3b2100)}
-      .deeb-collection-list{display:flex;flex-direction:column;gap:5px;max-height:70vh;overflow:auto}.deeb-col-btn{text-align:right;border:0;background:transparent;padding:9px 10px;border-radius:9px;cursor:pointer;font-family:inherit;color:inherit}.deeb-col-btn:hover,.deeb-col-btn.active{background:var(--light,#ebddd4);font-weight:800}.deeb-admin-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.deeb-admin-toolbar>*{min-height:38px}.deeb-data-wrap{overflow:auto;border:1px solid rgba(115,91,83,.13);border-radius:11px}.deeb-data-table{width:100%;border-collapse:collapse;min-width:850px}.deeb-data-table th,.deeb-data-table td{padding:8px;border-bottom:1px solid rgba(115,91,83,.1);text-align:right;font-size:.78rem;vertical-align:top}.deeb-data-table th{background:var(--light,#f8efeb);position:sticky;top:0;z-index:2}.deeb-data-table td .deeb-cell{max-width:240px;white-space:pre-wrap;word-break:break-word}.deeb-editor{display:none;margin-top:14px}.deeb-editor.open{display:block}.deeb-field-table{width:100%;border-collapse:collapse}.deeb-field-table th,.deeb-field-table td{padding:7px;border-bottom:1px solid rgba(115,91,83,.1);text-align:right}.deeb-field-table input,.deeb-field-table textarea,.deeb-field-table select{width:100%;box-sizing:border-box;padding:7px;border:1px solid rgba(115,91,83,.2);border-radius:7px;background:transparent;font-family:inherit}.deeb-field-table textarea{min-height:70px}.deeb-mini{font-size:.72rem;color:#806f69}.deeb-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.deeb-tab{border:1px solid rgba(115,91,83,.2);background:transparent;border-radius:8px;padding:8px 11px;cursor:pointer;font-family:inherit}.deeb-tab.active{background:var(--brown,#3b2100);color:#fff}.deeb-text-row{display:grid;grid-template-columns:180px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(115,91,83,.1)}.deeb-text-row textarea{width:100%;min-height:44px;padding:7px;border:1px solid rgba(115,91,83,.2);border-radius:7px;font-family:inherit}.deeb-number-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.deeb-number-card{border:1px solid rgba(115,91,83,.14);border-radius:11px;padding:10px}.deeb-number-card label{display:block;font-size:.75rem;font-weight:700;margin-bottom:5px}.deeb-number-card input{width:100%;padding:8px;border:1px solid rgba(115,91,83,.2);border-radius:7px;box-sizing:border-box}.deeb-hint{font-size:.74rem;color:#806f69;margin:5px 0 12px}.deeb-danger{color:#9b2626}.deeb-ok{color:#16734b}@media(max-width:900px){.deeb-admin-grid{grid-template-columns:1fr}.deeb-number-grid{grid-template-columns:1fr}.deeb-collection-list{max-height:260px}.deeb-text-row{grid-template-columns:1fr}.deeb-data-table{min-width:700px}}
-    `;document.head.appendChild(st);
-  }
-
-  let editor={col:'products',docId:null,mode:'data'};
-  const colKeys=()=>EDITABLE_COLLECTIONS.filter(c=>state[c]!==undefined || EDITABLE_COLLECTIONS.includes(c));
-  function buildAdminPage(){
-    if(document.getElementById('page-admin-center'))return;
-    ensureCSS();
-    const main=document.querySelector('.content'); if(!main)return;
-    const p=document.createElement('div');p.className='page';p.id='page-admin-center';
-    p.innerHTML=`<div class="section-header"><div><div class="section-title-main">⚙️ مركز الإدارة والتحكم</div><div class="section-subtitle">تعديل كل البيانات والأرقام والنصوص من جداول واضحة — بدون تعديل الكود</div></div></div>
-      <div class="deeb-tabs"><button class="deeb-tab active" id="deeb-tab-data">🗃️ البيانات والجداول</button><button class="deeb-tab" id="deeb-tab-text">✍️ النصوص</button><button class="deeb-tab" id="deeb-tab-number">🔢 الأرقام والإعدادات</button></div>
-      <div id="deeb-admin-data"></div><div id="deeb-admin-text" style="display:none"></div><div id="deeb-admin-number" style="display:none"></div>`;
-    main.appendChild(p);
-    document.getElementById('deeb-tab-data').onclick=()=>switchAdminTab('data');
-    document.getElementById('deeb-tab-text').onclick=()=>switchAdminTab('text');
-    document.getElementById('deeb-tab-number').onclick=()=>switchAdminTab('number');
-    renderDataEditor();
-  }
-  function switchAdminTab(m){
-    editor.mode=m;
-    ['data','text','number'].forEach(x=>{document.getElementById('deeb-admin-'+x).style.display=x===m?'block':'none';document.getElementById('deeb-tab-'+x).classList.toggle('active',x===m);});
-    if(m==='data')renderDataEditor(); if(m==='text')renderTextEditor(); if(m==='number')renderNumberEditor();
-  }
-  function renderDataEditor(){
-    const root=document.getElementById('deeb-admin-data');if(!root)return;
-    const rows=state[editor.col]||[];
-    const allKeys=Array.from(new Set(rows.flatMap(x=>Object.keys(x).filter(k=>k!=='id')))).slice(0,7);
-    root.innerHTML=`<div class="deeb-admin-grid"><div class="deeb-admin-card"><h3>الجداول</h3><div class="deeb-collection-list">${EDITABLE_COLLECTIONS.map(c=>`<button class="deeb-col-btn ${c===editor.col?'active':''}" onclick="window.deebSelectCollection('${c}')">${esc2(COLLECTION_LABELS[c]||c)} <span class="deeb-mini">(${(state[c]||[]).length})</span></button>`).join('')}</div></div>
-      <div class="deeb-admin-card"><h3>${esc2(COLLECTION_LABELS[editor.col]||editor.col)}</h3><div class="deeb-admin-toolbar"><input id="deeb-data-search" class="form-input" style="min-width:220px" placeholder="🔎 بحث..." value=""><button class="btn btn-primary" onclick="window.deebNewDoc()">+ سجل جديد</button><button class="btn btn-outline" onclick="window.deebRefreshEditor()">↻ تحديث</button></div>
-      <div class="deeb-hint">هذه هي قاعدة البيانات الحقيقية للنظام. تستطيع تعديل النصوص، الأرقام، الحالات، الأسعار، الكميات، التواريخ والحقول الإضافية. الحقول المعقدة مثل المصفوفات والكائنات تحفظ كـ JSON.</div>
-      <div class="deeb-data-wrap"><table class="deeb-data-table"><thead><tr><th>ID</th>${allKeys.map(k=>`<th>${esc2(k)}</th>`).join('')}<th>إجراء</th></tr></thead><tbody id="deeb-data-body">${rows.map(r=>`<tr><td><div class="deeb-cell" dir="ltr">${esc2(r.id)}</div></td>${allKeys.map(k=>`<td><div class="deeb-cell">${esc2(displayVal(r[k]))}</div></td>`).join('')}<td><button class="btn btn-sm btn-outline" onclick="window.deebEditDoc('${r.id}')">✏️ تعديل</button> <button class="btn btn-sm btn-danger" onclick="window.deebDeleteDoc('${r.id}')">🗑</button></td></tr>`).join('')||`<tr><td colspan="${allKeys.length+2}"><div class="empty-state"><div class="e-icon">🗃️</div><div class="e-title">لا توجد سجلات</div></div></td></tr>`}</tbody></table></div>
-      <div id="deeb-doc-editor" class="deeb-editor"></div></div></div>`;
-    document.getElementById('deeb-data-search')?.addEventListener('input',e=>filterDataRows(e.target.value));
-  }
-  function displayVal(v){if(v===undefined)return '—';if(v===null)return 'null';if(typeof v==='object')return JSON.stringify(v);return String(v);}
-  function filterDataRows(q){q=(q||'').toLowerCase();document.querySelectorAll('#deeb-data-body tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none');}
-  function openDocEditor(id,blank=false){
-    editor.docId=id; const doc=blank?{}:(state[editor.col]||[]).find(x=>x.id===id)||{}; const root=document.getElementById('deeb-doc-editor');if(!root)return;
-    const keys=Array.from(new Set(Object.keys(doc).filter(k=>k!=='id')));
-    root.classList.add('open');root.innerHTML=`<div class="deeb-admin-card"><h3>${blank?'➕ سجل جديد':'✏️ تعديل السجل'}</h3><div class="deeb-hint">استخدم الجدول. type يحدد كيف سيتم حفظ القيمة: string / number / boolean / json / null.</div><div class="deeb-data-wrap"><table class="deeb-field-table"><thead><tr><th style="width:24%">الحقل</th><th style="width:14%">النوع</th><th>القيمة</th><th style="width:70px"></th></tr></thead><tbody id="deeb-fields">${keys.map((k,i)=>fieldRow(k,doc[k],i)).join('')}</tbody></table></div><div class="deeb-admin-toolbar" style="margin-top:10px"><button class="btn btn-outline" onclick="window.deebAddField()">+ حقل</button><button class="btn btn-primary" onclick="window.deebSaveDoc(${blank?'null':`'${esc2(id)}'`})">💾 حفظ</button><button class="btn btn-outline" onclick="window.deebCloseDoc()">إغلاق</button></div></div>`;
-  }
-  function fieldRow(k,v,i){const t=typeOf(v);let value=t==='json'||t==='array'?JSON.stringify(v,null,2):(v===null?'':String(v));return `<tr><td><input class="deeb-f-key" value="${esc2(k)}"></td><td><select class="deeb-f-type"><option ${t==='string'?'selected':''}>string</option><option ${t==='number'?'selected':''}>number</option><option ${t==='boolean'?'selected':''}>boolean</option><option ${t==='json'||t==='array'?'selected':''}>json</option><option ${t==='null'?'selected':''}>null</option></select></td><td><textarea class="deeb-f-val">${esc2(value)}</textarea></td><td><button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">×</button></td></tr>`;}
-  function collectFields(){const out={};document.querySelectorAll('#deeb-fields tr').forEach(tr=>{const k=tr.querySelector('.deeb-f-key')?.value.trim();const t=tr.querySelector('.deeb-f-type')?.value;const raw=tr.querySelector('.deeb-f-val')?.value??'';if(!k)return;let v=raw;if(t==='number'){v=Number(raw);if(!Number.isFinite(v))throw new Error('القيمة الرقمية غير صالحة: '+k);}else if(t==='boolean')v=/^(true|1|yes|نعم)$/i.test(raw.trim());else if(t==='null')v=null;else if(t==='json'){try{v=JSON.parse(raw);}catch(e){throw new Error('JSON غير صالح للحقل: '+k);}}out[k]=v;});return out;}
-  window.deebSelectCollection=c=>{editor.col=c;editor.docId=null;renderDataEditor();};
-  window.deebEditDoc=id=>openDocEditor(id,false);
-  window.deebNewDoc=()=>openDocEditor(null,true);
-  window.deebCloseDoc=()=>{document.getElementById('deeb-doc-editor')?.classList.remove('open');};
-  window.deebAddField=()=>{const tb=document.getElementById('deeb-fields');if(tb)tb.insertAdjacentHTML('beforeend',fieldRow('','',Date.now()));};
-  window.deebSaveDoc=async id=>{try{const data=collectFields();if(id===null){const newId=await addDocFull(editor.col,data);toast('تم إنشاء السجل ✅','success');editor.docId=newId;}else{await saveDoc(editor.col,id,data);toast('تم حفظ التعديل ✅','success');}renderDataEditor();}catch(e){console.error(e);toast(e.message||'فشل الحفظ','error');}};
-  window.deebDeleteDoc=async id=>{try{await deleteFull(editor.col,id);toast('تم الحذف','success');renderDataEditor();}catch(e){toast(e.message||'فشل الحذف','error');}};
-  window.deebRefreshEditor=()=>renderDataEditor();
-
-  /* ---- persistent UI text editor ---- */
-  const UI_KEYS=['brandName','adminTitle','tagline','website','instagram','email','phone','currency','deliveryText','aboutTitle','aboutText','footerText','orderConfirmationText','emptyStateText','loginTitle'];
-  async function loadUIContent(){const x=(state.settings||[]).find(s=>s.id==='uiContent');return x?.values||{};}
-  async function saveUIContent(values){await db.collection('settings').doc('uiContent').set({values,updatedAt:tsNow(),updatedBy:admin().uid},{merge:true});state.settings=state.settings||[];const i=state.settings.findIndex(x=>x.id==='uiContent');const obj={id:'uiContent',values};if(i>=0)state.settings[i]={...state.settings[i],...obj};else state.settings.push(obj);}
-  function renderTextEditor(){
-    const root=document.getElementById('deeb-admin-text');if(!root)return;const values=((state.settings||[]).find(s=>s.id==='uiContent')?.values)||{};
-    root.innerHTML=`<div class="deeb-admin-card"><h3>✍️ محرر النصوص</h3><div class="deeb-hint">كل قيمة هنا محفوظة في Firestore ويمكن تعديلها بدون لمس الكود. يمكنك إضافة مفاتيح جديدة من زر الحقل الجديد. النصوص التي لم تربط بعد بواجهة محددة تبقى محفوظة كمحتوى مركزي.</div><div id="deeb-text-fields">${Object.entries({...Object.fromEntries(UI_KEYS.map(k=>[k,'' ])),...values}).map(([k,v])=>`<div class="deeb-text-row"><input class="form-input deeb-text-key" value="${esc2(k)}"><textarea class="deeb-text-value">${esc2(v??'')}</textarea><button class="btn btn-sm btn-danger" onclick="this.closest('.deeb-text-row').remove()">×</button></div>`).join('')}</div><div class="deeb-admin-toolbar" style="margin-top:10px"><button class="btn btn-outline" onclick="window.deebAddTextField()">+ نص جديد</button><button class="btn btn-primary" onclick="window.deebSaveTexts()">💾 حفظ كل النصوص</button></div></div>`;
-  }
-  window.deebAddTextField=()=>document.getElementById('deeb-text-fields')?.insertAdjacentHTML('beforeend','<div class="deeb-text-row"><input class="form-input deeb-text-key" placeholder="مفتاح النص"><textarea class="deeb-text-value" placeholder="النص"></textarea><button class="btn btn-sm btn-danger" onclick="this.closest(\'.deeb-text-row\').remove()">×</button></div>');
-  window.deebSaveTexts=async()=>{try{const vals={};document.querySelectorAll('#deeb-text-fields .deeb-text-row').forEach(r=>{const k=r.querySelector('.deeb-text-key')?.value.trim();if(k)vals[k]=r.querySelector('.deeb-text-value')?.value||'';});await saveUIContent(vals);toast('تم حفظ النصوص ✅','success');}catch(e){toast(e.message||'فشل حفظ النصوص','error');}};
-
-  /* ---- editable business numbers ---- */
-  const DEFAULT_NUMBERS={
-    classic500:12,classic1000:20,mix500:12,mix1000:20,dragee500:12,dragee1000:20,custom500:13,custom1000:22,customSticker:0.40,customAcrylic:0.40,
-    acrylicSmall:12,acrylicMedium:17,acrylicLarge:22,b2b10kg:180,b2b20kg:340,b2b30kgPerKg:16,chocolateCostPerKg:12,standardBoxCost:0.75,standardStickerCost:0.09,bagCost:0.35,targetMonthlyProfit:200
-  };
-  async function saveNumbers(vals){await db.collection('settings').doc('businessNumbers').set({values:vals,updatedAt:tsNow(),updatedBy:admin().uid},{merge:true});state.settings=state.settings||[];const i=state.settings.findIndex(x=>x.id==='businessNumbers');const obj={id:'businessNumbers',values:vals};if(i>=0)state.settings[i]={...state.settings[i],...obj};else state.settings.push(obj);}
-  function renderNumberEditor(){
-    const root=document.getElementById('deeb-admin-number');if(!root)return;const stored=((state.settings||[]).find(s=>s.id==='businessNumbers')?.values)||{};const vals={...DEFAULT_NUMBERS,...stored};
-    const labels={classic500:'Classic 500g',classic1000:'Classic 1KG',mix500:'Mix 500g',mix1000:'Mix 1KG',dragee500:'Dragee 500g',dragee1000:'Dragee 1KG',custom500:'Custom 500g',custom1000:'Custom 1KG',customSticker:'Custom Sticker',customAcrylic:'Custom Acrylic',acrylicSmall:'Acrylic Small 1KG',acrylicMedium:'Acrylic Medium 1.5KG',acrylicLarge:'Acrylic Large 2KG',b2b10kg:'B2B 10KG',b2b20kg:'B2B 20KG',b2b30kgPerKg:'B2B 30KG+ / KG',chocolateCostPerKg:'Chocolate cost / KG',standardBoxCost:'Standard box cost',standardStickerCost:'Standard sticker cost',bagCost:'Bag cost',targetMonthlyProfit:'Target monthly profit'};
-    root.innerHTML=`<div class="deeb-admin-card"><h3>🔢 الأسعار والأرقام القابلة للتعديل</h3><div class="deeb-hint">هذه الأرقام محفوظة في settings/businessNumbers. النظام يستخدمها كمرجع مركزي. الأرقام الناتجة مثل Gross Profit وCOGS تبقى محسوبة تلقائياً.</div><div class="deeb-number-grid">${Object.entries(vals).map(([k,v])=>`<div class="deeb-number-card"><label>${esc2(labels[k]||k)}</label><input type="number" step="0.01" data-num-key="${esc2(k)}" value="${Number(v)||0}"><div class="deeb-mini">${esc2(k)}</div></div>`).join('')}</div><div class="deeb-admin-toolbar" style="margin-top:12px"><button class="btn btn-primary" onclick="window.deebSaveNumbers()">💾 حفظ الأرقام</button><button class="btn btn-outline" onclick="window.deebResetNumbers()">↺ إعادة القيم الافتراضية</button></div></div>`;
-  }
-  window.deebSaveNumbers=async()=>{try{const vals={};document.querySelectorAll('[data-num-key]').forEach(i=>vals[i.dataset.numKey]=Number(i.value)||0);await saveNumbers(vals);toast('تم حفظ الأرقام ✅','success');}catch(e){toast(e.message||'فشل حفظ الأرقام','error');}};
-  window.deebResetNumbers=async()=>{if(!confirm('إعادة الأرقام الافتراضية؟'))return;await saveNumbers(DEFAULT_NUMBERS);renderNumberEditor();toast('تمت إعادة القيم الافتراضية');};
-
-  /* ---- navigation integration ---- */
-  function addAdminNav(){
-    const aside=document.getElementById('appSidebar')||document.querySelector('aside');if(!aside||document.getElementById('deeb-nav-admin-center'))return;
-    const logout=aside.querySelector('.nav-logout');const b=document.createElement('div');b.id='deeb-nav-admin-center';b.className='nav-item';b.innerHTML='<span class="icon">⚙️</span>مركز الإدارة والتحكم';b.onclick=()=>showPage('admin-center',b);(logout?logout.before(b):aside.appendChild(b));
-  }
-  const oldShowPage=window.showPage;
-  window.showPage=function(id,el){
-    if(id==='admin-center'){
-      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-admin-center')?.classList.add('active');el?.classList.add('active');document.getElementById('pageTitle').textContent='⚙️ مركز الإدارة والتحكم';try{updateBreadcrumb('admin-center')}catch(e){};return;
-    }
-    return oldShowPage.apply(this,arguments);
-  };
-
-  function init(){
-    ensureCSS(); buildAdminPage(); addAdminNav(); removeDuplicates();
-    // Repeat after dynamic ERP setup or late rendering.
-    setTimeout(()=>{buildAdminPage();addAdminNav();removeDuplicates();},250);
-    setTimeout(()=>{buildAdminPage();addAdminNav();removeDuplicates();},1200);
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-  window.DEEB_OS_V22={version:V,collections:EDITABLE_COLLECTIONS};
-})();
-</script>
-
-
-<script>
-/* V2.2 accounting integrity: sale posting + WAC + idempotency + delivered edit protection */
-(function(){
-  const oldStatus=window.updateOrderStatus;
-  async function postChocolateSale(orderId){
-    const ref=db.collection('orders').doc(orderId);
-    return db.runTransaction(async tx=>{
-      const snap=await tx.get(ref); if(!snap.exists) throw new Error('الطلب غير موجود');
-      const order={id:orderId,...snap.data()};
-      if(order.inventoryPostedAt||order.stockDeducted||order.cogsSnapshot) return {skipped:true,cogs:NUM(order.cogs),lines:order.cogsLines||[]};
-      const items=orderItems(order).map(it=>({name:String(it.name||it.product||'').trim(),qty:NUM(it.qty)||1})).filter(x=>x.name&&x.qty>0);
-      if(!items.length) throw new Error('لا توجد أصناف شوكولاتة قابلة للخصم في الطلب');
-      const reads=[];
-      for(const it of items){
-        const local=(state.inventory||[]).find(x=>String(x.name||'').trim().toLowerCase()===it.name.toLowerCase());
-        if(!local) throw new Error('لا يوجد صنف مخزون مطابق: '+it.name);
-        const r=db.collection('inventory').doc(local.id); const ss=await tx.get(r);
-        if(!ss.exists) throw new Error('سجل المخزون غير موجود: '+it.name);
-        reads.push({it,r,ss});
-      }
-      let cogs=0; const lines=[]; const movementRefs=[];
-      for(const x of reads){
-        const d=x.ss.data(); const qty=NUM(d.qty); const wac=NUM(d.avgCost??d.cost);
-        if(x.it.qty>qty) throw new Error(`المخزون غير كافٍ لـ ${x.it.name}. المتاح ${qty}، المطلوب ${x.it.qty}`);
-        const lineCost=MONEY(x.it.qty*wac); cogs+=lineCost;
-        const nextQty=MONEY(qty-x.it.qty);
-        tx.update(x.r,{qty:nextQty,updatedAt:tsNow(),lastMovementAt:tsNow()});
-        const mv=db.collection('stockMovements').doc(); movementRefs.push(mv.id);
-        tx.set(mv,{itemId:x.r.id,itemName:x.it.name,qty:x.it.qty,unitCost:wac,totalCost:lineCost,movementType:'Sale',referenceType:'order',referenceId:orderId,userId:auth.currentUser?.uid||'',timestamp:tsNow(),createdAt:tsNow()});
-        lines.push({itemId:x.r.id,itemName:x.it.name,qty:x.it.qty,unitCost:wac,totalCost:lineCost});
-      }
-      cogs=MONEY(cogs);
-      const revenue=MONEY(calculateOrderRevenue(order));
-      tx.update(ref,{cogs,cogsSnapshot:true,cogsRecordedAt:tsNow(),grossProfit:MONEY(revenue-cogs),inventoryPostedAt:tsNow(),stockDeducted:true,stockMovementIds:movementRefs,cogsLines:lines});
-      return {skipped:false,cogs,lines};
-    });
-  }
-  async function reverseChocolateSale(orderId){
-    const ref=db.collection('orders').doc(orderId);
-    return db.runTransaction(async tx=>{
-      const snap=await tx.get(ref);if(!snap.exists)throw new Error('الطلب غير موجود');
-      const order={id:orderId,...snap.data()};
-      if(order.inventoryRestoredAt||!order.stockDeducted)return {skipped:true};
-      const lines=order.cogsLines||[]; if(!lines.length)throw new Error('لا توجد حركة بيع مسجلة لعكسها');
-      const reads=[];
-      for(const l of lines){const r=db.collection('inventory').doc(l.itemId);const ss=await tx.get(r);if(!ss.exists)throw new Error('سجل المخزون غير موجود عند الإرجاع: '+l.itemName);reads.push({l,r,ss});}
-      const reversalIds=[];
-      for(const x of reads){const d=x.ss.data();const next=MONEY(NUM(d.qty)+NUM(x.l.qty));tx.update(x.r,{qty:next,updatedAt:tsNow(),lastMovementAt:tsNow()});const mv=db.collection('stockMovements').doc();reversalIds.push(mv.id);tx.set(mv,{itemId:x.r.id,itemName:x.l.itemName,qty:NUM(x.l.qty),unitCost:NUM(x.l.unitCost),totalCost:MONEY(NUM(x.l.qty)*NUM(x.l.unitCost)),movementType:'Sale Reversal',referenceType:'order',referenceId:orderId,userId:auth.currentUser?.uid||'',timestamp:tsNow(),createdAt:tsNow()});}
-      tx.update(ref,{inventoryRestoredAt:tsNow(),stockReversalMovementIds:reversalIds});
-      return {skipped:false};
-    });
-  }
-  window.postChocolateSale=postChocolateSale;window.reverseChocolateSale=reverseChocolateSale;
-  if(oldStatus){
-    window.updateOrderStatus=async function(id,status){
-      const before=(state.orders||[]).find(o=>o.id===id);
-      if(status==='delivered' && before?.status==='delivered') return toast('الطلب مسجل كمُسلّم مسبقاً','warning');
-      await oldStatus(id,status);
-      try{
-        if(status==='delivered'){
-          const r=await postChocolateSale(id); if(!r.skipped) toast('🍫 تم خصم الشوكولاتة وتثبيت COGS حسب WAC ✅','success');
-        }else if(status==='cancelled' && before?.stockDeducted && !before?.inventoryRestoredAt){
-          await reverseChocolateSale(id); toast('↩️ تم عكس مخزون الشوكولاتة وتسجيل حركة الإرجاع ✅','success');
-        }
-      }catch(e){
-        console.error(e);toast('تعذر ترحيل المخزون: '+(e.message||e),'error');
-        // If sale posting fails after the legacy status update, mark the order for attention.
-        try{await updateDoc_('orders',id,{inventoryPostingError:e.message||String(e),inventoryPostingErrorAt:tsNow()});}catch(_){ }
-      }
-    };
-  }
-  const oldEdit=window.saveEditOrder;
-  if(oldEdit){
-    window.saveEditOrder=async function(){
-      const id=document.getElementById('eo-id')?.value;const old=(state.orders||[]).find(o=>o.id===id);if(old?.status==='delivered'){
-        const newProduct=document.getElementById('eo-product')?.selectedOptions?.[0]?.text||'';
-        const newQty=Number(document.getElementById('eo-qty')?.value)||1;const newPrice=Number(document.getElementById('eo-price')?.value)||0;
-        if(newProduct!==old.product||newQty!==Number(old.qty)||newPrice!==Number(old.price)){
-          toast('لا يمكن تعديل المنتج أو الكمية أو السعر بعد التسليم. اعكس الطلب أولاً ثم عدّله.','error');return;
-        }
-      }
-      return oldEdit.apply(this,arguments);
-    };
-  }
-  // Universal stock editor: force every manual quantity change through an audited movement.
-  window.updateQty=async function(id){
-    const item=(state.inventory||[]).find(x=>x.id===id);if(!item)return;
-    const answer=prompt(`الكمية الحالية: ${NUM(item.qty)}\nأدخل الكمية الجديدة:`);if(answer===null)return;
-    const next=Number(answer);if(!Number.isFinite(next)||next<0){toast('كمية غير صالحة','error');return;}
-    const reason=prompt('سبب التعديل:');if(!reason?.trim()){toast('سبب التعديل مطلوب','error');return;}
-    const delta=MONEY(next-NUM(item.qty));if(delta===0)return toast('لا يوجد تغيير','warning');
-    const batch=db.batch();batch.update(db.collection('inventory').doc(id),{qty:next,updatedAt:tsNow(),lastMovementAt:tsNow()});const mv=db.collection('stockMovements').doc();batch.set(mv,{itemId:id,itemName:item.name,qty:Math.abs(delta),unitCost:NUM(item.avgCost??item.cost),totalCost:MONEY(Math.abs(delta)*NUM(item.avgCost??item.cost)),movementType:delta>0?'Adjustment+':'Adjustment-',referenceType:'manual',referenceId:id,reason:reason.trim(),userId:auth.currentUser?.uid||'',timestamp:tsNow(),createdAt:tsNow()});await batch.commit();toast('تم تعديل المخزون مع تسجيل الحركة ✅','success');
-  };
-})();
-</script>
-
-
-<script>
-/* V2.3.0 — real UI text override editor */
-(function(){
-  function esc(v){return typeof window.esc==='function'?window.esc(String(v??'')):String(v??'');}
-  function keyFor(el,idx){
-    const parts=[];let n=el;
-    while(n&&n!==document.body){
-      if(n.id){parts.unshift('#'+n.id);break;}
-      let p=n.parentElement;if(!p)break;
-      let same=Array.from(p.children).filter(x=>x.tagName===n.tagName);let pos=same.indexOf(n)+1;
-      parts.unshift(n.tagName.toLowerCase()+':nth-of-type('+pos+')');n=p;
-    }
-    return parts.join('>')+'::text:'+idx;
-  }
-  function findTextNode(key){
-    const [path,idxStr]=key.split('::text:');if(!path)return null;let el=null;try{el=document.querySelector(path);}catch(e){return null}if(!el)return null;const idx=Number(idxStr)||0;let i=0;for(const node of el.childNodes){if(node.nodeType===3){if(i===idx)return node;i++;}}return null;
-  }
-  function scan(){
-    const roots=[document.querySelector('.sidebar'),document.querySelector('.content')].filter(Boolean);const out=[];
-    roots.forEach(root=>{const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){
-      const text=n.nodeValue.trim();if(!text||text.length<1)continue;const p=n.parentElement;if(!p)continue;
-      if(['SCRIPT','STYLE','NOSCRIPT','INPUT','TEXTAREA','OPTION'].includes(p.tagName))continue;
-      if(p.closest('#page-admin-center'))continue;
-      const idx=Array.from(p.childNodes).filter(x=>x.nodeType===3).indexOf(n);const key=keyFor(p,idx);out.push({key,text,tag:p.tagName.toLowerCase()});
-    }});
-    const seen=new Set();return out.filter(x=>{if(seen.has(x.key))return false;seen.add(x.key);return true;});
-  }
-  async function getOverrides(){const d=(state.settings||[]).find(x=>x.id==='uiTextOverrides');return d?.values||{};}
-  async function saveOverrides(values){await db.collection('settings').doc('uiTextOverrides').set({values,updatedAt:tsNow(),updatedBy:auth.currentUser?.uid||''},{merge:true});const i=(state.settings||[]).findIndex(x=>x.id==='uiTextOverrides');if(i>=0)state.settings[i]={...state.settings[i],id:'uiTextOverrides',values};else state.settings.push({id:'uiTextOverrides',values});}
-  async function apply(){const o=await getOverrides();Object.entries(o).forEach(([k,v])=>{const n=findTextNode(k);if(n)n.nodeValue=String(v);});}
-  window.deebRenderRealTextEditor=async function(){const root=document.getElementById('deeb-admin-text');if(!root)return;const o=await getOverrides();const rows=scan();root.innerHTML=`<div class="deeb-admin-card"><h3>✍️ محرر نصوص الواجهة الفعلي</h3><div class="deeb-hint">هذا الجدول يقرأ النصوص الظاهرة فعلياً في القائمة والصفحات. عدّل أي نص ثم احفظه؛ يتم حفظ التعديل في Firestore ويُطبّق عند فتح النظام لاحقاً. يمكنك استخدام البحث لتحديد النص بسرعة.</div><div class="deeb-admin-toolbar"><input id="deeb-ui-text-search" class="form-input" placeholder="🔎 ابحث عن النص..."><button class="btn btn-primary" onclick="window.deebSaveRealTexts()">💾 حفظ تعديلات النصوص</button><button class="btn btn-outline" onclick="window.deebResetRealTexts()">↺ إزالة كل التعديلات</button></div><div class="deeb-data-wrap"><table class="deeb-data-table" style="min-width:900px"><thead><tr><th>المكان</th><th>النص الحالي</th><th>النص المعدّل</th></tr></thead><tbody id="deeb-ui-text-body">${rows.map((r,i)=>`<tr><td><div class="deeb-cell" dir="ltr">${esc(r.tag)} · ${esc(r.key)}</div></td><td><div class="deeb-cell">${esc(r.text)}</div></td><td><textarea class="deeb-ui-text-input" data-ui-key="${esc(r.key)}" style="width:100%;min-height:42px">${esc(o[r.key]??r.text)}</textarea></td></tr>`).join('')}</tbody></table></div></div>`;document.getElementById('deeb-ui-text-search')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#deeb-ui-text-body tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none');});};
-  window.deebSaveRealTexts=async function(){try{const vals={};document.querySelectorAll('.deeb-ui-text-input').forEach(i=>{const v=i.value;const original=i.closest('tr')?.children?.[1]?.innerText||'';if(v!==original)vals[i.dataset.uiKey]=v;});const old=await getOverrides();await saveOverrides({...old,...vals});await apply();toast('تم حفظ نصوص الواجهة وتطبيقها ✅','success');window.deebRenderRealTextEditor();}catch(e){toast(e.message||'فشل حفظ النصوص','error');}};
-  window.deebResetRealTexts=async function(){if(!confirm('إزالة جميع تعديلات نصوص الواجهة؟'))return;await saveOverrides({});location.reload();};
-  const oldSwitch=window.deebSwitchAdminTab;
-  // Hook the tab renderer used by V2.2.
-  const tabs=document.getElementById('deeb-tab-text');
-  if(tabs){tabs.addEventListener('click',()=>setTimeout(()=>window.deebRenderRealTextEditor(),0));}
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(apply,800));else setTimeout(apply,800);
-})();
-</script>
-
-
-<script>
-/* DEEB OS V2.4 — Mobile navigation controller */
-(function(){
-  function mobileNav(){
-    if(document.getElementById('deebMobileBottomNav')) return;
-    const nav=document.createElement('nav');
-    nav.id='deebMobileBottomNav';
-    nav.className='deeb-mobile-bottom-nav';
-    nav.setAttribute('aria-label','التنقل السريع');
-    nav.innerHTML=`
-      <button type="button" data-page="dashboard"><span class="m-icon">🏠</span><span>الرئيسية</span></button>
-      <button type="button" data-page="orders"><span class="m-icon">🛒</span><span>الطلبات</span></button>
-      <button type="button" data-page="inventory"><span class="m-icon">📦</span><span>المخزون</span></button>
-      <button type="button" data-page="finance"><span class="m-icon">💰</span><span>المالية</span></button>
-      <button type="button" data-more="1"><span class="m-icon">☰</span><span>المزيد</span></button>`;
-    document.body.appendChild(nav);
-    nav.querySelectorAll('button[data-page]').forEach(btn=>btn.addEventListener('click',()=>{
-      if(typeof window.showPage==='function') window.showPage(btn.dataset.page, null);
-      setActive(btn.dataset.page);
-      if(window.innerWidth<=768 && typeof window.closeSidebar==='function') window.closeSidebar();
-      window.scrollTo({top:0,behavior:'smooth'});
-    }));
-    nav.querySelector('[data-more]').addEventListener('click',()=>{
-      if(typeof window.toggleSidebar==='function') window.toggleSidebar();
-      else { const s=document.getElementById('appSidebar'); const o=document.getElementById('sidebarOverlay'); if(s){s.classList.toggle('mob-open');o&&o.classList.toggle('mob-open');} }
-    });
-    setActive(location.hash ? location.hash.replace('#','') : 'dashboard');
-  }
-  function setActive(id){
-    const nav=document.getElementById('deebMobileBottomNav'); if(!nav) return;
-    nav.querySelectorAll('button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
-  }
-  window.deebSetMobileActive=setActive;
-  function init(){mobileNav();}
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
-  const oldShow=window.showPage;
-  if(typeof oldShow==='function'){
-    window.showPage=function(id,el){
-      const result=oldShow.apply(this,arguments);
-      setActive(id);
-      if(window.innerWidth<=768) window.scrollTo({top:0,behavior:'smooth'});
-      return result;
-    };
-  } else {
-    document.addEventListener('DOMContentLoaded',()=>{
-      const original=window.showPage;
-      if(typeof original==='function'){
-        window.showPage=function(id,el){const r=original.apply(this,arguments);setActive(id);return r;};
-      }
-    });
-  }
-  window.addEventListener('resize',()=>{
-    if(window.innerWidth>768){
-      const nav=document.getElementById('deebMobileBottomNav'); if(nav) nav.style.display='none';
-    }else{
-      const nav=document.getElementById('deebMobileBottomNav'); if(nav) nav.style.display='grid';
-    }
-  });
-})();
-</script>
-
+<div style="text-align:center;padding:1rem;font-size:.65rem;color:var(--brown);opacity:.5">DEEB OS — Complete Strategy & Economics Build</div>
 </body>
 </html>
