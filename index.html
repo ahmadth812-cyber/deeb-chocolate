@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Deeb Chocolate OS</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
   --cream:#F8EFEB; --light:#EBDDD4; --gold:#BF9E60; --gold-light:#e8c97a;
@@ -78,7 +78,7 @@
   font-size:0.75rem;
   cursor:pointer;
   color:var(--brown);
-  font-family:'Cairo',sans-serif;
+  font-family:'Nunito','Cairo','أنيق',sans-serif;
   display:flex;
   align-items:center;
   gap:0.35rem;
@@ -94,18 +94,18 @@ body, .card, .topbar, .sidebar, .modal, .form-input, .form-select,
   transition: var(--dm-transition);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);display:block;min-height:100vh;font-size:14px;overflow-x:hidden;}
+body{font-family:'Nunito','Cairo','أنيق',sans-serif;background:var(--cream);color:var(--dark);display:block;min-height:100vh;font-size:14px;overflow-x:hidden;}
 
 /* ── AUTH ── */
 .auth-screen{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:1.5rem;}
-.auth-logo{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);text-align:center;letter-spacing:2px;}
+.auth-logo{font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:2rem;color:var(--gold);text-align:center;letter-spacing:2px;}
 .auth-sub{font-size:0.7rem;color:var(--brown);letter-spacing:4px;text-transform:uppercase;text-align:center;margin-top:-1rem;}
 .auth-box{background:#2a1500;border:1px solid rgba(191,158,96,0.25);border-radius:20px;padding:2rem;width:90%;max-width:360px;}
 .auth-title{font-size:0.85rem;font-weight:700;color:var(--gold);margin-bottom:1.5rem;text-align:center;letter-spacing:2px;}
-.auth-input{width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(191,158,96,0.2);border-radius:10px;font-family:'Cairo',sans-serif;font-size:0.9rem;color:var(--cream);margin-bottom:0.8rem;transition:border 0.2s;}
+.auth-input{width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(191,158,96,0.2);border-radius:10px;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.9rem;color:var(--cream);margin-bottom:0.8rem;transition:border 0.2s;}
 .auth-input:focus{outline:none;border-color:var(--gold);}
 .auth-input::placeholder{color:rgba(235,221,212,0.3);}
-.auth-btn{width:100%;padding:0.8rem;background:var(--gold);border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-size:0.9rem;font-weight:700;color:var(--dark);cursor:pointer;transition:all 0.2s;margin-top:0.3rem;}
+.auth-btn{width:100%;padding:0.8rem;background:var(--gold);border:none;border-radius:10px;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.9rem;font-weight:700;color:var(--dark);cursor:pointer;transition:all 0.2s;margin-top:0.3rem;}
 .auth-btn:hover{background:var(--gold-light);}
 .auth-error{color:#f87171;font-size:0.75rem;text-align:center;margin-top:0.5rem;min-height:20px;}
 .auth-loading{color:var(--brown);font-size:0.75rem;text-align:center;margin-top:0.5rem;}
@@ -133,7 +133,7 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 
 /* Workspace */
 .pw-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
-.pw-back{background:none;border:1px solid var(--light);border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.78rem;color:var(--brown);}
+.pw-back{background:none;border:1px solid var(--light);border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.78rem;color:var(--brown);}
 .pw-back:hover{border-color:var(--gold);color:var(--gold);}
 .pw-title-block{display:flex;align-items:center;gap:0.7rem;flex:1;}
 .pw-dash{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.6rem;margin-bottom:1rem;}
@@ -235,7 +235,7 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .flavor-chip.unavailable{opacity:0.4;cursor:not-allowed;}
 .flavor-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;}
 .flavor-chip.selected .flavor-dot{background:var(--dark);}
-.flavor-search{width:100%;margin-bottom:0.6rem;padding:0.4rem 0.7rem;border:1px solid var(--light);border-radius:8px;font-family:'Cairo',sans-serif;font-size:0.8rem;background:var(--white);color:var(--dark);}
+.flavor-search{width:100%;margin-bottom:0.6rem;padding:0.4rem 0.7rem;border:1px solid var(--light);border-radius:8px;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.8rem;background:var(--white);color:var(--dark);}
 .flavor-search:focus{outline:none;border-color:var(--gold);}
 .flavor-count{font-size:0.72rem;color:var(--brown);margin-bottom:0.4rem;}
 .flavor-tag{display:inline-flex;align-items:center;gap:0.3rem;padding:0.2rem 0.5rem;background:rgba(191,158,96,0.15);border-radius:12px;font-size:0.7rem;color:var(--dark);margin:0.15rem;}
@@ -272,7 +272,7 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 
 /* ── PAGINATION ── */
 .pagination{display:flex;align-items:center;justify-content:center;gap:0.3rem;padding:0.8rem 0;flex-wrap:wrap;}
-.pag-btn{min-width:34px;height:34px;border:1px solid var(--light);border-radius:8px;background:none;font-family:'Cairo',sans-serif;font-size:0.78rem;font-weight:600;color:var(--brown);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;padding:0 0.5rem;}
+.pag-btn{min-width:34px;height:34px;border:1px solid var(--light);border-radius:8px;background:none;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.78rem;font-weight:600;color:var(--brown);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;padding:0 0.5rem;}
 .pag-btn:hover{border-color:var(--gold);color:var(--gold);}
 .pag-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
 .pag-btn:disabled{opacity:0.35;cursor:default;pointer-events:none;}
@@ -313,7 +313,7 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 /* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar-w);background:var(--dark);position:fixed;right:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;overflow-y:auto;overflow-x:hidden;}
 .sidebar-logo{padding:1.5rem 1.2rem 1rem;border-bottom:1px solid rgba(191,158,96,0.15);}
-.sidebar-logo .brand{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);font-weight:900;letter-spacing:1px;}
+.sidebar-logo .brand{font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:1.15rem;color:var(--gold);font-weight:900;letter-spacing:1px;}
 .sidebar-logo .sub{font-size:0.6rem;color:var(--brown);letter-spacing:3px;text-transform:uppercase;margin-top:2px;}
 .nav-section{padding:0.8rem 0 0;}
 .nav-label{font-size:0.6rem;letter-spacing:3px;color:var(--brown);padding:0 1.2rem 0.4rem;text-transform:uppercase;}
@@ -322,7 +322,7 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .nav-item.active{background:rgba(191,158,96,0.12);color:var(--gold);border-right-color:var(--gold);}
 .nav-item .icon{font-size:1rem;width:20px;text-align:center;}
 .nav-logout{margin-top:auto;padding:1rem 1.2rem;border-top:1px solid rgba(191,158,96,0.1);position:sticky;bottom:0;background:var(--dark);}
-.btn-logout{width:100%;padding:0.5rem;background:rgba(139,32,32,0.15);border:1px solid rgba(139,32,32,0.3);border-radius:8px;color:#f87171;font-family:'Cairo',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;}
+.btn-logout{width:100%;padding:0.5rem;background:rgba(139,32,32,0.15);border:1px solid rgba(139,32,32,0.3);border-radius:8px;color:#f87171;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;}
 
 /* ── MAIN ── */
 .main{width:calc(100% - var(--sidebar-w));margin-right:var(--sidebar-w);margin-left:0;display:flex;flex-direction:column;min-height:100vh;min-width:0;overflow-y:auto;}
@@ -347,25 +347,25 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 
 /* ── TOAST ── */
 .toast-container{position:fixed;bottom:1.5rem;left:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem;}
-.toast{padding:0.75rem 1.2rem;border-radius:10px;font-size:0.82rem;font-weight:600;font-family:'Cairo',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.15);animation:slideIn 0.3s ease;display:flex;align-items:center;gap:0.5rem;min-width:220px;}
+.toast{padding:0.75rem 1.2rem;border-radius:10px;font-size:0.82rem;font-weight:600;font-family:'Nunito','Cairo','أنيق',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.15);animation:slideIn 0.3s ease;display:flex;align-items:center;gap:0.5rem;min-width:220px;}
 .toast-success{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
 .toast-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;}
 .toast-warning{background:#fefce8;color:#854d0e;border:1px solid #fef08a;}
 @keyframes slideIn{from{transform:translateX(-100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
 /* ── SESSION WARNING ── */
-.session-warning{position:fixed;top:0;left:0;right:0;background:#7a1d1d;color:#fecaca;padding:0.6rem 1rem;text-align:center;font-size:0.82rem;font-weight:700;z-index:9998;display:none;font-family:'Cairo',sans-serif;}
+.session-warning{position:fixed;top:0;left:0;right:0;background:#7a1d1d;color:#fecaca;padding:0.6rem 1rem;text-align:center;font-size:0.82rem;font-weight:700;z-index:9998;display:none;font-family:'Nunito','Cairo','أنيق',sans-serif;}
 /* ── CONFIRM DELETE ── */
 .confirm-modal{position:fixed;inset:0;background:rgba(59,33,0,0.6);z-index:300;display:none;align-items:center;justify-content:center;}
 .confirm-modal.open{display:flex;}
 .confirm-box{background:var(--white);border-radius:16px;padding:2rem;width:90%;max-width:400px;text-align:center;}
 .confirm-box h3{font-size:1rem;font-weight:700;color:var(--danger);margin-bottom:0.5rem;}
 .confirm-box p{font-size:0.82rem;color:var(--brown);margin-bottom:1rem;line-height:1.6;}
-.confirm-input{width:100%;padding:0.6rem 0.8rem;border:2px solid #fecaca;border-radius:8px;font-family:'Cairo',sans-serif;font-size:0.9rem;text-align:center;color:var(--danger);margin-bottom:1rem;}
+.confirm-input{width:100%;padding:0.6rem 0.8rem;border:2px solid #fecaca;border-radius:8px;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.9rem;text-align:center;color:var(--danger);margin-bottom:1rem;}
 .confirm-input:focus{outline:none;border-color:var(--danger);}
 .confirm-btns{display:flex;gap:0.5rem;justify-content:center;}
 /* ── SEARCH ── */
 .search-bar{display:flex;gap:0.5rem;margin-bottom:1rem;align-items:center;flex-wrap:wrap;}
-.search-input{flex:1;min-width:180px;padding:0.5rem 0.8rem;border:1px solid var(--light);border-radius:8px;font-family:'Cairo',sans-serif;font-size:0.82rem;color:var(--dark);}
+.search-input{flex:1;min-width:180px;padding:0.5rem 0.8rem;border:1px solid var(--light);border-radius:8px;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.82rem;color:var(--dark);}
 .search-input:focus{outline:none;border-color:var(--gold);}
 .results-count{font-size:0.72rem;color:var(--brown);padding:0.3rem 0.6rem;background:var(--cream);border-radius:6px;white-space:nowrap;}
 /* ── TRASH ── */
@@ -423,7 +423,7 @@ body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);di
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;font-family:'Cairo',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;border:none;transition:all 0.2s;}
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:8px;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;border:none;transition:all 0.2s;}
 .btn-primary{background:var(--dark);color:var(--gold);}
 .btn-primary:hover{background:#5a3200;}
 .btn-gold{background:var(--gold);color:var(--dark);}
@@ -457,7 +457,7 @@ tr:hover td{background:#faf6f3;}
 /* ── FORM ── */
 .form-group{margin-bottom:1rem;}
 .form-label{display:block;font-size:0.75rem;font-weight:700;color:var(--brown);margin-bottom:0.3rem;}
-.form-input,.form-select,.form-textarea{width:100%;padding:0.6rem 0.8rem;border:1px solid var(--light);border-radius:8px;font-family:'Cairo',sans-serif;font-size:0.82rem;color:var(--dark);background:var(--white);transition:border 0.2s;}
+.form-input,.form-select,.form-textarea{width:100%;padding:0.6rem 0.8rem;border:1px solid var(--light);border-radius:8px;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.82rem;color:var(--dark);background:var(--white);transition:border 0.2s;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--gold);}
 .form-textarea{min-height:80px;resize:vertical;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
@@ -541,7 +541,7 @@ tr:hover td{background:#faf6f3;}
 .cal-nav-btn:hover{border-color:var(--gold);color:var(--gold);}
 .cal-title{font-size:1.05rem;font-weight:700;color:var(--dark);min-width:160px;text-align:center;}
 .cal-views{display:flex;gap:0.3rem;}
-.cal-view-btn{padding:0.35rem 0.8rem;border:1px solid var(--light);border-radius:8px;background:none;font-family:'Cairo',sans-serif;font-size:0.75rem;font-weight:600;color:var(--brown);cursor:pointer;transition:all 0.2s;}
+.cal-view-btn{padding:0.35rem 0.8rem;border:1px solid var(--light);border-radius:8px;background:none;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.75rem;font-weight:600;color:var(--brown);cursor:pointer;transition:all 0.2s;}
 .cal-view-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
 .cal-month{width:100%;}
 .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px;}
@@ -732,7 +732,7 @@ tr:hover td{background:#faf6f3;}
 /* ── MONTH FILTER ── */
 .month-filter-bar{display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1.2rem;padding:0.8rem 1rem;background:var(--white);border-radius:10px;border:1px solid var(--light);}
 .month-filter-bar label{font-size:0.75rem;font-weight:700;color:var(--brown);}
-.mf-btn{padding:0.35rem 0.8rem;border-radius:6px;border:1px solid var(--light);background:transparent;font-family:Cairo,sans-serif;font-size:0.75rem;font-weight:600;color:var(--brown);cursor:pointer;transition:all 0.2s;}
+.mf-btn{padding:0.35rem 0.8rem;border-radius:6px;border:1px solid var(--light);background:transparent;font-family:'Nunito','Cairo','أنيق',sans-serif;font-size:0.75rem;font-weight:600;color:var(--brown);cursor:pointer;transition:all 0.2s;}
 .mf-btn.active{background:var(--dark);color:var(--gold);border-color:var(--dark);}
 .mf-btn:hover:not(.active){border-color:var(--gold);color:var(--gold);}
 
@@ -779,6 +779,31 @@ tr:hover td{background:#faf6f3;}
 
   
 .alert-danger{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.alert-warning{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
+
+/* ═══════════════════════════════════════════════════════════════
+   DEEB MASTER ERP — SUPPLIERS + ADMIN CONTROL CENTER
+   ═══════════════════════════════════════════════════════════════ */
+.admin-module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.65rem}
+.admin-module-item{border:1px solid var(--light);background:var(--cream);border-radius:10px;padding:.7rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:.72rem}
+.admin-module-item .ok{color:var(--success);font-weight:800}.admin-module-item .missing{color:var(--danger);font-weight:800}
+.erp-pill{display:inline-flex;align-items:center;padding:.2rem .5rem;border-radius:999px;font-size:.65rem;font-weight:700;background:var(--cream);border:1px solid var(--light);color:var(--brown)}
+.erp-table-input{min-width:110px}.supplier-items-editor{display:flex;flex-direction:column;gap:.6rem}.supplier-item-row{display:grid;grid-template-columns:1.3fr .8fr .8fr .8fr auto;gap:.45rem;align-items:end;padding:.6rem;border:1px solid var(--light);border-radius:10px;background:var(--cream)}
+@media(max-width:700px){.supplier-item-row{grid-template-columns:1fr 1fr}.admin-module-grid{grid-template-columns:1fr}.erp-table-input{min-width:90px}}
+
+
+/* FINAL AUDIT HARDENING */
+html,body{width:100%;min-width:0;}
+body{overflow-x:hidden;}
+#appMain{width:calc(100% - var(--sidebar-w));max-width:none;min-width:0;}
+#appMain .content{width:100%;max-width:none;min-width:0;overflow-x:hidden;}
+#appMain .page{width:100%;max-width:none;min-width:0;}
+#appMain .page > *{min-width:0;max-width:100%;}
+.table-wrap{max-width:100%;overflow-x:auto;overflow-y:visible;}
+.admin-readonly-badge{display:inline-flex;align-items:center;gap:.25rem;padding:.18rem .5rem;border-radius:999px;font-size:.66rem;font-weight:700;background:var(--cream);color:var(--brown);border:1px solid var(--light);}
+.strategy-table input,.strategy-table textarea,.strategy-table select{min-width:110px;}
+.strategy-note{font-size:.72rem;line-height:1.8;color:var(--brown);}
+@media(max-width:768px){#appMain{width:100%;margin:0!important}.content{width:100%;max-width:100%;}.grid-2{grid-template-columns:1fr!important}.strategy-table{min-width:900px}.table-wrap{width:100%;}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -839,6 +864,7 @@ tr:hover td{background:#faf6f3;}
     <div class="nav-label">المبيعات</div>
     <div class="nav-item" onclick="showPage('orders',this)"><span class="icon">🛒</span>الطلبات</div>
     <div class="nav-item" onclick="showPage('customers',this)"><span class="icon">👥</span>العملاء</div>
+    <div class="nav-item" onclick="showPage('reviews',this)"><span class="icon">⭐</span>التقييمات</div>
     <div class="nav-item" onclick="showPage('receivables',this)"><span class="icon">💳</span>الديون والمستحقات</div>
     <div class="nav-item" onclick="showPage('b2b',this)"><span class="icon">🏢</span>B2B Leads</div>
   </nav>
@@ -853,6 +879,11 @@ tr:hover td{background:#faf6f3;}
     <div class="nav-label">المالية</div>
     <div class="nav-item" onclick="showPage('finance',this)"><span class="icon">💰</span>المالية والأرباح</div>
     <div class="nav-item" onclick="showPage('calculations',this)"><span class="icon">🧮</span>الحسابات</div>
+  </nav>
+  <nav class="nav-section">
+    <div class="nav-label">المشتريات و ERP</div>
+    <div class="nav-item" onclick="showPage('suppliers',this)"><span class="icon">🏭</span>الموردين</div>
+    <div class="nav-item" onclick="showPage('admin',this)"><span class="icon">⚙️</span>الإدارة والتحكم</div>
   </nav>
   <nav class="nav-section">
     <div class="nav-label">الفريق والمشاريع</div>
@@ -1103,6 +1134,9 @@ tr:hover td{background:#faf6f3;}
       </div>
     </div>
 
+<!-- REVIEWS -->
+    <div class="page" id="page-reviews"><div class="section-header"><div><div class="section-title-main">⭐ التقييمات</div><div class="section-subtitle">مراجعة واعتماد تقييمات العملاء للمنتجات</div></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">إجمالي التقييمات</div><div class="stat-value" id="reviewTotal">0</div></div><div class="stat-card"><div class="stat-label">قيد المراجعة</div><div class="stat-value" id="reviewPending">0</div></div><div class="stat-card"><div class="stat-label">معتمدة</div><div class="stat-value" id="reviewApproved">0</div></div><div class="stat-card"><div class="stat-label">متوسط التقييم</div><div class="stat-value" id="reviewAvg">—</div></div></div><div class="search-bar"><input class="search-input" id="searchReviews" placeholder="🔍 بحث باسم العميل أو المنتج..." oninput="window.renderReviews()"><select class="form-select" id="reviewStatusFilter" style="width:auto" onchange="window.renderReviews()"><option value="">كل الحالات</option><option value="pending">قيد المراجعة</option><option value="approved">معتمد</option><option value="hidden">مخفي</option></select></div><div class="card"><div class="table-wrap"><table><thead><tr><th>المنتج</th><th>العميل</th><th>التقييم</th><th>المراجعة</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th></tr></thead><tbody id="reviewsTable"><tr><td colspan="7">جاري التحميل...</td></tr></tbody></table></div></div></div>
+
     <!-- PRODUCTS -->
     <div class="page" id="page-products">
       <div class="section-header">
@@ -1150,7 +1184,9 @@ tr:hover td{background:#faf6f3;}
         <div class="stat-card"><div class="stat-label">الأكثر طلباً</div><div class="stat-value" id="flavTopOrdered" style="font-size:0.82rem">—</div><div class="stat-icon">🏆</div></div>
       </div>
 
-      <!-- Search + Filter -->
+      <div class="card" style="margin-bottom:1rem"><div class="card-header"><div class="card-title">📚 DEEB Flavor Catalog Reference</div></div><div class="card-body"><div class="grid-2"><div><strong>Best Sellers</strong><p class="strategy-note">Reese’s · Kinder Milk · Kinder Nutella · Oreo · Lotus · Cheesecake · Classico Nutella · Classico Bueno · Croquant Hazelnuts · Croquant Pistachios · Wafer · rolled wafer · bounty · Truffle · Ounce milk</p></div><div><strong>Special Selection</strong><p class="strategy-note">Strawberry Classic · Pyramid · small stem · Natashia · Lezena · Fingers · cup cake · Dark Three Hazelnuts · milk tablet</p></div><div><strong>More Flavors</strong><p class="strategy-note">Digestive Bueno · Ounce Caramel · Classico Gianduja · crunchy · Roche Almond · Roche Cashew · ferrero roche · Kunafa lutes · Baqlawah · Espresso · Croquant Almonds · Milk napolitano · napolitano dark · new cube · Reese’s Caramel</p></div><div><strong>Dragee</strong><p class="strategy-note">Dragee Almonds · Dragee Caramel · Dragee Crunch · Dragee Hazelnuts</p></div></div><div class="alert">هذه قائمة مرجعية من مواصفات DEEB؛ لا تُنشئ سجلات Firestore تلقائياً حتى لا تتكرر النكهات الموجودة مسبقاً.</div></div></div>
+
+<!-- Search + Filter -->
       <div class="search-bar" style="margin-bottom:1rem">
         <input class="search-input" id="searchFlavors" placeholder="🔍 بحث في النكهات..." oninput="window.filterFlavors()">
         <select class="form-select" style="width:auto;font-size:0.8rem" id="filterFlavorStatus" onchange="window.filterFlavors()">
@@ -1241,7 +1277,7 @@ tr:hover td{background:#faf6f3;}
         <div class="stat-card"><div class="stat-label">إجمالي المصاريف</div><div class="stat-value" id="finExpenses">0</div><div class="stat-icon">📉</div></div>
         <div class="stat-card"><div class="stat-label">صافي الربح</div><div class="stat-value" id="finProfit">0</div><div class="stat-icon">💎</div></div>
       </div>
-      <!-- PRODUCT ANALYTICS -->
+      <div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)"><div class="card-header"><div class="card-title">🧾 Profitability Bridge</div></div><div class="card-body"><div class="analytics-row"><div class="analytics-item"><span class="ai-label">الإيراد</span><span class="ai-value" id="finBridgeRevenue">0.00 JOD</span></div><div class="analytics-item"><span class="ai-label">COGS من الطلبات</span><span class="ai-value" id="finCOGS">—</span></div><div class="analytics-item"><span class="ai-label">Gross / Contribution Profit</span><span class="ai-value" id="finContribution">—</span></div><div class="analytics-item"><span class="ai-label">بعد المصاريف المسجلة</span><span class="ai-value" id="finAfterExpenses">—</span></div></div><div class="alert" style="margin-top:.7rem">هذا الجسر منفصل عن الربح النقدي البسيط الموجود في الأعلى: COGS يعتمد على ترحيل الطلبات عند التسليم، والمصاريف المسجلة هي السجلات الموجودة في Expenses. لا نعتبر النتيجة صافي محاسبي كامل بدون سياسة محاسبية متكاملة لتوقيت المشتريات والاستحقاقات.</div></div></div>      <!-- PRODUCT ANALYTICS -->
       <div class="card" style="margin-bottom:1rem">
         <div class="card-header"><div class="card-title">📦 تحليل المنتجات</div></div>
         <div class="card-body" id="productAnalytics">
@@ -1462,7 +1498,10 @@ tr:hover td{background:#faf6f3;}
         <div class="form-group"><label class="form-label">Funnel</label><textarea id="bsFunnel" class="form-textarea" rows="4"></textarea></div>
       </div></div></div>
 
-      <div class="card"><div class="card-header"><div class="card-title">04. Pricing Strategy &amp; Unit Economics</div></div><div class="card-body">
+      <div class="card"><div class="card-header"><div class="card-title">03A. Content &amp; Marketing Operating Plan</div></div><div class="card-body"><div class="grid-2"><div><strong>Content Mix</strong><p class="strategy-note">Moments 40% · Product Desire 20% · Brand Story 15% · Taste &amp; Education 10% · Social Proof 10% · Offers / Conversion 5%.</p></div><div><strong>Publishing Cadence</strong><p class="strategy-note">3 Reels / أسبوع + 1 Carousel / أسبوع + Stories يومية، مع UGC / Founder content عند توفره.</p></div><div><strong>Primary Goal</strong><p class="strategy-note">Brand awareness + sales. Organic content هو المسار الأساسي في B2C، وB2B يعتمد أساساً على التواصل المباشر / cold calling.</p></div><div><strong>Core Occasions</strong><p class="strategy-note">Birthdays, Graduation, Engagement, Wedding, Jaheh / family occasions, Congratulations, Thank You, Appreciation, Just Because, Personal &amp; Corporate gifting.</p></div></div><div class="alert">المواسم: رمضان، عيد الفطر، عيد الأضحى، Christmas، Easter، Mother’s Day، Valentine’s Day، موسم التخرج، وموسم الأعراس.</div></div></div><div class="card"><div class="card-header"><div class="card-title">03B. Marketing Skills Framework</div></div><div class="card-body"><p class="strategy-note">مرجع مهارات التسويق المستخدم في التخطيط: 70 skill مقسمة إلى 9 categories.</p><div class="grid-2"><div><strong>1. Measurement &amp; Testing</strong></div><div><strong>2. Paid &amp; Distribution</strong></div><div><strong>3. SEO &amp; Discovery</strong></div><div><strong>4. Content &amp; Copy</strong></div><div><strong>5. Conversion Optimization</strong></div><div><strong>6. Sales &amp; RevOps</strong></div><div><strong>7. Strategy &amp; Monetization</strong></div><div><strong>8. Growth Engineering</strong></div><div><strong>9. Retention</strong></div></div></div></div>
+
+
+<div class="card"><div class="card-header"><div class="card-title">04. Pricing Strategy &amp; Unit Economics</div></div><div class="card-body">
         <div class="alert">القواعد الحالية: الشوكولاتة هي محرك الإيراد الأساسي، 1KG هو Hero Product، لا توجد خصومات B2C دائمة، التوصيل منفصل، وB2B مستقل.</div>
         <div class="table-wrap"><table><thead><tr><th>الفئة</th><th>500g / سعر المرجع</th><th>1KG / سعر المرجع</th><th>ملاحظة</th></tr></thead><tbody id="pricingTable"></tbody></table></div>
         <div style="margin-top:1rem" class="table-wrap"><table><thead><tr><th>افتراض التكلفة</th><th>القيمة</th><th>ملاحظات</th></tr></thead><tbody id="unitEconomicsTable"></tbody></table></div>
@@ -1473,9 +1512,9 @@ tr:hover td{background:#faf6f3;}
         <div><strong>Gift Upgrade</strong><p>1KG + Small = 32 · 1.5KG + Medium = 47 · 2KG + Large = 62 JOD.</p></div><div><strong>Custom Premium</strong><p>Custom 500g = 13 · Custom 1KG = 22 JOD.</p></div>
       </div><div class="alert">KPIs: AOV، 1KG upgrade rate، add-on attachment rate. لا نستخدم خصومات دائمة كحل أساسي لرفع AOV.</div></div></div>
 
-      <div class="card"><div class="card-header"><div class="card-title">06. B2B Strategy</div></div><div class="card-body"><p>الشركات، الفعاليات، الأعراس، التخرج، الفنادق، المطاعم، المدارس والجامعات، الوكالات والمناسبات الخاصة. الحد الأدنى 10KG.</p><div class="table-wrap"><table><thead><tr><th>الكمية</th><th>السعر</th><th>JOD / KG</th></tr></thead><tbody><tr><td>10KG</td><td>180 JOD</td><td>18</td></tr><tr><td>20KG</td><td>340 JOD</td><td>17</td></tr><tr><td>30KG+</td><td>16 JOD/KG</td><td>16</td></tr></tbody></table></div><div class="alert">لا يشمل custom packaging / sticker / acrylic / boxes. الإنتاج 3–7 أيام عمل حسب الكمية والتخصيص، الدفع 50% مقدماً و50% بعد التسليم. هامش B2B النهائي غير محسوب بدون تكاليف التخصيص الفعلية.</div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">06. B2B Strategy</div></div><div class="card-body"><p>الشركات، الفعاليات، الأعراس، التخرج، الفنادق، المطاعم، المدارس والجامعات، الوكالات والمناسبات الخاصة. الحد الأدنى 10KG. النكهات الحالية للشركات: Kinder Milk، Kinder Nutella، Classico Bueno، Classico Nutella، Classico Gianduja، Milk Tablet.</p><div class="table-wrap"><table><thead><tr><th>الكمية</th><th>السعر</th><th>JOD / KG</th></tr></thead><tbody><tr><td>10KG</td><td>180 JOD</td><td>18</td></tr><tr><td>20KG</td><td>340 JOD</td><td>17</td></tr><tr><td>30KG+</td><td>16 JOD/KG</td><td>16</td></tr></tbody></table></div><div class="alert">لا يشمل custom packaging / sticker / acrylic / boxes. الإنتاج 3–7 أيام عمل حسب الكمية والتخصيص، الدفع 50% مقدماً و50% بعد التسليم. هامش B2B النهائي غير محسوب بدون تكاليف التخصيص الفعلية.</div></div></div>
 
-      <div class="card"><div class="card-header"><div class="card-title">07. 90-Day Plan + KPI Center</div></div><div class="card-body"><div class="grid-2"><div><strong>Month 1 — Foundation</strong><p>تأسيس القياس، اختبار الرسائل، ضبط AOV والتسعير، attribution، وتنظيف البيانات.</p></div><div><strong>Month 2 — Optimize</strong><p>تحسين Funnel، CAC، ROAS، النكهات، والتوصيل.</p></div><div><strong>Month 3 — Scale</strong><p>توسيع B2B والقنوات المناسبة، توقع الطلب، تحسين المخزون والـretention.</p></div><div><strong>KPI Center</strong><p id="bsKPIs" style="white-space:pre-wrap"></p></div></div></div></div>
+      
 
       <div class="card"><div class="card-header"><div class="card-title">07. Best-Selling + Highest-Margin Flavors</div><button class="btn btn-sm btn-gold" onclick="window.addFlavorProfitRow()">+ نكهة</button></div><div class="card-body"><div class="alert">يربط حجم المبيعات بالربحية. لا يتم اختراع هامش النكهة؛ يمكن إدخال التكلفة المباشرة عندما تكون متاحة. عدد مرات اختيار النكهة في custom flavor orders يظهر تلقائياً؛ الإيراد والتكلفة على مستوى النكهة يحتاجان إسناداً منفصلاً ولا يتم اختراعهما.</div><div class="table-wrap"><table><thead><tr><th>النكهة</th><th>الكمية</th><th>الإيراد JOD</th><th>التكلفة JOD</th><th>الربح JOD</th><th>الهامش %</th><th>التصنيف</th><th>المصدر</th><th></th></tr></thead><tbody id="flavorProfitRows"></tbody></table></div><div style="font-size:.74rem;line-height:1.8;margin-top:.7rem;color:var(--brown)">High Volume + High Margin = تركيز · High Volume + Low Margin = تحسين · Low Volume + High Margin = اختبار · Low Volume + Low Margin = مراجعة.</div></div></div>
 
@@ -1485,9 +1524,11 @@ tr:hover td{background:#faf6f3;}
 
       <div class="card"><div class="card-header"><div class="card-title">10. Customer Acquisition Cost (CAC)</div><button class="btn btn-sm btn-outline" onclick="showPage('marketing',document.querySelector('.nav-item[onclick*=\"marketing\"]'))">فتح ↗</button></div><div class="card-body"><p>CAC = Spend ÷ New Customers المنسوبين للقناة. تتبع القنوات يبدأ من source / channel / utmSource داخل الطلب عندما تكون موجودة.</p></div></div>
 
-      <div class="card"><div class="card-header"><div class="card-title">11. Marketing ROAS &amp; Profitability</div><button class="btn btn-sm btn-outline" onclick="showPage('marketing',document.querySelector('.nav-item[onclick*=\"marketing\"]'))">فتح ↗</button></div><div class="card-body"><p>Spend → Orders → Revenue → Direct Cost → Net Profit. الوصول والمشاهدات والتفاعل مؤشرات دعم وليست قياس الربحية النهائي.</p></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">11. Marketing ROAS &amp; Profitability</div><button class="btn btn-sm btn-outline" onclick="showPage('marketing',document.querySelector('.nav-item[onclick*=\"marketing\"]'))">فتح ↗</button></div><div class="card-body"><p>Spend → Orders → Revenue → Direct Cost → Contribution Profit → Profit After Marketing Spend. الوصول والمشاهدات والتفاعل مؤشرات دعم وليست قياس الربحية النهائي.</p></div></div><div class="card"><div class="card-header"><div class="card-title">12. 90-Day Plan + KPI Center</div></div><div class="card-body"><div class="grid-2"><div><strong>Month 1 — Foundation</strong><p>تأسيس القياس، اختبار الرسائل، ضبط AOV والتسعير، attribution، وتنظيف البيانات.</p></div><div><strong>Month 2 — Optimize</strong><p>تحسين Funnel، CAC، ROAS، النكهات، والتوصيل.</p></div><div><strong>Month 3 — Scale</strong><p>توسيع B2B والقنوات المناسبة، توقع الطلب، تحسين المخزون والـretention.</p></div><div><strong>KPI Center</strong><p id="bsKPIs" style="white-space:pre-wrap"></p></div></div></div></div>
 
-      <div class="card"><div class="card-header"><div class="card-title">12. المخاطر والافتراضات والفرص</div></div><div class="card-body"><div class="grid-2"><div><strong>Risks</strong><p id="bsRisks" style="white-space:pre-wrap"></p></div><div><strong>Assumptions</strong><p id="bsAssumptions" style="white-space:pre-wrap"></p></div><div><strong>Opportunities</strong><p id="bsOpportunities" style="white-space:pre-wrap"></p></div><div><strong>Challenges</strong><p id="bsChallenges" style="white-space:pre-wrap"></p></div></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">00. Brand Core &amp; Operating Model</div></div><div class="card-body"><div class="grid-2"><div><strong>Website</strong><p class="strategy-note">https://deebchocolate.com</p></div><div><strong>Instagram</strong><p class="strategy-note">@deeb.chocolate</p></div><div><strong>Contact</strong><p class="strategy-note">info@deebchocolate.com · 0770463769</p></div><div><strong>Manufacturing Model</strong><p class="strategy-note">DEEB buys selected Italian chocolate from a licensed factory, then opens and packs it in DEEB packaging. DEEB does not reprocess or manufacture the chocolate.</p></div></div><div class="alert">المنتج يُجهّز داخل مصنع مرخّص؛ DEEB هي العلامة والبائع والتغليف النهائي وليس مصنع الشوكولاتة.</div></div></div>
+
+<div class="card"><div class="card-header"><div class="card-title">13. المخاطر والافتراضات والفرص</div></div><div class="card-body"><div class="grid-2"><div><strong>Risks</strong><p id="bsRisks" style="white-space:pre-wrap"></p></div><div><strong>Assumptions</strong><p id="bsAssumptions" style="white-space:pre-wrap"></p></div><div><strong>Opportunities</strong><p id="bsOpportunities" style="white-space:pre-wrap"></p></div><div><strong>Challenges</strong><p id="bsChallenges" style="white-space:pre-wrap"></p></div></div></div></div>
     </div>
 
     <!-- DEMAND FORECASTING -->
@@ -1563,10 +1604,10 @@ tr:hover td{background:#faf6f3;}
       <div class="stats-grid" style="margin:0 0 1rem">
         <div class="stat-card"><div class="stat-icon">💸</div><div class="stat-label">Marketing Spend</div><div class="stat-value" id="roasSpend">0.00 JOD</div></div>
         <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-label">Attributed Revenue</div><div class="stat-value" id="roasRevenue">0.00 JOD</div></div>
-        <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-label">Attributed Profit (Direct Cost)</div><div class="stat-value" id="roasProfit">0.00 JOD</div></div>
+        <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-label">Contribution Profit (after Direct Cost)</div><div class="stat-value" id="roasProfit">0.00 JOD</div></div><div class="stat-card"><div class="stat-icon">💎</div><div class="stat-label">Profit After Marketing Spend</div><div class="stat-value" id="roasMarketingProfit">0.00 JOD</div></div>
         <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">ROAS</div><div class="stat-value" id="roasValue">—</div></div>
       </div>
-      <div class="table-wrap"><table><thead><tr><th>القناة</th><th>الإنفاق JOD</th><th>الطلبات</th><th>الإيراد JOD</th><th>التكلفة المباشرة JOD</th><th>الربح JOD</th><th>ROAS</th><th>Profit / Spend</th><th>المصدر</th></tr></thead><tbody id="marketingRoasRows"><tr><td colspan="9">جاري التحليل...</td></tr></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>القناة</th><th>الإنفاق JOD</th><th>الطلبات</th><th>الإيراد JOD</th><th>التكلفة المباشرة JOD</th><th>Contribution Profit JOD</th><th>ROAS</th><th>Profit After Marketing / Spend</th><th>المصدر</th></tr></thead><tbody id="marketingRoasRows"><tr><td colspan="9">جاري التحليل...</td></tr></tbody></table></div>
       <div class="search-bar" style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:end">
         <div class="form-group"><label class="form-label">القناة</label><input class="form-input" id="roasChannel" placeholder="Instagram / TikTok / Organic"></div>
         <div class="form-group"><label class="form-label">الإنفاق JOD</label><input class="form-input" id="roasSpendInput" type="number" step="0.01" min="0"></div>
@@ -1645,6 +1686,11 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
         <div class="card-header"><div class="card-title">📖 Brand Story & Identity</div></div>
         <div class="card-body">
           <div class="form-group"><div class="form-label">قصة Deeb Chocolate</div><textarea class="form-textarea" id="brandStory" style="min-height:120px" placeholder="اكتب قصة المشروع هنا..."></textarea></div>
+          <div class="form-row"><div class="form-group"><div class="form-label">Website</div><input class="form-input" id="brandWebsite" placeholder="https://deebchocolate.com"></div><div class="form-group"><div class="form-label">Instagram</div><input class="form-input" id="brandInstagram" placeholder="@deeb.chocolate"></div></div>
+          <div class="form-row"><div class="form-group"><div class="form-label">Email</div><input class="form-input" id="brandEmail" placeholder="info@deebchocolate.com"></div><div class="form-group"><div class="form-label">Phone / WhatsApp</div><input class="form-input" id="brandPhone" placeholder="0770463769"></div></div>
+          <div class="form-group"><div class="form-label">Arabic Slogan</div><input class="form-input" id="brandArabicSlogan" value="للمناسبات التي تحتاج لمسة… نحن اللمسة."></div><div class="form-group"><div class="form-label">Brand Fonts</div><input class="form-input" id="brandFonts" value="Nunito (English) · أنيق (Arabic)" readonly></div>
+          <div class="form-group"><div class="form-label">About Us / Operating Position</div><textarea class="form-textarea" id="brandAboutArabic" style="min-height:180px" placeholder="اكتب وصف العلامة والتشغيل والتصنيع هنا..."></textarea></div>
+
           <div class="form-row">
             <div class="form-group"><div class="form-label">الجمهور المستهدف</div><textarea class="form-textarea" id="brandAudience" placeholder="مين الزبون المثالي؟"></textarea></div>
             <div class="form-group"><div class="form-label">USP — ليش يشتري منك؟</div><textarea class="form-textarea" id="brandUSP" placeholder="ما يميزك عن المنافسين؟"></textarea></div>
@@ -1991,6 +2037,47 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
       </div>
     </div>
     </div>
+
+    <!-- SUPPLIERS / PROCUREMENT ERP -->
+    <div class="page" id="page-suppliers">
+      <div class="section-header">
+        <div><div class="section-title-main">🏭 الموردين والمشتريات</div><div class="section-subtitle">إدارة الموردين، طلبات الشراء، الاستلام، الأسعار، والمدفوعات</div></div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="btn btn-outline" onclick="window.openSupplierPriceHistory()">📊 تاريخ الأسعار</button><button class="btn btn-primary" onclick="window.openSupplierModal()">+ مورد جديد</button><button class="btn btn-gold" onclick="window.openSupplierOrderModal()">+ طلب شراء</button></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">🏭</div><div class="stat-label">الموردين</div><div class="stat-value" id="supCount">0</div><div class="stat-sub">نشط / إجمالي</div></div>
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-label">طلبات الشراء المفتوحة</div><div class="stat-value" id="supOpenPO">0</div><div class="stat-sub">Draft / Ordered / Partial</div></div>
+        <div class="stat-card"><div class="stat-icon">💳</div><div class="stat-label">المستحق للموردين</div><div class="stat-value" id="supPayable">0</div><div class="stat-sub">JOD</div></div>
+        <div class="stat-card"><div class="stat-icon">📥</div><div class="stat-label">المستلم هذا الشهر</div><div class="stat-value" id="supReceivedMonth">0</div><div class="stat-sub">JOD حسب أوامر الشراء</div></div>
+      </div>
+      <div class="card"><div class="card-header"><div class="card-title">🏭 قائمة الموردين</div><button class="btn btn-sm btn-outline" onclick="window.exportToExcel('suppliers')">⬇️ تصدير</button></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>المورد</th><th>جهة الاتصال</th><th>الهاتف</th><th>الفئة</th><th>الحالة</th><th>المستحق</th><th>إجراءات</th></tr></thead><tbody id="suppliersTable"></tbody></table></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">📦 طلبات الشراء</div></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>PO</th><th>المورد</th><th>التاريخ</th><th>الحالة</th><th>الإجمالي</th><th>المستلم</th><th>المدفوع</th><th>المتبقي</th><th>إجراءات</th></tr></thead><tbody id="supplierOrdersTable"></tbody></table></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">💳 مدفوعات الموردين</div></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>المورد</th><th>PO</th><th>المبلغ</th><th>الطريقة</th><th>ملاحظات</th></tr></thead><tbody id="supplierPaymentsTable"></tbody></table></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">📜 آخر تغييرات أسعار الشراء</div></div><div class="card-body"><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>المورد</th><th>المادة</th><th>السعر/وحدة</th><th>ملاحظات</th></tr></thead><tbody id="supplierPriceTable"></tbody></table></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">🔗 منطق ERP</div></div><div class="card-body" style="font-size:.78rem;line-height:1.9;color:var(--brown)">
+        <div>1. <strong>Purchase Order</strong> لا يغيّر المخزون عند إنشائه.</div>
+        <div>2. عند <strong>Receive</strong> فقط يتم تحديث المخزون باستخدام <strong>WAC</strong> وكتابة Stock Movement.</div>
+        <div>3. المدفوعات مرتبطة بأمر الشراء وتخفض Supplier Payable.</div>
+        <div>4. فرق السعر يُحفظ في Supplier Price History.</div>
+        <div>5. لا يتم اختراع تكلفة B2B أو تكلفة مورد غير موجودة في البيانات.</div>
+      </div></div>
+    </div>
+
+    <!-- ADMIN / CONTROL CENTER -->
+    <div class="page" id="page-admin">
+      <div class="section-header"><div><div class="section-title-main">⚙️ الإدارة والتحكم</div><div class="section-subtitle">مركز تحكم عام لتعديل بيانات النظام والجداول بدون فقدان أي Module</div></div><div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="btn btn-outline" onclick="window.exportJSON()">⬇️ Backup JSON</button><button class="btn btn-gold" onclick="window.adminNewRecord()">+ سجل جديد</button></div></div>
+      <div class="card"><div class="card-body"><div class="form-row">
+        <div class="form-group"><label class="form-label">Collection / جدول البيانات</label><select id="adminCollection" class="form-select" onchange="window.renderAdminCollection()"></select></div>
+        <div class="form-group"><label class="form-label">بحث</label><input id="adminSearch" class="form-input" oninput="window.renderAdminCollection()" placeholder="ابحث داخل السجلات..."></div>
+      </div><div class="alert">⚠️ التعديل المباشر متاح للمدير فقط. الحقول المعقدة مثل arrays / objects تحفظ بصيغة JSON. العمليات الحساسة للمخزون والمشتريات لها واجهاتها المتخصصة ولا يُنصح بتعديلها يدوياً من هنا.</div></div></div>
+      <div class="stats-grid" id="adminModuleStats"></div>
+      <div class="card"><div class="card-header"><div class="card-title" id="adminCollectionTitle">—</div><div id="adminCollectionCount" style="font-size:.7rem;color:var(--brown)">0</div></div><div class="card-body"><div class="table-wrap"><table><thead id="adminTableHead"></thead><tbody id="adminTableBody"></tbody></table></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">🧩 Modules / Completeness</div></div><div class="card-body"><div id="adminModuleChecklist" class="admin-module-grid"></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">🌐 Website Analytics &amp; Tracking</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">Google Analytics ID</label><input class="form-input" id="waGA" placeholder="G-XXXXXXXXXX"></div><div class="form-group"><label class="form-label">Google Tag Manager ID</label><input class="form-input" id="waGTM" placeholder="GTM-XXXXXXX"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Google Search Console</label><input class="form-input" id="waGSC" placeholder="Verification / property"></div><div class="form-group"><label class="form-label">Meta Pixel ID</label><input class="form-input" id="waMeta" placeholder="Pixel ID"></div></div><button class="btn btn-primary" onclick="window.saveWebsiteAnalytics()">💾 حفظ إعدادات التتبع</button><div class="strategy-note" style="margin-top:.6rem">الاعتمادات الفعلية تُدخل هنا عندما تكون متوفرة. وجود الحقول لا يعني أن التتبع مثبت فعلياً على الموقع الخارجي.</div></div></div>
+
+<div class="card"><div class="card-header"><div class="card-title">⚙️ ERP Configuration</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">مادة الشوكولاتة الأساسية في المخزون</label><select id="erpChocolateItem" class="form-select"></select><div style="font-size:.68rem;color:var(--brown);margin-top:.3rem">يُستخدم لترحيل COGS بالـWAC عند تسليم الطلب. إذا لم تحدده، يستخدم النظام تكلفة المنتج كـfallback.</div></div><div class="form-group" style="display:flex;align-items:end"><button class="btn btn-primary" onclick="window.saveERPConfig()">💾 حفظ إعداد ERP</button></div></div></div></div>
+    </div>
+
 </main>
 
 <!-- MODALS -->
@@ -2787,6 +2874,28 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
   </div>
 </div>
 
+
+
+<!-- MASTER ERP MODALS -->
+<div class="modal-overlay" id="supplierModal"><div class="modal"><div class="modal-header"><div class="modal-title" id="supplierModalTitle">🏭 مورد جديد</div><button class="modal-close" onclick="closeModal('supplierModal')">✕</button></div><div class="modal-body">
+  <input type="hidden" id="sup-id"><div class="form-row"><div class="form-group"><label class="form-label">اسم المورد *</label><input id="sup-name" class="form-input"></div><div class="form-group"><label class="form-label">جهة الاتصال</label><input id="sup-contact" class="form-input"></div></div>
+  <div class="form-row"><div class="form-group"><label class="form-label">الهاتف</label><input id="sup-phone" class="form-input"></div><div class="form-group"><label class="form-label">البريد</label><input id="sup-email" class="form-input" type="email"></div></div>
+  <div class="form-row"><div class="form-group"><label class="form-label">الفئة</label><input id="sup-category" class="form-input" placeholder="Chocolate / Packaging / Other"></div><div class="form-group"><label class="form-label">الحالة</label><select id="sup-active" class="form-select"><option value="true">نشط</option><option value="false">غير نشط</option></select></div></div>
+  <div class="form-group"><label class="form-label">ملاحظات</label><textarea id="sup-notes" class="form-textarea"></textarea></div>
+</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('supplierModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveSupplier()">💾 حفظ</button></div></div></div>
+
+<div class="modal-overlay" id="supplierOrderModal"><div class="modal" style="max-width:900px"><div class="modal-header"><div class="modal-title" id="supplierOrderModalTitle">📦 طلب شراء جديد</div><button class="modal-close" onclick="closeModal('supplierOrderModal')">✕</button></div><div class="modal-body">
+  <input type="hidden" id="spo-id"><div class="form-row"><div class="form-group"><label class="form-label">المورد *</label><select id="spo-supplier" class="form-select"></select></div><div class="form-group"><label class="form-label">رقم PO</label><input id="spo-number" class="form-input" placeholder="يترك فارغاً للتوليد"></div><div class="form-group"><label class="form-label">التاريخ</label><input id="spo-date" class="form-input" type="date"></div></div>
+  <div class="form-group"><label class="form-label">المواد</label><div id="supplierItemsEditor" class="supplier-items-editor"></div><button class="btn btn-sm btn-outline" onclick="window.addSupplierOrderItemRow()" style="margin-top:.5rem">+ مادة</button></div>
+  <div class="form-row"><div class="form-group"><label class="form-label">الحالة</label><select id="spo-status" class="form-select"><option value="draft">Draft</option><option value="ordered">Ordered</option><option value="partial">Partial</option><option value="received">Received</option><option value="cancelled">Cancelled</option></select></div><div class="form-group"><label class="form-label">ملاحظات</label><input id="spo-notes" class="form-input"></div></div>
+</div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('supplierOrderModal')">إلغاء</button><button class="btn btn-gold" onclick="window.saveSupplierOrder()">💾 حفظ طلب الشراء</button></div></div></div>
+
+<div class="modal-overlay" id="supplierReceiveModal"><div class="modal" style="max-width:900px"><div class="modal-header"><div class="modal-title">📥 استلام طلب شراء</div><button class="modal-close" onclick="closeModal('supplierReceiveModal')">✕</button></div><div class="modal-body"><input type="hidden" id="srec-id"><div id="supplierReceiveItems"></div><div class="alert" style="margin-top:1rem">الكمية المستلمة الجديدة تُقارن بالكمية المستلمة سابقاً، ويتم تسجيل الفرق فقط في المخزون. التكلفة الجديدة تُدخل لكل مادة ويُحسب WAC تلقائياً.</div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('supplierReceiveModal')">إلغاء</button><button class="btn btn-primary" onclick="window.receiveSupplierOrder()">📥 تأكيد الاستلام</button></div></div></div>
+
+<div class="modal-overlay" id="supplierPaymentModal"><div class="modal"><div class="modal-header"><div class="modal-title">💳 دفعة للمورد</div><button class="modal-close" onclick="closeModal('supplierPaymentModal')">✕</button></div><div class="modal-body"><input type="hidden" id="spay-id"><div class="form-group"><label class="form-label">طلب الشراء *</label><select id="spay-order" class="form-select"></select></div><div class="form-row"><div class="form-group"><label class="form-label">المبلغ *</label><input id="spay-amount" class="form-input" type="number" min="0" step="0.01"></div><div class="form-group"><label class="form-label">التاريخ</label><input id="spay-date" class="form-input" type="date"></div></div><div class="form-row"><div class="form-group"><label class="form-label">الطريقة</label><select id="spay-method" class="form-select"><option>Cash</option><option>Bank</option><option>CliQ</option><option>Other</option></select></div><div class="form-group"><label class="form-label">ملاحظات</label><input id="spay-notes" class="form-input"></div></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('supplierPaymentModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveSupplierPayment()">💾 تسجيل الدفعة</button></div></div></div>
+
+<div class="modal-overlay" id="adminRecordModal"><div class="modal" style="max-width:900px"><div class="modal-header"><div class="modal-title" id="adminRecordTitle">⚙️ سجل</div><button class="modal-close" onclick="closeModal('adminRecordModal')">✕</button></div><div class="modal-body"><input type="hidden" id="adminRecordId"><div class="form-group"><label class="form-label">JSON record</label><textarea id="adminRecordJson" class="form-textarea" rows="18" style="font-family:monospace;direction:ltr;text-align:left"></textarea></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('adminRecordModal')">إلغاء</button><button class="btn btn-primary" onclick="window.saveAdminRecord()">💾 حفظ السجل</button></div></div></div>
+
 <!-- Firebase v8 Compat -->
 <button class="scroll-top" id="scrollTopBtn" title="العودة للأعلى">↑</button>
 
@@ -2825,7 +2934,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // STATE
-let state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[] };
+let state = { orders:[], customers:[], reviews:[], events:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[], suppliers:[], supplierOrders:[], supplierPriceHistory:[], supplierPayments:[], stockMovements:[], priceHistory:[], inventoryLedger:[] };
 let unsubscribers = [];
 
 // ══════════════════════════════
@@ -3091,7 +3200,7 @@ window.logout = async () => {
   unsubscribers = [];
   if(activityLogUnsubscribe) { activityLogUnsubscribe(); activityLogUnsubscribe = null; }
   activityLogData = [];
-  state = { orders:[], customers:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[] };
+  state = { orders:[], customers:[], reviews:[], events:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[], suppliers:[], supplierOrders:[], supplierPriceHistory:[], supplierPayments:[], stockMovements:[], priceHistory:[], inventoryLedger:[] };
   await auth.signOut();
   // Prevent back button after logout
   history.pushState(null, '', location.href);
@@ -3160,10 +3269,10 @@ function normalizePhone(p) {
 
 // ── CRUD HELPERS ──
 const COL_LABELS = {
-  orders:'الطلبات', customers:'العملاء', products:'المنتجات',
+  orders:'الطلبات', customers:'العملاء', reviews:'التقييمات', products:'المنتجات',
   inventory:'المخزون', regions:'المناطق', expenses:'المصاريف',
   campaigns:'الحملات', coupons:'الكوبونات', trash:'المحذوفات',
-  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم', freelancers:'الفريلانسرز', projects:'المشاريع', receivables:'الديون والمستحقات'
+  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم', freelancers:'الفريلانسرز', projects:'المشاريع', receivables:'الديون والمستحقات', suppliers:'الموردين', supplierOrders:'طلبات الموردين', supplierPriceHistory:'تاريخ أسعار الموردين', supplierPayments:'دفعات الموردين', stockMovements:'حركات المخزون', priceHistory:'تاريخ الأسعار', inventoryLedger:'دفتر المخزون'
 };
 
 async function logActivity(type, col, detail) {
@@ -3233,7 +3342,7 @@ window.showPage = (id, el) => {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 الرئيسية', orders:'🛒 الطلبات', customers:'👥 العملاء', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', b2b:'🏢 B2B Leads', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ خطوات التجهيز', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط', strategy:'🧭 الاستراتيجية', forecast:'📈 التنبؤ بالطلب' };
+  const titles = { dashboard:'📊 الرئيسية', orders:'🛒 الطلبات', customers:'👥 العملاء', reviews:'⭐ التقييمات', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', b2b:'🏢 B2B Leads', marketing:'📣 التسويق', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ خطوات التجهيز', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط', strategy:'🧭 الاستراتيجية', forecast:'📈 التنبؤ بالطلب', suppliers:'🏭 الموردين والمشتريات', admin:'⚙️ الإدارة والتحكم' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
 
@@ -3256,6 +3365,8 @@ window.showPage = (id, el) => {
   if(id==='calendar') { loadCalEvents().then(()=>{ calState.date=new Date(); renderCal(); window.renderNotificationsPanel(); }); }
   if(id==='strategy') { window.renderBusinessStrategy(); }
   if(id==='forecast') { window.renderDemandForecast(); }
+  if(id==='suppliers') { window.renderSuppliersPage(); }
+  if(id==='admin') { window.renderAdminCollection(); window.renderAdminModules(); loadWebsiteAnalytics(); }
 };
 
 // ── MODALS ──
@@ -3287,7 +3398,7 @@ window.updateOrderStatus = async (id, status) => {
   const labels = {pending:'قيد الانتظار',processing:'قيد التجهيز',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغي'};
   toast('تم تحديث الحالة إلى: '+(labels[status]||status)+' ✅','success');
 };
-window.deleteOrder = (id) => { const o=state.orders.find(x=>x.id===id); confirmDelete('orders',id,o?.name||'الطلب'); };
+window.deleteOrder = (id) => { const o=state.orders.find(x=>x.id===id); if(o?.status==='delivered'||o?.salePosted===true) return toast('🔒 الطلب المُسلّم لا يُحذف مباشرة؛ اعكس العملية أولاً ثم نفّذ الإجراء المطلوب.','warning'); confirmDelete('orders',id,o?.name||'الطلب'); };
 
 function renderOrders() {
   let cnt = document.getElementById('ordersCount');
@@ -3481,7 +3592,9 @@ const CAC_KEY='businessCAC';
 const DEFAULT_CAC_CHANNELS=[
   {channel:'Instagram',spend:0,newCustomers:0,revenue:0},
   {channel:'TikTok',spend:0,newCustomers:0,revenue:0},
+  {channel:'WhatsApp',spend:0,newCustomers:0,revenue:0},
   {channel:'Organic / Direct',spend:0,newCustomers:0,revenue:0},
+  {channel:'Referral',spend:0,newCustomers:0,revenue:0},
   {channel:'B2B',spend:0,newCustomers:0,revenue:0}
 ];
 function getCACSettings(){
@@ -3490,18 +3603,18 @@ function getCACSettings(){
 }
 function getOrderChannel(o){ return String(o.source||o.channel||o.utmSource||o.marketingChannel||'').trim(); }
 function autoCACByChannel(){
-  const orders=(state.orders||[]).filter(o=>o.status==='delivered');
-  const customers={};
+  const orders=(state.orders||[]).filter(o=>o.status==='delivered').slice().sort((a,b)=>deebOrderDate(a)-deebOrderDate(b));
+  const out={}; const firstTouch={};
   orders.forEach(o=>{
     const ch=getOrderChannel(o); if(!ch) return;
-    const phone=String(o.phone||o.customerPhone||o.customer||o.customerId||'').trim();
-    const key=phone||String(o.customerId||o.id);
-    if(!customers[ch]) customers[ch]={keys:new Set(),orders:0,revenue:0};
-    customers[ch].orders++;
-    customers[ch].revenue += parseFloat(o.total||o.totalAmount||o.amount||o.price||0)||0;
-    customers[ch].keys.add(key);
+    if(!out[ch])out[ch]={newCustomers:0,revenue:0,orders:0};
+    out[ch].orders++;
+    out[ch].revenue += parseFloat(o.total||o.totalAmount||o.amount||o.price||0)||0;
+    const phone=normalizePhone(String(o.phone||o.customerPhone||''));
+    const key=phone||String(o.customerId||o.customer||o.name||'').trim().toLowerCase()||String(o.id);
+    if(!firstTouch[key]){ firstTouch[key]=ch; out[ch].newCustomers++; }
   });
-  const out={}; Object.entries(customers).forEach(([ch,d])=>out[ch]={newCustomers:d.keys.size,revenue:d.revenue,orders:d.orders}); return out;
+  return out;
 }
 window.renderCAC=function(){
   const manual=getCACSettings(); const auto=autoCACByChannel(); const map={};
@@ -3749,6 +3862,10 @@ function getCertStatusLabel(status) {
 
 // ── CALCULATIONS ──
 
+
+// ── REVIEWS MODERATION ──
+window.renderReviews=function(){const all=state.reviews||[],q=(document.getElementById('searchReviews')?.value||'').toLowerCase(),st=document.getElementById('reviewStatusFilter')?.value||'';const filtered=all.filter(r=>(!q||String(r.productName||r.product||'').toLowerCase().includes(q)||String(r.reviewerName||r.name||'').toLowerCase().includes(q))&&(!st||r.status===st));const el=id=>document.getElementById(id);if(el('reviewTotal'))el('reviewTotal').textContent=all.length;if(el('reviewPending'))el('reviewPending').textContent=all.filter(r=>r.status==='pending'||!r.status).length;if(el('reviewApproved'))el('reviewApproved').textContent=all.filter(r=>r.status==='approved').length;const ratings=all.map(r=>Number(r.rating)).filter(n=>n>0),avg=ratings.length?ratings.reduce((a,b)=>a+b,0)/ratings.length:0;if(el('reviewAvg'))el('reviewAvg').textContent=avg?avg.toFixed(1)+' / 5':'—';const tb=el('reviewsTable');if(!tb)return;tb.innerHTML=filtered.length?filtered.map(r=>{const status=r.status||'pending',label=status==='approved'?'معتمد':status==='hidden'?'مخفي':'قيد المراجعة';return `<tr><td>${sanitize(r.productName||r.product||'—')}</td><td>${sanitize(r.reviewerName||r.name||'—')}</td><td>${'★'.repeat(Math.max(0,Math.min(5,Number(r.rating)||0)))}</td><td style="max-width:320px">${sanitize(r.text||r.comment||'—')}</td><td><span class="badge ${status==='approved'?'badge-delivered':status==='hidden'?'badge-cancelled':'badge-pending'}">${label}</span></td><td>${sanitize(r.date||r.createdAt||'—')}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" onclick="window.setReviewStatus('${r.id}','approved')">✅</button><button class="btn btn-sm btn-outline" onclick="window.setReviewStatus('${r.id}','hidden')">🙈</button><button class="btn btn-sm btn-danger" onclick="window.deleteReview('${r.id}')">🗑</button></td></tr>`}).join(''):'<tr><td colspan="7"><div class="empty-state">لا توجد تقييمات</div></td></tr>';};window.setReviewStatus=async function(id,status){await updateDoc_('reviews',id,{status});toast('تم تحديث حالة التقييم ✅','success');};window.deleteReview=function(id){const r=(state.reviews||[]).find(x=>x.id===id);confirmDelete('reviews',id,r?.reviewerName||'التقييم');};
+
 // ── BRAND ──
 window.saveBrand = async function() {
   let data = {
@@ -3759,7 +3876,8 @@ window.saveBrand = async function() {
     story: document.getElementById('brandStory')?.value||'',
     audience: document.getElementById('brandAudience')?.value||'',
     usp: document.getElementById('brandUSP')?.value||'',
-    tone: document.getElementById('brandTone')?.value||''
+    tone: document.getElementById('brandTone')?.value||'',
+    website: document.getElementById('brandWebsite')?.value||'', instagram: document.getElementById('brandInstagram')?.value||'', email: document.getElementById('brandEmail')?.value||'', phone: document.getElementById('brandPhone')?.value||'', arabicSlogan: document.getElementById('brandArabicSlogan')?.value||'', aboutArabic: document.getElementById('brandAboutArabic')?.value||''
   };
   await setDoc_('settings', 'brand', data);
   toast('تم حفظ هوية العلامة ✅', 'success');
@@ -3767,7 +3885,7 @@ window.saveBrand = async function() {
 function loadBrand() {
   let b = Array.isArray(state.settings) ? state.settings.find(function(s){ return s.id==='brand'; }) : null;
   if(!b) return;
-  ['name','tagline','vision','mission','story','audience','usp','tone'].forEach(function(f) {
+  ['name','tagline','vision','mission','story','audience','usp','tone','website','instagram','email','phone','arabicSlogan','aboutArabic'].forEach(function(f) {
     let key = 'brand' + f.charAt(0).toUpperCase() + f.slice(1);
     let el = document.getElementById(key);
     if(el && b[f] !== undefined) el.value = b[f];
@@ -4245,7 +4363,7 @@ window.editCustomer = function(id) {
         const badgeText = overdue ? 'متأخر' : statusLabel[st];
         return `<div class="pw-list-item" style="cursor:pointer" onclick="closeModal('editCustomerModal');showPage('receivables',null)">
           <div class="pw-item-head">
-            <div><div class="pw-item-title">${d.amount} ₪ — متبقي ${rem} ₪</div><div class="pw-item-meta"><span>📅 ${sanitize(d.dueDate||'—')}</span></div></div>
+            <div><div class="pw-item-title">${d.amount} JOD — متبقي ${rem} JOD</div><div class="pw-item-meta"><span>📅 ${sanitize(d.dueDate||'—')}</span></div></div>
             <span class="badge ${badgeClass}">${badgeText}</span>
           </div>
         </div>`;
@@ -4369,9 +4487,9 @@ function seedDefaultPackagingIfEmpty() {
   if((state.inventory||[]).length > 0) { _packagingSeeded = true; return; }
   _packagingSeeded = true;
   [
-    {name:'بوكسات فارغة', qty:0, min:10, cost:0},
-    {name:'ستيكرات',      qty:0, min:10, cost:0},
-    {name:'أكياس',        qty:0, min:10, cost:0},
+    {name:'بوكسات فارغة', qty:0, min:10, cost:0.75},
+    {name:'ستيكرات',      qty:0, min:10, cost:0.09},
+    {name:'أكياس',        qty:0, min:10, cost:0.35},
   ].forEach(function(it){ addDoc_('inventory', it); });
 }
 
@@ -4382,36 +4500,27 @@ function findInventoryItemByKeywords(keywords) {
   });
 }
 
-async function deductInventoryForOrder(totalBoxes) {
-  if(!totalBoxes || totalBoxes <= 0) return [];
-  const targets = [
-    { keywords:['بوكس','box'],           label:'البوكسات' },
-    { keywords:['ستيكر','sticker'],      label:'الستيكرات' },
-    { keywords:['كيس','أكياس','bag'],    label:'الأكياس' },
-  ];
-  const deducted = [];
-  for(const t of targets) {
-    const item = findInventoryItemByKeywords(t.keywords);
-    if(!item) continue;
-    const newQty = (parseFloat(item.qty)||0) - totalBoxes;
-    await updateDoc_('inventory', item.id, { qty: newQty });
-    deducted.push({ itemId: item.id, amount: totalBoxes });
-    if(newQty <= (parseFloat(item.min)||0)) {
-      toast('⚠️ ' + t.label + ' أصبحت ' + newQty + ' فقط', 'warning');
-    }
+async function deductInventoryForOrder(totalBoxes, refId){
+  if(!totalBoxes || totalBoxes<=0) return [];
+  const targets=[{keywords:['بوكس','box'],label:'البوكسات'},{keywords:['ستيكر','sticker'],label:'الستيكرات'},{keywords:['كيس','أكياس','bag'],label:'الأكياس'}];
+  const deducted=[];
+  for(const t of targets){
+    const item=findInventoryItemByKeywords(t.keywords); if(!item) continue;
+    const currentQty=deebNum(item.qty), amount=deebNum(totalBoxes);
+    if(currentQty<amount) throw new Error('المخزون غير كافٍ لـ'+t.label+' (المتاح '+currentQty+' / المطلوب '+amount+')');
+    const unitCost=deebNum(item.cost), newQty=currentQty-amount;
+    await updateDoc_('inventory',item.id,{qty:newQty});
+    const record={itemId:item.id,amount,unitCost,totalCost:amount*unitCost}; deducted.push(record);
+    if(refId){ await addDoc_('stockMovements',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,ts:Date.now()}); await addDoc_('inventoryLedger',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,qtyBefore:currentQty,qtyAfter:newQty,createdAt:Date.now()}); }
+    if(newQty<=(deebNum(item.min)||0)) toast('⚠️ '+t.label+' أصبحت '+newQty+' فقط','warning');
   }
   return deducted;
 }
 
-async function restoreInventoryForOrder(order) {
-  const deducted = order.inventoryDeducted || [];
-  if(!deducted.length) return;
-  for(const d of deducted) {
-    const item = (state.inventory||[]).find(function(i){ return i.id === d.itemId; });
-    if(!item) continue;
-    const newQty = (parseFloat(item.qty)||0) + (parseFloat(d.amount)||0);
-    await updateDoc_('inventory', item.id, { qty: newQty });
-  }
+async function restoreInventoryForOrder(order){
+  const deducted=order.inventoryDeducted||[]; if(!deducted.length || order.inventoryRestored) return;
+  for(const d of deducted){ const item=deebInventoryById(d.itemId); if(!item) continue; const qty=deebNum(d.amount), before=deebNum(item.qty), after=before+qty, unitCost=deebNum(d.unitCost ?? item.cost); await updateDoc_('inventory',item.id,{qty:after}); await addDoc_('stockMovements',{type:'Packaging Reversal',itemId:item.id,itemName:item.name,qtyDelta:qty,unitCost,totalCost:qty*unitCost,refType:'order',refId:order.id,ts:Date.now()}); await addDoc_('inventoryLedger',{type:'Packaging Reversal',itemId:item.id,itemName:item.name,qtyDelta:qty,unitCost,totalCost:qty*unitCost,refType:'order',refId:order.id,qtyBefore:before,qtyAfter:after,createdAt:Date.now()}); }
+  await updateDoc_('orders',order.id,{inventoryRestored:true,inventoryRestoredAt:Date.now()});
 }
 
 
@@ -4459,12 +4568,21 @@ window.addOrder = async function() {
     source: (document.getElementById('o-source')?.value||'').trim()
   };
 
-  // Deduct packaging inventory (boxes/stickers/bags) based on total quantity
-  const totalBoxesForOrder = orderData.qty;
-  const inventoryDeducted = status !== 'cancelled' ? await deductInventoryForOrder(totalBoxesForOrder) : [];
-  orderData.inventoryDeducted = inventoryDeducted;
-
+  // Create first. A Delivered order is created as Preparing so sale/COGS posting waits until packaging stock is posted.
+  orderData.inventoryDeducted = [];
+  const finalOrderStatus = status;
+  if(status === 'delivered') orderData.status = 'preparing';
   const orderRef = await addDoc_('orders', orderData);
+  try {
+    const totalBoxesForOrder = orderData.qty;
+    const inventoryDeducted = status !== 'cancelled' ? await deductInventoryForOrder(totalBoxesForOrder, orderRef.id) : [];
+    const postPackagingUpdate = { inventoryDeducted, packagingInventoryPostedAt: Date.now() };
+    if(finalOrderStatus === 'delivered') postPackagingUpdate.status = 'delivered';
+    await updateDoc_('orders', orderRef.id, postPackagingUpdate);
+  } catch (packErr) {
+    console.error('packaging posting failed', packErr);
+    toast('⚠️ تم إنشاء الطلب لكن خصم مواد التغليف فشل: '+(packErr.message||packErr), 'warning');
+  }
 
   // Find existing customer — match by normalized phone first, then by exact name (prevents duplicates from phone formatting differences)
   const normPhone = normalizePhone(phone);
@@ -4488,7 +4606,7 @@ window.addOrder = async function() {
         note: 'دين تلقائي من الطلب — ' + productSummary,
         status: 'pending', payments: []
       });
-      toast('💳 تم تسجيل '+remaining+' ₪ كدين على العميل','warning');
+      toast('💳 تم تسجيل '+remaining+' JOD كدين على العميل','warning');
     }
   }
 
@@ -4571,6 +4689,16 @@ function renderFinance() {
   let revenue = filteredOrders.reduce(function(s,o){ return s+(parseFloat(o.price)||0); }, 0);
   let expenses = filteredExpenses.reduce(function(s,e){ return s+(parseFloat(e.amount)||0); }, 0);
   let profit = revenue - expenses;
+  // Profitability bridge uses stored COGS snapshots when available; missing COGS remains explicit.
+  const cogsKnown = filteredOrders.filter(o=>o.cogs!=null || o.grossProfit!=null).reduce((sum,o)=>sum+(parseFloat(o.cogs)!=null?parseFloat(o.cogs):((parseFloat(o.price)||0)-(parseFloat(o.grossProfit)||0))),0);
+  const cogsComplete = filteredOrders.every(o=>o.cogs!=null || o.grossProfit!=null);
+  const contributionKnown = cogsComplete ? revenue-cogsKnown : null;
+  const netAfterRecordedExpenses = contributionKnown!=null ? contributionKnown-expenses : null;
+  const setFinBridge=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  setFinBridge('finBridgeRevenue',revenue.toFixed(2)+' JOD');
+  setFinBridge('finCOGS',cogsComplete?cogsKnown.toFixed(2)+' JOD':'غير مكتمل');
+  setFinBridge('finContribution',contributionKnown!=null?contributionKnown.toFixed(2)+' JOD':'غير مكتمل');
+  setFinBridge('finAfterExpenses',netAfterRecordedExpenses!=null?netAfterRecordedExpenses.toFixed(2)+' JOD':'غير مكتمل');
   let rev = document.getElementById('finRevenue'); if(rev) rev.textContent = revenue.toFixed(0);
   let exp = document.getElementById('finExpenses'); if(exp) exp.textContent = expenses.toFixed(0);
   const prf = document.getElementById('finProfit'); if(prf) prf.textContent = profit.toFixed(0);
@@ -4728,7 +4856,7 @@ function renderKanbanFiltered(orders) {
         '<div class="k-name">'+sanitize(o.name)+'</div>'+
         '<div class="k-product" style="font-size:0.7rem;color:var(--brown);margin-bottom:0.2rem">'+sanitize(o.product||'—')+'</div>'+
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.3rem">'+
-          '<div class="k-price" style="font-size:0.8rem">'+o.price+' ₪</div>'+
+          '<div class="k-price" style="font-size:0.8rem">'+o.price+' JOD</div>'+
           '<div style="font-size:0.65rem;color:var(--brown)">'+(o.dateRaw||o.date||'')+'</div>'+
         '</div>'+
       '</div>';
@@ -5027,10 +5155,10 @@ function fcItemMap(orders){
     if(!names.length) names=[o.product||'غير محدد'];
     const qty=Math.max(1,parseFloat(o.qty)||1);
     names.filter(Boolean).forEach(n=>{
-      if(!m[n]) m[n]={hist:0,days:{},dow:{},regions:{}};
+      if(!m[n]) m[n]={hist:0,days:{},dow:{},dowDays:{},regions:{}};
       m[n].hist += qty;
       const key=o.__d.toISOString().slice(0,10); m[n].days[key]=(m[n].days[key]||0)+qty;
-      const dow=o.__d.getDay(); m[n].dow[dow]=(m[n].dow[dow]||0)+qty;
+      const dow=o.__d.getDay(); m[n].dow[dow]=(m[n].dow[dow]||0)+qty; m[n].dowDays[dow]=(m[n].dowDays[dow]||0)+1;
       const r=o.region||'غير محدد'; m[n].regions[r]=(m[n].regions[r]||0)+qty;
     });
   }); return m;
@@ -5064,7 +5192,7 @@ window.renderDemandForecast=function(){
     let expected=0;
     for(let k=0;k<horizon;k++){
       const dt=new Date(start); dt.setDate(start.getDate()+k);
-      const dow=d.dow[dt.getDay()] ? (d.dow[dt.getDay()]/Math.max(1,Math.round(uniqueDays/7))) : avg;
+      const dow=d.dow[dt.getDay()] ? (d.dow[dt.getDay()]/Math.max(1,d.dowDays[dt.getDay()]||0)) : avg;
       const dayFactor=avg>0 ? Math.min(2,Math.max(.5,dow/avg)) : 1;
       const sf=Math.min(1.5,Math.max(.7,fcSeasonFactor(dt.getMonth())));
       expected += avg*dayFactor*sf;
@@ -5082,7 +5210,7 @@ window.renderDemandForecast=function(){
   const ti=document.getElementById('fcTopItem');if(ti)ti.textContent=top?sanitize(top.name):'—';
   const tq=document.getElementById('fcTopItemQty');if(tq)tq.textContent=top?Math.ceil(top.expected)+' وحدة متوقعة':'—';
   const regions={}; hist.forEach(o=>{const r=o.region||'غير محدد';regions[r]=(regions[r]||0)+Math.max(1,parseFloat(o.qty)||1);});
-  const regionRows=Object.entries(regions).map(([name,q])=>({name,q,expected: q/hist.length*horizon})).sort((a,b)=>b.expected-a.expected);
+  const regionRows=Object.entries(regions).map(([name,q])=>({name,q,expected: q/Math.max(1,uniqueDays)*horizon})).sort((a,b)=>b.expected-a.expected);
   const tr=regionRows[0];const re=document.getElementById('fcTopRegion');if(re)re.textContent=tr?sanitize(tr.name):'—';const rq=document.getElementById('fcTopRegionQty');if(rq)rq.textContent=tr?Math.ceil(tr.expected)+' وحدة':'—';
   const cover=rows.filter(r=>r.coverage!=null).sort((a,b)=>a.coverage-b.coverage)[0];const ce=document.getElementById('fcCoverage');if(ce)ce.textContent=cover?cover.coverage.toFixed(1):'—';
   if(quality) quality.innerHTML=`📊 تم تحليل <strong>${hist.length}</strong> طلب Delivered عبر <strong>${uniqueDays}</strong> يوم فعلي. دقة البيانات: <strong>${uniqueDays>=60?'عالية':uniqueDays>=30?'متوسطة':uniqueDays>=14?'محدودة':'ضعيفة'}</strong>.`;
@@ -5095,7 +5223,7 @@ window.renderDemandForecast=function(){
 };
 
 function subscribeToData() {
-  const collections = ['orders','customers','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads'];
+  const collections = ['orders','customers','reviews','events','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads','suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger'];
   if(!window.unsubscribers) window.unsubscribers = [];
   collections.forEach(function(col) {
     try {
@@ -5115,15 +5243,15 @@ function refreshUI(col) {
   try {
     if(col==='orders')      { filterOrders(); refreshDashboard(); refreshProductAnalytics(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); if(document.getElementById('page-forecast')?.classList.contains('active')) window.renderDemandForecast(); if(document.getElementById('page-marketing')?.classList.contains('active')) window.renderMarketingROAS(); if(document.getElementById('page-strategy')?.classList.contains('active')) window.renderBusinessStrategy(); }
     if(col==='customers')   { renderCustomers(); refreshDashboard(); }
+    if(col==='reviews') { if(document.getElementById('page-reviews')?.classList.contains('active')) window.renderReviews(); }
     if(col==='products')    { renderProducts(); }
     if(col==='inventory')   { seedDefaultPackagingIfEmpty(); renderInventory(); if(document.getElementById('page-forecast')?.classList.contains('active')) window.renderDemandForecast(); }
     if(col==='regions')     { renderRegions(); }
     if(col==='expenses')    { if(window.renderFinance) renderFinance(); refreshDashboard(); if((document.querySelector('.page.active')||{}).id==='page-calculations') updateCalc(); }
-    if(col==='campaigns' || col==='coupons') { renderMarketing(); }
-    if(col==='settings') { try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} if(document.getElementById('page-marketing')?.classList.contains('active')) { window.renderCAC(); window.renderMarketingROAS(); } if(document.getElementById('page-strategy')?.classList.contains('active')) window.renderBusinessStrategy(); }
+    if(col==='campaigns' || col==='coupons') { renderMarketing(); if(document.getElementById('page-marketing')?.classList.contains('active')) { window.renderCAC(); window.renderMarketingROAS(); } }
+    if(col==='settings') { try{loadWebsiteAnalytics();}catch(e){} try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} if(document.getElementById('page-marketing')?.classList.contains('active')) { window.renderCAC(); window.renderMarketingROAS(); } if(document.getElementById('page-strategy')?.classList.contains('active')) window.renderBusinessStrategy(); }
     if(col==='trash')       { renderTrash(); }
     if(col==='certificates'){ renderCertificates(); }
-    if(col==='settings')    { try{loadBrand();}catch(e){} try{loadLegal();}catch(e){} try{loadCalculations();}catch(e){} if(document.getElementById('page-marketing')?.classList.contains('active')) { window.renderCAC(); window.renderMarketingROAS(); } if(document.getElementById('page-strategy')?.classList.contains('active')) window.renderBusinessStrategy(); }
     if(col==='notes')       { if(window.filterNotes) filterNotes(); }
     if(col==='flavors')     { if(document.getElementById('page-flavors')?.classList.contains('active')) window.filterFlavors(); updateFlavorStats(); }
     if(col==='freelancers') { if(document.getElementById('page-freelancers')?.classList.contains('active')) window.filterFreelancers(); updateFreelancerStats(); if(document.getElementById('freelancerDetailModal')?.classList.contains('open') && document.getElementById('frd-id')?.value) window.refreshFreelancerDetail(); }
@@ -5134,6 +5262,9 @@ function refreshUI(col) {
     }
     if(col==='receivables') { if(document.getElementById('page-receivables')?.classList.contains('active')) window.filterDebts(); }
     if(col==='b2bLeads') { if(document.getElementById('page-b2b')?.classList.contains('active')) window.filterLeads(); }
+    if(col==='events') { if(document.getElementById('page-calendar')?.classList.contains('active')) loadCalEvents().then(()=>renderCal()); }
+    if(col==='suppliers' || col==='supplierOrders' || col==='supplierPriceHistory' || col==='supplierPayments') { if(document.getElementById('page-suppliers')?.classList.contains('active')) window.renderSuppliersPage(); }
+    if(col==='stockMovements' || col==='inventoryLedger' || col==='priceHistory') { if(document.getElementById('page-admin')?.classList.contains('active')) window.renderAdminCollection(); }
   } catch(e) { console.error('refreshUI error for col='+col+':', e); }
 }
 
@@ -5269,6 +5400,7 @@ const breadcrumbMap = {
   dashboard:    '📊 الرئيسية',
   orders:       '🛒 الطلبات',
   customers:    '👥 العملاء',
+  reviews:      '⭐ التقييمات',
   products:     '📦 المنتجات',
   inventory:    '🗄️ المخزون',
   delivery:     '🚚 التوصيل',
@@ -5289,6 +5421,8 @@ const breadcrumbMap = {
   'project-workspace': '📁 المشروع',
   receivables:  '💳 الديون والمستحقات',
   b2b:          '🏢 B2B Leads',
+  suppliers:     '🏭 الموردين والمشتريات',
+  admin:         '⚙️ الإدارة والتحكم',
 };
 
 function updateBreadcrumb(id) {
@@ -5498,7 +5632,7 @@ window.showEventDetail = function(ev) {
       <div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">العميل</span><span>${sanitize(o.name)}</span></div>
       <div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">الهاتف</span><span>${sanitize(o.phone||'—')}</span></div>
       <div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">المنتج</span><span>${sanitize(o.product||'—')}</span></div>
-      <div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">السعر</span><span>${o.price} ₪</span></div>
+      <div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">السعر</span><span>${o.price} JOD</span></div>
       <div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">الحالة</span><span class="badge badge-${o.status}">${STATUS_LABELS[o.status]||o.status}</span></div>
       <div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">التاريخ</span><span>${sanitize(o.date||o.dateRaw||'—')}</span></div>
       ${o.notes?`<div style="display:flex;gap:0.5rem"><span style="color:var(--brown);font-weight:600;min-width:70px">ملاحظات</span><span>${sanitize(o.notes)}</span></div>`:''}
@@ -5587,7 +5721,7 @@ function getOrderNotifications() {
   const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
   const tomorrowStr = dateStr(tomorrow.getFullYear(),tomorrow.getMonth(),tomorrow.getDate());
   (state.orders||[]).filter(o=>o.dateRaw===tomorrowStr && o.status!=='delivered' && o.status!=='cancelled').forEach(o => {
-    items.push({ icon:'🚨', severity:'warning', text:'موعد تسليم غداً: '+(o.name||'')+' — '+(o.product||'')+' — '+(o.price||0)+' ₪', page:'orders' });
+    items.push({ icon:'🚨', severity:'warning', text:'موعد تسليم غداً: '+(o.name||'')+' — '+(o.product||'')+' — '+(o.price||0)+' JOD', page:'orders' });
   });
   return items;
 }
@@ -5685,7 +5819,7 @@ function _renderOrdersPage() {
       '<td>'+statusBadge(o.status)+'</td>' +
       '<td style="font-size:0.75rem">'+sanitize(o.date||o.dateRaw||'—')+'</td>' +
       '<td style="white-space:nowrap">'+
-      '<select style="font-size:0.7rem;padding:2px 4px;border:1px solid var(--light);border-radius:4px;font-family:Cairo,sans-serif" onchange="updateOrderStatus(\''+o.id+'\',this.value)">'+
+      '<select style="font-size:0.7rem;padding:2px 4px;border:1px solid var(--light);border-radius:4px;font-family:Nunito,Cairo,sans-serif" onchange="updateOrderStatus(\''+o.id+'\',this.value)">'+
       '<option value="pending" '+(o.status==='pending'?'selected':'')+'>⏳ Pending</option>'+
       '<option value="preparing" '+(o.status==='preparing'?'selected':'')+'>🔧 Preparing</option>'+
       '<option value="delivered" '+(o.status==='delivered'?'selected':'')+'>✅ Delivered</option>'+
@@ -5716,7 +5850,7 @@ function _renderProductsPage() {
   if(!page.length) { tb.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>'; return; }
   tb.innerHTML = page.map(p => {
     const flavorCount = Array.isArray(p.flavors) ? p.flavors.length : 0;
-    return `<tr><td><strong>${sanitize(p.name)}</strong></td><td>${sanitize(p.category||'—')}</td><td style="color:var(--gold);font-weight:700">${p.price||0} ₪</td><td>${sanitize(p.description||'—')}</td><td><span class="badge ${p.status==='instock'?'badge-delivered':'badge-cancelled'}">${p.status==='instock'?'متوفر':'غير متوفر'}</span></td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editProduct('${p.id}')">✏️</button><button class="btn btn-sm" style="background:rgba(191,158,96,0.15);color:var(--gold);border:1px solid rgba(191,158,96,0.3);font-size:0.7rem;margin-left:0.3rem;padding:0.25rem 0.5rem;border-radius:6px;cursor:pointer" onclick="window.openProductFlavorsModal('${p.id}')">🍫 ${flavorCount}</button><button class="btn btn-sm btn-gold btn-sm" onclick="toggleProductStatus('${p.id}','${p.status}')" style="margin-left:0.3rem">🔄</button><button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}')">🗑</button></td></tr>`;
+    return `<tr><td><strong>${sanitize(p.name)}</strong></td><td>${sanitize(p.category||'—')}</td><td style="color:var(--gold);font-weight:700">${p.price||0} JOD</td><td>${sanitize(p.description||'—')}</td><td><span class="badge ${p.status==='instock'?'badge-delivered':'badge-cancelled'}">${p.status==='instock'?'متوفر':'غير متوفر'}</span></td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editProduct('${p.id}')">✏️</button><button class="btn btn-sm" style="background:rgba(191,158,96,0.15);color:var(--gold);border:1px solid rgba(191,158,96,0.3);font-size:0.7rem;margin-left:0.3rem;padding:0.25rem 0.5rem;border-radius:6px;cursor:pointer" onclick="window.openProductFlavorsModal('${p.id}')">🍫 ${flavorCount}</button><button class="btn btn-sm btn-gold btn-sm" onclick="toggleProductStatus('${p.id}','${p.status}')" style="margin-left:0.3rem">🔄</button><button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}')">🗑</button></td></tr>`;
   }).join('');
   pagRender('products','productsPagination','productsPagInfo');
 }
@@ -5733,7 +5867,7 @@ function _renderExpensesPage() {
       const f = (state.freelancers||[]).find(x=>(x.name||'').trim()===flrNamePart);
       if(f) nameCell = `<strong style="color:var(--gold);cursor:pointer" onclick="showPage('freelancers',null);setTimeout(()=>window.openFreelancerDetail('${f.id}'),150)" title="عرض الفريلانسر">👨‍💻 ${sanitize(e.name)}</strong>`;
     }
-    return `<tr><td>${nameCell}</td><td>${sanitize(e.type||'—')}</td><td style="color:var(--danger);font-weight:700">${e.amount||0} ₪</td><td style="font-size:0.75rem">${sanitize(e.date||'—')}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editExpense('${e.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteExpense('${e.id}')">🗑</button></td></tr>`;
+    return `<tr><td>${nameCell}</td><td>${sanitize(e.type||'—')}</td><td style="color:var(--danger);font-weight:700">${e.amount||0} JOD</td><td style="font-size:0.75rem">${sanitize(e.date||'—')}</td><td style="white-space:nowrap"><button class="btn btn-sm btn-outline" style="margin-left:0.3rem" onclick="editExpense('${e.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteExpense('${e.id}')">🗑</button></td></tr>`;
   }).join('');
   pagRender('expenses','expensesPagination','expensesPagInfo');
 }
@@ -5841,7 +5975,7 @@ window.renderActivityLog = function() {
 };
 
 const COL_PAGE_MAP = {
-  orders:'orders', customers:'customers', products:'products', inventory:'inventory',
+  orders:'orders', customers:'customers', reviews:'reviews', products:'products', inventory:'inventory',
   regions:'delivery', expenses:'finance', campaigns:'marketing', coupons:'marketing',
   certificates:'legal', notes:'notes', flavors:'flavors', freelancers:'freelancers',
   projects:'projects', receivables:'receivables', events:'calendar'
@@ -6601,8 +6735,8 @@ function getDebtNotifications() {
   const in3Str = dateStr(in3.getFullYear(),in3.getMonth(),in3.getDate());
   (state.receivables||[]).forEach(function(d) {
     if(debtComputedStatus(d)==='paid' || !d.dueDate) return;
-    if(d.dueDate < today) items.push({ icon:'⚠️', severity:'error', text:'دين متأخر: '+(d.customerName||'')+' — '+debtRemaining(d)+' ₪', page:'receivables' });
-    else if(d.dueDate <= in3Str) items.push({ icon:'📅', severity:'warning', text:'دين مستحق خلال 3 أيام: '+(d.customerName||'')+' — '+debtRemaining(d)+' ₪', page:'receivables' });
+    if(d.dueDate < today) items.push({ icon:'⚠️', severity:'error', text:'دين متأخر: '+(d.customerName||'')+' — '+debtRemaining(d)+' JOD', page:'receivables' });
+    else if(d.dueDate <= in3Str) items.push({ icon:'📅', severity:'warning', text:'دين مستحق خلال 3 أيام: '+(d.customerName||'')+' — '+debtRemaining(d)+' JOD', page:'receivables' });
   });
   return items;
 }
@@ -6981,9 +7115,9 @@ function renderPwOverview(p) {
     <div class="pw-section-title" style="margin-top:1rem">📊 نظرة سريعة على الأعمال (بيانات حية)</div>
     <div class="pw-overview-grid">
       <div class="fl-info-item"><span class="fl-info-label">طلبات هذا الشهر</span><span class="fl-info-val">${ordersThisMonth.length}</span></div>
-      <div class="fl-info-item"><span class="fl-info-label">إيرادات هذا الشهر</span><span class="fl-info-val">${revenueThisMonth.toFixed(0)} ₪</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">إيرادات هذا الشهر</span><span class="fl-info-val">${revenueThisMonth.toFixed(0)} JOD</span></div>
       <div class="fl-info-item"><span class="fl-info-label">إجمالي العملاء</span><span class="fl-info-val">${(state.customers||[]).length}</span></div>
-      <div class="fl-info-item"><span class="fl-info-label">ديون مستحقة</span><span class="fl-info-val" style="color:${outstandingDebts?'var(--danger)':'inherit'}">${outstandingDebts.toFixed(0)} ₪</span></div>
+      <div class="fl-info-item"><span class="fl-info-label">ديون مستحقة</span><span class="fl-info-val" style="color:${outstandingDebts?'var(--danger)':'inherit'}">${outstandingDebts.toFixed(0)} JOD</span></div>
     </div>
   `;
 }
@@ -6996,21 +7130,7 @@ const STRATEGY_FIELDS = [
   {key:'assumptions',label:'الفرضيات'},{key:'budgetText',label:'الميزانية'},{key:'competitorsText',label:'المنافسون'},
   {key:'opportunities',label:'الفرص'},{key:'challenges',label:'التحديات'},
 ];
-function renderPwStrategy(p) {
-  const st = p.strategy||{};
-  const editing = document.getElementById('pwStrategyEditing')?.value === '1';
-  let html = `<div class="pw-section-title">🧭 الاستراتيجية <button class="btn btn-sm btn-outline" onclick="window.toggleStrategyEdit()">${editing?'👁 عرض':'✏️ تعديل'}</button></div>
-  <input type="hidden" id="pwStrategyEditing" value="${editing?'1':'0'}">`;
-  STRATEGY_FIELDS.forEach(f => {
-    if(editing) {
-      html += `<div class="pw-strategy-field"><div class="pw-strategy-label">${f.label}</div><textarea class="form-textarea" rows="2" id="strat-${f.key}">${st[f.key]||''}</textarea></div>`;
-    } else {
-      html += `<div class="pw-strategy-field"><div class="pw-strategy-label">${f.label}</div><div>${sanitize(st[f.key]||'—')}</div></div>`;
-    }
-  });
-  if(editing) html += `<button class="btn btn-gold" onclick="window.saveStrategy()">💾 حفظ الاستراتيجية</button>`;
-  document.getElementById('pwContent').innerHTML = html;
-}
+function renderPwStrategy(p) { renderPwStrategyForced(p, false); }
 window.toggleStrategyEdit = function() {
   const hidden = document.getElementById('pwStrategyEditing');
   const cur = hidden ? hidden.value : '0';
@@ -7585,7 +7705,7 @@ window.openAddDebtModal = function() {
   ['dbt-customer-name','dbt-amount','dbt-duedate','dbt-note'].forEach(id=>{const e=document.getElementById(id); if(e) e.value='';});
   document.getElementById('dbt-customers-list').innerHTML = (state.customers||[]).map(c=>`<option value="${sanitize(c.name)}">`).join('');
   const orderSel = document.getElementById('dbt-order-id');
-  orderSel.innerHTML = '<option value="">— بدون ربط —</option>' + (state.orders||[]).slice(0,100).map(o=>`<option value="${o.id}">${sanitize(o.name)} — ${sanitize(o.product||'')} (${o.price||0}₪)</option>`).join('');
+  orderSel.innerHTML = '<option value="">— بدون ربط —</option>' + (state.orders||[]).slice(0,100).map(o=>`<option value="${o.id}">${sanitize(o.name)} — ${sanitize(o.product||'')} (${o.price||0}JOD)</option>`).join('');
   openModal('addDebtModal');
 };
 
@@ -7920,6 +8040,11 @@ const DEFAULT_BUSINESS_STRATEGY={
   risks:'بيانات attribution غير مكتملة\nبيانات النكهة ليست مفصّلة في كل أنواع الطلبات\nتغير أسعار المصنع أو التغليف أو التوصيل\nنقص المخزون حول المواسم',
   assumptions:'تكلفة الشوكولاتة 12 JOD/KG ضمن الافتراض الحالي\nالتوصيل منفصل حسب إعدادات المناطق\nهامش B2B النهائي يحتاج تكاليف التخصيص الفعلية',
   opportunities:'B2B events & corporate\nAOV upgrades\nCustomization\nSeasonal gifting\nDemand forecasting\nRetention & repeat orders',
+  brandWebsite:'https://deebchocolate.com',
+  brandInstagram:'@deeb.chocolate',
+  brandEmail:'info@deebchocolate.com',
+  brandPhone:'0770463769',
+  brandArabicSlogan:'للمناسبات التي تحتاج لمسة… نحن اللمسة.',
   challenges:'بناء attribution موثوق\nتجميع بيانات تاريخية كافية للتوقع\nربط النكهة بالتكلفة والمبيعات على مستوى أدق\nضبط ربحية التوصيل',
   pricing:[
     {cat:'Classic Box',half:12,one:20,note:'500g / 1KG'},
@@ -7958,19 +8083,49 @@ window.renderBusinessStrategy=function(){
   const d=getStrategySetting(), ids={vision:'bsVision',positioning:'bsPositioning',coreIdea:'bsCoreIdea',profitTarget:'bsProfitTarget',revenueTarget:'bsRevenueTarget',ordersTarget:'bsOrdersTarget',goalsNotes:'bsGoalsNotes',audience:'bsAudience',contentPillars:'bsContentPillars',funnel:'bsFunnel'};
   Object.entries(ids).forEach(([k,id])=>{const e=document.getElementById(id);if(e)e.value=d[k]??'';});
   ['bsKPIs','bsRisks','bsAssumptions','bsOpportunities','bsChallenges'].forEach((id)=>{const e=document.getElementById(id);if(!e)return;const k=id.slice(2);const map={KPIs:'kpis',Risks:'risks',Assumptions:'assumptions',Opportunities:'opportunities',Challenges:'challenges'};e.textContent=d[map[k]]||'';});
-  const pt=document.getElementById('pricingTable');if(pt)pt.innerHTML=(d.pricing||[]).map((x,i)=>`<tr><td><strong>${sanitize(x.cat||'')}</strong></td><td>${Number(x.half||0).toFixed(2)} JOD</td><td>${Number(x.one||0).toFixed(2)} JOD</td><td>${sanitize(x.note||'')}</td></tr>`).join('');
-  const ue=document.getElementById('unitEconomicsTable');if(ue)ue.innerHTML=(d.unitEconomics||[]).map(x=>`<tr><td>${sanitize(x.key||'')}</td><td><strong>${sanitize(x.value||'')}</strong></td><td>${sanitize(x.note||'')}</td></tr>`).join('');
+  const pt=document.getElementById('pricingTable');if(pt)pt.innerHTML=(d.pricing||[]).map((x,i)=>`<tr><td><input class="form-input" value="${sanitize(x.cat||'')}" data-pidx="${i}" data-field="cat"></td><td><input class="form-input" type="number" step="0.01" value="${Number(x.half||0)}" data-pidx="${i}" data-field="half"></td><td><input class="form-input" type="number" step="0.01" value="${Number(x.one||0)}" data-pidx="${i}" data-field="one"></td><td><input class="form-input" value="${sanitize(x.note||'')}" data-pidx="${i}" data-field="note"></td></tr>`).join('');
+  const ue=document.getElementById('unitEconomicsTable');if(ue)ue.innerHTML=(d.unitEconomics||[]).map((x,i)=>`<tr><td><input class="form-input" value="${sanitize(x.key||'')}" data-ueidx="${i}" data-field="key"></td><td><input class="form-input" value="${sanitize(x.value||'')}" data-ueidx="${i}" data-field="value"></td><td><input class="form-input" value="${sanitize(x.note||'')}" data-ueidx="${i}" data-field="note"></td></tr>`).join('');
   window.renderFlavorProfitRows();
-  const st=document.getElementById('strategySummaryStats');if(st)st.innerHTML=`<div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">هدف الطلبات</div><div class="stat-value">${Number(d.ordersTarget||0)}</div><div class="stat-sub">1KG-equivalent / شهر</div></div><div class="stat-card"><div class="stat-icon">💰</div><div class="stat-label">هدف الإيرادات</div><div class="stat-value">${Number(d.revenueTarget||0)}</div><div class="stat-sub">JOD / شهر</div></div><div class="stat-card"><div class="stat-icon">💎</div><div class="stat-label">هدف DEEB المحتفظ به</div><div class="stat-value">${Number(d.profitTarget||0)}</div><div class="stat-sub">JOD / شهر</div></div><div class="stat-card"><div class="stat-icon">🧩</div><div class="stat-label">وحدات الاستراتيجية</div><div class="stat-value">12</div><div class="stat-sub">modules</div></div>`;
+  const st=document.getElementById('strategySummaryStats');if(st)st.innerHTML=`<div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">هدف الطلبات</div><div class="stat-value">${Number(d.ordersTarget||0)}</div><div class="stat-sub">1KG-equivalent / شهر</div></div><div class="stat-card"><div class="stat-icon">💰</div><div class="stat-label">هدف الإيرادات</div><div class="stat-value">${Number(d.revenueTarget||0)}</div><div class="stat-sub">JOD / شهر</div></div><div class="stat-card"><div class="stat-icon">💎</div><div class="stat-label">هدف DEEB المحتفظ به</div><div class="stat-value">${Number(d.profitTarget||0)}</div><div class="stat-sub">JOD / شهر</div></div><div class="stat-card"><div class="stat-icon">🧩</div><div class="stat-label">وحدات الاستراتيجية</div><div class="stat-value">14</div><div class="stat-sub">modules</div></div>`;
 };
+function collectStrategyPricing(){
+  const d=getStrategySetting();
+  const pricing=Array.isArray(d.pricing)?d.pricing.map(x=>({...x})):[];
+  document.querySelectorAll('#pricingTable [data-pidx]').forEach(el=>{
+    const i=Number(el.dataset.pidx), f=el.dataset.field;
+    if(!pricing[i]) pricing[i]={};
+    pricing[i][f]=f==='half'||f==='one'?deebNum(el.value):String(el.value||'').trim();
+  });
+  return pricing;
+}
+function collectStrategyUnitEconomics(){
+  const d=getStrategySetting();
+  const rows=Array.isArray(d.unitEconomics)?d.unitEconomics.map(x=>({...x})):[];
+  document.querySelectorAll('#unitEconomicsTable [data-ueidx]').forEach(el=>{
+    const i=Number(el.dataset.ueidx), f=el.dataset.field;
+    if(!rows[i]) rows[i]={}; rows[i][f]=String(el.value||'').trim();
+  });
+  return rows;
+}
 window.saveBusinessStrategy=async function(){
   const d=getStrategySetting(), ids={vision:'bsVision',positioning:'bsPositioning',coreIdea:'bsCoreIdea',goalsNotes:'bsGoalsNotes',audience:'bsAudience',contentPillars:'bsContentPillars',funnel:'bsFunnel'};
   Object.entries(ids).forEach(([k,id])=>d[k]=(document.getElementById(id)?.value||'').trim());
-  d.profitTarget=parseFloat(document.getElementById('bsProfitTarget')?.value)||0;d.revenueTarget=parseFloat(document.getElementById('bsRevenueTarget')?.value)||0;d.ordersTarget=parseInt(document.getElementById('bsOrdersTarget')?.value)||0;d.flavorProfitability=window.collectFlavorProfitRows();
+  d.profitTarget=parseFloat(document.getElementById('bsProfitTarget')?.value)||0;d.revenueTarget=parseFloat(document.getElementById('bsRevenueTarget')?.value)||0;d.ordersTarget=parseInt(document.getElementById('bsOrdersTarget')?.value)||0;d.pricing=collectStrategyPricing();d.unitEconomics=collectStrategyUnitEconomics();d.flavorProfitability=window.collectFlavorProfitRows();
   await setDoc_('settings',BUSINESS_STRATEGY_KEY,d);window.renderBusinessStrategy();toast('تم حفظ استراتيجية DEEB ✅','success');
 };
 window.resetBusinessStrategy=async function(){if(!confirm('استعادة الافتراضي؟'))return;await setDoc_('settings',BUSINESS_STRATEGY_KEY,DEFAULT_BUSINESS_STRATEGY);window.renderBusinessStrategy();toast('تمت الاستعادة ✅','success');};
-function autoFlavorSales(){const map={};(state.orders||[]).filter(o=>o.status==='delivered').forEach(o=>{const fs=Array.isArray(o.customFlavors)?o.customFlavors:[];fs.forEach(fid=>{const f=(state.flavors||[]).find(x=>x.id===fid);const n=f?(f.nameEn||f.nameAr):String(fid);if(!map[n])map[n]={qty:0};map[n].qty++;});});return map;}
+function autoFlavorSales(){
+  const map={};
+  (state.orders||[]).filter(o=>o.status==='delivered').forEach(o=>{
+    const multiplier=Math.max(1,Number(o.qty||((o.products||[]).reduce((s,p)=>s+(Number(p.qty)||0),0)))||1);
+    const fs=Array.isArray(o.customFlavors)?o.customFlavors:[];
+    fs.forEach(fid=>{
+      const f=(state.flavors||[]).find(x=>x.id===fid); const n=f?(f.nameEn||f.nameAr):String(fid);
+      if(!map[n])map[n]={qty:0}; map[n].qty+=multiplier;
+    });
+  });
+  return map;
+}
 window.renderFlavorProfitRows=function(){const d=getStrategySetting(),rows=Array.isArray(d.flavorProfitability)?d.flavorProfitability:[],tb=document.getElementById('flavorProfitRows');if(!tb)return;const auto=autoFlavorSales();const prepared=rows.length?rows:[{name:''}];
   const margins=prepared.map(r=>{const a=auto[r.name]||{};const q=r.qty??a.qty??0;const rev=r.revenue??a.revenue??0;const c=r.cost??'';return (c!==''&&rev>0)?(rev-parseFloat(c))/rev*100:null;});const qvals=prepared.map((r,i)=>r.qty??auto[r.name]?.qty??0).filter(n=>n>0).sort((a,b)=>a-b);const med=qvals.length?qvals[Math.floor(qvals.length/2)]:0;
   tb.innerHTML=prepared.map((r,i)=>{const a=auto[r.name]||{};const qty=r.qty??a.qty??0,rev=r.revenue??a.revenue??0,cost=r.cost??'',profit=cost!==''&&rev>0?rev-parseFloat(cost):null,margin=profit!==null&&rev>0?profit/rev*100:null;let cls=r.classification||'Unclassified';if(!r.classification&&margin!==null&&qvals.length){const highQ=qty>=med,highM=margin>=30;cls=highQ?(highM?'High Volume + High Margin':'High Volume + Low Margin'):(highM?'Low Volume + High Margin':'Low Volume + Low Margin');}const source=r.revenue!=null&&r.qty!=null?'Manual':(a.qty?'Orders':'Manual');return `<tr><td><input class="form-input" value="${sanitize(r.name||'')}" oninput="this.dataset.dirty=1"></td><td><input class="form-input" type="number" min="0" step="1" value="${qty}" oninput="this.dataset.dirty=1"></td><td><input class="form-input" type="number" min="0" step="0.01" value="${rev}" oninput="this.dataset.dirty=1"></td><td><input class="form-input" type="number" min="0" step="0.01" value="${cost}" placeholder="غير متاح" oninput="this.dataset.dirty=1"></td><td>${profit===null?'—':profit.toFixed(2)}</td><td>${margin===null?'—':margin.toFixed(2)+'%'}</td><td><select class="form-select"><option ${cls==='Unclassified'?'selected':''}>Unclassified</option><option ${cls==='High Volume + High Margin'?'selected':''}>High Volume + High Margin</option><option ${cls==='High Volume + Low Margin'?'selected':''}>High Volume + Low Margin</option><option ${cls==='Low Volume + High Margin'?'selected':''}>Low Volume + High Margin</option><option ${cls==='Low Volume + Low Margin'?'selected':''}>Low Volume + Low Margin</option></select></td><td>${source}</td><td><button class="btn btn-sm btn-danger" onclick="window.deleteFlavorProfitRow(${i})">🗑</button></td></tr>`;}).join('');};
@@ -7984,11 +8139,392 @@ window.collectFlavorProfitRows=function(){const out=[];document.querySelectorAll
 const ROAS_KEY='businessROAS';
 const DEFAULT_ROAS_CHANNELS=['Instagram','TikTok','WhatsApp','Organic / Direct','Referral','B2B'];
 function getROASSettings(){const d=(state.settings||[]).find(x=>x.id===ROAS_KEY||x.key===ROAS_KEY);return Array.isArray(d?.channels)?d.channels:DEFAULT_ROAS_CHANNELS.map(channel=>({channel,spend:0,orders:0,revenue:0,cost:0}));}
-function autoROAS(){const out={};(state.orders||[]).filter(o=>o.status==='delivered').forEach(o=>{const ch=getOrderChannel(o);if(!ch)return;if(!out[ch])out[ch]={orders:0,revenue:0,cost:0};out[ch].orders++;out[ch].revenue+=parseFloat(o.total||o.totalAmount||o.price||0)||0;let c=0;if(Array.isArray(o.products)){o.products.forEach(p=>{let pc=parseFloat(p.cost);if(!Number.isFinite(pc)||pc<=0){const found=(state.products||[]).find(x=>String(x.name||'').trim()===String(p.name||'').trim());pc=parseFloat(found?.cost)||0;}c+=pc*(parseFloat(p.qty)||1);});}else if(o.product){const qty=parseFloat(o.qty)||1;const found=(state.products||[]).find(x=>String(x.name||'').trim()===String(o.product||'').trim());c+=(parseFloat(found?.cost)||0)*qty;}out[ch].cost+=c;});return out;}
-window.renderMarketingROAS=function(){const manual=getROASSettings(),auto=autoROAS(),map={};manual.forEach(x=>{if(x.channel)map[x.channel]={...x};});Object.entries(auto).forEach(([ch,d])=>{if(!map[ch])map[ch]={channel:ch,spend:0,orders:0,revenue:0,cost:0};map[ch].auto=d;});const rows=Object.values(map).map(x=>{const a=auto[x.channel],orders=a?a.orders:(parseFloat(x.orders)||0),revenue=a?a.revenue:(parseFloat(x.revenue)||0),cost=a?a.cost:(parseFloat(x.cost)||0),spend=parseFloat(x.spend)||0;return {...x,orders,revenue,cost,spend,profit:revenue-cost,roas:spend?revenue/spend:null,pps:spend?(revenue-cost)/spend:null,source:a?'طلبات Delivered':'إدخال يدوي'};});const tb=document.getElementById('marketingRoasRows');if(tb)tb.innerHTML=rows.length?rows.map(r=>`<tr><td><strong>${sanitize(r.channel)}</strong></td><td>${r.spend.toFixed(2)}</td><td>${r.orders}</td><td>${r.revenue.toFixed(2)}</td><td>${r.cost.toFixed(2)}</td><td>${r.profit.toFixed(2)}</td><td>${r.roas==null?'—':r.roas.toFixed(2)+'x'}</td><td>${r.pps==null?'—':r.pps.toFixed(2)+'x'}</td><td>${r.source}</td></tr>`).join(''):'<tr><td colspan="9">لا توجد قنوات</td></tr>';const spend=rows.reduce((a,r)=>a+r.spend,0),rev=rows.reduce((a,r)=>a+r.revenue,0),profit=rows.reduce((a,r)=>a+r.profit,0),set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('roasSpend',spend.toFixed(2)+' JOD');set('roasRevenue',rev.toFixed(2)+' JOD');set('roasProfit',profit.toFixed(2)+' JOD');set('roasValue',spend?(rev/spend).toFixed(2)+'x':'—');const n=document.getElementById('roasNotes');if(n)n.innerHTML='<div class="alert">📌 ROAS = Revenue ÷ Spend. Profit / Spend = (Revenue − Direct Cost) ÷ Spend؛ وهذا ليس صافي الربح المحاسبي الكامل ما لم تُوزّع المصاريف التشغيلية على القناة. إذا لم تتوفر تكلفة المنتج في الطلب، يظل الربح المعروض غير مكتمل ولا يتم اختراع تكلفة.</div>';};
+function autoROAS(){
+  const out={};
+  (state.orders||[]).filter(o=>o.status==='delivered').forEach(o=>{
+    const ch=getOrderChannel(o); if(!ch)return;
+    if(!out[ch])out[ch]={orders:0,revenue:0,cost:0,costFallbacks:0};
+    out[ch].orders++; out[ch].revenue+=parseFloat(o.total||o.totalAmount||o.price||0)||0;
+    let c=0;
+    if(Number.isFinite(parseFloat(o.cogs))){ c=parseFloat(o.cogs)||0; }
+    else if(Number.isFinite(parseFloat(o.grossProfit)) && Number.isFinite(parseFloat(o.price))){ c=(parseFloat(o.price)||0)-(parseFloat(o.grossProfit)||0); }
+    else if(Array.isArray(o.products)){
+      const chocolateInv=deebChocolateInventoryItem();
+      o.products.forEach(p=>{ let pc=parseFloat(p.cost); const found=(state.products||[]).find(x=>String(x.name||'').trim()===String(p.name||'').trim()); const w=deebParseWeightKg(found?.weight||p.weight); if((!Number.isFinite(pc)||pc<=0)&&chocolateInv&&w>0){pc=deebNum(chocolateInv.cost)*w;} if(!Number.isFinite(pc)||pc<=0){pc=parseFloat(found?.cost); if(!Number.isFinite(pc)||pc<=0)out[ch].costFallbacks++;} c+=(Number.isFinite(pc)?pc:0)*(parseFloat(p.qty)||1); });
+    } else if(o.product){
+      const qty=parseFloat(o.qty)||1; const found=(state.products||[]).find(x=>String(x.name||'').trim()===String(o.product||'').trim()); const pc=parseFloat(found?.cost); if(!Number.isFinite(pc)||pc<=0)out[ch].costFallbacks++; c+=(Number.isFinite(pc)?pc:0)*qty;
+    }
+    out[ch].cost+=c;
+  });
+  return out;
+}
+window.renderMarketingROAS=function(){const manual=getROASSettings(),auto=autoROAS(),map={};manual.forEach(x=>{if(x.channel)map[x.channel]={...x};});Object.entries(auto).forEach(([ch,d])=>{if(!map[ch])map[ch]={channel:ch,spend:0,orders:0,revenue:0,cost:0};map[ch].auto=d;});const rows=Object.values(map).map(x=>{const a=auto[x.channel],orders=a?a.orders:(parseFloat(x.orders)||0),revenue=a?a.revenue:(parseFloat(x.revenue)||0),cost=a?a.cost:(parseFloat(x.cost)||0),spend=parseFloat(x.spend)||0,contribution=revenue-cost,profitAfterMarketing=contribution-spend;return {...x,orders,revenue,cost,spend,contribution,profitAfterMarketing,roas:spend?revenue/spend:null,pps:spend?profitAfterMarketing/spend:null,source:a?('طلبات Delivered'+(a.costFallbacks?' — '+a.costFallbacks+' COGS fallbacks':'')):'إدخال يدوي'};});const tb=document.getElementById('marketingRoasRows');if(tb)tb.innerHTML=rows.length?rows.map(r=>`<tr><td><strong>${sanitize(r.channel)}</strong></td><td>${r.spend.toFixed(2)}</td><td>${r.orders}</td><td>${r.revenue.toFixed(2)}</td><td>${r.cost.toFixed(2)}</td><td>${r.contribution.toFixed(2)}</td><td>${r.roas==null?'—':r.roas.toFixed(2)+'x'}</td><td>${r.pps==null?'—':r.pps.toFixed(2)+'x'}</td><td>${r.source}</td></tr>`).join(''):'<tr><td colspan="9">لا توجد قنوات</td></tr>';const spend=rows.reduce((a,r)=>a+r.spend,0),rev=rows.reduce((a,r)=>a+r.revenue,0),contribution=rows.reduce((a,r)=>a+r.contribution,0),marketingProfit=contribution-spend,set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('roasSpend',spend.toFixed(2)+' JOD');set('roasRevenue',rev.toFixed(2)+' JOD');set('roasProfit',contribution.toFixed(2)+' JOD');set('roasMarketingProfit',marketingProfit.toFixed(2)+' JOD');set('roasValue',spend?(rev/spend).toFixed(2)+'x':'—');const n=document.getElementById('roasNotes');if(n)n.innerHTML='<div class="alert">📌 ROAS = Revenue ÷ Marketing Spend. Contribution Profit = Revenue − Direct Cost/COGS. Profit After Marketing Spend = Contribution Profit − Marketing Spend. هذا ليس صافي الربح المحاسبي الكامل ما لم تُوزّع المصاريف التشغيلية غير المباشرة على القناة. عند غياب COGS المخزن، يظهر مصدر التكلفة كـfallback ولا يتم اختراع تكلفة.</div>';};
 window.addROASChannel=async function(){const channel=(document.getElementById('roasChannel')?.value||'').trim();if(!channel)return toast('اسم القناة مطلوب','error');const rows=getROASSettings().filter(x=>String(x.channel).trim().toLowerCase()!==channel.toLowerCase());rows.push({channel,spend:parseFloat(document.getElementById('roasSpendInput')?.value)||0,orders:parseInt(document.getElementById('roasOrdersInput')?.value)||0,revenue:parseFloat(document.getElementById('roasRevenueInput')?.value)||0,cost:parseFloat(document.getElementById('roasCostInput')?.value)||0});await setDoc_('settings',ROAS_KEY,{channels:rows});['roasChannel','roasSpendInput','roasOrdersInput','roasRevenueInput','roasCostInput'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});window.renderMarketingROAS();toast('تم حفظ بيانات ROAS ✅','success');};
 
+
+
+// ═══════════════════════════════════════════════════════════════
+// DEEB MASTER ERP — SUPPLIERS / PROCUREMENT / ADMIN CONTROL
+// ═══════════════════════════════════════════════════════════════
+const DEEB_ERP_COLLECTIONS = ['suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger'];
+const DEEB_ADMIN_COLLECTIONS = ['orders','customers','reviews','products','flavors','inventory','regions','expenses','campaigns','coupons','receivables','b2bLeads','suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger','settings','notes','certificates','freelancers','projects','events','activityLog','trash'];
+
+function deebToday(){ return new Date().toISOString().split('T')[0]; }
+function deebNum(v){ const n=parseFloat(v); return Number.isFinite(n)?n:0; }
+function deebOrderDate(o){ return parseDateLocal(o?.dateRaw||o?.date)||new Date(o?.createdAt||Date.now()); }
+function deebMoney(v){ return deebNum(v).toFixed(2); }
+
+// Weighted Average Cost: cost is updated only from actual received quantities.
+function weightedAverageCost(oldQty, oldCost, receivedQty, purchaseCost){
+  oldQty=deebNum(oldQty); oldCost=deebNum(oldCost); receivedQty=deebNum(receivedQty); purchaseCost=deebNum(purchaseCost);
+  const totalQty=oldQty+receivedQty;
+  return totalQty>0 ? ((oldQty*oldCost)+(receivedQty*purchaseCost))/totalQty : purchaseCost;
+}
+window.deebWeightedAverageCost=weightedAverageCost;
+
+function deebSupplierById(id){ return (state.suppliers||[]).find(x=>x.id===id); }
+function deebSupplierOrderById(id){ return (state.supplierOrders||[]).find(x=>x.id===id); }
+function deebSupplierOutstanding(o){ return Math.max(0,deebSupplierReceivedValue(o)-deebNum(o.paidAmount)); }
+function deebSupplierReceivedValue(o){ return (o.items||[]).reduce((sum,it)=>sum+deebNum(it.receivedQty)*deebNum(it.purchaseCost),0); }
+function deebInventoryById(id){ return (state.inventory||[]).find(x=>x.id===id); }
+
+window.renderSuppliersPage=function(){
+  const suppliers=state.suppliers||[], orders=state.supplierOrders||[], payments=state.supplierPayments||[], prices=state.supplierPriceHistory||[];
+  const active=suppliers.filter(s=>s.active!==false).length;
+  const open=orders.filter(o=>['draft','ordered','partial'].includes(o.status)).length;
+  const payable=orders.reduce((sum,o)=>sum+deebSupplierOutstanding(o),0);
+  const now=new Date(), ms=new Date(now.getFullYear(),now.getMonth(),1), me=new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59);
+  const receivedMonth=orders.filter(o=>{const d=parseDateLocal(o.orderDate||o.date);return d&&d>=ms&&d<=me;}).reduce((sum,o)=>sum+deebSupplierReceivedValue(o),0);
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('supCount',active+' / '+suppliers.length); set('supOpenPO',open); set('supPayable',deebMoney(payable)); set('supReceivedMonth',deebMoney(receivedMonth));
+  const st=document.getElementById('suppliersTable');
+  if(st) st.innerHTML=suppliers.length?suppliers.map(s=>{const due=orders.filter(o=>o.supplierId===s.id).reduce((a,o)=>a+deebSupplierOutstanding(o),0);return `<tr><td><strong>${sanitize(s.name||'—')}</strong></td><td>${sanitize(s.contact||'—')}</td><td dir="ltr">${sanitize(s.phone||'—')}</td><td>${sanitize(s.category||'—')}</td><td>${s.active===false?'<span class="badge badge-outstock">غير نشط</span>':'<span class="badge badge-instock">نشط</span>'}</td><td>${deebMoney(due)} JOD</td><td><button class="btn btn-sm btn-outline" onclick="window.editSupplier('${s.id}')">✏️</button> <button class="btn btn-sm btn-danger" onclick="window.deleteSupplier('${s.id}')">🗑</button></td></tr>`}).join(''):'<tr><td colspan="7">لا يوجد موردين بعد.</td></tr>';
+  const ot=document.getElementById('supplierOrdersTable');
+  if(ot) ot.innerHTML=orders.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map(o=>{const received=(o.items||[]).reduce((a,i)=>a+deebNum(i.receivedQty),0), ordered=(o.items||[]).reduce((a,i)=>a+deebNum(i.orderedQty),0);return `<tr><td><strong>${sanitize(o.orderNumber||o.id.slice(0,7))}</strong></td><td>${sanitize(o.supplierName||deebSupplierById(o.supplierId)?.name||'—')}</td><td>${sanitize(o.orderDate||'—')}</td><td><span class="erp-pill">${sanitize(o.status||'draft')}</span></td><td>${deebMoney(o.totalAmount)} JOD</td><td>${received}/${ordered}</td><td>${deebMoney(o.paidAmount)} JOD</td><td>${deebMoney(deebSupplierOutstanding(o))} JOD</td><td><button class="btn btn-sm btn-outline" onclick="window.openSupplierOrderModal('${o.id}')">✏️</button> <button class="btn btn-sm btn-outline" onclick="window.openSupplierReceiveModal('${o.id}')">📥</button> <button class="btn btn-sm btn-outline" onclick="window.openSupplierPaymentModal('${o.id}')">💳</button> <button class="btn btn-sm btn-danger" onclick="window.deleteSupplierOrder('${o.id}')">🗑</button></td></tr>`}).join('')||'<tr><td colspan="9">لا يوجد طلبات شراء.</td></tr>';
+  const pt=document.getElementById('supplierPaymentsTable');
+  if(pt) pt.innerHTML=payments.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,100).map(p=>`<tr><td>${sanitize(p.date||'—')}</td><td>${sanitize(p.supplierName||'—')}</td><td>${sanitize(p.orderNumber||p.supplierOrderId||'—')}</td><td><strong>${deebMoney(p.amount)} JOD</strong></td><td>${sanitize(p.method||'—')}</td><td>${sanitize(p.notes||'—')}</td></tr>`).join('')||'<tr><td colspan="6">لا يوجد مدفوعات.</td></tr>';
+  const pr=document.getElementById('supplierPriceTable');
+  if(pr) pr.innerHTML=prices.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,100).map(p=>`<tr><td>${sanitize(p.date||'—')}</td><td>${sanitize(p.supplierName||'—')}</td><td>${sanitize(p.inventoryName||'—')}</td><td>${deebMoney(p.price)} JOD</td><td>${sanitize(p.notes||'—')}</td></tr>`).join('')||'<tr><td colspan="5">لا يوجد تاريخ أسعار.</td></tr>';
+};
+
+window.openSupplierModal=function(id){
+  ['sup-id','sup-name','sup-contact','sup-phone','sup-email','sup-category','sup-notes'].forEach(x=>{const e=document.getElementById(x);if(e)e.value='';});
+  document.getElementById('sup-active').value='true';
+  document.getElementById('supplierModalTitle').textContent=id?'✏️ تعديل مورد':'🏭 مورد جديد';
+  if(id){const s=deebSupplierById(id);if(!s)return;document.getElementById('sup-id').value=id;document.getElementById('sup-name').value=s.name||'';document.getElementById('sup-contact').value=s.contact||'';document.getElementById('sup-phone').value=s.phone||'';document.getElementById('sup-email').value=s.email||'';document.getElementById('sup-category').value=s.category||'';document.getElementById('sup-active').value=String(s.active!==false);document.getElementById('sup-notes').value=s.notes||'';}
+  openModal('supplierModal');
+};
+window.editSupplier=id=>window.openSupplierModal(id);
+window.saveSupplier=async function(){
+  const name=document.getElementById('sup-name').value.trim(); if(!name)return toast('اسم المورد مطلوب','error');
+  const id=document.getElementById('sup-id').value; const data={name,contact:document.getElementById('sup-contact').value.trim(),phone:document.getElementById('sup-phone').value.trim(),email:document.getElementById('sup-email').value.trim(),category:document.getElementById('sup-category').value.trim(),active:document.getElementById('sup-active').value==='true',notes:document.getElementById('sup-notes').value.trim()};
+  if(id) await updateDoc_('suppliers',id,data); else await addDoc_('suppliers',data); closeModal('supplierModal'); toast('تم حفظ المورد ✅','success');
+};
+window.deleteSupplier=id=>{const s=deebSupplierById(id);confirmDelete('suppliers',id,s?.name||'المورد');};
+
+function deebInventoryOptions(){return '<option value="">اختر مادة المخزون</option>'+(state.inventory||[]).map(i=>`<option value="${i.id}">${sanitize(i.name)} — WAC ${deebMoney(i.cost||0)}</option>`).join('');}
+window.addSupplierOrderItemRow=function(item){const wrap=document.getElementById('supplierItemsEditor');if(!wrap)return;const row=document.createElement('div');row.className='supplier-item-row';row.innerHTML=`<div><label class="form-label">المادة</label><select class="form-select spo-item-id">${deebInventoryOptions()}</select></div><div><label class="form-label">المطلوب</label><input class="form-input spo-ordered" type="number" min="0" step="0.01" value="${deebNum(item?.orderedQty||1)}"></div><div><label class="form-label">المستلم</label><input class="form-input spo-received" type="number" min="0" step="0.01" value="${deebNum(item?.receivedQty||0)}"></div><div><label class="form-label">سعر الشراء</label><input class="form-input spo-cost" type="number" min="0" step="0.01" value="${item?.purchaseCost??''}"></div><button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">✕</button>`;wrap.appendChild(row);if(item?.inventoryId)row.querySelector('.spo-item-id').value=item.inventoryId;};
+window.openSupplierOrderModal=function(id){
+  ['spo-id','spo-number','spo-notes'].forEach(x=>{const e=document.getElementById(x);if(e)e.value='';});document.getElementById('spo-date').value=deebToday();document.getElementById('spo-status').value='draft';
+  const ss=document.getElementById('spo-supplier');ss.innerHTML='<option value="">اختر المورد</option>'+(state.suppliers||[]).map(s=>`<option value="${s.id}">${sanitize(s.name)}</option>`).join('');
+  const wrap=document.getElementById('supplierItemsEditor');wrap.innerHTML='';
+  if(id){const o=deebSupplierOrderById(id);if(!o)return;document.getElementById('spo-id').value=id;document.getElementById('spo-number').value=o.orderNumber||'';document.getElementById('spo-date').value=o.orderDate||deebToday();document.getElementById('spo-status').value=o.status||'draft';document.getElementById('spo-notes').value=o.notes||'';ss.value=o.supplierId||'';(o.items||[]).forEach(i=>window.addSupplierOrderItemRow(i));} else window.addSupplierOrderItemRow();
+  document.getElementById('supplierOrderModalTitle').textContent=id?'✏️ تعديل طلب شراء':'📦 طلب شراء جديد';openModal('supplierOrderModal');
+};
+window.saveSupplierOrder=async function(){
+  const supplierId=document.getElementById('spo-supplier').value; if(!supplierId)return toast('اختر المورد','error');
+  const sup=deebSupplierById(supplierId);
+  const rows=[...document.querySelectorAll('#supplierItemsEditor .supplier-item-row')];
+  const items=rows.map(r=>{const id=r.querySelector('.spo-item-id').value;const inv=deebInventoryById(id);return {inventoryId:id,inventoryName:inv?.name||'',orderedQty:deebNum(r.querySelector('.spo-ordered').value),receivedQty:deebNum(r.querySelector('.spo-received').value),purchaseCost:deebNum(r.querySelector('.spo-cost').value)};}).filter(i=>i.inventoryId&&i.orderedQty>0);
+  if(!items.length)return toast('أضف مادة واحدة على الأقل','error');
+  if(items.some(i=>i.purchaseCost<=0))return toast('سعر الشراء يجب أن يكون أكبر من صفر لكل مادة.','error');
+  if(items.some(i=>i.receivedQty>0))return toast('🔒 لا تسجل الاستلام من شاشة طلب الشراء. استخدم زر 📥 استلام لتحديث المخزون وWAC.','warning');
+  const totalAmount=items.reduce((a,i)=>a+i.orderedQty*i.purchaseCost,0), id=document.getElementById('spo-id').value, old=id?deebSupplierOrderById(id):null;
+  if(old && (old.items||[]).some(i=>deebNum(i.receivedQty)>0)){
+    return toast('🔒 أمر الشراء الذي تم استلام جزء منه لا يمكن تعديل المورد/الكمية/تكلفة الشراء؛ استخدم حركة تصحيح منفصلة.','warning');
+  }
+  const status=document.getElementById('spo-status').value||'draft';
+  const existingPaid=deebNum(old?.paidAmount);if(existingPaid>0&&deebSupplierReceivedValue(old)<=0)return toast('لا يمكن أن يكون هناك دفع على أمر شراء لم يتم استلام أي جزء منه.','warning');const data={supplierId,supplierName:sup?.name||'',orderNumber:document.getElementById('spo-number').value.trim()||('PO-'+Date.now().toString().slice(-7)),orderDate:document.getElementById('spo-date').value||deebToday(),status,items,totalAmount,paidAmount:existingPaid,outstanding:Math.max(0,deebSupplierReceivedValue({items,paidAmount:existingPaid})-existingPaid),notes:document.getElementById('spo-notes').value.trim()};
+  if(id) await updateDoc_('supplierOrders',id,data); else await addDoc_('supplierOrders',data);
+  closeModal('supplierOrderModal'); toast('تم حفظ طلب الشراء ✅','success'); window.renderSuppliersPage();
+};
+window.deleteSupplierOrder=id=>{const o=deebSupplierOrderById(id);if(o&&(deebNum(o.paidAmount)>0||deebNum(o.items?.reduce((s,i)=>s+deebNum(i.receivedQty),0))>0))return toast('🔒 أمر الشراء الذي له دفعات أو استلامات لا يُحذف مباشرة. استخدم إجراء تصحيح/عكس.','warning');confirmDelete('supplierOrders',id,o?.orderNumber||'PO');};
+
+window.openSupplierReceiveModal=function(id){const o=deebSupplierOrderById(id);if(!o)return;document.getElementById('srec-id').value=id;const wrap=document.getElementById('supplierReceiveItems');wrap.innerHTML=(o.items||[]).map((i,n)=>`<div class="card" style="padding:.7rem;margin-bottom:.5rem"><div style="font-weight:800;margin-bottom:.5rem">${sanitize(i.inventoryName||'مادة')}</div><div class="form-row"><div class="form-group"><label class="form-label">مطلوب</label><input class="form-input srec-ordered" value="${deebNum(i.orderedQty)}" disabled></div><div class="form-group"><label class="form-label">مستلم سابقاً</label><input class="form-input srec-old" value="${deebNum(i.receivedQty)}" disabled></div><div class="form-group"><label class="form-label">المستلم الآن / الجديد</label><input class="form-input srec-new" type="number" min="0" step="0.01" value="${deebNum(i.receivedQty)}"></div><div class="form-group"><label class="form-label">سعر الشراء</label><input class="form-input srec-cost" type="number" min="0" step="0.01" value="${i.purchaseCost??''}"></div></div><input type="hidden" class="srec-item-id" value="${i.inventoryId}"></div>`).join('');openModal('supplierReceiveModal');};
+
+window.receiveSupplierOrder=async function(){
+  const id=document.getElementById('srec-id').value; if(!id)return;
+  const orderRef=db.collection('supplierOrders').doc(id);
+  const rows=[...document.querySelectorAll('#supplierReceiveItems .card')];
+  try{
+    await db.runTransaction(async tx=>{
+      const orderSnap=await tx.get(orderRef);
+      if(!orderSnap.exists)throw new Error('PO not found');
+      const order=orderSnap.data();
+      const items=Array.isArray(order.items)?order.items:[];
+      if(rows.length!==items.length)throw new Error('بيانات الاستلام غير متطابقة مع طلب الشراء.');
+      const parsed=[]; const refs=[];
+      for(let idx=0;idx<items.length;idx++){
+        const base=items[idx]||{},r=rows[idx],invId=r.querySelector('.srec-item-id').value;
+        const requestedNew=deebNum(r.querySelector('.srec-new').value),newCost=deebNum(r.querySelector('.srec-cost').value);
+        const ordered=deebNum(base.orderedQty),oldReceived=deebNum(base.receivedQty),delta=requestedNew-oldReceived;
+        if(requestedNew<oldReceived)throw new Error('الكمية المستلمة لا يمكن أن تنقص.');
+        if(requestedNew>ordered+0.000001)throw new Error('الكمية المستلمة تتجاوز الكمية المطلوبة.');
+        if(delta>0){if(newCost<=0)throw new Error('سعر الشراء يجب أن يكون أكبر من صفر.');refs.push(db.collection('inventory').doc(invId));}
+        parsed.push({base,invId,requestedNew,newCost,ordered,oldReceived,delta});
+      }
+      const uniqueRefs=[...new Map(refs.map(r=>[r.path,r])).values()];
+      const invSnaps={};
+      for(const ref of uniqueRefs){const snap=await tx.get(ref);if(!snap.exists)throw new Error('مادة المخزون غير موجودة.');invSnaps[ref.path]=snap;}
+      const newItems=items.map(x=>({...x})); let receivedValue=0;
+      for(let idx=0;idx<parsed.length;idx++){
+        const p=parsed[idx],base=p.base; if(p.delta<=0)continue;
+        const invSnap=invSnaps[db.collection('inventory').doc(p.invId).path],inv=invSnap.data();
+        const oldQty=deebNum(inv.qty),oldCost=deebNum(inv.cost),wac=weightedAverageCost(oldQty,oldCost,p.delta,p.newCost),newQty=oldQty+p.delta;
+        tx.update(db.collection('inventory').doc(p.invId),{qty:newQty,cost:wac,lastPurchaseCost:p.newCost,lastReceivedAt:Date.now(),updatedAt:Date.now()});
+        newItems[idx]={...newItems[idx],receivedQty:p.requestedNew,purchaseCost:p.newCost}; receivedValue+=p.delta*p.newCost;
+        const mv={type:'Purchase',itemId:p.invId,itemName:inv.name||base.inventoryName||'',qtyDelta:p.delta,unitCost:p.newCost,totalCost:p.delta*p.newCost,refType:'supplierOrder',refId:id,ts:Date.now()};
+        tx.set(db.collection('stockMovements').doc(),mv); tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:oldQty,qtyAfter:newQty,wacAfter:wac,createdAt:Date.now()});
+        tx.set(db.collection('supplierPriceHistory').doc(),{supplierId:order.supplierId,supplierName:order.supplierName,inventoryId:p.invId,inventoryName:inv.name||base.inventoryName||'',price:p.newCost,date:deebToday(),supplierOrderId:id,notes:'سعر شراء مسجل من الاستلام',createdAt:Date.now()});
+      }
+      const totalReceivedQty=newItems.reduce((a,i)=>a+deebNum(i.receivedQty),0),totalOrderedQty=newItems.reduce((a,i)=>a+deebNum(i.orderedQty),0),status=totalReceivedQty>=totalOrderedQty?'received':(totalReceivedQty>0?'partial':(order.status||'ordered'));
+      tx.update(orderRef,{items:newItems,status,receivedValue:deebNum(order.receivedValue)+receivedValue,lastReceivedAt:Date.now(),updatedAt:Date.now()});
+    });
+    closeModal('supplierReceiveModal');toast('تم استلام الطلب وتحديث المخزون وWAC ✅','success');window.renderSuppliersPage();
+  }catch(e){toast('فشل الاستلام: '+(e.message||e),'error');}
+};
+window.openSupplierPaymentModal=function(orderId){const sel=document.getElementById('spay-order');sel.innerHTML='<option value="">اختر PO</option>'+(state.supplierOrders||[]).filter(o=>deebSupplierOutstanding(o)>0).map(o=>`<option value="${o.id}">${sanitize(o.orderNumber||o.id.slice(0,7))} — ${sanitize(o.supplierName||'')} — متبقي ${deebMoney(deebSupplierOutstanding(o))}</option>`).join('');document.getElementById('spay-id').value='';document.getElementById('spay-amount').value='';document.getElementById('spay-date').value=deebToday();document.getElementById('spay-notes').value='';if(orderId)sel.value=orderId;openModal('supplierPaymentModal');};
+window.saveSupplierPayment=async function(){const orderId=document.getElementById('spay-order').value;const amount=deebNum(document.getElementById('spay-amount').value);if(!orderId||amount<=0)return toast('اختر PO وأدخل مبلغاً صحيحاً','error');const ref=db.collection('supplierOrders').doc(orderId);try{await db.runTransaction(async tx=>{const snap=await tx.get(ref);if(!snap.exists)throw new Error('PO not found');const o=snap.data();const outstanding=deebSupplierOutstanding(o);if(amount>outstanding+0.0001)throw new Error('المبلغ أكبر من المستحق');const paid=deebNum(o.paidAmount)+amount;const receivedValue=deebSupplierReceivedValue(o);const status=o.status==='cancelled'?'cancelled':(paid>=receivedValue?'paid':o.status);tx.update(ref,{paidAmount:paid,outstanding:Math.max(0,receivedValue-paid),paymentStatus:paid>=receivedValue?'paid':'partial',updatedAt:Date.now()});tx.set(db.collection('supplierPayments').doc(),{supplierId:o.supplierId,supplierName:o.supplierName,supplierOrderId:orderId,orderNumber:o.orderNumber||'',amount,date:document.getElementById('spay-date').value||deebToday(),method:document.getElementById('spay-method').value,notes:document.getElementById('spay-notes').value.trim(),createdAt:Date.now()});});closeModal('supplierPaymentModal');toast('تم تسجيل دفعة المورد ✅','success');window.renderSuppliersPage();}catch(e){toast('فشل تسجيل الدفعة: '+(e.message||e),'error');}};
+window.openSupplierPriceHistory=function(){showPage('admin',null);setTimeout(()=>{const s=document.getElementById('adminCollection');if(s){s.value='supplierPriceHistory';window.renderAdminCollection();}},0);};
+
+// ═══════════════════════════════════════════════════════════════
+// ADMIN CONTROL CENTER
+// ═══════════════════════════════════════════════════════════════
+const DEEB_ADMIN_LABELS={orders:'الطلبات',customers:'العملاء',reviews:'التقييمات',products:'المنتجات',flavors:'النكهات',inventory:'المخزون',regions:'مناطق التوصيل',expenses:'المصاريف',campaigns:'الحملات',coupons:'الكوبونات',receivables:'المستحقات',b2bLeads:'B2B Leads',suppliers:'الموردين',supplierOrders:'طلبات الموردين',supplierPriceHistory:'تاريخ أسعار الموردين',supplierPayments:'دفعات الموردين',stockMovements:'حركات المخزون',priceHistory:'تاريخ الأسعار',inventoryLedger:'دفتر المخزون',settings:'الإعدادات',notes:'الملاحظات',certificates:'الشهادات',freelancers:'الفريلانسرز',projects:'المشاريع',events:'التقويم',activityLog:'سجل النشاط',trash:'المحذوفات'};
+window.renderAdminModules=function(){const el=document.getElementById('adminModuleChecklist');if(!el)return;const mods=[['dashboard','الرئيسية'],['orders','الطلبات'],['customers','العملاء'],['reviews','التقييمات'],['products','المنتجات'],['flavors','النكهات'],['inventory','المخزون'],['delivery','التوصيل'],['finance','المالية'],['calculations','الحسابات'],['suppliers','الموردين'],['admin','الإدارة'],['receivables','المستحقات'],['b2b','B2B'],['freelancers','الفريلانسرز'],['projects','المشاريع'],['marketing','التسويق'],['strategy','الاستراتيجية'],['forecast','التنبؤ بالطلب'],['messages','الرسائل'],['calendar','التقويم'],['activitylog','سجل النشاط'],['brand','الهوية'],['checklist','التجهيز'],['legal','القانوني'],['notes','الملاحظات'],['trash','المحذوفات']];el.innerHTML=mods.map(m=>`<div class="admin-module-item"><span>${m[1]}</span><span class="ok">✓ موجود</span></div>`).join('');};
+window.adminNewRecord=function(){const col=document.getElementById('adminCollection')?.value;if(!col)return;document.getElementById('adminRecordJson').dataset.col=col;document.getElementById('adminRecordId').value='';document.getElementById('adminRecordTitle').textContent='➕ سجل جديد — '+(DEEB_ADMIN_LABELS[col]||col);document.getElementById('adminRecordJson').value=JSON.stringify({},null,2);openModal('adminRecordModal');};
+window.renderAdminCollection=function(){const erpSel=document.getElementById('erpChocolateItem');if(erpSel&&!erpSel.options.length){const cfg=(state.settings||[]).find(x=>x.id==='erpConfig'||x.key==='erpConfig');erpSel.innerHTML='<option value="">— غير محدد —</option>'+(state.inventory||[]).map(i=>`<option value="${i.id}">${sanitize(i.name)}</option>`).join('');erpSel.value=cfg?.chocolateInventoryItemId||'';}const sel=document.getElementById('adminCollection');if(!sel)return;if(!sel.options.length){sel.innerHTML=DEEB_ADMIN_COLLECTIONS.map(c=>`<option value="${c}">${DEEB_ADMIN_LABELS[c]||c}</option>`).join('');}const col=sel.value||DEEB_ADMIN_COLLECTIONS[0];const q=(document.getElementById('adminSearch')?.value||'').toLowerCase();const data=(state[col]||[]).filter(x=>!q||JSON.stringify(x).toLowerCase().includes(q));const title=document.getElementById('adminCollectionTitle');if(title)title.textContent='⚙️ '+(DEEB_ADMIN_LABELS[col]||col);const count=document.getElementById('adminCollectionCount');if(count)count.textContent=data.length+' سجل';const keys=[];data.forEach(x=>Object.keys(x).forEach(k=>{if(!keys.includes(k)&&k!=='id')keys.push(k)}));const max=8, shown=keys.slice(0,max);const head=document.getElementById('adminTableHead'),body=document.getElementById('adminTableBody');if(head)head.innerHTML='<tr>'+shown.map(k=>`<th>${sanitize(k)}</th>`).join('')+'<th>إجراء</th></tr>';if(body)body.innerHTML=data.length?data.map(x=>'<tr>'+shown.map(k=>{let v=x[k];if(typeof v==='object')v=JSON.stringify(v);return '<td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+sanitize(v??'')+'">'+sanitize(v??'—')+'</td>'}).join('')+`<td style="white-space:nowrap">${col==='activityLog'?'—':'<button class="btn btn-sm btn-outline" onclick="window.adminEditRecord(\''+col+'\',\''+x.id+'\')">✏️</button> <button class="btn btn-sm btn-danger" onclick="window.adminDeleteRecord(\''+col+'\',\''+x.id+'\')">🗑</button>'}</td></tr>`).join(''):'<tr><td colspan="9"><div class="empty-state"><div class="e-icon">🗂️</div><div class="e-title">لا توجد سجلات</div></div></td></tr>';window.renderAdminModules();};
+window.adminEditRecord=function(col,id){const item=(state[col]||[]).find(x=>x.id===id);if(!item)return;document.getElementById('adminRecordId').value=id;document.getElementById('adminRecordTitle').textContent='✏️ تعديل — '+(DEEB_ADMIN_LABELS[col]||col);document.getElementById('adminRecordJson').value=JSON.stringify(item,(k,v)=>k==='id'?undefined:v,2);document.getElementById('adminRecordJson').dataset.col=col;openModal('adminRecordModal');};
+window.saveAdminRecord=async function(){const col=document.getElementById('adminRecordJson').dataset.col||document.getElementById('adminCollection').value;let data;try{data=JSON.parse(document.getElementById('adminRecordJson').value||'{}');}catch(e){return toast('JSON غير صحيح','error');}delete data.id;const id=document.getElementById('adminRecordId').value;if(id)await updateDoc_(col,id,data);else await addDoc_(col,data);closeModal('adminRecordModal');window.renderAdminCollection();toast('تم حفظ السجل ✅','success');};
+window.adminDeleteRecord=function(col,id){const item=(state[col]||[]).find(x=>x.id===id);confirmDelete(col,id,item?.name||item?.title||item?.orderNumber||id.slice(0,7));};
+
+// ═══════════════════════════════════════════════════════════════
+// INVENTORY LEDGER + SALE POSTING / COGS
+// ═══════════════════════════════════════════════════════════════
+async function deebWriteStockMovement(m){await addDoc_('stockMovements',m);await addDoc_('inventoryLedger',{...m,createdAt:Date.now()});}
+
+function deebParseWeightKg(v){if(typeof v==='number'&&Number.isFinite(v))return v>0?v:0;const s=String(v||'').toLowerCase().replace(',','.').trim();const m=s.match(/([0-9]+(?:\.[0-9]+)?)\s*(kg|g|كيلو|غرام|جرام)?/);if(!m)return 0;const n=parseFloat(m[1]);const u=m[2]||'g';return /kg|كيلو/.test(u)?n:n/1000;}
+function deebChocolateInventoryItem(){const cfg=(state.settings||[]).find(x=>x.id==='erpConfig'||x.key==='erpConfig');if(cfg?.chocolateInventoryItemId)return deebInventoryById(cfg.chocolateInventoryItemId);return findInventoryItemByKeywords(['chocolate','شوكولاتة','شوكولاته']);}
+
+window.deebPostSaleForOrder=async function(orderId){
+  const ref=db.collection('orders').doc(orderId);const snap=await ref.get();if(!snap.exists)return;const o=snap.data();if(o.status!=='delivered'||o.salePosted===true)return;
+  const chocolateInv=deebChocolateInventoryItem();let cogs=0;let chocolateKg=0;const movements=[];
+  const products=Array.isArray(o.products)?o.products:[];
+  for(const p of products){const prod=(state.products||[]).find(x=>x.name===p.name);const qty=deebNum(p.qty)||1;const kg=deebParseWeightKg(prod?.weight||p.weight);if(kg>0&&chocolateInv){chocolateKg+=kg*qty;}else{cogs+=(deebNum(p.cost)||deebNum(prod?.cost))*qty;}}
+  if(chocolateInv&&chocolateKg>0){const current=deebInventoryById(chocolateInv.id);const wac=deebNum(current?.cost);cogs+=chocolateKg*wac;const newQty=deebNum(current?.qty)-chocolateKg;await updateDoc_('inventory',current.id,{qty:newQty,updatedAt:Date.now()});movements.push({type:'Sale',itemId:current.id,itemName:current.name,qtyDelta:-chocolateKg,unitCost:wac,totalCost:-(chocolateKg*wac),refType:'order',refId:orderId,ts:Date.now()});}
+  const revenue=deebNum(o.price);const grossProfit=revenue-cogs;const update={salePosted:true,cogs: cogs,chocolateKg,cogsSnapshot:{cogs,chocolateKg,source:chocolateInv?'WAC + product fallback':'product cost fallback'},grossProfit,inventoryPostedAt:Date.now(),cogsPostedAt:Date.now()};await updateDoc_('orders',orderId,update);for(const m of movements)await deebWriteStockMovement(m);
+};
+window.deebReverseSaleForOrder=async function(orderId){const ref=db.collection('orders').doc(orderId);const snap=await ref.get();if(!snap.exists)return;const o=snap.data();if(!o.salePosted||o.saleReversed)return;const chocolateInv=deebChocolateInventoryItem();const kg=deebNum(o.cogsSnapshot?.chocolateKg||o.chocolateKg||0);if(chocolateInv&&kg>0){const current=deebInventoryById(chocolateInv.id);const cost=deebNum(current?.cost);await updateDoc_('inventory',current.id,{qty:deebNum(current?.qty)+kg,updatedAt:Date.now()});await deebWriteStockMovement({type:'Sale Reversal',itemId:current.id,itemName:current.name,qtyDelta:kg,unitCost:cost,totalCost:kg*cost,refType:'order',refId:orderId,ts:Date.now()});}await updateDoc_('orders',orderId,{saleReversed:true,saleReversedAt:Date.now()});};
+
+// Hook delivered/cancelled transitions without changing the existing UI contracts.
+const _deebOriginalUpdateDoc = updateDoc_;
+updateDoc_ = async function(col,id,data){
+  if(col==='orders' && Object.prototype.hasOwnProperty.call(data,'status')){
+    const before=(state.orders||[]).find(x=>x.id===id);const prev=before?.status;const next=data.status;
+    if(prev==='delivered' && next!=='delivered' && next==='cancelled'){await window.deebReverseSaleForOrder(id);}
+    if(prev==='delivered' && next!=='delivered' && next!=='cancelled'){throw new Error('الطلب المُسلّم لا يمكن تغيير حالته بهذه الطريقة؛ استخدم إلغاء/عكس واضح.');}
+  }
+  await _deebOriginalUpdateDoc(col,id,data);
+  if(col==='orders' && data.status==='delivered') { try{await window.deebPostSaleForOrder(id);}catch(e){console.error('sale posting failed',e);toast('⚠️ تم حفظ الطلب لكن فشل ترحيل COGS: '+(e.message||e),'warning');} }
+};
+
+// For new delivered orders, post sale after addOrder creates the document.
+const _deebOriginalAddDoc = addDoc_;
+addDoc_ = async function(col,data){const ref=await _deebOriginalAddDoc(col,data);if(col==='orders'&&data.status==='delivered'){try{await window.deebPostSaleForOrder(ref.id);}catch(e){console.error(e);toast('⚠️ الطلب حُفظ لكن COGS لم يُرحّل','warning');}}return ref;};
+
+// Protect delivered-order edits: product/qty/price changes require a deliberate reversal flow.
+const _deebOriginalSaveEditOrder = window.saveEditOrder;
+window.saveEditOrder = async function(){const id=document.getElementById('eo-id')?.value;const o=(state.orders||[]).find(x=>x.id===id);if(o?.status==='delivered'){const newStatus=document.getElementById('eo-status')?.value||'delivered';const newPrice=deebNum(document.getElementById('eo-price')?.value);const newQty=deebNum(document.getElementById('eo-qty')?.value);const newProduct=document.getElementById('eo-product')?.options[document.getElementById('eo-product')?.selectedIndex]?.text||'';if(newStatus!=='cancelled'&&(newPrice!==deebNum(o.price)||newQty!==deebNum(o.qty)||newProduct!==o.product)){return toast('🔒 الطلب المُسلّم لا يمكن تعديل المنتج/الكمية/السعر مباشرة. اعكس العملية أولاً ثم عدّل وأعد الترحيل.','warning');}}return _deebOriginalSaveEditOrder();};
+
+// Improve packaging deductions with stock movements for auditability.
+// Packaging deduction is handled atomically by the fixed deductInventoryForOrder(totalBoxes, refId) implementation above.
+
+
+// Ensure flavor profitability recalculates whenever orders/flavors update.
+const _deebOriginalRenderFlavorProfitRows=window.renderFlavorProfitRows;
+window.renderFlavorProfitRows=function(){try{_deebOriginalRenderFlavorProfitRows();}catch(e){console.warn(e);}};
+
+// ERP config editor helper
+window.saveERPConfig=async function(){const id='erpConfig';const chocolateInventoryItemId=document.getElementById('erpChocolateItem')?.value||'';await setDoc_('settings',id,{key:'erpConfig',chocolateInventoryItemId,updatedAt:Date.now()});toast('تم حفظ إعداد ERP ✅','success');};
+
+
+// ═══════════════════════════════════════════════════════════════
+// FINAL INVENTORY OVERRIDES — transactional packaging movements
+const _deebFallbackFindInventoryItemByKeywords=findInventoryItemByKeywords;
+deductInventoryForOrder=async function(totalBoxes,refId){
+  if(!totalBoxes||totalBoxes<=0)return [];
+  const targets=[{keywords:['بوكس','box'],label:'البوكسات'},{keywords:['ستيكر','sticker'],label:'الستيكرات'},{keywords:['كيس','أكياس','bag'],label:'الأكياس'}];
+  const refs=[];
+  for(const t of targets){const item=_deebFallbackFindInventoryItemByKeywords(t.keywords);if(item)refs.push({t,item});}
+  if(!refs.length)return [];
+  const amount=deebNum(totalBoxes);
+  return db.runTransaction(async tx=>{
+    const snaps=[]; for(const r of refs){const ref=db.collection('inventory').doc(r.item.id),snap=await tx.get(ref);if(!snap.exists)continue;snaps.push({r,ref,snap});}
+    const out=[];
+    for(const x of snaps){const inv=x.snap.data(),before=deebNum(inv.qty);if(before<amount)throw new Error('المخزون غير كافٍ لـ'+x.r.t.label+' (المتاح '+before+' / المطلوب '+amount+')');const after=before-amount,unitCost=deebNum(inv.cost),totalCost=amount*unitCost;tx.update(x.ref,{qty:after,updatedAt:Date.now()});out.push({itemId:x.r.item.id,amount,unitCost,totalCost});if(refId){const mv={type:'Packaging Sale',itemId:x.r.item.id,itemName:inv.name||x.r.item.name,qtyDelta:-amount,unitCost,totalCost:-totalCost,refType:'order',refId,ts:Date.now()};tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()});}}
+    return out;
+  });
+};
+
+window._deebRestoreInventoryForOrderFinal=async function(order){
+  const deducted=order?.inventoryDeducted||[]; if(!deducted.length||order.inventoryRestored)return;
+  return db.runTransaction(async tx=>{
+    const refs=[]; for(const d of deducted){const ref=db.collection('inventory').doc(d.itemId),snap=await tx.get(ref);if(snap.exists)refs.push({d,ref,snap});}
+    for(const x of refs){const inv=x.snap.data(),before=deebNum(inv.qty),qty=deebNum(x.d.amount),after=before+qty,unitCost=deebNum(x.d.unitCost??inv.cost),mv={type:'Packaging Reversal',itemId:x.d.itemId,itemName:inv.name||'',qtyDelta:qty,unitCost,totalCost:qty*unitCost,refType:'order',refId:order.id,ts:Date.now()};tx.update(x.ref,{qty:after,updatedAt:Date.now()});tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()});}
+    tx.update(db.collection('orders').doc(order.id),{inventoryRestored:true,inventoryRestoredAt:Date.now()});
+  });
+};
+restoreInventoryForOrder=window._deebRestoreInventoryForOrderFinal;
+
+// FINAL ADMIN CONTROL GUARDRAILS — immutable ledgers / logs
+const DEEB_ADMIN_READONLY=new Set(['activityLog','trash','stockMovements','inventoryLedger','priceHistory','supplierPriceHistory','supplierPayments']);
+window.adminNewRecord=function(){const col=document.getElementById('adminCollection')?.value;if(!col)return;if(DEEB_ADMIN_READONLY.has(col))return toast('🔒 هذا الجدول للقراءة فقط ويُدار من واجهته المتخصصة.','warning');document.getElementById('adminRecordJson').dataset.col=col;document.getElementById('adminRecordId').value='';document.getElementById('adminRecordTitle').textContent='➕ سجل جديد — '+(DEEB_ADMIN_LABELS[col]||col);document.getElementById('adminRecordJson').value=JSON.stringify({},null,2);openModal('adminRecordModal');};
+window.adminEditRecord=function(col,id){if(DEEB_ADMIN_READONLY.has(col))return toast('🔒 هذا الجدول للقراءة فقط.','warning');const item=(state[col]||[]).find(x=>x.id===id);if(!item)return;document.getElementById('adminRecordId').value=id;document.getElementById('adminRecordTitle').textContent='✏️ تعديل — '+(DEEB_ADMIN_LABELS[col]||col);document.getElementById('adminRecordJson').value=JSON.stringify(item,(k,v)=>k==='id'?undefined:v,2);document.getElementById('adminRecordJson').dataset.col=col;openModal('adminRecordModal');};
+window.saveAdminRecord=async function(){const col=document.getElementById('adminRecordJson').dataset.col||document.getElementById('adminCollection').value;if(DEEB_ADMIN_READONLY.has(col))return toast('🔒 هذا الجدول للقراءة فقط ويُدار من واجهته المتخصصة.','warning');let data;try{data=JSON.parse(document.getElementById('adminRecordJson').value||'{}');}catch(e){return toast('JSON غير صحيح','error');}delete data.id;const id=document.getElementById('adminRecordId').value;if(id)await updateDoc_(col,id,data);else await addDoc_(col,data);closeModal('adminRecordModal');window.renderAdminCollection();toast('تم حفظ السجل ✅','success');};
+window.renderAdminCollection=function(){
+  const erpSel=document.getElementById('erpChocolateItem'); if(erpSel&&!erpSel.options.length){const cfg=(state.settings||[]).find(x=>x.id==='erpConfig'||x.key==='erpConfig');erpSel.innerHTML='<option value="">— غير محدد —</option>'+(state.inventory||[]).map(i=>`<option value="${i.id}">${sanitize(i.name)}</option>`).join('');erpSel.value=cfg?.chocolateInventoryItemId||'';}
+  const sel=document.getElementById('adminCollection'); if(!sel)return; if(!sel.options.length)sel.innerHTML=DEEB_ADMIN_COLLECTIONS.map(c=>`<option value="${c}">${DEEB_ADMIN_LABELS[c]||c}</option>`).join('');
+  const col=sel.value||DEEB_ADMIN_COLLECTIONS[0], readonly=DEEB_ADMIN_READONLY.has(col), q=(document.getElementById('adminSearch')?.value||'').toLowerCase(), data=(state[col]||[]).filter(x=>!q||JSON.stringify(x).toLowerCase().includes(q));
+  const title=document.getElementById('adminCollectionTitle');if(title)title.textContent='⚙️ '+(DEEB_ADMIN_LABELS[col]||col);const count=document.getElementById('adminCollectionCount');if(count)count.textContent=data.length+' سجل'+(readonly?' — قراءة فقط':'');
+  const keys=[];data.forEach(x=>Object.keys(x).forEach(k=>{if(!keys.includes(k)&&k!=='id')keys.push(k)}));const shown=keys.slice(0,8),head=document.getElementById('adminTableHead'),body=document.getElementById('adminTableBody');
+  if(head)head.innerHTML='<tr>'+shown.map(k=>`<th>${sanitize(k)}</th>`).join('')+'<th>إجراء</th></tr>';
+  if(body)body.innerHTML=data.length?data.map(x=>'<tr>'+shown.map(k=>{let v=x[k];if(typeof v==='object')v=JSON.stringify(v);return '<td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+sanitize(v??'')+'">'+sanitize(v??'—')+'</td>';}).join('')+`<td style="white-space:nowrap">${readonly?'<span class="admin-readonly-badge">🔒 قراءة فقط</span>':'<button class="btn btn-sm btn-outline" onclick="window.adminEditRecord(\''+col+'\',\''+x.id+'\')">✏️</button> <button class="btn btn-sm btn-danger" onclick="window.adminDeleteRecord(\''+col+'\',\''+x.id+'\')">🗑</button>'}</td></tr>`).join(''):'<tr><td colspan="9"><div class="empty-state"><div class="e-icon">🗂️</div><div class="e-title">لا توجد سجلات</div></div></td></tr>';
+  const addBtn=document.querySelector('#page-admin .section-header .btn-gold'); if(addBtn){addBtn.disabled=readonly;addBtn.style.opacity=readonly?'0.45':'1';addBtn.title=readonly?'هذا الجدول للقراءة فقط':'';}
+  window.renderAdminModules();
+};
+window.adminDeleteRecord=function(col,id){if(DEEB_ADMIN_READONLY.has(col))return toast('🔒 هذا الجدول للقراءة فقط.','warning');const item=(state[col]||[]).find(x=>x.id===id);confirmDelete(col,id,item?.name||item?.title||item?.orderNumber||id.slice(0,7));};
+
+// FINAL AUDIT OVERRIDES — ATOMIC SALE POSTING / REVERSAL
+// ═══════════════════════════════════════════════════════════════
+window.deebPostSaleForOrder=async function(orderId){
+  const orderRef=db.collection('orders').doc(orderId);
+  return db.runTransaction(async tx=>{
+    const snap=await tx.get(orderRef); if(!snap.exists)return; const o=snap.data();
+    if(o.status!=='delivered'||o.salePosted===true)return;
+    const chocolateInvId=(state.settings||[]).find(x=>x.id==='erpConfig'||x.key==='erpConfig')?.chocolateInventoryItemId||deebChocolateInventoryItem()?.id||'';
+    const chocolateInvRef=chocolateInvId?db.collection('inventory').doc(chocolateInvId):null;
+    let chocolateSnap=null;
+    if(chocolateInvRef) chocolateSnap=await tx.get(chocolateInvRef);
+    let chocolateKg=0, fallbackCogs=0, packagingCogs=0;
+    const products=Array.isArray(o.products)&&o.products.length?o.products:[{name:o.product||'',qty:deebNum(o.qty)||1,cost:deebNum(o.cost)||0,weight:o.weight||''}];
+    for(const p of products){
+      const prod=(state.products||[]).find(x=>x.name===p.name); const qty=deebNum(p.qty)||1; const kg=deebParseWeightKg(prod?.weight||p.weight);
+      if(kg>0&&chocolateSnap?.exists) chocolateKg+=kg*qty; else fallbackCogs+=(deebNum(p.cost)||deebNum(prod?.cost))*qty;
+    }
+    if(chocolateSnap?.exists&&chocolateKg>0){
+      const inv=chocolateSnap.data(), wac=deebNum(inv.cost), before=deebNum(inv.qty), after=before-chocolateKg;
+      if(after<0)throw new Error('مخزون الشوكولاتة غير كافٍ لترحيل الطلب.');
+      tx.update(chocolateInvRef,{qty:after,updatedAt:Date.now()});
+      const mv={type:'Sale',itemId:chocolateInvId,itemName:inv.name,qtyDelta:-chocolateKg,unitCost:wac,totalCost:-(chocolateKg*wac),refType:'order',refId:orderId,ts:Date.now()};
+      tx.set(db.collection('stockMovements').doc(),mv); tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,wacAfter:wac,createdAt:Date.now()});
+      fallbackCogs+=chocolateKg*wac;
+    }
+    for(const d of (o.inventoryDeducted||[])) packagingCogs+=deebNum(d.totalCost);
+    const cogs=fallbackCogs+packagingCogs, revenue=deebNum(o.price), grossProfit=revenue-cogs;
+    tx.update(orderRef,{salePosted:true,saleReversed:false,cogs,cogsSnapshot:{cogs,chocolateKg,packagingCogs,chocolateUnitCost:chocolateSnap?.exists?deebNum(chocolateSnap.data().cost):0,source:chocolateSnap?.exists?'WAC + packaging + fallback':'product fallback + packaging'},grossProfit,inventoryPostedAt:Date.now(),cogsPostedAt:Date.now()});
+  });
+};
+window.deebReverseSaleForOrder=async function(orderId){
+  const orderRef=db.collection('orders').doc(orderId);
+  return db.runTransaction(async tx=>{
+    const snap=await tx.get(orderRef); if(!snap.exists)return; const o=snap.data(); if(!o.salePosted||o.saleReversed)return;
+    const chocolateInvId=(state.settings||[]).find(x=>x.id==='erpConfig'||x.key==='erpConfig')?.chocolateInventoryItemId||deebChocolateInventoryItem()?.id||''; const chocolateInvRef=chocolateInvId?db.collection('inventory').doc(chocolateInvId):null; const chocolateKg=deebNum(o.cogsSnapshot?.chocolateKg||o.chocolateKg||0);
+    if(chocolateInvRef&&chocolateKg>0){ const invSnap=await tx.get(chocolateInvRef); if(invSnap.exists){ const inv=invSnap.data(), before=deebNum(inv.qty), after=before+chocolateKg, unitCost=deebNum(o.cogsSnapshot?.chocolateUnitCost||inv.cost); tx.update(chocolateInvRef,{qty:after,updatedAt:Date.now()}); const mv={type:'Sale Reversal',itemId:chocolateInvId,itemName:inv.name,qtyDelta:chocolateKg,unitCost,totalCost:chocolateKg*unitCost,refType:'order',refId:orderId,ts:Date.now()}; tx.set(db.collection('stockMovements').doc(),mv); tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()}); }}
+    tx.update(orderRef,{saleReversed:true,saleReversedAt:Date.now()});
+  });
+};
+
+// FINAL INTEGRITY FIX — atomic Delivered transition
+window.deebDeliverOrderAtomically=async function(orderId, patch){
+  const orderRef=db.collection('orders').doc(orderId);
+  return db.runTransaction(async tx=>{
+    const orderSnap=await tx.get(orderRef);
+    if(!orderSnap.exists) throw new Error('الطلب غير موجود.');
+    const o=orderSnap.data();
+    if(o.status==='delivered' && o.salePosted===true){
+      const safePatch={...(patch||{})}; delete safePatch.status;
+      if(Object.prototype.hasOwnProperty.call(safePatch,'product')||Object.prototype.hasOwnProperty.call(safePatch,'qty')||Object.prototype.hasOwnProperty.call(safePatch,'price')){
+        if(safePatch.product!==undefined && safePatch.product!==o.product) throw new Error('لا يمكن تعديل منتج طلب مُسلّم مباشرة.');
+        if(safePatch.qty!==undefined && deebNum(safePatch.qty)!==deebNum(o.qty)) throw new Error('لا يمكن تعديل كمية طلب مُسلّم مباشرة.');
+        if(safePatch.price!==undefined && deebNum(safePatch.price)!==deebNum(o.price)) throw new Error('لا يمكن تعديل سعر طلب مُسلّم مباشرة.');
+      }
+      tx.update(orderRef,{...safePatch,updatedAt:Date.now()});
+      return;
+    }
+    if(o.status==='cancelled') throw new Error('لا يمكن تسليم طلب ملغي مباشرة.');
+    if(o.salePosted===true) throw new Error('الطلب مُرحّل مسبقاً؛ حالة البيع غير متسقة. راجع سجل المخزون.');
+
+    const chocolateInvId=(state.settings||[]).find(x=>x.id==='erpConfig'||x.key==='erpConfig')?.chocolateInventoryItemId||deebChocolateInventoryItem()?.id||'';
+    const chocolateInvRef=chocolateInvId?db.collection('inventory').doc(chocolateInvId):null;
+    let chocolateSnap=null;
+    if(chocolateInvRef) chocolateSnap=await tx.get(chocolateInvRef);
+
+    const products=Array.isArray(o.products)&&o.products.length?o.products:[{name:o.product||'',qty:deebNum(o.qty)||1,cost:deebNum(o.cost)||0,weight:o.weight||''}];
+    let chocolateKg=0, fallbackCogs=0, packagingCogs=0;
+    let fallbackCount=0;
+    for(const p of products){
+      const prod=(state.products||[]).find(x=>x.name===p.name);
+      const qty=deebNum(p.qty)||1;
+      const kg=deebParseWeightKg(prod?.weight||p.weight);
+      if(kg>0 && chocolateSnap?.exists) chocolateKg+=kg*qty;
+      else { const unit=deebNum(p.cost)||deebNum(prod?.cost); fallbackCogs+=unit*qty; if(unit<=0) fallbackCount++; }
+    }
+
+    if(chocolateSnap?.exists && chocolateKg>0){
+      const inv=chocolateSnap.data(), wac=deebNum(inv.cost), before=deebNum(inv.qty), after=before-chocolateKg;
+      if(after<0) throw new Error('مخزون الشوكولاتة غير كافٍ لترحيل الطلب.');
+      tx.update(chocolateInvRef,{qty:after,updatedAt:Date.now()});
+      const mv={type:'Sale',itemId:chocolateInvId,itemName:inv.name||'الشوكولاتة',qtyDelta:-chocolateKg,unitCost:wac,totalCost:-(chocolateKg*wac),refType:'order',refId:orderId,ts:Date.now()};
+      tx.set(db.collection('stockMovements').doc(),mv);
+      tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,wacAfter:wac,createdAt:Date.now()});
+      fallbackCogs+=chocolateKg*wac;
+    }
+    for(const d of (o.inventoryDeducted||[])) packagingCogs+=deebNum(d.totalCost);
+    const cogs=fallbackCogs+packagingCogs;
+    const revenue=deebNum(o.price);
+    const grossProfit=revenue-cogs;
+    const merged={...(patch||{}),status:'delivered',salePosted:true,saleReversed:false,cogs,grossProfit,chocolateKg,cogsSnapshot:{cogs,chocolateKg,packagingCogs,chocolateUnitCost:chocolateSnap?.exists?deebNum(chocolateSnap.data().cost):0,source:chocolateSnap?.exists?'WAC + packaging + product fallback':'product cost fallback + packaging',completeCost:fallbackCount===0},inventoryPostedAt:Date.now(),cogsPostedAt:Date.now(),updatedAt:Date.now()};
+    tx.update(orderRef,merged);
+  });
+};
+
+// Guard every order write, including Admin Control Center JSON edits.
+const _deebAtomicBaseUpdateDoc=updateDoc_;
+updateDoc_=async function(col,id,data){
+  if(col==='orders'){
+    const before=(state.orders||[]).find(x=>x.id===id);
+    const prev=before?.status;
+    const next=Object.prototype.hasOwnProperty.call(data,'status')?data.status:undefined;
+    const changingFinancialFields=['product','qty','price'];
+    if(prev==='delivered' && changingFinancialFields.some(k=>Object.prototype.hasOwnProperty.call(data,k))){
+      for(const k of changingFinancialFields){
+        if(Object.prototype.hasOwnProperty.call(data,k)){
+          const oldVal=k==='qty'||k==='price'?deebNum(before?.[k]):String(before?.[k]??'');
+          const newVal=k==='qty'||k==='price'?deebNum(data[k]):String(data[k]??'');
+          if(oldVal!==newVal && next!=='cancelled') throw new Error('🔒 الطلب المُسلّم لا يمكن تعديل المنتج/الكمية/السعر مباشرة. اعكس العملية أولاً ثم أعد الترحيل.');
+        }
+      }
+    }
+    if(next==='delivered' && prev!=='delivered') return window.deebDeliverOrderAtomically(id,data);
+    if(prev==='delivered' && next && next!=='delivered' && next!=='cancelled') throw new Error('الطلب المُسلّم لا يمكن تغيير حالته إلا إلى إلغاء/عكس واضح.');
+  }
+  return _deebAtomicBaseUpdateDoc(col,id,data);
+};
+
+// Render supplier page after login/data hydration when available.
+setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderAdminCollection();}catch(e){}},1000);
+
 </script>
-<div style="text-align:center;padding:1rem;font-size:.65rem;color:var(--brown);opacity:.5">DEEB OS — Complete Strategy & Economics Build</div>
+<div style="text-align:center;padding:1rem;font-size:.65rem;color:var(--brown);opacity:.5">DEEB OS — Master ERP + Strategy + Economics Build</div>
 </body>
 </html>
