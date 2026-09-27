@@ -8928,6 +8928,8 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     if(data.nextFollowUp) await updateDoc_('b2bLeads',leadId,{nextFollowUp:data.nextFollowUp,lastContacted:data.date,nextAction:data.outcome||'Follow-up',updatedAt:Date.now()});
     closeModal('b2bActivityModal');window.renderB2BControlCenter();toast('تم تسجيل نشاط B2B ✅','success');
   };
+  window.updateLeadStats=function(){const all=state.b2bLeads||[];const counts={Lead:0,Contacted:0,Qualified:0,Quote:0,Sample:0,Negotiation:0,Approval:0,Order:0,'Repeat Order':0,Lost:0};all.forEach(l=>{const st=b2bStage(l);counts[st]=(counts[st]||0)+1;});[['leadTotalCount',all.length],['leadNewCount',counts.Lead],['leadInterestedCount',counts.Qualified],['leadFollowupCount',counts.Contacted],['leadWonCount',counts.Order+counts['Repeat Order']]].forEach(([id,v])=>{if(E(id))E(id).textContent=v;});};
+  window._renderLeadsPage=function(){const page=pagGetPage('leads'),tb=E('leadsTable');if(!tb)return;if(!page.length){tb.innerHTML='<tr><td colspan="11"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>';return;}const todayV=today();tb.innerHTML=page.map(l=>{const st=b2bStage(l),late=l.nextFollowUp&&l.nextFollowUp<todayV&&!['Order','Repeat Order','Lost'].includes(st),tel='tel:'+normalizePhoneForLink(l.phone),wa='https://wa.me/'+normalizePhoneForLink(l.phone);return `<tr><td><strong>${esc(l.company)}</strong></td><td>${esc(l.person||'—')}</td><td dir="ltr">${esc(l.phone)}</td><td>${esc(l.category||'—')}</td><td><span class="badge badge-status-${st.toLowerCase().replace(/[^a-z]+/g,'-')}">${esc(st)}</span></td><td>${esc(l.priority||'—')}</td><td>${n(l.estimatedKg)}</td><td style="${late?'color:var(--danger);font-weight:700':''}">${esc(l.nextFollowUp||'—')}${late?' ⚠️':''}</td><td>${esc(l.notes||'—')}</td><td>${esc(l.createdDate||'—')}</td><td style="white-space:nowrap"><a class="lead-action-btn call" href="${tel}">📞</a><a class="lead-action-btn wa" href="${wa}" target="_blank" rel="noopener">💬</a><span class="lead-action-btn" onclick="window.editLead('${esc(l.id)}')">✏️</span><span class="lead-action-btn" style="color:var(--danger)" onclick="window.deleteLead('${esc(l.id)}')">🗑</span></td></tr>`;}).join('');pagRender('leads','leadsPagination','leadsPagInfo');};
   window.renderB2BControlCenter=function(){
     const leads=state.b2bLeads||[], acts=state.b2bActivities||[];
     const todayStr=today();
@@ -9288,5 +9290,192 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
 
 </script>
 <div style="text-align:center;padding:1rem;font-size:.65rem;color:var(--brown);opacity:.5">DEEB OS — Master ERP + Strategy + Economics Build</div>
+
+<style id="deeb-production-hardening-css">
+  .deeb-production-note{font-size:.78rem;color:var(--brown);opacity:.78}
+</style>
+<script id="deeb-production-hardening">
+(function(){
+  'use strict';
+  const esc = (v)=>{ try{return sanitize(String(v??''));}catch(e){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));} };
+  const E = id => document.getElementById(id);
+  const n = v => { try{return deebNum(v);}catch(e){const x=parseFloat(v);return Number.isFinite(x)?x:0;} };
+  const money = v => { try{return deebMoney(v);}catch(e){return n(v).toFixed(2);} };
+  const today = ()=>{try{return deebToday();}catch(e){return new Date().toISOString().slice(0,10)}};
+  const cfg = {
+    b2bStages:['Lead','Contacted','Qualified','Quote','Sample','Negotiation','Approval','Order','Repeat Order','Lost'],
+    orderStages:['Submitted','Contacted','Confirmed','Paid','Preparing','Out for Delivery','Delivered','Completed','Cancelled','Lost'],
+    kpiTargets:{revenue:920,netProfit:200,aov:20,cac:0,ltv:0,conversionRate:0,repeatRate:0,margin:0,roas:0,b2bPipeline:500,wasteRate:0,stockCoverage:14,capacity:80},
+    procurement:{forecastDays:30,safetyStockDays:7,defaultLeadTimeDays:7,storageCostPerUnit:0,cashReserve:0},
+    backup:{enabled:true,checkOnLogin:true,retentionLogs:30}
+  };
+  function getSetting(id, fallback){
+    const arr=Array.isArray(state?.settings)?state.settings:[]; const x=arr.find(v=>v.id===id||v.key===id);
+    return x?Object.assign({},fallback,x):Object.assign({},fallback);
+  }
+  async function saveSetting(id,data){ await setDoc_('settings',id,Object.assign({key:id,updatedAt:Date.now()},data)); }
+
+  // ---------- B2B: canonical RevOps funnel, legacy data preserved ----------
+  const b2bMap={New:'Lead',Interested:'Qualified','Follow-Up':'Contacted',Won:'Order',Lost:'Lost'};
+  const b2bReverse={}; Object.keys(b2bMap).forEach(k=>b2bReverse[b2bMap[k]]=k);
+  function b2bStage(l){ return cfg.b2bStages.includes(l?.salesStage)?l.salesStage:(b2bMap[l?.status]||l?.status||'Lead'); }
+  function setB2BStatusOptions(){
+    const s=E('ld-status'); if(!s)return;
+    const cur=b2bStage({salesStage:s.value,status:s.value});
+    s.innerHTML=cfg.b2bStages.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join(''); s.value=cfg.b2bStages.includes(cur)?cur:'Lead';
+    const f=E('filterLeadStatus'); if(f){const fv=f.value; f.innerHTML='<option value="">كل المراحل</option>'+cfg.b2bStages.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');f.value=cfg.b2bStages.includes(fv)?fv:'';}
+  }
+  function injectB2BFields(){
+    const anchor=E('ld-quote-date'); if(!anchor||E('ld-sample-date'))return;
+    const row=document.createElement('div'); row.className='form-row'; row.id='deeb-b2b-extra';
+    row.innerHTML='<div class="form-group"><div class="form-label">Sample Date</div><input class="form-input" id="ld-sample-date" type="date"></div><div class="form-group"><div class="form-label">Approval Date</div><input class="form-input" id="ld-approval-date" type="date"></div>';
+    anchor.closest('.form-row')?.after(row);
+    const row2=document.createElement('div'); row2.className='form-row'; row2.id='deeb-b2b-extra2';
+    row2.innerHTML='<div class="form-group"><div class="form-label">Order ID</div><input class="form-input" id="ld-order-id" placeholder="DEEB order ID"></div><div class="form-group"><div class="form-label">Repeat Order Date</div><input class="form-input" id="ld-repeat-date" type="date"></div>';
+    row.after(row2);
+  }
+  const oldOpenLead=window.openAddLeadModal;
+  window.openAddLeadModal=function(){ oldOpenLead?.(); setB2BStatusOptions(); injectB2BFields(); ['ld-sample-date','ld-approval-date','ld-order-id','ld-repeat-date'].forEach(id=>{if(E(id))E(id).value='';}); };
+  const oldEditLead=window.editLead;
+  window.editLead=function(id){ oldEditLead?.(id); setB2BStatusOptions(); injectB2BFields(); const l=(state.b2bLeads||[]).find(x=>x.id===id); if(l){E('ld-status').value=b2bStage(l);[['ld-sample-date','sampleDate'],['ld-approval-date','approvalDate'],['ld-order-id','orderId'],['ld-repeat-date','repeatOrderDate']].forEach(([i,k])=>{if(E(i))E(i).value=l[k]||'';});} };
+  const oldSaveLead=window.saveLead;
+  window.saveLead=async function(){
+    const id=E('ld-id')?.value||''; const before=id?(state.b2bLeads||[]).find(x=>x.id===id):null; const stage=E('ld-status')?.value||'Lead';
+    // Let legacy validation/persistence run, then enforce canonical stage and new fields without deleting legacy data.
+    await oldSaveLead?.();
+    const targetId=id || (state.b2bLeads||[]).slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))[0]?.id;
+    if(targetId){
+      const extra={salesStage:stage,status:stage,legacyStatus:before?.status&&before.status!==stage?before.status:(before?.legacyStatus||''),sampleDate:E('ld-sample-date')?.value||'',approvalDate:E('ld-approval-date')?.value||'',orderId:E('ld-order-id')?.value||'',repeatOrderDate:E('ld-repeat-date')?.value||'',stageUpdatedAt:Date.now()};
+      try{await updateDoc_('b2bLeads',targetId,extra);}catch(e){console.error('B2B stage update',e);}
+    }
+    window.renderB2BControlCenter?.(); window.filterLeads?.();
+  };
+  function renderLeadsPageV2(){const ps=pagState.leads,page=ps?pagGetPage('leads'):[],tb=E('leadsTable');if(!tb)return;if(!page.length){tb.innerHTML='<tr><td colspan="11"><div class="empty-state"><div class="e-icon">🔍</div><div class="e-title">لا نتائج</div></div></td></tr>';return;}const todayV=today();tb.innerHTML=page.map(l=>{const st=b2bStage(l),late=l.nextFollowUp&&l.nextFollowUp<todayV&&!['Order','Repeat Order','Lost'].includes(st),tel='tel:'+normalizePhoneForLink(l.phone),wa='https://wa.me/'+normalizePhoneForLink(l.phone);return `<tr><td><strong>${esc(l.company)}</strong></td><td>${esc(l.person||'—')}</td><td dir="ltr">${esc(l.phone)}</td><td>${esc(l.category||'—')}</td><td><span class="badge">${esc(st)}</span></td><td>${esc(l.priority||'—')}</td><td>${n(l.estimatedKg)}</td><td style="${late?'color:var(--danger);font-weight:700':''}">${esc(l.nextFollowUp||'—')}${late?' ⚠️':''}</td><td>${esc(l.notes||'—')}</td><td>${esc(l.createdDate||'—')}</td><td style="white-space:nowrap"><a class="lead-action-btn call" href="${tel}">📞</a><a class="lead-action-btn wa" href="${wa}" target="_blank" rel="noopener">💬</a><span class="lead-action-btn" onclick="window.editLead('${esc(l.id)}')">✏️</span><span class="lead-action-btn" style="color:var(--danger)" onclick="window.deleteLead('${esc(l.id)}')">🗑</span></td></tr>`;}).join('');pagRender('leads','leadsPagination','leadsPagInfo');}
+  window.filterLeads=function(){
+    const q=(E('searchLeads')?.value||'').toLowerCase(), category=E('filterLeadCategory')?.value||'', status=E('filterLeadStatus')?.value||'', priority=E('filterLeadPriority')?.value||'';
+    let all=state.b2bLeads||[], filtered=all.filter(l=>{const st=b2bStage(l);return (!category||l.category===category)&&(!status||st===status)&&(!priority||l.priority===priority)&&(!q||(l.company||'').toLowerCase().includes(q)||(l.person||'').toLowerCase().includes(q)||(l.phone||'').includes(q));});
+    filtered=filtered.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)); pagInit('leads',filtered); renderLeadsPageV2(); updateLeadStats();
+  };
+  window.renderB2BControlCenter=function(){
+    const leads=state.b2bLeads||[], acts=state.b2bActivities||[], open=leads.filter(l=>!['Order','Repeat Order','Lost'].includes(b2bStage(l))), due=leads.filter(l=>l.nextFollowUp&&l.nextFollowUp<=today()&&!['Order','Repeat Order','Lost'].includes(b2bStage(l))), overdue=leads.filter(l=>l.nextFollowUp&&l.nextFollowUp<today()&&!['Order','Repeat Order','Lost'].includes(b2bStage(l))), qualified=leads.filter(l=>['Qualified','Quote','Sample','Negotiation','Approval'].includes(b2bStage(l))), ordered=leads.filter(l=>['Order','Repeat Order'].includes(b2bStage(l))), wonValue=ordered.reduce((s,l)=>s+n(l.wonValue||l.quotedValue||l.estimatedValue||(n(l.estimatedKg)*18)),0), pipeline=open.reduce((s,l)=>s+n(l.estimatedValue||(n(l.estimatedKg)*18)),0);
+    E('b2bPipeOpen')&&(E('b2bPipeOpen').textContent=open.length);E('b2bPipeDue')&&(E('b2bPipeDue').textContent=due.length);E('b2bPipeOverdue')&&(E('b2bPipeOverdue').textContent=overdue.length);E('b2bPipeQualified')&&(E('b2bPipeQualified').textContent=qualified.length);E('b2bPipeValue')&&(E('b2bPipeValue').textContent=money(pipeline)+' JOD');E('b2bPipeWon')&&(E('b2bPipeWon').textContent=money(wonValue)+' JOD');
+    const closed=leads.filter(l=>['Order','Repeat Order','Lost'].includes(b2bStage(l))), orders=closed.filter(l=>['Order','Repeat Order'].includes(b2bStage(l))); E('b2bPipeConversion')&&(E('b2bPipeConversion').textContent=(closed.length?orders.length/closed.length*100:0).toFixed(0)+'%');
+    if(E('b2bPipelineBoard')) E('b2bPipelineBoard').innerHTML=cfg.b2bStages.map(st=>{const arr=leads.filter(l=>b2bStage(l)===st);return `<div class="gap-pipeline-col"><div class="gap-pipeline-title">${esc(st)} <span>${arr.length}</span></div>${arr.slice(0,20).map(l=>`<div class="gap-pipeline-card"><div><strong>${esc(l.company||'—')}</strong><span>${esc(l.priority||'')}</span></div><div>${money(l.estimatedValue||n(l.estimatedKg)*18)} JOD · ${n(l.estimatedKg)} KG</div><div class="gap-small">${esc(l.nextFollowUp||'—')}</div></div>`).join('')||'<div class="gap-small">لا يوجد</div>'}</div>`}).join('');
+  };
+
+  // ---------- Order funnel: canonical stage separate from legacy fulfillment status ----------
+  function orderStage(o){
+    if(cfg.orderStages.includes(o?.funnelStage))return o.funnelStage;
+    const m={pending:'Submitted',preparing:'Preparing',delivered:'Delivered',cancelled:'Cancelled'}; return m[o?.status]||'Submitted';
+  }
+  function injectOrderStageFields(){
+    if(!E('o-funnel-stage')){const s=E('o-status'); if(s){const wrap=document.createElement('div');wrap.className='form-group';wrap.innerHTML='<div class="form-label">Sales Funnel Stage</div><select class="form-select" id="o-funnel-stage"></select>';s.closest('.form-group')?.after(wrap);}}
+    if(!E('eo-funnel-stage')){const s=E('eo-status');if(s){const wrap=document.createElement('div');wrap.className='form-group';wrap.innerHTML='<div class="form-label">Sales Funnel Stage</div><select class="form-select" id="eo-funnel-stage"></select>';s.closest('.form-group')?.after(wrap);}}
+    ['o-funnel-stage','eo-funnel-stage'].forEach(id=>{const e=E(id);if(e)e.innerHTML=cfg.orderStages.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');});
+  }
+  const oldOpenOrder=window.openAddOrderModal; window.openAddOrderModal=function(){oldOpenOrder?.();injectOrderStageFields();if(E('o-funnel-stage'))E('o-funnel-stage').value='Submitted';};
+  const oldEditOrder=window.editOrder; window.editOrder=function(id){oldEditOrder?.(id);injectOrderStageFields();const o=(state.orders||[]).find(x=>x.id===id);if(o&&E('eo-funnel-stage'))E('eo-funnel-stage').value=orderStage(o);};
+  const oldAddOrder=window.addOrder; window.addOrder=async function(){
+    await oldAddOrder?.();
+    const latest=(state.orders||[]).slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))[0];
+    const stage=E('o-funnel-stage')?.value||'Submitted'; if(latest?.id){try{await updateDoc_('orders',latest.id,{funnelStage:stage,stageHistory:Object.assign({},latest.stageHistory||{},{[stage]:Date.now()})});}catch(e){console.error(e);}}
+  };
+  const oldSaveEdit=window.saveEditOrder; window.saveEditOrder=async function(){
+    const id=E('eo-id')?.value,stage=E('eo-funnel-stage')?.value; await oldSaveEdit?.(); if(id&&stage){const o=(state.orders||[]).find(x=>x.id===id);const hist=Object.assign({},o?.stageHistory||{},{[stage]:Date.now()});try{await updateDoc_('orders',id,{funnelStage:stage,stageHistory:hist});}catch(e){console.error(e);}}
+  };
+  const oldUpdateStatus=window.updateOrderStatus; window.updateOrderStatus=async function(id,status){await oldUpdateStatus?.(id,status);const o=(state.orders||[]).find(x=>x.id===id);const stage={pending:'Submitted',preparing:'Preparing',delivered:'Delivered',cancelled:'Cancelled'}[status]||orderStage(o);try{await updateDoc_('orders',id,{funnelStage:stage,stageHistory:Object.assign({},o?.stageHistory||{},{[stage]:Date.now()})});}catch(e){console.error(e);}window.renderOrderFunnel?.();window.renderLiveKPI?.();};
+  window.renderOrderFunnel=function(){
+    const os=state.orders||[],lost=state.lostOrderLeads||[], counts={}; cfg.orderStages.forEach(x=>counts[x]=0); os.forEach(o=>counts[orderStage(o)]++); counts.Lost+=lost.length;
+    cfg.orderStages.forEach(k=>{const e=E('funnel_'+k.toLowerCase().replace(/ /g,'_'));if(e)e.textContent=counts[k]||0;});
+    if(E('funnelRateRow')){const chain=['Submitted','Contacted','Confirmed','Paid','Preparing','Out for Delivery','Delivered','Completed'];E('funnelRateRow').innerHTML='<tr>'+chain.map((k,i)=>{const prev=i?counts[chain[i-1]]:counts[k],rate=prev?counts[k]/prev*100:0;return `<td>${counts[k]||0}<br><small>${i?'↳ '+rate.toFixed(0)+'%':'—'}</small></td>`}).join('')+'</tr>';}
+  };
+
+  // ---------- KPI engine: transparent calculations + editable targets ----------
+  function monthOrders(){const now=new Date();return (state.orders||[]).filter(o=>{const d=parseDateLocal(orderDate(o));return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()&&!['cancelled'].includes(o.status);});}
+  function renderKPI(){
+    const os=monthOrders(), delivered=os.filter(o=>['Delivered','Completed'].includes(orderStage(o))||o.status==='delivered'), revenue=delivered.reduce((s,o)=>s+n(o.price),0), cogs=delivered.reduce((s,o)=>s+n(o.cogs),0), expenses=(state.expenses||[]).filter(e=>{const d=parseDateLocal(e.date||e.dateRaw);const now=new Date();return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}), opex=expenses.reduce((s,e)=>s+n(e.amount),0), marketing=expenses.filter(e=>/marketing|تسويق/i.test(String(e.type||e.category||''))).reduce((s,e)=>s+n(e.amount),0), gross=revenue-cogs, net=gross-opex, aov=delivered.length?revenue/delivered.length:0;
+    const customers=new Set(delivered.map(o=>{try{return normalizePhone(o.phone)}catch(e){return String(o.phone||o.name||'')}}).filter(Boolean));
+    const priorCustomers=new Set((state.orders||[]).filter(o=>o.status==='delivered').map(o=>{try{return normalizePhone(o.phone)}catch(e){return String(o.phone||o.name||'')}}).filter(Boolean));
+    const newCust=[...customers].filter(x=>!((state.customers||[]).find(c=>{try{return normalizePhone(c.phone)===x}catch(e){return false}})?.createdAt));
+    const repeatCustomers=delivered.reduce((m,o)=>{const k=o.phone||o.name||'';m[k]=(m[k]||0)+1;return m;},{}); const repeatRate=Object.values(repeatCustomers).filter(v=>v>1).length/(Object.keys(repeatCustomers).length||1)*100;
+    const margin=revenue?gross/revenue*100:0; const cac=newCust.length?marketing/newCust.length:0; const ltv=(state.customers||[]).length? (state.customers||[]).reduce((s,c)=>s+n(c.spent),0)/(state.customers||[]).length:0; const roas=marketing?revenue/marketing:0;
+    const targets=getSetting('kpiTargets',cfg.kpiTargets); const vals={revenue,netProfit:net,aov,cac,ltv,conversionRate:0,repeatRate,margin,roas,b2bPipeline:(state.b2bLeads||[]).filter(l=>!['Order','Repeat Order','Lost'].includes(b2bStage(l))).reduce((s,l)=>s+n(l.estimatedValue||n(l.estimatedKg)*18),0),wasteRate:0,stockCoverage:0,capacity:0};
+    if(E('liveKpiRows')) E('liveKpiRows').innerHTML=Object.entries(vals).map(([k,v])=>{const t=n(targets[k]);const pct=t?Math.max(0,v/t*100):null;return `<tr><td>${esc(k)}</td><td>${t?money(t):'—'}</td><td>${k==='margin'||k==='repeatRate'||k==='conversionRate'?v.toFixed(1)+'%':k==='roas'?v.toFixed(2)+'x':money(v)}</td><td>${pct===null?'—':pct.toFixed(0)+'%'}</td><td>${pct===null?'—':pct>=100?'✅':'⏳'}</td></tr>`}).join('');
+    ['kpiRevenue','frRev'].forEach(id=>{if(E(id))E(id).textContent=money(revenue);}); if(E('ciLiveAov'))E('ciLiveAov').textContent=money(aov); if(E('ciLiveRepeat'))E('ciLiveRepeat').textContent=Object.values(repeatCustomers).filter(v=>v>1).length;
+  }
+  window.renderLiveKPI=renderKPI;
+  window.renderLiveKPI=function(){
+    const now=new Date(), allDelivered=(state.orders||[]).filter(o=>o.status==='delivered'||['Delivered','Completed'].includes(orderStage(o))), month=allDelivered.filter(o=>{const d=parseDateLocal(orderDate(o));return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+    const revenue=month.reduce((s,o)=>s+n(o.price),0), cogs=month.reduce((s,o)=>s+n(o.cogs),0), gross=revenue-cogs;
+    const expenses=(state.expenses||[]).filter(e=>{const d=parseDateLocal(e.date||e.dateRaw);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}),opex=expenses.reduce((s,e)=>s+n(e.amount),0),marketing=expenses.filter(e=>/marketing|تسويق/i.test(String(e.type||e.category||''))).reduce((s,e)=>s+n(e.amount),0),net=gross-opex,aov=month.length?revenue/month.length:0,margin=revenue?gross/revenue*100:0;
+    const key=o=>{try{return normalizePhone(o.phone)}catch(e){return String(o.phone||o.name||'').trim().toLowerCase()}};
+    const firstByCustomer={};allDelivered.forEach(o=>{const k=key(o);const d=parseDateLocal(orderDate(o));if(k&&d&&(!firstByCustomer[k]||d<firstByCustomer[k]))firstByCustomer[k]=d;});
+    const newCustomersThisMonth=Object.values(firstByCustomer).filter(d=>d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()).length;
+    const freq={};month.forEach(o=>{const k=key(o);if(k)freq[k]=(freq[k]||0)+1;});const repeatCustomers=Object.values(freq).filter(v=>v>1).length;const repeatRate=Object.keys(freq).length?repeatCustomers/Object.keys(freq).length*100:null;
+    const customerValues=(state.customers||[]).map(c=>n(c.spent)).filter(v=>v>0),ltv=customerValues.length?customerValues.reduce((a,b)=>a+b,0)/customerValues.length:null,cac=newCustomersThisMonth&&marketing?marketing/newCustomersThisMonth:null,roas=marketing?revenue/marketing:null;
+    const targets=getSetting('kpiTargets',cfg.kpiTargets),vals={revenue,netProfit:net,aov,cac,ltv,conversionRate:null,repeatRate,margin,roas,b2bPipeline:(state.b2bLeads||[]).filter(l=>!['Order','Repeat Order','Lost'].includes(b2bStage(l))).reduce((s,l)=>s+n(l.estimatedValue||n(l.estimatedKg)*18),0),wasteRate:null,stockCoverage:null,capacity:null};
+    const labels={revenue:'Revenue',netProfit:'Net Profit',aov:'AOV',cac:'CAC',ltv:'LTV',conversionRate:'Conversion Rate',repeatRate:'Repeat Rate',margin:'Margin',roas:'ROAS',b2bPipeline:'B2B Pipeline',wasteRate:'Waste Rate',stockCoverage:'Stock Coverage',capacity:'Capacity Utilization'};
+    if(E('liveKpiRows'))E('liveKpiRows').innerHTML=Object.entries(vals).map(([k,v])=>{const t=n(targets[k]);const pct=v===null||!t?null:(k==='cac'||k==='wasteRate'||k==='capacity'?(v<=t?100:t?Math.max(0,t/v*100):0):v/t*100);const actual=v===null?'—':(k==='margin'||k==='repeatRate'||k==='conversionRate'||k==='wasteRate'||k==='capacity'?v.toFixed(1)+'%':k==='roas'?v.toFixed(2)+'x':money(v));return `<tr><td>${esc(labels[k])}</td><td>${t?money(t):'—'}</td><td>${actual}</td><td>${pct===null?'—':pct.toFixed(0)+'%'}</td><td>${pct===null?'—':pct>=100?'✅':'⏳'}</td></tr>`;}).join('');
+    if(E('ciLiveAov'))E('ciLiveAov').textContent=money(aov);if(E('ciLiveRepeat'))E('ciLiveRepeat').textContent=repeatCustomers;
+  };
+
+  // ---------- Procurement: configurable assumptions + MOQ/bulk/cash guard ----------
+  function procurementRowsV2(){
+    const inv=state.inventory||[],pos=state.supplierOrders||[], pc=getSetting('procurementConfig',cfg.procurement); return inv.map(i=>{
+      const incoming=pos.filter(p=>['draft','ordered','partial'].includes(p.status)).flatMap(p=>p.items||[]).filter(x=>x.inventoryId===i.id).reduce((s,x)=>s+Math.max(0,n(x.orderedQty)-n(x.receivedQty)),0);
+      const saleQty=(state.stockMovements||[]).filter(m=>m.itemId===i.id&&['Sale','Packaging Sale'].includes(m.type)&&Date.now()-n(m.ts||m.createdAt)<=n(pc.forecastDays)*86400000).reduce((s,m)=>s+Math.abs(n(m.qtyDelta)),0); const daily=saleQty/Math.max(1,n(pc.forecastDays));
+      const supplier=(state.suppliers||[]).find(s=>s.primaryInventoryId===i.id||((s.category||'').toLowerCase().includes((i.category||'').toLowerCase())&&s.category&&i.category)); const lead=Math.max(0,n(supplier?.leadTimeDays||pc.defaultLeadTimeDays)), safety=Math.max(0,n(pc.safetyStockDays)); const grossNeed=Math.max(0,daily*(lead+safety)-n(i.qty)-incoming); const moq=Math.max(0,n(supplier?.moq||i.moq||0)); const suggested=moq?Math.ceil(grossNeed/moq)*moq:Math.ceil(grossNeed); const cash=suggested*n(i.cost); const cashSafe=pc.cashReserve>0?cash<=pc.cashReserve:true; return {id:i.id,name:i.name,qty:n(i.qty),wac:n(i.cost),daily,coverage:daily?n(i.qty)/daily:null,incoming,lead,suggested,cash,moq,cashSafe};
+    });
+  }
+  window.renderProcurement=function(){const rs=procurementRowsV2();if(E('procurementTable'))E('procurementTable').innerHTML=rs.map(r=>`<tr><td><strong>${esc(r.name||'—')}</strong></td><td>${r.qty}</td><td>${r.wac?money(r.wac):'—'}</td><td>${r.daily.toFixed(2)}</td><td>${r.coverage==null?'—':r.coverage.toFixed(1)+'d'}</td><td>${r.incoming}</td><td>${r.lead}d</td><td>${r.suggested}</td><td>${money(r.cash)} JOD</td><td>${!r.cashSafe?'🔴 Cash guard':r.coverage!=null&&r.coverage<7?'🔴 Reorder':r.coverage!=null&&r.coverage<14?'🟡 Watch':'🟢 OK'}</td></tr>`).join('')||'<tr><td colspan="10">لا توجد بيانات مخزون</td></tr>';};
+
+  // ---------- Admin: editable control center for every new operational assumption ----------
+  function injectAdminControls(){
+    const host=E('page-admin'); if(!host||E('deeb-production-controls'))return;
+    const card=document.createElement('div');card.id='deeb-production-controls';card.className='card';card.style.marginTop='1rem';
+    card.innerHTML=`<div class="card-header"><div class="card-title">🛠️ DEEB OS Production Controls</div><button class="btn btn-sm btn-gold" onclick="window.saveDeebProductionControls()">💾 حفظ الإعدادات</button></div><div class="card-body">
+      <div class="grid-2">
+        <div><h4>Procurement Assumptions</h4><div class="form-group"><label class="form-label">Forecast Days</label><input id="pcForecast" class="form-input" type="number" min="1"></div><div class="form-group"><label class="form-label">Safety Stock Days</label><input id="pcSafety" class="form-input" type="number" min="0"></div><div class="form-group"><label class="form-label">Default Lead Time Days</label><input id="pcLead" class="form-input" type="number" min="0"></div><div class="form-group"><label class="form-label">Cash Reserve Guard (JOD)</label><input id="pcCash" class="form-input" type="number" min="0" step="0.01"></div></div>
+        <div><h4>KPI Targets</h4><div class="grid-2" id="deebKpiInputs"></div></div>
+      </div><div class="grid-2" style="margin-top:1rem"><div><h4>Backup Policy</h4><label class="gap-chip"><input id="bkEnabled" type="checkbox"> Daily backup check on admin session</label><div class="form-group"><label class="form-label">Keep Log Records</label><input id="bkRetention" class="form-input" type="number" min="1"></div></div><div><h4>System Integrity</h4><div id="deebIntegrityStatus" class="strategy-note">جاري الفحص...</div><button class="btn btn-outline" onclick="window.runDeebIntegrityCheck()">🔍 فحص النظام الآن</button></div></div>
+    </div>`;host.appendChild(card);renderDeebProductionControls();
+  }
+  function renderDeebProductionControls(){
+    const p=getSetting('procurementConfig',cfg.procurement);[['pcForecast','forecastDays'],['pcSafety','safetyStockDays'],['pcLead','defaultLeadTimeDays'],['pcCash','cashReserve']].forEach(([i,k])=>{if(E(i))E(i).value=p[k]??0;});
+    const t=getSetting('kpiTargets',cfg.kpiTargets), keys=['revenue','netProfit','aov','cac','ltv','conversionRate','repeatRate','margin','roas','b2bPipeline','wasteRate','stockCoverage','capacity']; if(E('deebKpiInputs'))E('deebKpiInputs').innerHTML=keys.map(k=>`<div class="form-group"><label class="form-label">${esc(k)}</label><input class="form-input deeb-kpi-target" data-k="${esc(k)}" type="number" step="0.01" value="${esc(t[k]??0)}"></div>`).join(''); const b=getSetting('backupPolicy',cfg.backup);if(E('bkEnabled'))E('bkEnabled').checked=b.enabled!==false;if(E('bkRetention'))E('bkRetention').value=b.retentionLogs??30;
+  }
+  window.saveDeebProductionControls=async function(){const p={forecastDays:Math.max(1,n(E('pcForecast')?.value)),safetyStockDays:Math.max(0,n(E('pcSafety')?.value)),defaultLeadTimeDays:Math.max(0,n(E('pcLead')?.value)),cashReserve:Math.max(0,n(E('pcCash')?.value))};const t={};document.querySelectorAll('.deeb-kpi-target').forEach(e=>t[e.dataset.k]=n(e.value));await saveSetting('procurementConfig',p);await saveSetting('kpiTargets',t);await saveSetting('backupPolicy',{enabled:!!E('bkEnabled')?.checked,checkOnLogin:true,retentionLogs:Math.max(1,Math.floor(n(E('bkRetention')?.value)))});renderDeebProductionControls();window.renderProcurement?.();window.renderLiveKPI?.();toast('تم حفظ إعدادات DEEB OS الإنتاجية ✅','success');};
+  window.runDeebIntegrityCheck=function(){const ids=[...document.querySelectorAll('[id]')].map(x=>x.id),dups=ids.filter((x,i)=>ids.indexOf(x)!==i),pages=[...document.querySelectorAll('[id^="page-"]')],missingNav=[];document.querySelectorAll('[onclick*="showPage(\'"]').forEach(x=>{const m=x.getAttribute('onclick')?.match(/showPage\('([^']+)'/);if(m&&!E('page-'+m[1]))missingNav.push(m[1]);});const msg=`Pages: ${pages.length} · Duplicate IDs: ${dups.length} · Broken page links: ${missingNav.length} · Collections: ${Array.isArray(DEEB_ADMIN_COLLECTIONS)?DEEB_ADMIN_COLLECTIONS.length:'—'}`;if(E('deebIntegrityStatus'))E('deebIntegrityStatus').textContent=msg+(dups.length||missingNav.length?' ⚠️':' ✅');return {pages:pages.length,dups,missingNav};};
+
+  // ---------- Backup: automatic-on-session daily check, never claims background execution ----------
+  async function dailyBackupCheck(){const b=getSetting('backupPolicy',cfg.backup);if(b.enabled===false||b.checkOnLogin===false)return;const key='deeb_os_last_backup_check';const last=localStorage.getItem(key);if(last===today())return;try{localStorage.setItem(key,today());await addDoc_('backupLogs',{kind:'daily-check',date:today(),checkedAt:new Date().toISOString(),note:'Session-based backup check; browser must be open.'});}catch(e){console.warn('backup check',e);}}
+
+  // ---------- Responsive integrity ----------
+  function hardenResponsive(){const style=document.createElement('style');style.textContent=`
+    #page-admin .grid-2{align-items:start}.deeb-kpi-target{min-width:0}.gap-pipeline{overflow-x:auto;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr)}
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.gap-wide-table,.gap-table{min-width:760px}.modal{max-width:min(760px,calc(100vw - 24px));max-height:90vh;overflow:auto}
+    @media(max-width:768px){.section-header{gap:.6rem}.card-header{flex-wrap:wrap}.grid-2{grid-template-columns:1fr!important}.form-row{grid-template-columns:1fr!important}.table-wrap{margin-left:0;margin-right:0}.gap-pipeline{grid-auto-columns:145px}.modal{width:calc(100vw - 16px);padding:.7rem}.btn{min-height:36px}.search-bar{flex-wrap:wrap}.search-input,.search-bar .form-select{width:100%!important}}
+    @media(max-width:480px){.stats-grid{grid-template-columns:1fr 1fr!important}.stat-value{font-size:1.15rem}.section-title-main{font-size:1.15rem}.card{border-radius:10px}.gap-grid{grid-template-columns:1fr!important}}
+  `;document.head.appendChild(style);}
+
+  // ---------- Fix malformed dynamic audit cell markup from previous build ----------
+  function fixAuditRenderers(){
+    if(typeof window.renderPhotoAudit==='function'){
+      window.renderPhotoAudit=function(){const d=getSetting('photoAudit',{rows:[]}),rows=d.rows||[];if(E('photoAuditRows'))E('photoAuditRows').innerHTML=rows.map(r=>`<tr><td><input class="form-input gap-cell" data-key="item" value="${esc(r.item||'')}"></td><td><select class="form-select gap-cell" data-key="status"><option ${r.status==='Ready'?'selected':''}>Ready</option><option ${r.status==='Needs review'?'selected':''}>Needs review</option><option ${r.status==='Missing'?'selected':''}>Missing</option></select></td><td><input class="form-input gap-cell" data-key="hero" value="${esc(r.hero||'')}"></td><td><input class="form-input gap-cell" data-key="lighting" value="${esc(r.lighting||'')}"></td><td><input class="form-input gap-cell" data-key="background" value="${esc(r.background||'')}"></td><td><input class="form-input gap-cell" data-key="consistency" value="${esc(r.consistency||'')}"></td><td><input class="form-input gap-cell" data-key="details" value="${esc(r.details||'')}"></td></tr>`).join('');};
+    }
+    if(typeof window.renderLegalReadiness==='function'){
+      window.renderLegalReadiness=function(){const d=getSetting('legalReadiness',{rows:[]}),rows=d.rows||[];if(E('legalReadinessRows'))E('legalReadinessRows').innerHTML=rows.map(r=>`<tr><td><input class="form-input gap-cell" data-key="item" value="${esc(r.item||'')}"></td><td><select class="form-select gap-cell" data-key="status"><option ${r.status==='Ready'?'selected':''}>Ready</option><option ${r.status==='Needs review'?'selected':''}>Needs review</option><option ${r.status==='Missing'?'selected':''}>Missing</option><option ${r.status==='Expired'?'selected':''}>Expired</option></select></td><td><input class="form-input gap-cell" data-key="owner" value="${esc(r.owner||'')}"></td><td><input class="form-input gap-cell" data-key="nextReview" type="date" value="${esc(r.nextReview||'')}"></td></tr>`).join('');};
+    }
+  }
+
+  const _prodPagGoTo=window.pagGoTo; window.pagGoTo=function(name,page){if(name==='leads'){if(!pagState.leads)return;const pages=Math.ceil(pagState.leads.data.length/25);pagState.leads.page=Math.max(1,Math.min(page,pages));renderLeadsPageV2();return;}return _prodPagGoTo?.(name,page);};
+  function boot(){
+    setB2BStatusOptions(); injectB2BFields(); injectOrderStageFields(); injectAdminControls(); fixAuditRenderers(); hardenResponsive();
+    window.renderB2BControlCenter?.(); window.filterLeads?.(); window.renderOrderFunnel?.(); window.renderLiveKPI?.(); window.renderProcurement?.(); window.runDeebIntegrityCheck?.(); dailyBackupCheck();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,0));else setTimeout(boot,0);
+})();
+
+</script>
 </body>
 </html>
