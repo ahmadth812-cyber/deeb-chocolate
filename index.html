@@ -2793,7 +2793,15 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="card" id="deebOrderGrowthPanel" style="margin-top:.7rem"><div class="card-header"><div class="card-title">📈 Growth Tracking</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">UTM Source</label><input class="form-input" id="o-utm-source" placeholder="instagram"/></div><div class="form-group"><label class="form-label">UTM Medium</label><input class="form-input" id="o-utm-medium" placeholder="social"/></div></div><div class="form-row"><div class="form-group"><label class="form-label">UTM Campaign</label><input class="form-input" id="o-utm-campaign" placeholder="graduation_2026"/></div><div class="form-group"><label class="form-label">UTM Content</label><input class="form-input" id="o-utm-content" placeholder="reel_01"/></div></div><div class="form-row"><label class="gap-chip"><input id="og-upsell-offered" type="checkbox"/> Upsell was offered</label><label class="gap-chip"><input id="og-upsell-accepted" type="checkbox"/> Upsell accepted</label><label class="gap-chip"><input id="og-addons-offered" type="checkbox"/> Add-ons offered</label><label class="gap-chip"><input id="og-addons-accepted" type="checkbox"/> Add-ons accepted</label></div><div class="form-group"><label class="form-label">Recommended Upgrade / Cross-sell</label><input class="form-input" id="og-recommend" placeholder="1KG / Acrylic / Sticker"/></div><div class="gap-alert-strip" id="orderGrowthHint">💡 استخدم هذه الحقول حتى يصبح AOV وAttribution قابلين للقياس.</div></div></div>
 <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="o-notes" placeholder="ملاحظات خاصة..."></textarea></div>
 <input id="o-edit-id" type="hidden"/>
-<div id="invImpactPreview" style="display:none;background:rgba(191,158,96,0.08);border:1px solid rgba(191,158,96,0.25);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--dark);margin-top:0.5rem"></div>
+<div class="form-group" id="packagingDeductionControls" style="margin-top:.6rem;border:1px solid rgba(191,158,96,.35);border-radius:8px;padding:.75rem;background:rgba(191,158,96,.06)">
+<div class="form-label">📦 كميات التغليف المراد خصمها يدويًا (لا تعتمد تلقائيًا على عدد المنتجات)</div>
+<div class="form-row">
+<div class="form-group"><label class="form-label" for="o-deduct-boxes">عدد البوكسات</label><input class="form-input" id="o-deduct-boxes" type="number" min="0" step="1" value="0" oninput="updateInventoryImpactPreview()"/></div>
+<div class="form-group"><label class="form-label" for="o-deduct-stickers">عدد الستيكرات</label><input class="form-input" id="o-deduct-stickers" type="number" min="0" step="1" value="0" oninput="updateInventoryImpactPreview()"/></div>
+<div class="form-group"><label class="form-label" for="o-deduct-bags">عدد الأكياس</label><input class="form-input" id="o-deduct-bags" type="number" min="0" step="1" value="0" oninput="updateInventoryImpactPreview()"/></div>
+</div>
+<div id="invImpactPreview" style="background:rgba(191,158,96,0.08);border:1px solid rgba(191,158,96,0.25);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.78rem;color:var(--dark);margin-top:0.5rem">حدد كميات التغليف التي تريد خصمها لهذا الطلب.</div>
+</div>
 <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.6rem">
 <input id="o-add-debt" onchange="document.getElementById('o-debt-paid-wrap').style.display=this.checked?'':'none'" style="width:18px;height:18px;accent-color:var(--gold)" type="checkbox"/>
 <label for="o-add-debt" style="font-size:0.82rem;color:var(--brown);cursor:pointer">العميل ما دفع كامل المبلغ — سجّله كدين 💳</label>
@@ -4570,6 +4578,7 @@ window.addOrderProductRow = function() {
     let price = this.options[this.selectedIndex].dataset.price;
     if(price) { let inp = this.parentElement.querySelectorAll('input')[1]; if(inp && !inp.value) inp.value = price; }
     calcOrderTotal();
+    window.checkCustomBox?.(this);
   });
   container.appendChild(div);
 };
@@ -4593,8 +4602,7 @@ window.calcOrderTotal = function() {
     let price = parseFloat(inputs[1]?.value)||0;
     total += qty * price;
   });
-  let delivery = parseFloat(document.getElementById('o-delivery')?.value)||0;
-  total += delivery;
+  // The field is an internal delivery cost, not customer revenue; keep the order total aligned with the saved product subtotal.
   let display = document.getElementById('o-total-display');
   if(display) display.textContent = total.toFixed(0);
   updateInventoryImpactPreview();
@@ -4602,18 +4610,17 @@ window.calcOrderTotal = function() {
 
 // ── INVENTORY IMPACT PREVIEW ──
 function updateInventoryImpactPreview() {
-  const el = document.getElementById('invImpactPreview');
-  if(!el) return;
-  let totalBoxes = 0;
-  document.querySelectorAll('.order-product-row').forEach(function(row) {
-    const sel = row.querySelector('select');
-    const inputs = row.querySelectorAll('input');
-    const hasProduct = sel && sel.value && sel.options[sel.selectedIndex]?.text !== 'اختر المنتج';
-    if(hasProduct) totalBoxes += parseInt(inputs[0]?.value)||1;
-  });
-  if(totalBoxes <= 0) { el.style.display = 'none'; return; }
-  el.style.display = '';
-  el.innerHTML = `📦 سيتم خصم من المخزون: <strong>${totalBoxes} بوكس</strong>، <strong>${totalBoxes} ستيكر</strong>، <strong>${totalBoxes} كيس</strong>`;
+  const preview = document.getElementById('invImpactPreview');
+  if (!preview) return;
+  const readQty = id => {
+    const raw = document.getElementById(id)?.value;
+    const value = raw === '' || raw == null ? 0 : Number(raw);
+    return Number.isFinite(value) && value >= 0 ? Math.floor(value) : 0;
+  };
+  const boxes = readQty('o-deduct-boxes');
+  const stickers = readQty('o-deduct-stickers');
+  const bags = readQty('o-deduct-bags');
+  preview.innerHTML = `سيتم خصم الكميات التي حددتها فقط: <strong>${boxes} بوكس</strong>، <strong>${stickers} ستيكر</strong>، <strong>${bags} كيس</strong>`;
 }
 
 // ── INVENTORY ↔ ORDERS LINKING ──
@@ -4636,18 +4643,39 @@ function findInventoryItemByKeywords(keywords) {
   });
 }
 
-async function deductInventoryForOrder(totalBoxes, refId){
-  if(!totalBoxes || totalBoxes<=0) return [];
-  const targets=[{keywords:['بوكس','box'],label:'البوكسات'},{keywords:['ستيكر','sticker'],label:'الستيكرات'},{keywords:['كيس','أكياس','bag'],label:'الأكياس'}];
-  const deducted=[];
+async function deductInventoryForOrder(packagingRequested, refId){
+  const requested = {
+    boxes: Math.max(0, Math.floor(deebNum(packagingRequested?.boxes))),
+    stickers: Math.max(0, Math.floor(deebNum(packagingRequested?.stickers))),
+    bags: Math.max(0, Math.floor(deebNum(packagingRequested?.bags)))
+  };
+  const targets=[
+    {key:'boxes',keywords:['بوكس','box'],label:'البوكسات'},
+    {key:'stickers',keywords:['ستيكر','sticker'],label:'الستيكرات'},
+    {key:'bags',keywords:['كيس','أكياس','bag'],label:'الأكياس'}
+  ];
+  // Preflight every requested item before changing any inventory quantities.
+  const plan=[];
   for(const t of targets){
-    const item=findInventoryItemByKeywords(t.keywords); if(!item) continue;
-    const currentQty=deebNum(item.qty), amount=deebNum(totalBoxes);
-    if(currentQty<amount) throw new Error('المخزون غير كافٍ لـ'+t.label+' (المتاح '+currentQty+' / المطلوب '+amount+')');
-    const unitCost=deebNum(item.cost), newQty=currentQty-amount;
+    const amount=requested[t.key];
+    if(amount<=0) continue;
+    const item=findInventoryItemByKeywords(t.keywords);
+    if(!item) throw new Error('لم يتم العثور على صنف مخزون لـ'+t.label+'؛ لم يتم خصم أي مواد تغليف.');
+    const currentQty=deebNum(item.qty);
+    if(currentQty<amount) throw new Error('المخزون غير كافٍ لـ'+t.label+' (المتاح '+currentQty+' / المطلوب '+amount+')؛ لم يتم خصم أي مواد تغليف.');
+    plan.push({target:t,item,amount,currentQty,unitCost:deebNum(item.cost)});
+  }
+  const deducted=[];
+  for(const p of plan){
+    const {target:t,item,amount,currentQty,unitCost}=p;
+    const newQty=currentQty-amount;
     await updateDoc_('inventory',item.id,{qty:newQty});
-    const record={itemId:item.id,amount,unitCost,totalCost:amount*unitCost}; deducted.push(record);
-    if(refId){ await addDoc_('stockMovements',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,ts:Date.now()}); await addDoc_('inventoryLedger',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,qtyBefore:currentQty,qtyAfter:newQty,createdAt:Date.now()}); }
+    const record={itemId:item.id,itemName:item.name,key:t.key,amount,unitCost,totalCost:amount*unitCost};
+    deducted.push(record);
+    if(refId){
+      await addDoc_('stockMovements',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,ts:Date.now()});
+      await addDoc_('inventoryLedger',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,qtyBefore:currentQty,qtyAfter:newQty,createdAt:Date.now()});
+    }
     if(newQty<=(deebNum(item.min)||0)) toast('⚠️ '+t.label+' أصبحت '+newQty+' فقط','warning');
   }
   return deducted;
@@ -4693,6 +4721,11 @@ window.addOrder = async function() {
   
   // Build product summary string
   const productSummary = products.length ? products.map(function(p){ return p.name+(p.qty>1?' x'+p.qty:''); }).join(' + ') : '—';
+  const packagingRequested = {
+    boxes: Math.max(0, Math.floor(Number(document.getElementById('o-deduct-boxes')?.value) || 0)),
+    stickers: Math.max(0, Math.floor(Number(document.getElementById('o-deduct-stickers')?.value) || 0)),
+    bags: Math.max(0, Math.floor(Number(document.getElementById('o-deduct-bags')?.value) || 0))
+  };
   
   const orderData = {
     name, phone,
@@ -4702,6 +4735,7 @@ window.addOrder = async function() {
     weightKg: parseFloat(document.getElementById('o-weight-kg')?.value)||0,
     productionCostRate: 12,
     qty: products.reduce(function(s,p){ return s+p.qty; }, 0),
+    packagingRequested,
     region, delivery, notes, status, date,
     dateRaw: dateVal || new Date().toISOString().split('T')[0],
     customFlavors: _customSelectedFlavors.length ? [..._customSelectedFlavors] : [],
@@ -4716,8 +4750,7 @@ window.addOrder = async function() {
   if(status === 'delivered') orderData.status = 'preparing';
   const orderRef = await addDoc_('orders', orderData);
   try {
-    const totalBoxesForOrder = orderData.qty;
-    const inventoryDeducted = status !== 'cancelled' ? await deductInventoryForOrder(totalBoxesForOrder, orderRef.id) : [];
+    const inventoryDeducted = status !== 'cancelled' ? await deductInventoryForOrder(orderData.packagingRequested, orderRef.id) : [];
     const postPackagingUpdate = { inventoryDeducted, packagingInventoryPostedAt: Date.now() };
     if(finalOrderStatus === 'delivered') postPackagingUpdate.status = 'delivered';
     await updateDoc_('orders', orderRef.id, postPackagingUpdate);
@@ -5428,7 +5461,7 @@ window.openAddOrderModal = function() {
         const cur = sel.value;
         sel.innerHTML = '<option value="">اختر المنتج</option>' + state.products.map(function(p){ return '<option value="'+p.id+'" data-price="'+p.price+'" data-cost="'+(p.cost||0)+'">'+sanitize(p.name)+'</option>'; }).join('');
         sel.value = cur;
-        sel.onchange = function(){ let pr=this.options[this.selectedIndex].dataset.price; if(pr){const inp=this.parentElement.querySelectorAll('input')[1]; if(inp&&!inp.value)inp.value=pr;} calcOrderTotal(); };
+        sel.onchange = function(){ let pr=this.options[this.selectedIndex].dataset.price; if(pr){const inp=this.parentElement.querySelectorAll('input')[1]; if(inp&&!inp.value)inp.value=pr;} calcOrderTotal(); window.checkCustomBox?.(this); };
       }
     });
   }
@@ -6384,8 +6417,26 @@ window.checkCustomBox = function(selectEl) {
   });
   const section = document.getElementById('customBoxSection');
   if(section) {
+    const wasVisible = section.style.display !== 'none';
     section.style.display = hasCustom ? '' : 'none';
-    if(hasCustom) { _customSelectedFlavors=[]; window.renderCustomFlavorPicker(); }
+    // Preserve the customer's selections when changing another product row.
+    // Reset only when the custom-box picker is newly opened for a fresh selection.
+    if(hasCustom) {
+      if(!wasVisible) {
+        _customSelectedFlavors = [];
+        const search = document.getElementById('customFlavorSearch');
+        if(search) search.value = '';
+      }
+      window.renderCustomFlavorPicker();
+    } else {
+      _customSelectedFlavors = [];
+      const grid = document.getElementById('customFlavorGrid');
+      const tags = document.getElementById('customFlavorTags');
+      const count = document.getElementById('customFlavorCount');
+      if(grid) grid.innerHTML = '';
+      if(tags) tags.innerHTML = '';
+      if(count) count.textContent = '0 نكهة مختارة';
+    }
   }
 };
 
@@ -6395,13 +6446,13 @@ window.renderCustomFlavorPicker = function() {
   const list = q ? all.filter(f=>(f.nameAr||'').toLowerCase().includes(q)||(f.nameEn||'').toLowerCase().includes(q)) : all;
   const grid = document.getElementById('customFlavorGrid');
   if(!grid) return;
-  grid.innerHTML = list.map(function(f) {
+  grid.innerHTML = list.length ? list.map(function(f) {
     const sel = _customSelectedFlavors.includes(f.id);
     return `<div class="flavor-chip${sel?' selected':''}" onclick="window.toggleCustomFlavor('${f.id}','${sanitize(f.nameAr)}')">
       <div class="flavor-dot"></div>
       <span>${sanitize(f.nameAr)}</span>
     </div>`;
-  }).join('');
+  }).join('') : '<div class="alert" style="grid-column:1/-1">لا توجد نكهات متاحة حاليًا. أضف النكهات وفعّلها من صفحة النكهات أولًا.</div>';
   const cnt = document.getElementById('customFlavorCount');
   if(cnt) cnt.textContent = _customSelectedFlavors.length + ' نكهة مختارة';
   renderCustomFlavorTags();
@@ -8554,17 +8605,22 @@ window.saveERPConfig=async function(){const id='erpConfig';const chocolateInvent
 // ═══════════════════════════════════════════════════════════════
 // FINAL INVENTORY OVERRIDES — transactional packaging movements
 const _deebFallbackFindInventoryItemByKeywords=findInventoryItemByKeywords;
-deductInventoryForOrder=async function(totalBoxes,refId){
-  if(!totalBoxes||totalBoxes<=0)return [];
-  const targets=[{keywords:['بوكس','box'],label:'البوكسات'},{keywords:['ستيكر','sticker'],label:'الستيكرات'},{keywords:['كيس','أكياس','bag'],label:'الأكياس'}];
+deductInventoryForOrder=async function(amounts,refId){
+  // Accept legacy numeric calls safely, but new order creation passes independent manual quantities.
+  const legacy = typeof amounts === 'number' ? Math.max(0,Math.floor(deebNum(amounts))) : null;
+  const targets=[
+    {key:'boxes',keywords:['بوكس','box'],label:'البوكسات'},
+    {key:'stickers',keywords:['ستيكر','sticker'],label:'الستيكرات'},
+    {key:'bags',keywords:['كيس','أكياس','bag'],label:'الأكياس'}
+  ].map(t=>({...t,amount:legacy===null?Math.max(0,Math.floor(deebNum(amounts?.[t.key]))):legacy})).filter(t=>t.amount>0);
+  if(!targets.length)return [];
   const refs=[];
   for(const t of targets){const item=_deebFallbackFindInventoryItemByKeywords(t.keywords);if(item)refs.push({t,item});}
   if(!refs.length)return [];
-  const amount=deebNum(totalBoxes);
   return db.runTransaction(async tx=>{
     const snaps=[]; for(const r of refs){const ref=db.collection('inventory').doc(r.item.id),snap=await tx.get(ref);if(!snap.exists)continue;snaps.push({r,ref,snap});}
     const out=[];
-    for(const x of snaps){const inv=x.snap.data(),before=deebNum(inv.qty);if(before<amount)throw new Error('المخزون غير كافٍ لـ'+x.r.t.label+' (المتاح '+before+' / المطلوب '+amount+')');const after=before-amount,unitCost=deebNum(inv.cost),totalCost=amount*unitCost;tx.update(x.ref,{qty:after,updatedAt:Date.now()});out.push({itemId:x.r.item.id,amount,unitCost,totalCost});if(refId){const mv={type:'Packaging Sale',itemId:x.r.item.id,itemName:inv.name||x.r.item.name,qtyDelta:-amount,unitCost,totalCost:-totalCost,refType:'order',refId,ts:Date.now()};tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()});}}
+    for(const x of snaps){const inv=x.snap.data(),before=deebNum(inv.qty),amount=x.r.t.amount;if(before<amount)throw new Error('المخزون غير كافٍ لـ'+x.r.t.label+' (المتاح '+before+' / المطلوب '+amount+')');const after=before-amount,unitCost=deebNum(inv.cost),totalCost=amount*unitCost;tx.update(x.ref,{qty:after,updatedAt:Date.now()});out.push({itemId:x.r.item.id,amount,unitCost,totalCost,packagingType:x.r.t.key});if(refId){const mv={type:'Packaging Sale',itemId:x.r.item.id,itemName:inv.name||x.r.item.name,qtyDelta:-amount,unitCost,totalCost:-totalCost,refType:'order',refId,ts:Date.now(),packagingType:x.r.t.key};tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()});}}
     return out;
   });
 };
