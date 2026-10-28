@@ -908,6 +908,7 @@ body{overflow-x:hidden;}
 <nav class="nav-section">
 <div class="nav-label">المالية</div>
 <div class="nav-item" onclick="showPage('finance',this)"><span class="icon">💰</span>المالية والأرباح</div>
+<div class="nav-item" onclick="showPage('returns',this)"><span class="icon">↩️</span>المرتجعات</div>
 <div class="nav-item" onclick="showPage('calculations',this)"><span class="icon">🧮</span>الحسابات</div>
 </nav>
 <nav class="nav-section">
@@ -1149,6 +1150,51 @@ body{overflow-x:hidden;}
 <div class="pag-info" id="ordersPagInfo"></div>
 </div>
 </div>
+<!-- RETURNS -->
+<div class="page" id="page-returns">
+  <div class="section-header">
+    <div><div class="section-title-main">↩️ إدارة المرتجعات</div><div class="section-subtitle">مسودات المرتجعات ومراجعة البيانات قبل الترحيل المالي والمخزني</div></div>
+    <button class="btn btn-primary" onclick="window.deebResetReturnForm()">+ مرتجع جديد</button>
+  </div>
+  <div class="alert alert-warning" style="margin-bottom:1rem">المرحلة الحالية تحفظ المسودة فقط. لن تتغير الأرصدة أو المخزون أو صافي المبيعات حتى اعتماد سياسة الترحيل المالي والمخزني بعد تدقيق تكلفة الإنتاج.</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">إجمالي المسودات</div><div class="stat-value" id="retCount">0</div></div>
+    <div class="stat-card"><div class="stat-label">قيمة المنتجات المقدرة</div><div class="stat-value" id="retValue">0.00</div><div class="stat-sub">JOD — لا تُرحّل بعد</div></div>
+    <div class="stat-card"><div class="stat-label">الوزن المسجل</div><div class="stat-value" id="retWeight">0.000</div><div class="stat-sub">كغم</div></div>
+    <div class="stat-card"><div class="stat-label">بانتظار المراجعة</div><div class="stat-value" id="retPending">0</div></div>
+  </div>
+  <div class="card" style="margin-top:1rem">
+    <div class="card-header"><div class="card-title">إنشاء مسودة مرتجع</div><span class="badge badge-pending">مسودة فقط</span></div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="form-group"><label class="form-label">نوع المرتجع *</label><select class="form-select" id="ret-type" onchange="window.deebReturnTypeChanged()"><option value="customer">مرتجع عميل</option><option value="bazaar">فائض بازار / فعالية</option><option value="factory">إرجاع للمصنع / المورد</option><option value="damage">تالف</option></select></div>
+        <div class="form-group"><label class="form-label">الطلب الأصلي (اختياري حسب النوع)</label><select class="form-select" id="ret-order" onchange="window.deebReturnOrderChanged()"><option value="">— بدون طلب —</option></select></div>
+        <div class="form-group"><label class="form-label">العميل</label><input class="form-input" id="ret-customer" placeholder="اسم العميل" /></div>
+        <div class="form-group"><label class="form-label">المورد (عند الإرجاع للمورد)</label><select class="form-select" id="ret-supplier"><option value="">— اختر المورد —</option></select></div>
+        <div class="form-group"><label class="form-label">مرجع البازار / أمر الشراء / المصدر</label><input class="form-input" id="ret-source-ref" placeholder="رقم أو اسم الفعالية أو مرجع الشراء" /></div>
+        <div class="form-group"><label class="form-label">تاريخ العملية *</label><input class="form-input" id="ret-date" type="date" /></div>
+        <div class="form-group"><label class="form-label">الوزن المرتجع (كغم) *</label><input class="form-input" id="ret-weight" type="number" min="0.001" step="0.001" placeholder="0.000" oninput="window.deebUpdateReturnPreview()" /></div>
+        <div class="form-group"><label class="form-label">تكلفة المصنع لكل كغم (د.أ.) *</label><input class="form-input" id="ret-factory-cost" type="number" min="0" step="0.001" placeholder="أدخل التكلفة يدويًا" oninput="window.deebUpdateReturnPreview()" /></div>
+        <div class="form-group"><label class="form-label">حالة المنتج</label><select class="form-select" id="ret-condition"><option value="unknown">غير محددة</option><option value="sellable">صالح للبيع</option><option value="inspect">بانتظار الفحص</option><option value="damaged">تالف / غير صالح للبيع</option></select></div>
+        <div class="form-group"><label class="form-label">وجهة المنتج *</label><select class="form-select" id="ret-destination"><option value="stock">المخزون الصالح للبيع</option><option value="factory">إرجاع للمصنع / المورد</option><option value="damaged">تالف / هدر</option><option value="inspect">حجز للفحص</option><option value="unsold-stock">فائض غير مباع يعود للمخزون</option></select></div>
+        <div class="form-group"><label class="form-label">قيمة المنتجات المرتجعة المقدرة (د.أ.)</label><input class="form-input" id="ret-product-value" type="number" step="0.01" readonly placeholder="تُحسب من سعر ووزن الطلب الأصلي" /></div>
+        <div class="form-group"><label class="form-label">استرداد العميل (د.أ.)</label><input class="form-input" id="ret-customer-refund" type="number" min="0" step="0.01" placeholder="0.00" /></div>
+        <div class="form-group"><label class="form-label">طريقة الدفع / ملاحظات الاسترداد</label><input class="form-input" id="ret-refund-method" placeholder="نقدًا / تحويل / CliQ / تفاصيل أخرى" /></div>
+        <div class="form-group"><label class="form-label">استثناء رسوم التوصيل (د.أ.)</label><input class="form-input" id="ret-delivery-refund" type="number" min="0" step="0.01" value="0" /></div>
+        <div class="form-group"><label class="form-label">سبب استثناء رسوم التوصيل</label><input class="form-input" id="ret-delivery-exception" placeholder="مطلوب إذا كان مبلغ الاسترداد أكبر من صفر" /></div>
+        <div class="form-group"><label class="form-label">تسوية المورد النقدية (د.أ.)</label><input class="form-input" id="ret-supplier-settlement" type="number" min="0" step="0.01" placeholder="يُستخدم عند إرجاع المورد" /></div>
+      </div>
+      <div class="form-group"><label class="form-label">سبب المرتجع / ملاحظات</label><textarea class="form-input" id="ret-reason" rows="2" placeholder="التلف، الجودة، فائض الفعالية، أو تفاصيل الإرجاع"></textarea></div>
+      <div class="form-group" id="ret-exception-wrap" style="display:none"><label class="form-label">سبب الاستثناء عن الطلب المسلّم *</label><textarea class="form-input" id="ret-exception" rows="2" placeholder="اكتب سبب تسجيل مرتجع لطلب غير مسلّم"></textarea></div>
+      <div class="card" style="background:var(--cream);margin-top:.75rem"><div class="card-body"><strong>معاينة غير مُرحّلة</strong><div id="ret-preview" style="margin-top:.4rem;color:var(--brown)">أدخل الوزن والتكلفة واربط طلبًا لحساب القيمة المتاحة.</div><div class="alert alert-warning" style="margin-top:.6rem">حفظ المسودة لا يغيّر المخزون أو الإيراد أو النقد. الاعتماد المالي والمخزني سيُفعّل بعد حسم سياسة تكلفة الإنتاج وعدم احتسابها مرتين.</div></div></div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem"><button class="btn btn-primary" onclick="window.deebSaveReturnDraft()">حفظ المسودة</button><button class="btn btn-outline" onclick="window.deebResetReturnForm()">تفريغ النموذج</button></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:1rem">
+    <div class="card-header"><div class="card-title">سجل المرتجعات</div><div style="display:flex;gap:.4rem;flex-wrap:wrap"><select id="ret-filter-type" class="form-select" style="width:auto" onchange="window.deebRenderReturns()"><option value="">كل الأنواع</option><option value="customer">عميل</option><option value="bazaar">بازار</option><option value="factory">مصنع / مورد</option><option value="damage">تالف</option></select><select id="ret-filter-status" class="form-select" style="width:auto" onchange="window.deebRenderReturns()"><option value="">كل الحالات</option><option value="draft">مسودة</option><option value="approved">معتمد</option><option value="reversed">معكوس</option></select></div></div>
+    <div class="table-wrap"><table><thead><tr><th>الرقم</th><th>النوع</th><th>المصدر</th><th>العميل / المورد</th><th>الوزن</th><th>قيمة المنتجات</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody id="ret-table"><tr><td colspan="8">لا توجد مرتجعات بعد</td></tr></tbody></table></div>
+  </div>
+</div>
 <!-- CUSTOMERS -->
 <div class="page" id="page-customers">
 <div class="section-header">
@@ -1335,6 +1381,9 @@ body{overflow-x:hidden;}
 <div class="stat-card"><div class="stat-label">صافي الربح</div><div class="stat-value" id="finProfit">0</div><div class="stat-icon">💎</div></div>
 </div>
 <div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)"><div class="card-header"><div class="card-title">🧾 Profitability Bridge</div></div><div class="card-body"><div class="analytics-row"><div class="analytics-item"><span class="ai-label">الإيراد</span><span class="ai-value" id="finBridgeRevenue">0.00 JOD</span></div><div class="analytics-item"><span class="ai-label">COGS من الطلبات</span><span class="ai-value" id="finCOGS">—</span></div><div class="analytics-item"><span class="ai-label">Gross / Contribution Profit</span><span class="ai-value" id="finContribution">—</span></div><div class="analytics-item"><span class="ai-label">بعد المصاريف المسجلة</span><span class="ai-value" id="finAfterExpenses">—</span></div></div><div class="alert" style="margin-top:.7rem">هذا الجسر منفصل عن الربح النقدي البسيط الموجود في الأعلى: COGS يعتمد على ترحيل الطلبات عند التسليم، والمصاريف المسجلة هي السجلات الموجودة في Expenses. لا نعتبر النتيجة صافي محاسبي كامل بدون سياسة محاسبية متكاملة لتوقيت المشتريات والاستحقاقات.</div></div></div>
+<div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.55)">
+<div class="card-header"><div class="card-title">🔎 تدقيق تكلفة الإنتاج (قراءة فقط)</div><button class="btn btn-sm btn-gold" onclick="window.deebRunProductionCostAudit()">تشغيل التدقيق</button></div>
+<div class="card-body"><div class="alert alert-warning">يفحص البيانات المحمّلة في النظام فقط. لا يغيّر الطلبات أو المصاريف أو المخزون، ولا يرحّل أي قيود. النتائج مؤشرات للمراجعة وليست حكمًا نهائيًا بوجود ازدواج محاسبي.</div><div id="productionCostAuditSummary" style="margin:.75rem 0;color:var(--brown)">اضغط «تشغيل التدقيق» لمقارنة تكلفة الطلبات بمصروفات الإنتاج المرتبطة بها.</div><div class="table-wrap"><table><thead><tr><th>الطلب</th><th>الوزن (كغم)</th><th>COGS للطلب</th><th>مصروف 12 د.أ./كغم</th><th>تكلفة الكغم بالمخزون</th><th>النتيجة</th></tr></thead><tbody id="productionCostAuditRows"><tr><td colspan="6">لم يُشغّل التدقيق بعد</td></tr></tbody></table></div></div></div>
 <div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
 <div class="card-header"><div class="card-title">Management Financial Reporting</div></div>
 <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Revenue</div><div class="g-value" id="frRev">0</div><div class="g-sub">JOD</div></div><div class="gap-mini"><div class="g-label">COGS</div><div class="g-value" id="frCogs">0</div></div><div class="gap-mini"><div class="g-label">Contribution</div><div class="g-value" id="frContribution">0</div></div><div class="gap-mini"><div class="g-label">Operating Expenses</div><div class="g-value" id="frOpex">0</div></div><div class="gap-mini"><div class="g-label">Marketing</div><div class="g-value" id="frMarketing">0</div></div><div class="gap-mini"><div class="g-label">Management Net</div><div class="g-value" id="frNet">0</div></div><div class="gap-mini"><div class="g-label">Supplier Cash Paid</div><div class="g-value" id="frSupplierCash">0</div></div></div><div class="gap-note" style="margin-top:.7rem">هذا تقرير إدارة تشغيلي من البيانات المسجلة في النظام، وليس قوائم مالية محاسبية رسمية.</div></div>
@@ -2737,7 +2786,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="flavors-grid" id="customFlavorGrid"></div>
 <div id="customFlavorTags" style="margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.25rem"></div>
 </div>
-<div class="form-row"><div class="form-group"><div class="form-label">التاريخ *</div><input class="form-input" id="o-date" type="date"/></div><div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="o-status"><option value="pending">⏳ Pending</option><option value="preparing">🔧 Preparing</option><option value="delivered">✅ Delivered</option><option value="cancelled">❌ Cancelled</option></select></div></div>
+<div class="form-row"><div class="form-group"><div class="form-label">وزن الشوكولاتة بالكيلو *</div><input class="form-input" id="o-weight-kg" type="number" min="0.01" step="0.01" placeholder="مثال: 1.5" required/><small style="color:var(--brown)">تكلفة الإنتاج: <strong id="o-production-cost-preview">0.00 د.أ</strong> (12 د.أ لكل كيلو)</small></div><div class="form-group"><div class="form-label">التاريخ *</div><input class="form-input" id="o-date" type="date"/></div><div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="o-status"><option value="pending">⏳ Pending</option><option value="preparing">🔧 Preparing</option><option value="delivered">✅ Delivered</option><option value="cancelled">❌ Cancelled</option></select></div></div>
 <div class="form-row"><div class="form-group"><div class="form-label">منطقة التوصيل</div><select class="form-select" id="o-region"><option value="">اختر المنطقة</option></select></div><div class="form-group"><div class="form-label">تكلفة التوصيل</div><input class="form-input" id="o-delivery" oninput="calcOrderTotal()" placeholder="0" type="number"/></div></div>
 <div class="form-group"><div class="form-label">قناة التسويق / المصدر</div><input class="form-input" id="o-source" placeholder="Instagram / TikTok / WhatsApp / Referral / Organic"/></div>
 <div class="form-row"><div class="form-group"><div class="form-label">كود الإحالة (اختياري)</div><input class="form-input" id="o-referral-code" placeholder="DEEB-ABC123"/></div><div class="form-group"><div class="form-label">اسم المُحيل (اختياري)</div><input class="form-input" id="o-referred-by" placeholder="اسم العميل المُحيل"/></div></div>
@@ -2822,7 +2871,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="modal-header"><div class="modal-title">💸 مصروف جديد</div><button class="modal-close" onclick="closeModal('addExpenseModal')">✕</button></div>
 <div class="modal-body">
 <div class="form-group"><div class="form-label">البند *</div><input class="form-input" id="exp-name" placeholder="مثال: مواد خام"/></div>
-<div class="form-row"><div class="form-group"><div class="form-label">النوع</div><select class="form-select" id="exp-type"><option>مواد خام</option><option>تغليف</option><option>تسويق</option><option>توصيل</option><option>أخرى</option></select></div><div class="form-group"><div class="form-label">المبلغ *</div><input class="form-input" id="exp-amount" placeholder="0" type="number"/></div></div>
+<div class="form-row"><div class="form-group"><div class="form-label">النوع</div><select class="form-select" id="exp-type"><option>Production / COGS</option><option>مواد خام</option><option>تغليف</option><option>تسويق</option><option>توصيل</option><option>أخرى</option></select></div><div class="form-group"><div class="form-label">المبلغ *</div><input class="form-input" id="exp-amount" placeholder="0" type="number"/></div></div>
 <div class="form-group"><div class="form-label">التاريخ</div><input class="form-input" id="exp-date" type="date"/></div>
 </div>
 <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('addExpenseModal')">إلغاء</button><button class="btn btn-primary" onclick="addExpense()">✅ تسجيل</button></div>
@@ -2838,7 +2887,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="form-row">
 <div class="form-group"><div class="form-label">النوع</div>
 <select class="form-select" id="ee-type">
-<option>مواد خام</option><option>تغليف</option><option>تسويق</option><option>توصيل</option><option>أخرى</option>
+<option>Production / COGS</option><option>مواد خام</option><option>تغليف</option><option>تسويق</option><option>توصيل</option><option>أخرى</option>
 </select>
 </div>
 <div class="form-group"><div class="form-label">المبلغ *</div><input class="form-input" id="ee-amount" placeholder="0" type="number"/></div>
@@ -2906,7 +2955,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="modal-body">
 <div class="form-row"><div class="form-group"><div class="form-label">اسم العميل *</div><input class="form-input" id="eo-name" placeholder="اسم العميل"/></div><div class="form-group"><div class="form-label">رقم الهاتف *</div><input class="form-input" id="eo-phone" placeholder="+962..."/></div></div>
 <div class="form-row"><div class="form-group"><div class="form-label">المنتج</div><select class="form-select" id="eo-product"><option value="">اختر المنتج</option></select></div><div class="form-group"><div class="form-label">الكمية</div><input class="form-input" id="eo-qty" min="1" type="number" value="1"/></div></div>
-<div class="form-row"><div class="form-group"><div class="form-label">السعر *</div><input class="form-input" id="eo-price" placeholder="0" type="number"/></div><div class="form-group"><div class="form-label">التاريخ *</div><input class="form-input" id="eo-date" type="date"/></div></div>
+<div class="form-row"><div class="form-group"><div class="form-label">السعر *</div><input class="form-input" id="eo-price" placeholder="0" type="number"/></div><div class="form-group"><div class="form-label">وزن الشوكولاتة بالكيلو *</div><input class="form-input" id="eo-weight-kg" type="number" min="0.01" step="0.01" placeholder="مثال: 1.5" required/><small style="color:var(--brown)">تكلفة الإنتاج: <strong id="eo-production-cost-preview">0.00 د.أ</strong></small></div><div class="form-group"><div class="form-label">التاريخ *</div><input class="form-input" id="eo-date" type="date"/></div></div>
 <div class="form-row"><div class="form-group"><div class="form-label">منطقة التوصيل</div><select class="form-select" id="eo-region"><option value="">اختر المنطقة</option></select></div><div class="form-group"><div class="form-label">الحالة</div><select class="form-select" id="eo-status"><option value="pending">⏳ Pending</option><option value="preparing">🔧 Preparing</option><option value="delivered">✅ Delivered</option><option value="cancelled">❌ Cancelled</option></select></div></div>
 <div class="form-group"><div class="form-label">قناة التسويق / المصدر</div><input class="form-input" id="eo-source" placeholder="Instagram / TikTok / WhatsApp / Referral / Organic"/></div>
 <div class="form-group"><div class="form-label">ملاحظات</div><textarea class="form-textarea" id="eo-notes" placeholder="ملاحظات..."></textarea></div>
@@ -3004,7 +3053,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // STATE
-let state = { orders:[], customers:[], reviews:[], events:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[], lostOrderLeads:[], referrals:[], suppliers:[], supplierOrders:[], supplierPriceHistory:[], supplierPayments:[], stockMovements:[], priceHistory:[], inventoryLedger:[] };
+let state = { orders:[], customers:[], reviews:[], events:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[], lostOrderLeads:[], referrals:[], suppliers:[], supplierOrders:[], supplierPriceHistory:[], supplierPayments:[], stockMovements:[], priceHistory:[], inventoryLedger:[], returns:[] };
 let unsubscribers = [];
 
 // ══════════════════════════════
@@ -3270,7 +3319,7 @@ window.logout = async () => {
   unsubscribers = [];
   if(activityLogUnsubscribe) { activityLogUnsubscribe(); activityLogUnsubscribe = null; }
   activityLogData = [];
-  state = { orders:[], customers:[], reviews:[], events:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[], lostOrderLeads:[], referrals:[], suppliers:[], supplierOrders:[], supplierPriceHistory:[], supplierPayments:[], stockMovements:[], priceHistory:[], inventoryLedger:[] };
+  state = { orders:[], customers:[], reviews:[], events:[], products:[], inventory:[], regions:[], expenses:[], campaigns:[], coupons:[], trash:[], certificates:[], settings:[], notes:[], flavors:[], freelancers:[], projects:[], receivables:[], b2bLeads:[], lostOrderLeads:[], referrals:[], suppliers:[], supplierOrders:[], supplierPriceHistory:[], supplierPayments:[], stockMovements:[], priceHistory:[], inventoryLedger:[], returns:[] };
   await auth.signOut();
   // Prevent back button after logout
   history.pushState(null, '', location.href);
@@ -3342,7 +3391,7 @@ const COL_LABELS = {
   orders:'الطلبات', customers:'العملاء', reviews:'التقييمات', products:'المنتجات',
   inventory:'المخزون', regions:'المناطق', expenses:'المصاريف',
   campaigns:'الحملات', coupons:'الكوبونات', trash:'المحذوفات',
-  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم', freelancers:'الفريلانسرز', projects:'المشاريع', receivables:'الديون والمستحقات', suppliers:'الموردين', supplierOrders:'طلبات الموردين', supplierPriceHistory:'تاريخ أسعار الموردين', supplierPayments:'دفعات الموردين', stockMovements:'حركات المخزون', priceHistory:'تاريخ الأسعار', inventoryLedger:'دفتر المخزون'
+  certificates:'الشهادات', settings:'الإعدادات', notes:'الملاحظات', events:'التقويم', freelancers:'الفريلانسرز', projects:'المشاريع', receivables:'الديون والمستحقات', suppliers:'الموردين', supplierOrders:'طلبات الموردين', supplierPriceHistory:'تاريخ أسعار الموردين', supplierPayments:'دفعات الموردين', stockMovements:'حركات المخزون', priceHistory:'تاريخ الأسعار', inventoryLedger:'دفتر المخزون', returns:'المرتجعات'
 };
 
 async function logActivity(type, col, detail) {
@@ -3419,7 +3468,7 @@ window.showPage = (id, el) => {
     });
   }
   if(el) el.classList.add('active');
-  const titles = { dashboard:'📊 الرئيسية', orders:'🛒 الطلبات', customers:'👥 العملاء', reviews:'⭐ التقييمات', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', b2b:'🏢 B2B Leads', marketing:'📣 التسويق', 'lost-orders':'📉 الطلبات المفقودة', 'customer-intelligence':'♻️ ذكاء العملاء والاحتفاظ', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ خطوات التجهيز', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط', strategy:'🧭 الاستراتيجية', forecast:'📈 التنبؤ بالطلب', suppliers:'🏭 الموردين والمشتريات', admin:'⚙️ الإدارة والتحكم' };
+  const titles = { dashboard:'📊 الرئيسية', orders:'🛒 الطلبات', customers:'👥 العملاء', reviews:'⭐ التقييمات', products:'📦 المنتجات', flavors:'🍫 النكهات', inventory:'🗄️ المخزون', delivery:'🚚 التوصيل', finance:'💰 المالية', returns:'↩️ المرتجعات', freelancers:'👨‍💻 الفريلانسرز', projects:'📁 المشاريع', 'project-workspace':'📁 المشروع', receivables:'💳 الديون والمستحقات', b2b:'🏢 B2B Leads', marketing:'📣 التسويق', 'lost-orders':'📉 الطلبات المفقودة', 'customer-intelligence':'♻️ ذكاء العملاء والاحتفاظ', messages:'💬 الرسائل', brand:'🎨 هوية العلامة', checklist:'✅ خطوات التجهيز', legal:'⚖️ القانوني', trash:'🗑️ سلة المحذوفات', notes:'📝 الملاحظات', calendar:'📅 التقويم', activitylog:'📋 سجل النشاط', strategy:'🧭 الاستراتيجية', forecast:'📈 التنبؤ بالطلب', suppliers:'🏭 الموردين والمشتريات', admin:'⚙️ الإدارة والتحكم' };
   document.getElementById('pageTitle').textContent = titles[id]||id;
   updateBreadcrumb(id);
 
@@ -3435,6 +3484,7 @@ window.showPage = (id, el) => {
   if(id==='receivables') { window.filterDebts(); }
   if(id==='b2b') { window.filterLeads(); }
   if(id==='finance') { cacheRestoreFilters('expenses'); renderFinance(); }
+  if(id==='returns') { window.deebRenderReturns?.(); window.deebPopulateReturnSelects?.(); }
   if(id==='brand') { loadBrand(); }
   if(id==='legal') { loadLegal(); renderCertificates(); }
   if(id==='calculations') { loadCalculations(); updateCalc(); }
@@ -4365,6 +4415,8 @@ window.editOrder = function(id) {
   const eoname = document.getElementById('eo-name'); if(eoname) eoname.value = o.name||'';
   const eophone = document.getElementById('eo-phone'); if(eophone) eophone.value = o.phone||'';
   const eoprice = document.getElementById('eo-price'); if(eoprice) eoprice.value = o.price||0;
+  const eoweight = document.getElementById('eo-weight-kg'); if(eoweight) eoweight.value = o.weightKg ?? o.chocolateKg ?? '';
+  const eoprev = document.getElementById('eo-production-cost-preview'); if(eoprev) eoprev.textContent = (Math.max(0,parseFloat(eoweight?.value)||0)*12).toFixed(2)+' د.أ';
   const eoqty = document.getElementById('eo-qty'); if(eoqty) eoqty.value = o.qty||1;
   const eodate = document.getElementById('eo-date'); if(eodate) eodate.value = o.dateRaw||'';
   const eonotes = document.getElementById('eo-notes'); if(eonotes) eonotes.value = o.notes||'';
@@ -4395,11 +4447,15 @@ window.saveEditOrder = async function() {
   if(product==='اختر المنتج') product='';
   let dateVal = document.getElementById('eo-date').value;
   const newStatus = document.getElementById('eo-status').value;
+  const enteredWeightKg=parseFloat(document.getElementById('eo-weight-kg')?.value);
+  if(!Number.isFinite(enteredWeightKg)||enteredWeightKg<=0){toast('أدخل وزن الشوكولاتة بالكيلو قبل حفظ الطلب.','error');return;}
   const order = state.orders.find(o=>o.id===id);
   await updateDoc_('orders', id, {
     name, phone,
     product,
     price: parseFloat(document.getElementById('eo-price').value)||0,
+    weightKg: enteredWeightKg,
+    productionCostRate: 12,
     qty: parseInt(document.getElementById('eo-qty').value)||1,
     region: document.getElementById('eo-region').value,
     status: newStatus,
@@ -4608,6 +4664,8 @@ window.addOrder = async function() {
   let name = document.getElementById('o-name').value.trim();
   let phone = document.getElementById('o-phone').value.trim();
   if(!name||!phone) { toast('الاسم والهاتف مطلوبان', 'error'); return; }
+  const enteredWeightKg=parseFloat(document.getElementById('o-weight-kg')?.value);
+  if(!Number.isFinite(enteredWeightKg)||enteredWeightKg<=0){toast('أدخل وزن الشوكولاتة بالكيلو قبل حفظ الطلب.','error');return;}
   
   let rows = document.querySelectorAll('#orderProductRows .order-product-row');
   const products = [];
@@ -4641,6 +4699,8 @@ window.addOrder = async function() {
     product: productSummary,
     products: products,
     price: totalPrice,
+    weightKg: parseFloat(document.getElementById('o-weight-kg')?.value)||0,
+    productionCostRate: 12,
     qty: products.reduce(function(s,p){ return s+p.qty; }, 0),
     region, delivery, notes, status, date,
     dateRaw: dateVal || new Date().toISOString().split('T')[0],
@@ -4769,13 +4829,17 @@ function renderFinance() {
     return d >= range.start && d <= range.end;
   });
   let revenue = filteredOrders.reduce(function(s,o){ return s+(parseFloat(o.price)||0); }, 0);
+  const isProductionCogs=e=>e?.category==='COGS'||e?.type==='Production / COGS'||e?.source==='order-delivery-automation';
+  const productionExpenses=filteredExpenses.filter(isProductionCogs);
+  const operatingExpenses=filteredExpenses.filter(e=>!isProductionCogs(e));
   let expenses = filteredExpenses.reduce(function(s,e){ return s+(parseFloat(e.amount)||0); }, 0);
-  let profit = revenue - expenses;
-  // Profitability bridge uses stored COGS snapshots when available; missing COGS remains explicit.
-  const cogsKnown = filteredOrders.filter(o=>o.cogs!=null || o.grossProfit!=null).reduce((sum,o)=>sum+(parseFloat(o.cogs)!=null?parseFloat(o.cogs):((parseFloat(o.price)||0)-(parseFloat(o.grossProfit)||0))),0);
+  let opex = operatingExpenses.reduce(function(s,e){ return s+(parseFloat(e.amount)||0); }, 0);
+  // Production ledger is classified under COGS, not OPEX, to avoid deducting the same ledger record twice.
+  const cogsKnown = filteredOrders.filter(o=>o.cogs!=null || o.grossProfit!=null).reduce((sum,o)=>sum+(Number.isFinite(parseFloat(o.cogs))?parseFloat(o.cogs):((parseFloat(o.price)||0)-(parseFloat(o.grossProfit)||0))),0)+productionExpenses.reduce((sum,e)=>sum+(parseFloat(e.amount)||0),0);
+  let profit = revenue - cogsKnown - opex;
   const cogsComplete = filteredOrders.every(o=>o.cogs!=null || o.grossProfit!=null);
   const contributionKnown = cogsComplete ? revenue-cogsKnown : null;
-  const netAfterRecordedExpenses = contributionKnown!=null ? contributionKnown-expenses : null;
+  const netAfterRecordedExpenses = contributionKnown!=null ? contributionKnown-opex : null;
   const setFinBridge=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
   setFinBridge('finBridgeRevenue',revenue.toFixed(2)+' JOD');
   setFinBridge('finCOGS',cogsComplete?cogsKnown.toFixed(2)+' JOD':'غير مكتمل');
@@ -5305,7 +5369,7 @@ window.renderDemandForecast=function(){
 };
 
 function subscribeToData() {
-  const collections = ['orders','customers','reviews','events','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads','lostOrderLeads','referrals','suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger'];
+  const collections = ['orders','customers','reviews','events','products','inventory','regions','expenses','campaigns','coupons','trash','certificates','settings','notes','flavors','freelancers','projects','receivables','b2bLeads','lostOrderLeads','referrals','suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger','returns'];
   if(!window.unsubscribers) window.unsubscribers = [];
   collections.forEach(function(col) {
     try {
@@ -5349,6 +5413,7 @@ function refreshUI(col) {
     if(col==='events') { if(document.getElementById('page-calendar')?.classList.contains('active')) loadCalEvents().then(()=>renderCal()); }
     if(col==='suppliers' || col==='supplierOrders' || col==='supplierPriceHistory' || col==='supplierPayments') { if(document.getElementById('page-suppliers')?.classList.contains('active')) window.renderSuppliersPage(); }
     if(col==='stockMovements' || col==='inventoryLedger' || col==='priceHistory') { if(document.getElementById('page-admin')?.classList.contains('active')) window.renderAdminCollection(); }
+    if(col==='returns') { window.deebRenderReturns?.(); if(document.getElementById('page-customers')?.classList.contains('active')) window.deebRenderCustomerReturns?.(); }
   } catch(e) { console.error('refreshUI error for col='+col+':', e); }
 }
 
@@ -5909,6 +5974,7 @@ function _renderOrdersPage() {
       '<option value="delivered" '+(o.status==='delivered'?'selected':'')+'>✅ Delivered</option>'+
       '<option value="cancelled" '+(o.status==='cancelled'?'selected':'')+'>❌ Cancelled</option>'+
       '</select> '+
+      '<button class="btn btn-sm btn-gold" onclick="window.deebReturnStartFromOrder(\''+o.id+'\')">↩️ مرتجع</button> '+
       '<button class="btn btn-sm btn-outline" onclick="editOrder(\''+o.id+'\')">✏️</button> '+
       '<button class="btn btn-sm btn-danger" onclick="deleteOrder(\''+o.id+'\')">🗑</button>'+
       '</td></tr>';
@@ -8294,7 +8360,7 @@ window.renderCustomerIntelligence=function(){const customers=ciCustomerMetrics()
 // DEEB MASTER ERP — SUPPLIERS / PROCUREMENT / ADMIN CONTROL
 // ═══════════════════════════════════════════════════════════════
 const DEEB_ERP_COLLECTIONS = ['suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger'];
-const DEEB_ADMIN_COLLECTIONS = ['orders','customers','reviews','products','flavors','inventory','regions','expenses','campaigns','coupons','receivables','b2bLeads','lostOrderLeads','referrals','suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger','settings','notes','certificates','freelancers','projects','events','activityLog','trash'];
+const DEEB_ADMIN_COLLECTIONS = ['orders','customers','reviews','products','flavors','inventory','regions','expenses','campaigns','coupons','receivables','b2bLeads','lostOrderLeads','referrals','suppliers','supplierOrders','supplierPriceHistory','supplierPayments','stockMovements','priceHistory','inventoryLedger','settings','notes','certificates','freelancers','projects','events','returns','activityLog','trash'];
 
 function deebToday(){ return new Date().toISOString().split('T')[0]; }
 function deebNum(v){ const n=parseFloat(v); return Number.isFinite(n)?n:0; }
@@ -8427,7 +8493,7 @@ window.openSupplierPriceHistory=function(){showPage('admin',null);setTimeout(()=
 // ═══════════════════════════════════════════════════════════════
 // ADMIN CONTROL CENTER
 // ═══════════════════════════════════════════════════════════════
-const DEEB_ADMIN_LABELS={orders:'الطلبات',customers:'العملاء',reviews:'التقييمات',products:'المنتجات',flavors:'النكهات',inventory:'المخزون',regions:'مناطق التوصيل',expenses:'المصاريف',campaigns:'الحملات',coupons:'الكوبونات',receivables:'المستحقات',b2bLeads:'B2B Leads',lostOrderLeads:'الطلبات المفقودة',referrals:'الإحالات',suppliers:'الموردين',supplierOrders:'طلبات الموردين',supplierPriceHistory:'تاريخ أسعار الموردين',supplierPayments:'دفعات الموردين',stockMovements:'حركات المخزون',priceHistory:'تاريخ الأسعار',inventoryLedger:'دفتر المخزون',settings:'الإعدادات',notes:'الملاحظات',certificates:'الشهادات',freelancers:'الفريلانسرز',projects:'المشاريع',events:'التقويم',activityLog:'سجل النشاط',trash:'المحذوفات'};
+const DEEB_ADMIN_LABELS={orders:'الطلبات',customers:'العملاء',reviews:'التقييمات',products:'المنتجات',flavors:'النكهات',inventory:'المخزون',regions:'مناطق التوصيل',expenses:'المصاريف',campaigns:'الحملات',coupons:'الكوبونات',receivables:'المستحقات',b2bLeads:'B2B Leads',lostOrderLeads:'الطلبات المفقودة',referrals:'الإحالات',suppliers:'الموردين',supplierOrders:'طلبات الموردين',supplierPriceHistory:'تاريخ أسعار الموردين',supplierPayments:'دفعات الموردين',stockMovements:'حركات المخزون',priceHistory:'تاريخ الأسعار',inventoryLedger:'دفتر المخزون',settings:'الإعدادات',notes:'الملاحظات',certificates:'الشهادات',freelancers:'الفريلانسرز',projects:'المشاريع',events:'التقويم',returns:'المرتجعات',activityLog:'سجل النشاط',trash:'المحذوفات'};
 window.renderAdminModules=function(){const el=document.getElementById('adminModuleChecklist');if(!el)return;const mods=[['dashboard','الرئيسية'],['orders','الطلبات'],['customers','العملاء'],['reviews','التقييمات'],['products','المنتجات'],['flavors','النكهات'],['inventory','المخزون'],['delivery','التوصيل'],['finance','المالية'],['calculations','الحسابات'],['suppliers','الموردين'],['admin','الإدارة'],['receivables','المستحقات'],['b2b','B2B'],['freelancers','الفريلانسرز'],['projects','المشاريع'],['marketing','التسويق'],['strategy','الاستراتيجية'],['forecast','التنبؤ بالطلب'],['messages','الرسائل'],['calendar','التقويم'],['activitylog','سجل النشاط'],['brand','الهوية'],['checklist','التجهيز'],['legal','القانوني'],['notes','الملاحظات'],['trash','المحذوفات']];el.innerHTML=mods.map(m=>`<div class="admin-module-item"><span>${m[1]}</span><span class="ok">✓ موجود</span></div>`).join('');};
 window.adminNewRecord=function(){const col=document.getElementById('adminCollection')?.value;if(!col)return;document.getElementById('adminRecordJson').dataset.col=col;document.getElementById('adminRecordId').value='';document.getElementById('adminRecordTitle').textContent='➕ سجل جديد — '+(DEEB_ADMIN_LABELS[col]||col);document.getElementById('adminRecordJson').value=JSON.stringify({},null,2);openModal('adminRecordModal');};
 window.renderAdminCollection=function(){const erpSel=document.getElementById('erpChocolateItem');if(erpSel&&!erpSel.options.length){const cfg=(state.settings||[]).find(x=>x.id==='erpConfig'||x.key==='erpConfig');erpSel.innerHTML='<option value="">— غير محدد —</option>'+(state.inventory||[]).map(i=>`<option value="${i.id}">${sanitize(i.name)}</option>`).join('');erpSel.value=cfg?.chocolateInventoryItemId||'';}const sel=document.getElementById('adminCollection');if(!sel)return;if(!sel.options.length){sel.innerHTML=DEEB_ADMIN_COLLECTIONS.map(c=>`<option value="${c}">${DEEB_ADMIN_LABELS[c]||c}</option>`).join('');}const col=sel.value||DEEB_ADMIN_COLLECTIONS[0];const q=(document.getElementById('adminSearch')?.value||'').toLowerCase();const data=(state[col]||[]).filter(x=>!q||JSON.stringify(x).toLowerCase().includes(q));const title=document.getElementById('adminCollectionTitle');if(title)title.textContent='⚙️ '+(DEEB_ADMIN_LABELS[col]||col);const count=document.getElementById('adminCollectionCount');if(count)count.textContent=data.length+' سجل';const keys=[];data.forEach(x=>Object.keys(x).forEach(k=>{if(!keys.includes(k)&&k!=='id')keys.push(k)}));const max=8, shown=keys.slice(0,max);const head=document.getElementById('adminTableHead'),body=document.getElementById('adminTableBody');if(head)head.innerHTML='<tr>'+shown.map(k=>`<th>${sanitize(k)}</th>`).join('')+'<th>إجراء</th></tr>';if(body)body.innerHTML=data.length?data.map(x=>'<tr>'+shown.map(k=>{let v=x[k];if(typeof v==='object')v=JSON.stringify(v);return '<td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+sanitize(v??'')+'">'+sanitize(v??'—')+'</td>'}).join('')+`<td style="white-space:nowrap">${col==='activityLog'?'—':'<button class="btn btn-sm btn-outline" onclick="window.adminEditRecord(\''+col+'\',\''+x.id+'\')">✏️</button> <button class="btn btn-sm btn-danger" onclick="window.adminDeleteRecord(\''+col+'\',\''+x.id+'\')">🗑</button>'}</td></tr>`).join(''):'<tr><td colspan="9"><div class="empty-state"><div class="e-icon">🗂️</div><div class="e-title">لا توجد سجلات</div></div></td></tr>';window.renderAdminModules();};
@@ -8514,7 +8580,7 @@ window._deebRestoreInventoryForOrderFinal=async function(order){
 restoreInventoryForOrder=window._deebRestoreInventoryForOrderFinal;
 
 // FINAL ADMIN CONTROL GUARDRAILS — immutable ledgers / logs
-const DEEB_ADMIN_READONLY=new Set(['activityLog','trash','stockMovements','inventoryLedger','priceHistory','supplierPriceHistory','supplierPayments']);
+const DEEB_ADMIN_READONLY=new Set(['returns','activityLog','trash','stockMovements','inventoryLedger','priceHistory','supplierPriceHistory','supplierPayments']);
 window.adminNewRecord=function(){const col=document.getElementById('adminCollection')?.value;if(!col)return;if(DEEB_ADMIN_READONLY.has(col))return toast('🔒 هذا الجدول للقراءة فقط ويُدار من واجهته المتخصصة.','warning');document.getElementById('adminRecordJson').dataset.col=col;document.getElementById('adminRecordId').value='';document.getElementById('adminRecordTitle').textContent='➕ سجل جديد — '+(DEEB_ADMIN_LABELS[col]||col);document.getElementById('adminRecordJson').value=JSON.stringify({},null,2);openModal('adminRecordModal');};
 window.adminEditRecord=function(col,id){if(DEEB_ADMIN_READONLY.has(col))return toast('🔒 هذا الجدول للقراءة فقط.','warning');const item=(state[col]||[]).find(x=>x.id===id);if(!item)return;document.getElementById('adminRecordId').value=id;document.getElementById('adminRecordTitle').textContent='✏️ تعديل — '+(DEEB_ADMIN_LABELS[col]||col);document.getElementById('adminRecordJson').value=JSON.stringify(item,(k,v)=>k==='id'?undefined:v,2);document.getElementById('adminRecordJson').dataset.col=col;openModal('adminRecordModal');};
 window.saveAdminRecord=async function(){const col=document.getElementById('adminRecordJson').dataset.col||document.getElementById('adminCollection').value;if(DEEB_ADMIN_READONLY.has(col))return toast('🔒 هذا الجدول للقراءة فقط ويُدار من واجهته المتخصصة.','warning');let data;try{data=JSON.parse(document.getElementById('adminRecordJson').value||'{}');}catch(e){return toast('JSON غير صحيح','error');}delete data.id;const id=document.getElementById('adminRecordId').value;if(id)await updateDoc_(col,id,data);else await addDoc_(col,data);closeModal('adminRecordModal');window.renderAdminCollection();toast('تم حفظ السجل ✅','success');};
@@ -9692,5 +9758,201 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
 })();
 </script>
 
+
+<script id="deeb-returns-draft-module">
+/* DEEB OS returns: draft capture only. Financial/inventory posting is deliberately gated pending accounting policy review. */
+(function(){
+  const $=id=>document.getElementById(id);
+  const n=v=>{const x=Number(v);return Number.isFinite(x)?x:0;};
+  const money=v=>n(v).toFixed(2);
+  const esc=v=>typeof sanitize==='function'?sanitize(v??''):String(v??'');
+  const typeLabel={customer:'مرتجع عميل',bazaar:'فائض بازار / فعالية',factory:'إرجاع للمصنع / المورد',damage:'تالف'};
+  function orderWeight(o){
+    const direct=n(o?.weightKg ?? o?.chocolateKg);
+    if(direct>0)return direct;
+    const products=Array.isArray(o?.products)?o.products:[];
+    let total=0;
+    products.forEach(p=>{const prod=(state.products||[]).find(x=>x.name===p.name||x.id===p.productId);const raw=prod?.weight||p.weight;const kg=typeof deebParseWeightKg==='function'?deebParseWeightKg(raw):0;total+=kg*(n(p.qty)||1);});
+    return total;
+  }
+  function getOrder(){return (state.orders||[]).find(o=>o.id===$('ret-order')?.value)||null;}
+  window.deebPopulateReturnSelects=function(){
+    const orderSel=$('ret-order'),supplierSel=$('ret-supplier');
+    if(orderSel){const old=orderSel.value;orderSel.innerHTML='<option value="">— بدون طلب —</option>'+(state.orders||[]).slice().sort((a,b)=>n(b.createdAt)-n(a.createdAt)).map(o=>`<option value="${esc(o.id)}">${esc(o.orderNumber||o.id.slice(0,8))} — ${esc(o.name||'عميل')} — ${esc(o.status||'')} — ${money(o.price)} د.أ.</option>`).join('');if(old)orderSel.value=old;}
+    if(supplierSel){const old=supplierSel.value;supplierSel.innerHTML='<option value="">— اختر المورد —</option>'+(state.suppliers||[]).map(s=>`<option value="${esc(s.id)}">${esc(s.name||s.company||s.id)}</option>`).join('');if(old)supplierSel.value=old;}
+  };
+  window.deebReturnTypeChanged=function(){
+    const type=$('ret-type')?.value;
+    if($('ret-order')){if(type==='factory'||type==='damage')$('ret-order').value='';$('ret-order').disabled=type==='factory'||type==='damage';}
+    if(type==='factory'&&$('ret-destination'))$('ret-destination').value='factory';
+    if(type==='damage'&&$('ret-destination'))$('ret-destination').value='damaged';
+    window.deebReturnOrderChanged();window.deebUpdateReturnPreview();
+  };
+  window.deebReturnOrderChanged=function(){
+    const o=getOrder();if($('ret-customer')&&o)$('ret-customer').value=o.name||'';
+    const wrap=$('ret-exception-wrap');const needsException=!!o&&!['delivered','completed'].includes(String(o.status||'').toLowerCase());if(wrap)wrap.style.display=needsException?'block':'none';
+    window.deebUpdateReturnPreview();
+  };
+  window.deebUpdateReturnPreview=function(){
+    const o=getOrder(),kg=n($('ret-weight')?.value),factoryCost=n($('ret-factory-cost')?.value),baseKg=o?orderWeight(o):0,basePrice=o?n(o.price):0;
+    let value=0;const reliable=!!o&&baseKg>0&&basePrice>=0;
+    if(reliable&&kg>0)value=Math.round((kg/baseKg)*basePrice*100)/100;
+    if($('ret-product-value'))$('ret-product-value').value=reliable&&kg>0?value.toFixed(2):'';
+    const cost=kg>0&&$('ret-factory-cost')?.value!==''?kg*factoryCost:null;
+    const lines=[];
+    lines.push('الوزن: '+kg.toFixed(3)+' كغم');
+    lines.push('تكلفة المصنع المرجعية: '+(cost===null?'غير مكتملة':money(cost)+' د.أ.'));
+    lines.push('قيمة المنتجات المرتجعة: '+(reliable&&kg>0?money(value)+' د.أ.':'غير قابلة للحساب تلقائيًا — يلزم مصدر وزن وسعر موثوق')); 
+    if(o){lines.push('الطلب: '+(o.orderNumber||o.id)+' ('+(o.status||'—')+')');if(baseKg>0&&kg>baseKg)lines.push('تنبيه: الوزن أعلى من وزن الطلب المرجعي؛ يتطلب استثناءً إداريًا وسببًا موثقًا.');if(!['delivered','completed'].includes(String(o.status||'').toLowerCase()))lines.push('تنبيه: الطلب غير مسلّم؛ سبب الاستثناء مطلوب.');}
+    if($('ret-preview'))$('ret-preview').innerHTML=lines.map(x=>'<div>'+esc(x)+'</div>').join('');
+  };
+  window.deebResetReturnForm=function(){
+    ['ret-source-ref','ret-weight','ret-factory-cost','ret-product-value','ret-customer-refund','ret-refund-method','ret-delivery-exception','ret-supplier-settlement','ret-reason','ret-exception'].forEach(id=>{if($(id))$(id).value='';});
+    if($('ret-type'))$('ret-type').value='customer';if($('ret-order'))$('ret-order').value='';if($('ret-customer'))$('ret-customer').value='';if($('ret-supplier'))$('ret-supplier').value='';if($('ret-date'))$('ret-date').value=new Date().toISOString().slice(0,10);if($('ret-delivery-refund'))$('ret-delivery-refund').value='0';if($('ret-condition'))$('ret-condition').value='unknown';if($('ret-destination'))$('ret-destination').value='stock';window.deebPopulateReturnSelects();window.deebReturnTypeChanged();
+  };
+  window.deebReturnStartFromOrder=function(orderId){window.deebPopulateReturnSelects();window.deebResetReturnForm();if($('ret-order'))$('ret-order').value=orderId;if($('ret-type'))$('ret-type').value='customer';window.deebReturnTypeChanged();window.deebReturnOrderChanged();window.showPage('returns');};
+  window.deebSaveReturnDraft=async function(){
+    const type=$('ret-type')?.value,order=getOrder(),kg=n($('ret-weight')?.value),factoryCostRaw=$('ret-factory-cost')?.value;
+    if(!type)return toast('اختر نوع المرتجع','error');if(!(kg>0))return toast('أدخل وزنًا أكبر من صفر','error');if(factoryCostRaw===''||n(factoryCostRaw)<0)return toast('أدخل تكلفة المصنع لكل كغم','error');
+    if(type==='customer'&&!order)return toast('مرتجع العميل يحتاج ربطًا بطلب أصلي','error');
+    if(type==='customer'&&$('ret-customer-refund')?.value==='')return toast('أدخل مبلغ استرداد العميل؛ أدخل صفرًا إذا لم يتم استرداد مبلغ','error');
+    if(n($('ret-delivery-refund')?.value)>0&&!$('ret-delivery-exception')?.value.trim())return toast('استثناء رسوم التوصيل يحتاج سببًا موثقًا','error');
+    if(type==='factory'&&!$('ret-supplier')?.value)return toast('اختر المورد المرتبط بالمرتجع','error');
+    if(type==='bazaar'&&!$('ret-source-ref')?.value.trim())return toast('أدخل مرجع أو اسم البازار / الفعالية','error');
+    const needsException=!!order&&!['delivered','completed'].includes(String(order.status||'').toLowerCase());if(needsException&&!$('ret-exception')?.value.trim())return toast('اكتب سبب الاستثناء للطلب غير المسلّم','error');
+    const baseKg=order?orderWeight(order):0;const canValue=!!order&&baseKg>0;const productValue=canValue?Math.round((kg/baseKg*n(order.price))*100)/100:null;
+    if(type==='customer'&&productValue===null)return toast('لا يمكن حساب قيمة المرتجع: وزن الطلب الأصلي غير موثق. يلزم مراجعة البيانات قبل الحفظ.','error');
+    const supplier=(state.suppliers||[]).find(x=>x.id===$('ret-supplier')?.value);
+    const record={type,typeLabel:typeLabel[type],status:'draft',sourceOrderId:order?.id||'',sourceOrderNumber:order?.orderNumber||order?.id||'',sourceOrderStatus:order?.status||'',customerName:($('ret-customer')?.value||order?.name||'').trim(),customerPhone:order?.phone||'',customerId:order?.customerId||'',supplierId:supplier?.id||'',supplierName:supplier?.name||supplier?.company||'',sourceRef:($('ret-source-ref')?.value||'').trim(),date:$('ret-date')?.value||new Date().toISOString().slice(0,10),weightKg:kg,factoryUnitCost:n(factoryCostRaw),factoryCostTotal:Math.round(kg*n(factoryCostRaw)*100)/100,condition:$('ret-condition')?.value||'unknown',destination:$('ret-destination')?.value||'',returnedProductValue:productValue,customerRefundAmount:n($('ret-customer-refund')?.value),deliveryFeeRefund:n($('ret-delivery-refund')?.value),supplierSettlementAmount:n($('ret-supplier-settlement')?.value),refundMethodNotes:($('ret-refund-method')?.value||'').trim(),deliveryFeeExceptionReason:($('ret-delivery-exception')?.value||'').trim(),reason:($('ret-reason')?.value||'').trim(),exceptionReason:($('ret-exception')?.value||'').trim(),exceptionRequired:needsException,financialPostingStatus:'not-posted',inventoryPostingStatus:'not-posted',createdAt:Date.now(),createdBy:auth.currentUser?.email||'',policyVersion:'returns-draft-v1'};
+    try{const ref=await addDoc_('returns',record);try{await db.collection('activityLog').add({type:'return-draft-created',col:'returns',colLabel:'المرتجعات',detail:`مسودة ${ref.id} | ${typeLabel[type]} | ${kg} كغم | لم تُرحّل ماليًا أو مخزنيًا`,refType:'return',refId:ref.id,ts:Date.now(),timeStr:new Date().toLocaleString('ar')});}catch(e){}toast('تم حفظ مسودة المرتجع دون تغيير المخزون أو الأرصدة','success');window.deebResetReturnForm();window.deebRenderReturns();}catch(e){console.error(e);}
+  };
+  window.deebRenderReturns=function(){
+    const data=state.returns||[],tf=$('ret-filter-type')?.value||'',sf=$('ret-filter-status')?.value||'';const rows=data.filter(r=>(!tf||r.type===tf)&&(!sf||r.status===sf)).sort((a,b)=>n(b.createdAt)-n(a.createdAt));
+    const sumWeight=data.reduce((s,r)=>s+n(r.weightKg),0),sumValue=data.reduce((s,r)=>s+n(r.returnedProductValue),0);
+    if($('retCount'))$('retCount').textContent=String(data.length);if($('retValue'))$('retValue').textContent=money(sumValue);if($('retWeight'))$('retWeight').textContent=sumWeight.toFixed(3);if($('retPending'))$('retPending').textContent=String(data.filter(r=>r.status==='draft').length);
+    const tb=$('ret-table');if(!tb)return;tb.innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(String(r.id||'').slice(0,9))}</td><td>${esc(r.typeLabel||typeLabel[r.type]||r.type)}</td><td>${esc(r.sourceOrderNumber||r.sourceRef||'—')}</td><td>${esc(r.customerName||r.supplierName||'—')}</td><td>${n(r.weightKg).toFixed(3)} كغم</td><td>${r.returnedProductValue==null?'—':money(r.returnedProductValue)+' د.أ.'}</td><td><span class="badge ${r.status==='draft'?'badge-pending':'badge-delivered'}">${r.status==='draft'?'مسودة':esc(r.status)}</span></td><td>${esc(r.date||'—')}</td></tr>`).join(''):'<tr><td colspan="8"><div class="empty-state"><div class="e-icon">↩️</div><div class="e-title">لا توجد مسودات مرتجعات</div></div></td></tr>';
+  };
+  window.deebRenderCustomerReturns=function(){};
+  document.addEventListener('DOMContentLoaded',()=>{window.deebPopulateReturnSelects();window.deebResetReturnForm();window.deebRenderReturns();});
+})();
+
+</script>
+
+<script id="deeb-production-cost-audit-module">
+/* Read-only audit: compare order COGS snapshots with linked 12 JOD/kg production expenses. No writes. */
+(function(){
+  const num=v=>{const x=Number(v);return Number.isFinite(x)?x:0;};
+  const money=v=>num(v).toFixed(2)+' د.أ.';
+  const esc=v=>typeof sanitize==='function'?sanitize(v??''):String(v??'');
+  window.deebRunProductionCostAudit=function(){
+    const orders=(state.orders||[]).filter(o=>o.status==='delivered'||o.status==='completed'||o.salePosted);
+    const expenses=(state.expenses||[]).filter(e=>e.source==='order-delivery-automation'||e.type==='Production / COGS'||e.category==='COGS');
+    const byOrder=new Map();
+    expenses.forEach(e=>{const id=e.orderId||e.refId;if(!id)return;const a=byOrder.get(id)||[];a.push(e);byOrder.set(id,a);});
+    const rows=orders.map(o=>{
+      const weight=num(o.cogsSnapshot?.chocolateKg||o.chocolateKg||o.weightKg);
+      const cogs=num(o.cogsSnapshot?.cogs??o.cogs);
+      const snapUnit=num(o.cogsSnapshot?.chocolateUnitCost);
+      const linked=byOrder.get(o.id)||[];
+      const prod=linked.reduce((sum,e)=>sum+num(e.amount),0);
+      const prodWeight=linked.reduce((sum,e)=>sum+num(e.weightKg),0);
+      const hasSnapshot=!!o.cogsSnapshot;
+      const overlap=snapUnit>0&&prod>0;
+      const mismatched=linked.length>1||Math.abs(prodWeight-weight)>0.001||Math.abs(prod-(weight*12))>0.02;
+      let status='مراجعة مطلوبة';
+      if(!hasSnapshot&&prod>0)status='لا يوجد لقطة تكلفة واضحة';
+      else if(overlap)status='احتمال تداخل تكلفة — تحقق';
+      else if(!linked.length)status='لا يوجد مصروف إنتاج مرتبط';
+      else if(mismatched)status='فرق وزن/مبلغ أو سجلات متعددة';
+      return {id:o.id,number:o.orderNumber||o.id,weight,cogs,prod,snapUnit,status,linkedCount:linked.length};
+    });
+    const withProd=rows.filter(r=>r.prod>0).length;
+    const potential=rows.filter(r=>r.snapUnit>0&&r.prod>0).length;
+    const noExpense=rows.filter(r=>!r.prod).length;
+    const sumProd=rows.reduce((s,r)=>s+r.prod,0);
+    const summary=document.getElementById('productionCostAuditSummary');
+    if(summary)summary.innerHTML=`الطلبات المفحوصة: <strong>${rows.length}</strong> · طلبات لها مصروف إنتاج: <strong>${withProd}</strong> · حالات احتمال تداخل تحتاج مراجعة: <strong>${potential}</strong> · بلا مصروف إنتاج مرتبط: <strong>${noExpense}</strong> · مجموع مصروفات الإنتاج المرتبطة بهذه الطلبات: <strong>${money(sumProd)}</strong><div style="margin-top:.4rem">هذه مقارنة أولية فقط؛ لا تثبت الازدواج بمفردها، لأن تعريف تكلفة المخزون قد يختلف بين المنتجات والسجلات.</div>`;
+    const tbody=document.getElementById('productionCostAuditRows');
+    if(tbody)tbody.innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(r.number)}</td><td>${r.weight.toFixed(3)}</td><td>${money(r.cogs)}</td><td>${money(r.prod)}</td><td>${r.snapUnit>0?money(r.snapUnit)+'/كغم':'غير مسجلة'}</td><td>${esc(r.status)}</td></tr>`).join(''):'<tr><td colspan="6">لا توجد طلبات مؤهلة في البيانات المحمّلة</td></tr>';
+    if(typeof toast==='function')toast('اكتمل التدقيق للبيانات المحمّلة فقط — لم يتم تعديل أي سجل','success');
+    return {orders:rows.length,withProductionExpense:withProd,potentialOverlap:potential,noLinkedExpense:noExpense,productionExpenseTotal:sumProd,rows};
+  };
+})();
+
+</script>
+
+<script id="deeb-production-expense-module">
+/* DEEB OS — Production expense automation (12 JOD per manually entered kg).
+   Uses a deterministic expense document ID to prevent duplicate active expenses. */
+(function(){
+  const RATE=12;
+  const expenseIdFor=id=>'production_'+String(id);
+  const amountFor=o=>Math.round((Number(o?.weightKg ?? o?.chocolateKg)||0)*RATE*100)/100;
+  const dateFor=o=>o?.dateRaw || (o?.createdAt ? new Date(o.createdAt.seconds ? o.createdAt.seconds*1000 : o.createdAt).toISOString().slice(0,10) : new Date().toISOString().slice(0,10));
+  async function audit(action,orderId,amount,detail){
+    try{await db.collection('activityLog').add({type:'production-expense-'+action,col:'expenses',colLabel:'مصروفات الإنتاج',detail:`الطلب ${orderId} | ${amount} JOD | ${detail||action}`,refType:'order',refId:orderId,ts:Date.now(),timeStr:new Date().toLocaleString('ar')});}catch(e){console.error('Production expense audit failed',e);}
+  }
+  async function syncExpense(orderId, orderData){
+    const orderRef=db.collection('orders').doc(orderId);
+    const snap=await orderRef.get(); if(!snap.exists) throw new Error('الطلب غير موجود');
+    const o={...snap.data(),...(orderData||{})};
+    const status=o.status; const stage=String(o.funnelStage||'').toLowerCase();
+    const eligible=status==='delivered'||status==='completed'||stage==='completed';
+    const ref=db.collection('expenses').doc(expenseIdFor(orderId));
+    const existing=await ref.get();
+    if(!eligible||status==='cancelled') return;
+    const kg=Number(o.weightKg ?? o.chocolateKg);
+    if(!Number.isFinite(kg)||kg<=0) throw new Error('وزن الشوكولاتة غير صالح؛ لا يمكن تسجيل مصروف الإنتاج.');
+    const amount=Math.round(kg*RATE*100)/100;
+    const date=dateFor(o);
+    const record={name:'تكلفة الشوكولاتة والإنتاج',type:'Production / COGS',category:'COGS',amount,date,weightKg:kg,ratePerKg:RATE,source:'order-delivery-automation',autoGenerated:true,orderId,refType:'order',refId:orderId,updatedAt:Date.now()};
+    if(existing.exists){
+      const old=existing.data();
+      const changed=Number(old.amount)!==amount||Number(old.weightKg)!==kg;
+      if(changed){await ref.set({...record,manualOverride:false,previousAmount:Number(old.amount)||0,amountUpdatedAt:Date.now()},{merge:true});await audit('recalculated',orderId,amount,`تحديث الوزن من ${old.weightKg||'?'} إلى ${kg} كغم`);}
+    }else{
+      await ref.set({...record,createdAt:Date.now(),manualOverride:false});
+      await audit('created',orderId,amount,`إنشاء تلقائي عند حالة ${status||stage}`);
+    }
+  }
+  async function removeExpense(orderId){
+    const ref=db.collection('expenses').doc(expenseIdFor(orderId));const snap=await ref.get();if(!snap.exists)return;
+    const e=snap.data();await audit('deleted',orderId,Number(e.amount)||0,'حذف المصروف الفعّال بسبب إلغاء الطلب');await ref.delete();
+  }
+  // Expose for repair/retry and UI preview.
+  window.deebProductionExpenseAmount=kg=>Math.round((Number(kg)||0)*RATE*100)/100;
+  window.deebSyncProductionExpense=syncExpense;
+  window.deebRemoveProductionExpense=removeExpense;
+  // Live previews; actual persisted weight remains the order field.
+  document.addEventListener('input',e=>{if(e.target?.id==='o-weight-kg'){const el=document.getElementById('o-production-cost-preview');if(el)el.textContent=window.deebProductionExpenseAmount(e.target.value).toFixed(2)+' د.أ';}if(e.target?.id==='eo-weight-kg'){const el=document.getElementById('eo-production-cost-preview');if(el)el.textContent=window.deebProductionExpenseAmount(e.target.value).toFixed(2)+' د.أ';}});
+  // Wrap the final update helper after all existing order/ERP guards.
+  const previousUpdateDoc=updateDoc_;
+  updateDoc_=async function(col,id,data){
+    const before=(col==='orders'?(state.orders||[]).find(x=>x.id===id):null);
+    if(col==='orders' && (data?.status==='delivered'||data?.status==='completed'||String(data?.funnelStage||'').toLowerCase()==='completed')){
+      const kg=Number(data?.weightKg ?? before?.weightKg ?? before?.chocolateKg);
+      if(!Number.isFinite(kg)||kg<=0) throw new Error('أدخل وزن الشوكولاتة بالكيلو قبل توصيل/إكمال الطلب.');
+    }
+    const result=await previousUpdateDoc(col,id,data);
+    if(col==='orders'){
+      try{
+        const next={...(before||{}),...(data||{})};
+        if(data?.status==='cancelled'){await removeExpense(id);}
+        else if(next.status==='delivered'||next.status==='completed'||String(next.funnelStage||'').toLowerCase()==='completed'){await syncExpense(id,next);}
+        else if(Object.prototype.hasOwnProperty.call(data||{},'weightKg') && (next.status==='delivered'||next.status==='completed')){await syncExpense(id,next);}
+      }catch(e){console.error('Production expense sync failed',e);toast('⚠️ حالة الطلب حُفظت لكن مصروف الإنتاج يحتاج إعادة مزامنة: '+(e.message||e),'warning');}
+    }else if(col==='expenses' && id.startsWith('production_')){
+      // Manual edits are allowed; mark the record as manually overridden. Weight changes on the order recalculate it.
+      try{await db.collection('expenses').doc(id).set({manualOverride:true,manualOverrideAt:Date.now()},{merge:true});}catch(e){console.warn(e);}
+    }
+    return result;
+  };
+  // Wrap creation to ensure an order created directly in an eligible state still has an expense.
+  const previousAddDoc=addDoc_;
+  addDoc_=async function(col,data){const ref=await previousAddDoc(col,data);if(col==='orders'&&(data.status==='delivered'||data.status==='completed')){try{await syncExpense(ref.id,data);}catch(e){console.error(e);toast('⚠️ الطلب حُفظ لكن مصروف الإنتاج يحتاج إعادة مزامنة.','warning');}}return ref;};
+  // Existing orders are intentionally not backfilled. This is only a retry control for a selected order.
+  window.deebRetryProductionExpense=async function(orderId){const o=(state.orders||[]).find(x=>x.id===orderId);if(!o)throw new Error('الطلب غير موجود في البيانات الحالية');return syncExpense(orderId,o);};
+})();
+</script>
 </body>
 </html>
