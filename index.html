@@ -4845,6 +4845,64 @@ window.populateSelects = function() {
 };
 
 // ── FIX renderFinance to use month filter ──
+
+// DEEB OS unified financial engine: one source of truth for P&L figures.
+window.deebFinancialSummary = function(ordersInput, expensesInput) {
+  const orders = (ordersInput || []).filter(o => o && o.status === 'delivered');
+  const expenses = expensesInput || [];
+  const n = v => { const x = Number(v); return Number.isFinite(x) ? x : 0; };
+  const hasNum = v => v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));
+  const isProduction = e => e && (e.source === 'order-delivery-automation' || e.type === 'Production / COGS' || e.category === 'COGS');
+  const linked = new Map();
+  expenses.filter(isProduction).forEach(e => {
+    const id = e.orderId || e.refId;
+    if (!id) return;
+    if (!linked.has(String(id))) linked.set(String(id), []);
+    linked.get(String(id)).push(e);
+  });
+  let revenue = 0, cogs = 0, cogsComplete = true;
+  const consumedProductionIds = new Set();
+  orders.forEach(o => {
+    revenue += n(o.price);
+    let orderCogs = null;
+    if (hasNum(o.cogsSnapshot && o.cogsSnapshot.cogs)) orderCogs = n(o.cogsSnapshot.cogs);
+    else if (hasNum(o.cogs)) orderCogs = n(o.cogs);
+    else if (hasNum(o.grossProfit)) orderCogs = n(o.price) - n(o.grossProfit);
+    const prodRows = linked.get(String(o.id)) || [];
+    if (orderCogs === null && prodRows.length) {
+      // Fallback only: use linked production ledger when the order has no recorded COGS.
+      orderCogs = prodRows.reduce((sum,e) => sum + n(e.amount), 0);
+    }
+    if (orderCogs === null) cogsComplete = false;
+    else cogs += orderCogs;
+    prodRows.forEach(e => consumedProductionIds.add(String(e.id || (e.orderId ? 'production_'+e.orderId : e.refId || ''))));
+  });
+  const operatingRows = expenses.filter(e => {
+    if (isProduction(e)) {
+      const id = e.orderId || e.refId;
+      const isLinkedDelivered = id && orders.some(o => String(o.id) === String(id));
+      if (isLinkedDelivered) return false; // already represented by order COGS or fallback
+    }
+    return true;
+  });
+  const opex = operatingRows.reduce((sum,e) => sum + n(e.amount), 0);
+  const totalCosts = cogs + opex;
+  return { revenue, cogs, cogsComplete, opex, totalCosts, netProfit: revenue-totalCosts,
+    operatingRows, orderCount: orders.length,
+    missingCogsOrders: orders.filter(o => {
+      const recorded = hasNum(o.cogsSnapshot && o.cogsSnapshot.cogs) || hasNum(o.cogs) || hasNum(o.grossProfit);
+      const hasProd = (linked.get(String(o.id)) || []).length > 0;
+      return !recorded && !hasProd;
+    }).map(o => o.orderNumber || o.id)
+  };
+};
+function deebFilterByRangeDate(value, range, includeMissing) {
+  if (!range || range.period === 'all') return true;
+  const d = value ? parseDateLocal(value) : null;
+  if (!d || isNaN(d)) return !!includeMissing;
+  return d >= range.start && d <= range.end;
+}
+
 function renderFinance() {
   let range = getMonthRange('finance');
   const filteredOrders = state.orders.filter(function(o) {
@@ -4861,18 +4919,15 @@ function renderFinance() {
     if(!d||isNaN(d)) return false;
     return d >= range.start && d <= range.end;
   });
-  let revenue = filteredOrders.reduce(function(s,o){ return s+(parseFloat(o.price)||0); }, 0);
-  const isProductionCogs=e=>e?.category==='COGS'||e?.type==='Production / COGS'||e?.source==='order-delivery-automation';
-  const productionExpenses=filteredExpenses.filter(isProductionCogs);
-  const operatingExpenses=filteredExpenses.filter(e=>!isProductionCogs(e));
-  let expenses = filteredExpenses.reduce(function(s,e){ return s+(parseFloat(e.amount)||0); }, 0);
-  let opex = operatingExpenses.reduce(function(s,e){ return s+(parseFloat(e.amount)||0); }, 0);
-  // Production ledger is classified under COGS, not OPEX, to avoid deducting the same ledger record twice.
-  const cogsKnown = filteredOrders.filter(o=>o.cogs!=null || o.grossProfit!=null).reduce((sum,o)=>sum+(Number.isFinite(parseFloat(o.cogs))?parseFloat(o.cogs):((parseFloat(o.price)||0)-(parseFloat(o.grossProfit)||0))),0)+productionExpenses.reduce((sum,e)=>sum+(parseFloat(e.amount)||0),0);
-  let profit = revenue - cogsKnown - opex;
-  const cogsComplete = filteredOrders.every(o=>o.cogs!=null || o.grossProfit!=null);
+  const fin = window.deebFinancialSummary(filteredOrders, filteredExpenses);
+  let revenue = fin.revenue;
+  let expenses = fin.opex;
+  let opex = fin.opex;
+  const cogsKnown = fin.cogs;
+  let profit = fin.netProfit;
+  const cogsComplete = fin.cogsComplete;
   const contributionKnown = cogsComplete ? revenue-cogsKnown : null;
-  const netAfterRecordedExpenses = contributionKnown!=null ? contributionKnown-opex : null;
+  const netAfterRecordedExpenses = cogsComplete ? profit : null;
   const setFinBridge=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
   setFinBridge('finBridgeRevenue',revenue.toFixed(2)+' JOD');
   setFinBridge('finCOGS',cogsComplete?cogsKnown.toFixed(2)+' JOD':'غير مكتمل');
@@ -4880,7 +4935,7 @@ function renderFinance() {
   setFinBridge('finAfterExpenses',netAfterRecordedExpenses!=null?netAfterRecordedExpenses.toFixed(2)+' JOD':'غير مكتمل');
   let rev = document.getElementById('finRevenue'); if(rev) rev.textContent = revenue.toFixed(0);
   let exp = document.getElementById('finExpenses'); if(exp) exp.textContent = expenses.toFixed(0);
-  const prf = document.getElementById('finProfit'); if(prf) prf.textContent = profit.toFixed(0);
+  const prf = document.getElementById('finProfit'); if(prf) prf.textContent = cogsComplete ? profit.toFixed(0) : 'غير مكتمل';
   renderExpensesFiltered(filteredExpenses);
   renderExpenseChart();
   // Also refresh product analytics with filtered orders
@@ -4939,7 +4994,7 @@ window.updateCalc = function() {
   function g(id){ let el=document.getElementById(id); return el?parseFloat(el.value)||0:0; }
   const raw=g('rawMaterialCost'), pack=g('packagingCost'), mkt=g('marketingCost');
   const del=g('deliveryCost'), other=g('otherCost');
-  const totalCost = raw+pack+mkt+del+other;
+  const categoryCosts = raw+pack+mkt+del+other;
 
   // Filter delivered orders by period
   const delivered = (state.orders||[]).filter(function(o) {
@@ -4950,8 +5005,10 @@ window.updateCalc = function() {
     if(!d||isNaN(d)) return true;
     return d >= range.start && d <= range.end;
   });
-  let revenue = delivered.reduce(function(s,o){ return s+(parseFloat(o.price)||0); }, 0);
-  let profit = revenue - totalCost;
+  const fin = window.deebFinancialSummary(delivered, filteredExpenses);
+  let revenue = fin.revenue;
+  let totalCost = fin.totalCosts;
+  let profit = fin.netProfit;
   const margin = revenue>0 ? Math.round(profit/revenue*100) : 0;
   const expRatio = revenue>0 ? Math.round(totalCost/revenue*100) : 0;
   const perBox = delivered.length>0 ? Math.round(profit/delivered.length) : 0;
@@ -4963,22 +5020,24 @@ window.updateCalc = function() {
   s('calc-revenue', revenue.toFixed(0));
   s('calc-raw', raw.toFixed(0));
   s('calc-pack', pack.toFixed(0));
-  s('calc-profit', profit.toFixed(0));
+  s('calc-profit', fin.cogsComplete ? profit.toFixed(0) : 'غير مكتمل');
   s('totalCostDisplay', totalCost.toFixed(0));
   s('savingsAmount', (profit>0?profit*savP/100:0).toFixed(0));
   s('personalAmount', (profit>0?profit*perP/100:0).toFixed(0));
   s('reinvestAmount', (profit>0?profit*reinP/100:0).toFixed(0));
-  s('calcMargin', margin+'%');
+  s('calcMargin', fin.cogsComplete ? margin+'%' : 'غير مكتمل');
   s('calcExpenseRatio', expRatio+'%');
-  s('calcPerBox', perBox);
+  s('calcPerBox', fin.cogsComplete ? perBox : 'غير مكتمل');
   s('calcTotalOrders', delivered.length);
 
   refreshPeriodComparison(revenue, totalCost, profit, margin);
   const w = document.getElementById('calcWarning');
-  if(w) w.innerHTML = totalPct>100
-    ? '<span style="color:var(--danger)">⚠️ مجموع النسب ('+totalPct+'%) تجاوز 100%</span>'
-    : totalPct<100 ? '<span style="color:var(--pending)">ℹ️ '+(100-totalPct)+'% غير موزعة</span>'
-    : '<span style="color:var(--success)">✅ التوزيع مكتمل 100%</span>';
+  if(w) w.innerHTML = !fin.cogsComplete
+    ? '<span style="color:var(--danger)">⚠️ صافي الربح غير مكتمل: توجد طلبات بدون تكلفة مسجلة أو مصروف إنتاج مرتبط.</span>'
+    : totalPct>100
+      ? '<span style="color:var(--danger)">⚠️ مجموع النسب ('+totalPct+'%) تجاوز 100%</span>'
+      : totalPct<100 ? '<span style="color:var(--pending)">ℹ️ '+(100-totalPct)+'% غير موزعة</span>'
+      : '<span style="color:var(--success)">✅ التوزيع مكتمل 100%</span>';
 };
 
 // ── FIX filterOrders to use month filter ──
@@ -5049,14 +5108,15 @@ function refreshDashboard() {
   let today = new Date().toLocaleDateString('ar');
   const todayStr = new Date().toISOString().split('T')[0];
   const todayOrders = state.orders.filter(function(o){ return o.dateRaw===todayStr; });
-  let revenue = state.orders.filter(function(o){ return o.status==='delivered'; }).reduce(function(s,o){ return s+(parseFloat(o.price)||0); },0);
-  let expenses = state.expenses.reduce(function(s,e){ return s+(parseFloat(e.amount)||0); },0);
+  const fin = window.deebFinancialSummary(state.orders, state.expenses);
+  let revenue = fin.revenue;
+  let expenses = fin.opex;
   
   let el = function(id){ return document.getElementById(id); };
   if(el('todayOrders')) el('todayOrders').textContent = todayOrders.length;
   if(el('todayRevenue')) el('todayRevenue').textContent = todayOrders.filter(function(o){ return o.status==='delivered'; }).reduce(function(s,o){ return s+(parseFloat(o.price)||0); },0).toFixed(0);
   if(el('totalCustomers')) el('totalCustomers').textContent = state.customers.length;
-  if(el('totalProfit')) el('totalProfit').textContent = (revenue-expenses).toFixed(0);
+  if(el('totalProfit')) el('totalProfit').textContent = fin.cogsComplete ? fin.netProfit.toFixed(0) : 'غير مكتمل';
   if(el('totalRevenue')) el('totalRevenue').textContent = revenue.toFixed(0);
   if(el('totalExpenses')) el('totalExpenses').textContent = expenses.toFixed(0);
   
@@ -9052,7 +9112,9 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   // 36–38 finance: financial reporting, cash flow, working capital
   window.saveCashFlowPlan=async function(){const data={openingCash:num(el('cfOpening')?.value),expectedCollections:num(el('cfCollections')?.value),plannedSupplierPayments:num(el('cfSupplier')?.value),plannedOperatingOutflows:num(el('cfOperating')?.value),otherPlannedOutflows:num(el('cfOther')?.value),horizonDays:Math.max(1,num(el('cfHorizon')?.value)),notes:(el('cfNotes')?.value||'').trim()};await ssave('cashFlowPlan',data);renderFinanceControls();toast('تم حفظ خطة التدفق النقدي ✅','success');};
   function renderFinanceControls(){
-    const os=(state.orders||[]).filter(o=>o.status==='delivered'),rev=os.reduce((s,o)=>s+num(o.price),0),cogs=os.reduce((s,o)=>s+num(o.cogs||0),0),con=rev-cogs,opex=(state.expenses||[]).reduce((s,e)=>s+num(e.amount),0),marketing=(state.expenses||[]).filter(e=>String(e.type||e.category||'').includes('تسويق')||String(e.type||'').toLowerCase().includes('marketing')).reduce((s,e)=>s+num(e.amount),0),supplierPaid=(state.supplierPayments||[]).reduce((s,p)=>s+num(p.amount),0),net=con-opex;
+    const os=(state.orders||[]).filter(o=>o.status==='delivered');
+    const fin=window.deebFinancialSummary(os,state.expenses||[]);
+    const rev=fin.revenue,cogs=fin.cogs,con=rev-cogs,opex=fin.opex,marketing=(state.expenses||[]).filter(e=>!(e.source==='order-delivery-automation'||e.type==='Production / COGS'||e.category==='COGS')&&(String(e.type||e.category||'').includes('تسويق')||String(e.type||'').toLowerCase().includes('marketing'))).reduce((s,e)=>s+num(e.amount),0),supplierPaid=(state.supplierPayments||[]).reduce((s,p)=>s+num(p.amount),0),net=fin.netProfit;
     set('frRev',money(rev));set('frCogs',money(cogs));set('frContribution',money(con));set('frOpex',money(opex));set('frMarketing',money(marketing));set('frNet',money(net));set('frSupplierCash',money(supplierPaid));
     const cf=sget('cashFlowPlan',GAP_DEFAULTS.cashFlowPlan);['openingCash','expectedCollections','plannedSupplierPayments','plannedOperatingOutflows','otherPlannedOutflows','horizonDays'].forEach(k=>{const map={openingCash:'cfOpening',expectedCollections:'cfCollections',plannedSupplierPayments:'cfSupplier',plannedOperatingOutflows:'cfOperating',otherPlannedOutflows:'cfOther',horizonDays:'cfHorizon'};if(el(map[k]))el(map[k]).value=cf[k]??0;});if(el('cfNotes'))el('cfNotes').value=cf.notes||'';const projected=num(cf.openingCash)+num(cf.expectedCollections)-num(cf.plannedSupplierPayments)-num(cf.plannedOperatingOutflows)-num(cf.otherPlannedOutflows);set('cfProjected',money(projected)+' JOD');
     const invVal=(state.inventory||[]).reduce((s,i)=>s+num(i.qty)*num(i.cost),0),recv=(state.receivables||[]).reduce((s,r)=>s+Math.max(0,num(r.amount)-num(r.paid)),0),payable=(state.supplierOrders||[]).reduce((s,o)=>s+Math.max(0,num(deebSupplierOutstanding(o))),0);set('wcInventory',money(invVal));set('wcReceivables',money(recv));set('wcPayable',money(payable));set('wcTied',money(invVal+recv-payable));
@@ -9355,8 +9417,9 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   window.renderLiveKPI=renderKPI;
   window.renderLiveKPI=function(){
     const now=new Date(), allDelivered=(state.orders||[]).filter(o=>o.status==='delivered'||['Delivered','Completed'].includes(orderStage(o))), month=allDelivered.filter(o=>{const d=parseDateLocal(orderDate(o));return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
-    const revenue=month.reduce((s,o)=>s+n(o.price),0), cogs=month.reduce((s,o)=>s+n(o.cogs),0), gross=revenue-cogs;
-    const expenses=(state.expenses||[]).filter(e=>{const d=parseDateLocal(e.date||e.dateRaw);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}),opex=expenses.reduce((s,e)=>s+n(e.amount),0),marketing=expenses.filter(e=>/marketing|تسويق/i.test(String(e.type||e.category||''))).reduce((s,e)=>s+n(e.amount),0),net=gross-opex,aov=month.length?revenue/month.length:0,margin=revenue?gross/revenue*100:0;
+    const expenses=(state.expenses||[]).filter(e=>{const d=parseDateLocal(e.date||e.dateRaw);return d&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+    const fin=window.deebFinancialSummary(month,expenses), revenue=fin.revenue, cogs=fin.cogs, gross=revenue-cogs;
+    const opex=fin.opex, marketing=expenses.filter(e=>!(e.source==='order-delivery-automation'||e.type==='Production / COGS'||e.category==='COGS')&&/marketing|تسويق/i.test(String(e.type||e.category||''))).reduce((s,e)=>s+n(e.amount),0),net=fin.netProfit,aov=month.length?revenue/month.length:0,margin=revenue?gross/revenue*100:0;
     const key=o=>{try{return normalizePhone(o.phone)}catch(e){return String(o.phone||o.name||'').trim().toLowerCase()}};
     const firstByCustomer={};allDelivered.forEach(o=>{const k=key(o);const d=parseDateLocal(orderDate(o));if(k&&d&&(!firstByCustomer[k]||d<firstByCustomer[k]))firstByCustomer[k]=d;});
     const newCustomersThisMonth=Object.values(firstByCustomer).filter(d=>d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()).length;
