@@ -10149,10 +10149,9 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   const isCOGSExpense = e => isProductionExpense(e) || norm(e.category)==='cogs' || /(^|\W)cogs(\W|$)/i.test(String(e.type||''));
   const expOrderId = e => String(e?.orderId || e?.refId || (String(e?.id||'').startsWith('production_') ? String(e.id).slice(11) : '') || '');
   const producedCost = o => {
-    const hasExplicitRate = hasN(o?.productionCostRate) && N(o.productionCostRate) > 0;
-    const rate = hasExplicitRate ? N(o.productionCostRate) : 12;
+    const rate = hasN(o?.productionCostRate) && N(o.productionCostRate) > 0 ? N(o.productionCostRate) : 12;
     const kg = hasN(o?.weightKg) && N(o.weightKg) > 0 ? N(o.weightKg) : (hasN(o?.chocolateKg) && N(o.chocolateKg) > 0 ? N(o.chocolateKg) : null);
-    return kg == null ? { amount:null, kg:null, rate, derived:false, rateVerified:hasExplicitRate } : { amount:round2(kg*rate), kg, rate, derived:true, rateVerified:hasExplicitRate };
+    return kg == null ? { amount:null, kg:null, rate, derived:false } : { amount:round2(kg*rate), kg, rate, derived:true };
   };
   function orderCostDetail(o, expenses, allOrders) {
     const orderId = String(o?.id || '');
@@ -10199,8 +10198,6 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       return sum;
     },0));
     const packagingMismatch = packagingSnapshotKnown && packagingLines.length>0 && packagingLineCostsComplete && Math.abs(packagingCost-N(snap.packagingCogs))>0.02;
-    // Missing packaging evidence is not treated as zero cost. A snapshot can explicitly
-    // record zero packaging COGS; otherwise at least one inventory line is needed.
     const packagingCostComplete = (packagingSnapshotKnown || (packagingLines.length > 0 && packagingLineCostsComplete)) && !packagingMismatch;
     let packagingAddedFromInventory = false;
     // A legacy record with only product-line cost snapshots can provide a provisional base COGS.
@@ -10217,12 +10214,13 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     let productionAmount = null, productionSource = 'missing';
     if (snap && hasN(snap.productionCogs)) { productionAmount=N(snap.productionCogs); productionSource='order-snapshot'; }
     else if (canon && hasN(canon.amount)) { productionAmount=N(canon.amount); productionSource=canon.manualOverride?'manual-expense':'linked-expense'; }
-    else if (production.amount !== null) { productionAmount=production.amount; productionSource=production.rateVerified?'derived-configured-rate':'derived-12-per-kg'; }
+    else if (production.amount !== null) { productionAmount=production.amount; productionSource='derived-12-per-kg'; }
+    const productionRateVerified = o?.productionCostRateVerified === true || snap?.productionCostVerified === true || canon?.rateVerified === true || canon?.manualOverride === true;
     if (includesProd) {
       // v2 snapshots already include production exactly once; the production expense mirrors it.
       const total = baseKnown ? base : null;
       const productionMismatch = !!(canon && hasN(snap?.productionCogs) && hasN(canon.amount) && Math.abs(N(canon.amount)-N(snap.productionCogs))>0.02);
-      const baseComplete = baseKnown && snap?.completeCost !== false && o?.cogsComplete !== false && packagingCostComplete && rows.length<=1 && !productionMismatch && !(canon && !hasN(canon.amount));
+      const baseComplete = baseKnown && snap?.completeCost !== false && o?.cogsComplete !== false && packagingCostComplete && productionRateVerified && rows.length<=1 && !productionMismatch && !(canon && !hasN(canon.amount));
       const issues=[];
       if (!baseKnown) issues.push('missing-total-cogs');
       if (!packagingCostComplete) issues.push(packagingMismatch?'packaging-cost-mismatch':'missing-packaging-cost');
@@ -10237,13 +10235,11 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     const snapshotComplete = snap?.completeCost !== false && o?.cogsComplete !== false;
     const total = direct !== null && productionAmount !== null ? round2(direct+productionAmount) : (direct !== null ? direct : (productionAmount !== null ? productionAmount : null));
     const productionMismatch = !!(canon && production.amount !== null && Math.abs(N(canon.amount)-production.amount)>0.02 && !canon.manualOverride);
-    const estimatedDefaultProductionRate = productionSource === 'derived-12-per-kg';
-    const complete = baseKnown && snapshotComplete && packagingCostComplete && productionAmount !== null && !estimatedDefaultProductionRate && rows.length<=1 && !productionMismatch && !(canon && !hasN(canon.amount));
+    const complete = baseKnown && snapshotComplete && packagingCostComplete && productionAmount !== null && productionRateVerified && productionSource !== 'derived-12-per-kg' && rows.length<=1 && !productionMismatch && !(canon && !hasN(canon.amount));
     const issues=[];
     if (!baseKnown) issues.push('missing-direct-cogs');
     if (!packagingCostComplete) issues.push(packagingMismatch?'packaging-cost-mismatch':'missing-packaging-cost');
     if (!productionAmount && productionAmount !== 0) issues.push('missing-production-cost');
-    if (estimatedDefaultProductionRate) issues.push('unverified-default-production-rate-12-per-kg');
     if (canon && !hasN(canon.amount)) issues.push('missing-production-expense-amount');
     if (snap?.completeCost === false || o?.cogsComplete === false) issues.push('snapshot-incomplete');
     if (snap?.weightMismatch === true) issues.push('product-weight-mismatch');
@@ -10318,7 +10314,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       const d=expenseDate(e);
       return !d || within(d,r);
     }).map(e=>r.period!=='all'&&!expenseDate(e)?{...e,__undatedForReport:true}:e);
-    const fin=window.deebFinancialSummary(inPeriod,expensesByDate,{range:r});
+    const fin=window.deebFinancialSummary(inPeriod,allE,{range:r});
     fin.range=r; fin.orders=inPeriod; fin.expenses=expensesByDate;
     fin.missingDateOrders= r.period==='all'?0:missingDate;
     if(r.period!=='all' && missingDate>0) { fin.revenueComplete=false; fin.profitComplete=false; fin.netProfit=null; fin.issues.push({code:'undated-delivered-orders',count:missingDate}); }
@@ -10663,17 +10659,15 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
         const missingChocolateUnitCost=!!(chocData && chocolateKg>0 && N(chocData.cost)<=0);
         const missingPackagingUnitCost=packageRows.some(d=>N(d.amount)>0 && N(d.unitCost)<=0);
         const missingManualProductionCost=priorProd?.manualOverride===true && !hasN(priorProd.amount);
-        // The default 12 JOD/kg is a provisional estimate until reconciled to actual production records.
-        // Keep the posted amount visible for reconciliation, but never certify the order's COGS as complete on that default alone.
-        const productionRateVerified=N(o.productionCostRate)>0 || priorProd?.manualOverride===true;
+        const productionRateVerified=priorProd?.manualOverride===true || priorProd?.rateVerified===true || o.productionCostRateVerified===true;
         const completeCost=fallbackCount===0 && !missingChocolateUnitCost && !missingPackagingUnitCost && !missingManualProductionCost && productionRateVerified && kgManual>0;
         // All reads are completed before writes: Firestore transaction remains all-or-nothing.
         if(chocolateKg>0&&chocEntry?.snap?.exists){const before=N(chocData.qty),after=round2(before-chocolateKg),uc=N(chocData.cost),mv={type:'Sale',itemId:chocId,itemName:chocData.name||'الشوكولاتة',qtyDelta:-chocolateKg,unitCost:uc,totalCost:-chocolateCogs,refType:'order',refId:orderId,ts:Date.now()};tx.update(chocRef,{qty:after,updatedAt:Date.now()});tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,wacAfter:uc,createdAt:Date.now()});}
         for(const entry of invSnaps.values()){
           if(entry.kind!=='package')continue;const dat=entry.snap.data(),amount=entry.plan.amount,before=N(dat.qty),after=before-amount,unitCost=N(dat.cost),rec=packageRows.find(d=>d.itemId===entry.plan.item.id&&d.key===entry.plan.t.key);tx.update(entry.ref,{qty:after,updatedAt:Date.now()});const mv={type:'Packaging Sale',itemId:entry.plan.item.id,itemName:dat.name||entry.plan.item.name,qtyDelta:-amount,unitCost,totalCost:-N(rec?.totalCost),refType:'order',refId:orderId,ts:Date.now(),packagingType:entry.plan.t.key};tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()});
         }
-        const prodRecord={name:'تكلفة الشوكولاتة والإنتاج',type:'Production / COGS',category:'COGS',amount:productionCogs,date:o.dateRaw||o.date||new Date().toISOString().slice(0,10),weightKg:kgManual,ratePerKg:rate,rateVerified:productionRateVerified,estimated:!productionRateVerified,source:'order-delivery-automation',autoGenerated:!priorProd?.manualOverride,orderId,refType:'order',refId:orderId,updatedAt:Date.now()};if(!prodSnap.exists)prodRecord.createdAt=Date.now();tx.set(productionRef,prodRecord,{merge:true});
-        const merged={...incoming,status:'delivered',salePosted:true,saleReversed:false,inventoryDeducted:packageRows,packagingInventoryPostedAt:o.packagingInventoryPostedAt||Date.now(),cogs:totalCogs,grossProfit,chocolateKg,cogsComplete:completeCost,cogsSnapshot:{version:2,cogs:totalCogs,inventoryCogs:directCogs,packagingCogs:packageCogs,productionCogs,chocolateKg,chocolateUnitCost:chocData?N(chocData.cost):0,source:chocData?'inventory WAC + product fallback + packaging + production':'product cost fallback + packaging + production',completeCost,includesProductionCost:true,weightMismatch,productionRate:rate,productionRateVerified},inventoryPostedAt:Date.now(),cogsPostedAt:Date.now()};
+        const prodRecord={name:'تكلفة الشوكولاتة والإنتاج',type:'Production / COGS',category:'COGS',amount:productionCogs,date:o.dateRaw||o.date||new Date().toISOString().slice(0,10),weightKg:kgManual,ratePerKg:rate,rateVerified:priorProd?.manualOverride===true || priorProd?.rateVerified===true || o.productionCostRateVerified===true,estimated:!(priorProd?.manualOverride===true || priorProd?.rateVerified===true || o.productionCostRateVerified===true),source:'order-delivery-automation',autoGenerated:!priorProd?.manualOverride,orderId,refType:'order',refId:orderId,updatedAt:Date.now()};if(!prodSnap.exists)prodRecord.createdAt=Date.now();tx.set(productionRef,prodRecord,{merge:true});
+        const merged={...incoming,status:'delivered',salePosted:true,saleReversed:false,inventoryDeducted:packageRows,packagingInventoryPostedAt:o.packagingInventoryPostedAt||Date.now(),cogs:totalCogs,grossProfit,chocolateKg,cogsComplete:completeCost,cogsSnapshot:{version:2,cogs:totalCogs,inventoryCogs:directCogs,packagingCogs:packageCogs,productionCogs,chocolateKg,chocolateUnitCost:chocData?N(chocData.cost):0,source:chocData?'inventory WAC + product fallback + packaging + production':'product cost fallback + packaging + production',completeCost,includesProductionCost:true,weightMismatch,productionRate:rate,productionCostVerified:productionRateVerified},inventoryPostedAt:Date.now(),cogsPostedAt:Date.now(),updatedAt:Date.now()};
         tx.update(orderRef,merged);return {posted:true,cogs:totalCogs,completeCost,weightMismatch};
       });
     };
@@ -10749,9 +10743,8 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       let status=d.complete?'متكامل':'تكلفة غير مكتملة';
       if(d.issues.includes('duplicate-production-expenses'))status='مصروف إنتاج مكرر';
       else if(d.issues.includes('production-cost-mismatch'))status='فرق بين اللقطة والمصروف';
-      else if(d.issues.includes('missing-packaging-cost'))status='تكلفة تغليف غير موثقة';
-      else if(d.issues.includes('unverified-default-production-rate-12-per-kg'))status='معدل 12 د.أ/كغم غير متحقق';
-      else if(d.productionSource==='derived-12-per-kg')status='تكلفة إنتاج تقديرية للعرض';
+      else if(d.issues.includes('missing-packaging-cost'))status='تكلفة تغليف ناقصة';
+      else if(d.productionSource==='derived-12-per-kg')status='تكلفة إنتاج مشتقة للعرض';
       return {id:o.id,number:o.orderNumber||o.id,weight,cogs:d.totalCogs,production:d.productionCogs,snapUnit:N(snap.chocolateUnitCost),status,linkedCount:linked.length,detail:d};
     });
     const deliveredIds=new Set(orders.map(o=>String(o.id)));
