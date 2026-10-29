@@ -2219,7 +2219,7 @@ Deeb Chocolate</div><div style="margin-top:0.5rem"><button class="btn btn-sm btn
 <div class="card"><div class="card-header"><div class="card-title" id="adminCollectionTitle">—</div><div id="adminCollectionCount" style="font-size:.7rem;color:var(--brown)">0</div></div><div class="card-body"><div class="table-wrap"><table><thead id="adminTableHead"></thead><tbody id="adminTableBody"></tbody></table></div></div></div>
 <div class="card"><div class="card-header"><div class="card-title">🧩 Modules / Completeness</div></div><div class="card-body"><div class="admin-module-grid" id="adminModuleChecklist"></div></div></div>
 <div class="card"><div class="card-header"><div class="card-title">🌐 Website Analytics &amp; Tracking</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">Google Analytics ID</label><input class="form-input" id="waGA" placeholder="G-XXXXXXXXXX"/></div><div class="form-group"><label class="form-label">Google Tag Manager ID</label><input class="form-input" id="waGTM" placeholder="GTM-XXXXXXX"/></div></div><div class="form-row"><div class="form-group"><label class="form-label">Google Search Console</label><input class="form-input" id="waGSC" placeholder="Verification / property"/></div><div class="form-group"><label class="form-label">Meta Pixel ID</label><input class="form-input" id="waMeta" placeholder="Pixel ID"/></div></div><button class="btn btn-primary" onclick="window.saveWebsiteAnalytics()">💾 حفظ إعدادات التتبع</button><div class="strategy-note" style="margin-top:.6rem">الاعتمادات الفعلية تُدخل هنا عندما تكون متوفرة. وجود الحقول لا يعني أن التتبع مثبت فعلياً على الموقع الخارجي.</div></div></div>
-<div class="card"><div class="card-header"><div class="card-title">⚙️ ERP Configuration</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">مادة الشوكولاتة الأساسية في المخزون</label><select class="form-select" id="erpChocolateItem"></select><div style="font-size:.68rem;color:var(--brown);margin-top:.3rem">يُستخدم لترحيل COGS بالـWAC عند تسليم الطلب. إذا لم تحدده، يستخدم النظام تكلفة المنتج كـfallback.</div></div><div class="form-group" style="display:flex;align-items:end"><button class="btn btn-primary" onclick="window.saveERPConfig()">💾 حفظ إعداد ERP</button></div></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">⚙️ ERP Configuration</div></div><div class="card-body"><div class="form-row"><div class="form-group"><label class="form-label">مادة الشوكولاتة الأساسية في المخزون</label><select class="form-select" id="erpChocolateItem"></select><div style="font-size:.68rem;color:var(--brown);margin-top:.3rem">مطلوب لترحيل COGS وخصم وزن الشوكولاتة من المخزون بدقة. لن يُرحّل الطلب إذا لم تحدد هذا الصنف.</div></div><div class="form-group" style="display:flex;align-items:end"><button class="btn btn-primary" onclick="window.saveERPConfig()">💾 حفظ إعداد ERP</button></div></div></div></div>
 <div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.35)">
 <div class="card-header"><div class="card-title">KPI Center + Data Quality Audit</div><button class="btn btn-sm btn-gold" onclick="window.runDataQualityAudit()">🔍 تدقيق الآن</button></div>
 <div class="card-body"><div class="gap-grid"><div class="gap-mini"><div class="g-label">Issues</div><div class="g-value" id="dqTotal">0</div></div><div class="gap-mini"><div class="g-label">Order Issues</div><div class="g-value" id="dqOrders">0</div></div><div class="gap-mini"><div class="g-label">Customer Issues</div><div class="g-value" id="dqCustomers">0</div></div><div class="gap-mini"><div class="g-label">Inventory Issues</div><div class="g-value" id="dqInventory">0</div></div><div class="gap-mini"><div class="g-label">B2B Issues</div><div class="g-value" id="dqB2b">0</div></div><div class="gap-mini"><div class="g-label">Service Issues</div><div class="g-value" id="dqService">0</div></div><div class="gap-mini"><div class="g-label">Attribution Gaps</div><div class="g-value" id="dqAttr">0</div></div></div><div class="table-wrap" style="margin-top:.8rem"><table><thead><tr><th>Module</th><th>Ref</th><th>Problem</th></tr></thead><tbody id="dqTable"></tbody></table></div></div>
@@ -4705,7 +4705,13 @@ window.addOrder = async function() {
     if(prodName && prodName !== 'اختر المنتج') {
       let qty = parseInt(inputs[0]?.value)||1;
       let price = parseFloat(inputs[1]?.value)||0;
-      const cost = parseFloat(sel?.options[sel.selectedIndex]?.dataset?.cost)||0; products.push({ name: prodName, qty: qty, price: price, cost: cost });
+      const selectedProduct = state.products.find(function(p){ return String(p.id)===String(sel?.value); }) || {};
+      const selectedOption = sel?.options[sel.selectedIndex];
+      const rawUnitCost = selectedProduct.cost ?? selectedOption?.dataset?.costSnapshot ?? selectedOption?.dataset?.cost;
+      const costKnown = rawUnitCost!==undefined && rawUnitCost!==null && rawUnitCost!=='' && Number.isFinite(Number(rawUnitCost));
+      const cost = costKnown ? Number(rawUnitCost) : 0;
+      const weightSnapshot = selectedProduct.weight ?? selectedProduct.weightKg ?? selectedOption?.dataset?.weight ?? '';
+      products.push({ productId: sel?.value || selectedProduct.id || '', name: prodName, qty: qty, price: price, cost: cost, costSnapshot: cost, costVerified: costKnown && (cost>0 || selectedProduct.costVerified===true), weightSnapshot: weightSnapshot, weight: weightSnapshot });
       totalPrice += qty * price;
     }
   });
@@ -10027,6 +10033,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     const record={name:'تكلفة الشوكولاتة والإنتاج',type:'Production / COGS',category:'COGS',amount,date,weightKg:kg,ratePerKg:RATE,source:'order-delivery-automation',autoGenerated:true,orderId,refType:'order',refId:orderId,updatedAt:Date.now()};
     if(existing.exists){
       const old=existing.data();
+      if(old.manualOverride===true) return;
       const changed=Number(old.amount)!==amount||Number(old.weightKg)!==kg;
       if(changed){await ref.set({...record,manualOverride:false,previousAmount:Number(old.amount)||0,amountUpdatedAt:Date.now()},{merge:true});await audit('recalculated',orderId,amount,`تحديث الوزن من ${old.weightKg||'?'} إلى ${kg} كغم`);}
     }else{
@@ -10072,6 +10079,706 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   // Existing orders are intentionally not backfilled. This is only a retry control for a selected order.
   window.deebRetryProductionExpense=async function(orderId){const o=(state.orders||[]).find(x=>x.id===orderId);if(!o)throw new Error('الطلب غير موجود في البيانات الحالية');return syncExpense(orderId,o);};
 })();
+</script>
+<script id="deeb-final-consistency-patch">
+/* DEEB OS final consistency patch: shared financial rules, date-safe reporting,
+   idempotent packaging posting and transaction-safe delivered-order costing.
+   This script intentionally does not backfill/update existing historical orders. */
+(function(){
+  'use strict';
+  const N = v => { const x = Number(v); return Number.isFinite(x) ? x : 0; };
+  const hasN = v => v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));
+  const list = v => Array.isArray(v) ? v : [];
+  const norm = v => String(v ?? '').trim().toLowerCase();
+  const round2 = v => Math.round((N(v) + Number.EPSILON) * 100) / 100;
+  const moneyText = v => v == null ? 'غير مكتمل' : round2(v).toFixed(2);
+  const knownText = (v, complete) => moneyText(v) + (complete ? '' : ' *');
+  const setText = (id, value) => { const e = document.getElementById(id); if (e) e.textContent = value; };
+  const safeDate = value => {
+    if (value == null || value === '') return null;
+    if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : new Date(value.getFullYear(), value.getMonth(), value.getDate());
+    if (typeof value === 'object') {
+      if (typeof value.toDate === 'function') { try { return safeDate(value.toDate()); } catch (_) {} }
+      if (hasN(value.seconds)) return safeDate(Number(value.seconds) * 1000);
+      if (hasN(value._seconds)) return safeDate(Number(value._seconds) * 1000);
+      if (hasN(value.toMillis?.())) return safeDate(value.toMillis());
+      return null;
+    }
+    if (typeof value === 'number') {
+      const ms = value < 100000000000 ? value * 1000 : value;
+      const d = new Date(ms); return Number.isNaN(d.getTime()) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    }
+    const raw = String(value).trim();
+    const hasArabicDigits = /[٠-٩۰-۹]/.test(raw);
+    const arabicDigits = {'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9','۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
+    const s = raw.replace(/[٠-٩۰-۹]/g,ch=>arabicDigits[ch]).replace(/[\u200e\u200f\u202a-\u202e]/g,'').trim();
+    const iso = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:$|T|\s)/);
+    if (iso) { const d = new Date(+iso[1], +iso[2]-1, +iso[3]); return Number.isNaN(d.getTime()) ? null : d; }
+    const numeric = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+    if (numeric) {
+      const a=+numeric[1], b=+numeric[2], y=+numeric[3];
+      // Arabic-localized date strings are day/month/year; US-style is inferred only when second > 12.
+      let day, month;
+      if (hasArabicDigits || a>12) { day=a; month=b; }
+      else if (b>12) { month=a; day=b; }
+      else { month=a; day=b; }
+      const d=new Date(y,month-1,day);
+      return d.getFullYear()===y&&d.getMonth()===month-1&&d.getDate()===day?d:null;
+    }
+    const d = new Date(s); return Number.isNaN(d.getTime()) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  };
+  const orderDate = o => [o?.dateRaw,o?.date,o?.deliveredAt,o?.createdAt,o?.timestamp].map(safeDate).find(Boolean) || null;
+  const expenseDate = e => [e?.dateRaw,e?.date,e?.createdAt,e?.timestamp,e?.ts].map(safeDate).find(Boolean) || null;
+  const keyDate = d => d ? `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` : '';
+  // Keep canonical transactional stock handlers: older compatibility declarations below must not override them.
+  let preferredAtomicPackagingDeduct = null;
+  let preferredAtomicPackagingRestore = null;
+  const delivered = o => ['delivered','completed'].includes(norm(o?.status)) && norm(o?.status) !== 'cancelled';
+  const within = (date, range) => {
+    if (!range || range.period === 'all') return true;
+    if (!date) return false;
+    const d = new Date(date.getFullYear(),date.getMonth(),date.getDate()).getTime();
+    return d >= new Date(range.start.getFullYear(),range.start.getMonth(),range.start.getDate()).getTime() &&
+      d <= new Date(range.end.getFullYear(),range.end.getMonth(),range.end.getDate()).getTime();
+  };
+  const getRange = page => {
+    try { if (typeof getMonthRange === 'function') return getMonthRange(page); } catch (_) {}
+    const now = new Date(); return { period:'month', start:new Date(now.getFullYear(),now.getMonth(),1), end:new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59) };
+  };
+  const isProductionExpense = e => !!e && (norm(e.source)==='order-delivery-automation' || norm(e.type)==='production / cogs' || String(e.id||'').startsWith('production_'));
+  const isCOGSExpense = e => isProductionExpense(e) || norm(e.category)==='cogs' || /(^|\W)cogs(\W|$)/i.test(String(e.type||''));
+  const expOrderId = e => String(e?.orderId || e?.refId || (String(e?.id||'').startsWith('production_') ? String(e.id).slice(11) : '') || '');
+  const producedCost = o => {
+    const hasExplicitRate = hasN(o?.productionCostRate) && N(o.productionCostRate) > 0;
+    const rate = hasExplicitRate ? N(o.productionCostRate) : 12;
+    const kg = hasN(o?.weightKg) && N(o.weightKg) > 0 ? N(o.weightKg) : (hasN(o?.chocolateKg) && N(o.chocolateKg) > 0 ? N(o.chocolateKg) : null);
+    return kg == null ? { amount:null, kg:null, rate, derived:false, rateVerified:hasExplicitRate } : { amount:round2(kg*rate), kg, rate, derived:true, rateVerified:hasExplicitRate };
+  };
+  function orderCostDetail(o, expenses, allOrders) {
+    const orderId = String(o?.id || '');
+    const rows = list(expenses).filter(e => isProductionExpense(e) && expOrderId(e) === orderId);
+    const canon = rows.slice().sort((a,b) => {
+      const aid = String(a.id||'') === `production_${orderId}` ? 1 : 0;
+      const bid = String(b.id||'') === `production_${orderId}` ? 1 : 0;
+      if (aid !== bid) return bid-aid;
+      if (!!a.manualOverride !== !!b.manualOverride) return a.manualOverride ? -1 : 1;
+      return N(b.updatedAt||b.createdAt)-N(a.updatedAt||a.createdAt);
+    })[0] || null;
+    const snap = o?.cogsSnapshot && typeof o.cogsSnapshot === 'object' ? o.cogsSnapshot : null;
+    let base = null, baseKnown = false, includesProd = snap?.includesProductionCost === true || o?.cogsIncludesProductionCost === true;
+    const orderRevenue = o?.price ?? o?.totalAmount ?? o?.total;
+    const explicitlyComplete = snap?.completeCost === true || o?.cogsComplete === true || o?.costVerified === true;
+    if (snap && hasN(snap.cogs)) {
+      base = N(snap.cogs);
+      baseKnown = !(base === 0 && N(orderRevenue) > 0 && !explicitlyComplete);
+      if (!baseKnown) base = null;
+    } else if (hasN(o?.cogs)) {
+      base = N(o.cogs);
+      baseKnown = !(base === 0 && N(orderRevenue) > 0 && !explicitlyComplete);
+      if (!baseKnown) base = null;
+    } else if (hasN(o?.grossProfit) && hasN(orderRevenue)) {
+      base = N(orderRevenue)-N(o.grossProfit);
+      baseKnown = !(base === 0 && N(orderRevenue) > 0 && !explicitlyComplete);
+      if (!baseKnown) base = null;
+    }
+    // Legacy order records created before packaging COGS was snapshotted may still have
+    // inventoryDeducted lines. Add their stored cost only when the snapshot does not
+    // explicitly say packaging was already included, preventing a double count.
+    const packagingLines = list(o?.inventoryDeducted);
+    const packagingSnapshotKnown = !!snap && hasN(snap.packagingCogs);
+    const packagingLineCostsComplete = packagingLines.every(line => {
+      const qty=N(line.amount);
+      if (qty<=0) return true;
+      return (hasN(line.totalCost) && N(line.totalCost)>0) || (hasN(line.unitCost) && N(line.unitCost)>0) || line.costVerified===true;
+    });
+    // Legacy lines sometimes store unitCost but not totalCost. Reconstruct from the recorded
+    // unit cost and quantity instead of silently counting zero packaging cost.
+    const packagingCost = round2(packagingLines.reduce((sum,line)=>{
+      if (hasN(line.totalCost) && N(line.totalCost)>0) return sum+N(line.totalCost);
+      if (hasN(line.unitCost) && N(line.unitCost)>0) return sum+N(line.unitCost)*Math.max(0,N(line.amount));
+      return sum;
+    },0));
+    const packagingMismatch = packagingSnapshotKnown && packagingLines.length>0 && packagingLineCostsComplete && Math.abs(packagingCost-N(snap.packagingCogs))>0.02;
+    // Missing packaging evidence is not treated as zero cost. A snapshot can explicitly
+    // record zero packaging COGS; otherwise at least one inventory line is needed.
+    const packagingCostComplete = (packagingSnapshotKnown || (packagingLines.length > 0 && packagingLineCostsComplete)) && !packagingMismatch;
+    let packagingAddedFromInventory = false;
+    // A legacy record with only product-line cost snapshots can provide a provisional base COGS.
+    let productFallback = false;
+    if (base === null && list(o?.products).length && list(o.products).every(p => (hasN(p.costSnapshot) || hasN(p.cost)) && (N(p.costSnapshot ?? p.cost) > 0 || p.costVerified === true || p.costIsKnown === true))) {
+      base = list(o.products).reduce((sum,p)=>sum+N(p.costSnapshot ?? p.cost)*(hasN(p.qty)?Math.max(0,N(p.qty)):1),0);
+      baseKnown = true; productFallback = true;
+    }
+    if (!includesProd && baseKnown && !packagingSnapshotKnown && packagingLines.length) {
+      base = round2(base + packagingCost);
+      packagingAddedFromInventory = true;
+    }
+    const production = producedCost(o);
+    let productionAmount = null, productionSource = 'missing';
+    if (snap && hasN(snap.productionCogs)) { productionAmount=N(snap.productionCogs); productionSource='order-snapshot'; }
+    else if (canon && hasN(canon.amount)) { productionAmount=N(canon.amount); productionSource=canon.manualOverride?'manual-expense':'linked-expense'; }
+    else if (production.amount !== null) { productionAmount=production.amount; productionSource=production.rateVerified?'derived-configured-rate':'derived-12-per-kg'; }
+    if (includesProd) {
+      // v2 snapshots already include production exactly once; the production expense mirrors it.
+      const total = baseKnown ? base : null;
+      const productionMismatch = !!(canon && hasN(snap?.productionCogs) && hasN(canon.amount) && Math.abs(N(canon.amount)-N(snap.productionCogs))>0.02);
+      const baseComplete = baseKnown && snap?.completeCost !== false && o?.cogsComplete !== false && packagingCostComplete && rows.length<=1 && !productionMismatch && !(canon && !hasN(canon.amount));
+      const issues=[];
+      if (!baseKnown) issues.push('missing-total-cogs');
+      if (!packagingCostComplete) issues.push(packagingMismatch?'packaging-cost-mismatch':'missing-packaging-cost');
+      if (snap?.completeCost === false || o?.cogsComplete === false) issues.push('snapshot-incomplete');
+      if (snap?.weightMismatch === true) issues.push('product-weight-mismatch');
+      if (rows.length > 1) issues.push('duplicate-production-expenses');
+      if (canon && hasN(snap?.productionCogs) && Math.abs(N(canon.amount)-N(snap.productionCogs))>0.02) issues.push('production-cost-mismatch');
+      if (canon && !hasN(canon.amount)) issues.push('missing-production-expense-amount');
+      return { orderId, baseCogs: total, packagingCogs:packagingSnapshotKnown?N(snap.packagingCogs):packagingCost, packagingAddedFromInventory, productionCogs:productionAmount, totalCogs:total, complete:baseComplete, productionSource, productFallback, issues, linkedProductionRows:rows.length, includesProduction:true };
+    }
+    const direct = baseKnown ? base : null;
+    const snapshotComplete = snap?.completeCost !== false && o?.cogsComplete !== false;
+    const total = direct !== null && productionAmount !== null ? round2(direct+productionAmount) : (direct !== null ? direct : (productionAmount !== null ? productionAmount : null));
+    const productionMismatch = !!(canon && production.amount !== null && Math.abs(N(canon.amount)-production.amount)>0.02 && !canon.manualOverride);
+    const estimatedDefaultProductionRate = productionSource === 'derived-12-per-kg';
+    const complete = baseKnown && snapshotComplete && packagingCostComplete && productionAmount !== null && !estimatedDefaultProductionRate && rows.length<=1 && !productionMismatch && !(canon && !hasN(canon.amount));
+    const issues=[];
+    if (!baseKnown) issues.push('missing-direct-cogs');
+    if (!packagingCostComplete) issues.push(packagingMismatch?'packaging-cost-mismatch':'missing-packaging-cost');
+    if (!productionAmount && productionAmount !== 0) issues.push('missing-production-cost');
+    if (estimatedDefaultProductionRate) issues.push('unverified-default-production-rate-12-per-kg');
+    if (canon && !hasN(canon.amount)) issues.push('missing-production-expense-amount');
+    if (snap?.completeCost === false || o?.cogsComplete === false) issues.push('snapshot-incomplete');
+    if (snap?.weightMismatch === true) issues.push('product-weight-mismatch');
+    if (rows.length > 1) issues.push('duplicate-production-expenses');
+    if (productionMismatch) issues.push('production-cost-mismatch');
+    return { orderId, baseCogs:direct, packagingCogs:packagingSnapshotKnown?N(snap.packagingCogs):packagingCost, packagingAddedFromInventory, productionCogs:productionAmount, totalCogs:total, complete, productionSource, productFallback, issues, linkedProductionRows:rows.length, includesProduction:false };
+  }
+  window.deebOrderCostDetail = orderCostDetail;
+
+  // This is the single source of truth consumed by all financial displays.
+  window.deebFinancialSummary = function(ordersInput, expensesInput, options) {
+    const orders = list(ordersInput).filter(delivered);
+    const expenses = list(expensesInput);
+    const range = options?.range || null;
+    const stateOrders = list(window.state?.orders || (typeof state !== 'undefined' ? state.orders : []));
+    const orderMap = new Map(); stateOrders.concat(list(ordersInput)).forEach(o=>{ if(o&&o.id) orderMap.set(String(o.id),o); });
+    const allOrders = [...orderMap.values()];
+    const allOrderIds = new Set(allOrders.map(o=>String(o.id||'')));
+    let revenue=0, orderCogs=0, cogsComplete=true, revenueComplete=true, undatedOrders=0, missingRevenueOrders=0;
+    const costDetails=[], consumedProdIds=new Set(), issueList=[];
+    orders.forEach(o=>{
+      const revenueValue = o.price ?? o.totalAmount ?? o.total;
+      if (!hasN(revenueValue) || N(revenueValue) < 0) { revenueComplete=false; missingRevenueOrders++; }
+      revenue += hasN(revenueValue) && N(revenueValue)>=0 ? N(revenueValue) : 0;
+      const d=orderDate(o); if(range && range.period!=='all' && !d) { revenueComplete=false; undatedOrders++; }
+      const cd=orderCostDetail(o,expenses,allOrders); costDetails.push({...cd,orderNumber:o.orderNumber||o.id});
+      if(cd.totalCogs===null) cogsComplete=false; else orderCogs+=N(cd.totalCogs);
+      if(!cd.complete)cogsComplete=false;
+      cd.issues.forEach(code=>issueList.push({orderId:o.id,code}));
+      const linked=expenses.filter(e=>isProductionExpense(e)&&expOrderId(e)===String(o.id));
+      linked.forEach(e=>consumedProdIds.add(String(e.id||`production_${o.id}`)));
+    });
+    let opex=0, unallocatedCogs=0, expensesComplete=true, undatedExpenses=0;
+    const operatingRows=[], cogsRows=[], orphanProductionRows=[];
+    expenses.forEach(e=>{
+      const id=expOrderId(e);
+      const linkedKnownOrder = id && allOrderIds.has(String(id));
+      const linkedOrder = linkedKnownOrder ? allOrders.find(o=>String(o.id)===String(id)) : null;
+      if (isProductionExpense(e) && linkedOrder && delivered(linkedOrder)) return; // Delivered-order production is tied to that order's sale date and snapshot.
+      const date=expenseDate(e);
+      if(range && range.period!=='all' && !date) { expensesComplete=false; undatedExpenses++; return; }
+      if(range && range.period!=='all' && !within(date,range)) return;
+      if(!hasN(e.amount)) { expensesComplete=false; issueList.push({expenseId:e.id,code:'missing-expense-amount'}); }
+      const amount=hasN(e.amount)?N(e.amount):0;
+      if(isCOGSExpense(e)) {
+        unallocatedCogs+=amount; cogsRows.push(e);
+        if(isProductionExpense(e)) { orphanProductionRows.push(e); issueList.push({expenseId:e.id,code:'orphan-production-expense'}); }
+        else issueList.push({expenseId:e.id,code:'unallocated-cogs-expense'});
+      } else { opex+=amount; operatingRows.push(e); }
+    });
+    let derivedProductionOrders=costDetails.filter(x=>x.productionSource==='derived-12-per-kg').length;
+    let totalCogs=round2(orderCogs+unallocatedCogs), totalCosts=round2(totalCogs+opex), knownNet=round2(revenue-totalCosts);
+    const profitComplete=cogsComplete && expensesComplete && revenueComplete;
+    const missingCogsOrders=costDetails.filter(x=>!x.complete).map(x=>x.orderNumber);
+    return { revenue:round2(revenue), orderCogs:round2(orderCogs), unallocatedCogs:round2(unallocatedCogs), cogs:totalCogs,
+      directAndProductionCogs:round2(orderCogs), cogsComplete, revenueComplete, expensesComplete, profitComplete,
+      opex:round2(opex), totalCosts, costsComplete:cogsComplete&&expensesComplete, netProfit:profitComplete?knownNet:null, knownNetProfit:knownNet,
+      grossProfit:cogsComplete?round2(revenue-totalCogs):null, grossProfitComplete:cogsComplete&&revenueComplete,
+      operatingRows,cogsRows,orphanProductionRows,costDetails,orderCount:orders.length,undatedOrders,undatedExpenses,
+      derivedProductionOrders,missingCogsOrders,missingRevenueOrders,issues:issueList, consumedProductionIds:[...consumedProdIds] };
+  };
+  window.deebFinanceReport = function(range, page) {
+    const r=range || getRange(page||'finance');
+    const allO=list(state.orders), allE=list(state.expenses);
+    const inPeriod=allO.filter(o=>{
+      if(!delivered(o))return false;
+      return r.period==='all' || within(orderDate(o),r);
+    });
+    const missingDate=allO.filter(o=>delivered(o)&&!orderDate(o)).length;
+    const expensesByDate=allE.filter(e=>{
+      if(r.period==='all')return true;
+      const d=expenseDate(e);
+      return !d || within(d,r);
+    }).map(e=>r.period!=='all'&&!expenseDate(e)?{...e,__undatedForReport:true}:e);
+    const fin=window.deebFinancialSummary(inPeriod,allE,{range:r});
+    fin.range=r; fin.orders=inPeriod; fin.expenses=expensesByDate;
+    fin.missingDateOrders= r.period==='all'?0:missingDate;
+    if(r.period!=='all' && missingDate>0) { fin.revenueComplete=false; fin.profitComplete=false; fin.netProfit=null; fin.issues.push({code:'undated-delivered-orders',count:missingDate}); }
+    return fin;
+  };
+
+  window.deebRunFinancialAudit = function(){
+    const r=window.deebFinanceReport({period:'all'},'finance');
+    const counts={deliveredOrders:r.orderCount,missingCostOrders:r.missingCogsOrders.length,derivedProductionOrders:r.derivedProductionOrders,
+      undatedOrders:r.undatedOrders,undatedExpenses:r.undatedExpenses,duplicateProduction:r.issues.filter(x=>x.code==='duplicate-production-expenses').length,
+      productionMismatches:r.issues.filter(x=>x.code==='production-cost-mismatch').length,orphanProduction:r.orphanProductionRows.length};
+    return {counts,summary:r,issues:r.issues};
+  };
+
+  const original = {
+    renderFinance: typeof window.renderFinance==='function'?window.renderFinance:null,
+    updateCalc: typeof window.updateCalc==='function'?window.updateCalc:null,
+    refreshDashboard: typeof window.refreshDashboard==='function'?window.refreshDashboard:null,
+    refreshKPIs: typeof window.refreshKPIs==='function'?window.refreshKPIs:null,
+    renderProfitChart: typeof window.renderProfitChart==='function'?window.renderProfitChart:null,
+    renderExpenseChart: typeof window.renderExpenseChart==='function'?window.renderExpenseChart:null,
+    renderProductAnalyticsFiltered: typeof window.refreshProductAnalyticsFiltered==='function'?window.refreshProductAnalyticsFiltered:null,
+    showPage: typeof window.showPage==='function'?window.showPage:null,
+    liveKPI: typeof window.renderLiveKPI==='function'?window.renderLiveKPI:null,
+    refreshUI: typeof window.refreshUI==='function'?window.refreshUI:null
+  };
+  function updateFinanceManagement(fin){
+    setText('frRev',knownText(fin.revenue,fin.revenueComplete)); setText('frCogs',fin.cogsComplete?moneyText(fin.cogs):'غير مكتمل');
+    setText('frContribution',fin.grossProfitComplete?moneyText(fin.grossProfit):'غير مكتمل');
+    setText('frOpex',knownText(fin.opex,fin.expensesComplete));
+    const marketing=fin.operatingRows.filter(e=>/marketing|تسويق/i.test(String(e.type||e.category||e.name||''))).reduce((s,e)=>s+N(e.amount),0);
+    setText('frMarketing',knownText(marketing,fin.expensesComplete)); setText('frNet',fin.profitComplete?moneyText(fin.netProfit):'غير مكتمل');
+    const supplierPayments=list(state.supplierPayments), range=fin.range||{period:'all'};
+    const validSupplierPayments=supplierPayments.filter(p=>range.period==='all'||within(expenseDate(p),range));
+    const supplierPaid=validSupplierPayments.reduce((sum,p)=>sum+N(p.amount),0);
+    const supplierPaymentsComplete=range.period==='all'||supplierPayments.every(p=>!!expenseDate(p));
+    setText('frSupplierCash',knownText(supplierPaid,supplierPaymentsComplete));
+  }
+  window.renderFinance = function(){
+    const range=getRange('finance'), fin=window.deebFinanceReport(range,'finance');
+    setText('finBridgeRevenue',knownText(fin.revenue,fin.revenueComplete)+' JOD');
+    setText('finCOGS',fin.cogsComplete?moneyText(fin.cogs)+' JOD':'غير مكتمل');
+    setText('finContribution',fin.grossProfitComplete?moneyText(fin.grossProfit)+' JOD':'غير مكتمل');
+    setText('finAfterExpenses',fin.profitComplete?moneyText(fin.netProfit)+' JOD':'غير مكتمل');
+    setText('finRevenue',knownText(fin.revenue,fin.revenueComplete)); setText('finExpenses',knownText(fin.totalCosts,fin.costsComplete));
+    setText('finProfit',fin.profitComplete?moneyText(fin.netProfit):'غير مكتمل');
+    const expLabel=document.querySelector('#page-finance #finExpenses')?.closest('.stat-card')?.querySelector('.stat-label');
+    if(expLabel)expLabel.textContent='إجمالي التكاليف (COGS + التشغيل)';
+    const warning=[];
+    if(!fin.revenueComplete) warning.push('توجد طلبات مسلّمة بلا تاريخ أو بقيمة إيراد غير صالحة؛ قد تتغير إيرادات الفترة.');
+    if(fin.missingRevenueOrders) warning.push('توجد طلبات مسلّمة بقيمة مبيعات مفقودة أو سالبة: '+fin.missingRevenueOrders+'.');
+    if(!fin.cogsComplete) warning.push('توجد طلبات بتكلفة بضاعة غير مكتملة: '+fin.missingCogsOrders.length+'.');
+    if(!fin.expensesComplete) warning.push('توجد مصاريف بلا مبلغ أو تاريخ صالح: '+fin.undatedExpenses+'.');
+    if(fin.derivedProductionOrders)warning.push('تم اشتقاق تكلفة إنتاج للعرض فقط لـ'+fin.derivedProductionOrders+' طلب باستخدام قاعدة 12 د.أ./كغم؛ لم تُحفظ كتغييرات تاريخية.');
+    if(fin.issues.some(x=>x.code==='duplicate-production-expenses'))warning.push('توجد سجلات مصروف إنتاج مكررة مرتبطة بطلب.');
+    if(fin.issues.some(x=>x.code==='production-cost-mismatch'))warning.push('توجد فروقات بين مصروف الإنتاج وتكلفة الإنتاج في الطلب.');
+    if(fin.issues.some(x=>x.code==='product-weight-mismatch'))warning.push('توجد طلبات تختلف فيها أوزان المنتجات المسجلة عن الوزن الإجمالي المدخل؛ حُسب الخصم من وزن الطلب الإجمالي مع إظهار التنبيه.');
+    if(fin.issues.some(x=>x.code==='orphan-production-expense'))warning.push('توجد مصروفات إنتاج مرتبطة بطلب غير مسلّم أو غير موجود.');
+    if(fin.issues.some(x=>x.code==='unallocated-cogs-expense'))warning.push('توجد مصروفات COGS غير مرتبطة بطلب؛ تم احتسابها مرة واحدة ضمن التكاليف مع تمييزها للمراجعة.');
+    let alert=document.getElementById('deebFinancialConsistencyNotice');
+    if(!alert){alert=document.createElement('div');alert.id='deebFinancialConsistencyNotice';alert.className='alert alert-warning';const bridge=document.getElementById('finBridgeAfterExpenses')?.closest('.card')||document.querySelector('#page-finance .card');if(bridge)bridge.appendChild(alert);}
+    if(alert)alert.innerHTML=warning.length?'⚠️ '+warning.map(x=>String(x).replace(/</g,'&lt;')).join('<br>'):'✅ لا توجد فجوات تكلفة/تاريخ وفق البيانات المتاحة للفترة.';
+    try{if(typeof renderExpensesFiltered==='function')renderExpensesFiltered(fin.expenses);}catch(e){console.warn('Expenses ledger render:',e);}
+    updateFinanceManagement(fin);
+    try{window.renderExpenseChart?.();}catch(e){}
+    try{window.refreshProductAnalyticsFiltered?.(fin.orders);}catch(e){}
+    return fin;
+  };
+  window.refreshProductAnalyticsFiltered=function(orders){
+    const el=document.getElementById('productAnalytics'); if(!el)return;
+    const by={};
+    list(orders).filter(delivered).forEach(o=>{
+      const rows=list(o.products).length?o.products:[{name:o.product||'غير محدد',qty:o.qty||1,price:o.price||0}];
+      const validRows=rows.filter(p=>p&&p.name);
+      const subtotal=validRows.reduce((s,p)=>s+Math.max(0,N(p.qty)||1)*Math.max(0,N(p.price)),0);
+      const orderRevenue=N(o.price??o.totalAmount??o.total);
+      validRows.forEach(p=>{const name=String(p.name); if(!by[name])by[name]={count:0,revenue:0};const qty=hasN(p.qty)?Math.max(0,N(p.qty)):1;by[name].count+=qty;by[name].revenue+=subtotal>0?orderRevenue*(qty*Math.max(0,N(p.price))/subtotal):0;});
+    });
+    const total=Object.values(by).reduce((s,p)=>s+p.revenue,0),rows=Object.entries(by).sort((a,b)=>b[1].revenue-a[1].revenue).slice(0,6);
+    if(!rows.length){el.innerHTML='<div class="empty-state"><div class="e-icon">📦</div><div class="e-title">لا توجد مبيعات مسلّمة في هذه الفترة</div></div>';return;}
+    const medals=['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'];
+    el.innerHTML=rows.map(([name,d],i)=>{const pct=total?Math.round(d.revenue/total*100):0;return `<div style="margin-bottom:.8rem"><div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.3rem"><span>${medals[i]} ${typeof sanitize==='function'?sanitize(name):name}</span><span>${d.count} وحدة | ${moneyText(d.revenue)} د.أ. (${pct}%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;}).join('');
+  };
+  function ensureCOGSExpenseFilter(){
+    const sel=document.getElementById('filterExpType');if(sel&&!Array.from(sel.options).some(o=>o.value==='__COGS__')){const opt=document.createElement('option');opt.value='__COGS__';opt.textContent='تكلفة البضاعة (COGS)';sel.appendChild(opt);}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensureCOGSExpenseFilter);else ensureCOGSExpenseFilter();
+  window.filterExpenses=function(){
+    ensureCOGSExpenseFilter();const q=String(document.getElementById('searchExpenses')?.value||'').toLowerCase().trim();const type=document.getElementById('filterExpType')?.value||'';
+    const rows=list(state.expenses).filter(e=>{
+      const hay=[e.name,e.type,e.category,e.description,e.orderId,e.refId,e.amount,e.date,e.dateRaw].map(x=>String(x??'')).join(' ').toLowerCase();
+      const matchQ=!q||hay.includes(q);let matchType=true;
+      if(type==='__COGS__')matchType=isCOGSExpense(e);
+      else if(type)matchType=String(e.type||'')===type||String(e.category||'')===type||((type==='مواد خام')&&/مواد خام|raw material/i.test(String(e.type||e.category||e.name||'')))||((type==='تغليف')&&/تغليف|packaging/i.test(String(e.type||e.category||e.name||'')))||((type==='تسويق')&&/تسويق|marketing/i.test(String(e.type||e.category||e.name||'')))||((type==='توصيل')&&/توصيل|delivery/i.test(String(e.type||e.category||e.name||'')))||((type==='أخرى')&&!isCOGSExpense(e)&&!/مواد خام|raw material|تغليف|packaging|تسويق|marketing|توصيل|delivery/i.test(String(e.type||e.category||e.name||'')));
+      return matchQ&&matchType;
+    });const cnt=document.getElementById('expensesCount');if(cnt)cnt.textContent=rows.length+' بند';if(typeof renderExpensesFiltered==='function')renderExpensesFiltered(rows);
+  };
+
+  function ensureCalculationSummaryCards(){
+    const page=document.getElementById('page-calculations');if(!page)return;
+    const grid=page.querySelector('.stats-grid');if(!grid)return;
+    const cards=[['calc-cogs','تكلفة البضاعة المباعة (COGS)','📦'],['calc-opex','مصاريف التشغيل','🧾']];
+    cards.forEach(([id,label,icon])=>{if(document.getElementById(id))return;const card=document.createElement('div');card.className='stat-card';const l=document.createElement('div');l.className='stat-label';l.textContent=label;const v=document.createElement('div');v.className='stat-value';v.id=id;v.textContent='غير مكتمل';const i=document.createElement('div');i.className='stat-icon';i.textContent=icon;card.append(l,v,i);grid.appendChild(card);});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensureCalculationSummaryCards);else ensureCalculationSummaryCards();
+  window.updateCalc = function(){
+    ensureCalculationSummaryCards();
+    const range=getRange('calculations'),fin=window.deebFinanceReport(range,'calculations');
+    // Un-dated expense rows remain visible in the ledger for correction, but are not silently assigned to the selected period's category totals.
+    const exps=fin.expenses.filter(e=>!e.__undatedForReport);
+    const bucket=(rx)=>exps.filter(e=>!isCOGSExpense(e)&&rx.test(String(e.type||e.category||e.name||''))).reduce((s,e)=>s+N(e.amount),0);
+    const cats={rawMaterialCost:bucket(/مواد خام|raw material/i),packagingCost:bucket(/تغليف|packaging/i),marketingCost:bucket(/تسويق|marketing/i),deliveryCost:bucket(/توصيل|delivery/i)};
+    const other=exps.filter(e=>!isCOGSExpense(e)&&!(/مواد خام|raw material|تغليف|packaging|تسويق|marketing|توصيل|delivery/i.test(String(e.type||e.category||e.name||'')))).reduce((s,e)=>s+N(e.amount),0);cats.otherCost=other;
+    Object.entries(cats).forEach(([id,val])=>{const el=document.getElementById(id);if(el){el.value=moneyText(val);el.readOnly=true;el.title='قيمة محسوبة تلقائيًا من سجلات المصاريف في الفترة، ولا تُستخدم منفصلةً في معادلة صافي الربح.';el.dataset.derived='1';}});
+    const saved=(list(state.settings).find(s=>s.id==='calculations')||{});
+    const pct=(id,def)=>{const el=document.getElementById(id);return el&&el.value!==''?N(el.value):N(saved[id]??def);};
+    const sav=pct('savingsPercent',20),personal=pct('personalPercent',30),reinvest=pct('reinvestPercent',50),sum=sav+personal+reinvest;
+    const s=(id,v)=>setText(id,v);
+    s('calc-revenue',knownText(fin.revenue,fin.revenueComplete)); s('calc-cogs',knownText(fin.cogs,fin.cogsComplete));s('calc-opex',knownText(fin.opex,fin.expensesComplete));
+    s('calc-raw',knownText(cats.rawMaterialCost,fin.expensesComplete));s('calc-pack',knownText(cats.packagingCost,fin.expensesComplete));
+    s('calc-profit',fin.profitComplete?moneyText(fin.netProfit):'غير مكتمل');s('totalCostDisplay',knownText(fin.totalCosts,fin.costsComplete));
+    s('savingsAmount',fin.profitComplete&&fin.netProfit>0?moneyText(fin.netProfit*sav/100):fin.profitComplete?'0.00':'غير مكتمل');
+    s('personalAmount',fin.profitComplete&&fin.netProfit>0?moneyText(fin.netProfit*personal/100):fin.profitComplete?'0.00':'غير مكتمل');
+    s('reinvestAmount',fin.profitComplete&&fin.netProfit>0?moneyText(fin.netProfit*reinvest/100):fin.profitComplete?'0.00':'غير مكتمل');
+    s('calcMargin',fin.profitComplete&&fin.revenue>0?(fin.netProfit/fin.revenue*100).toFixed(1)+'%':'غير مكتمل');
+    s('calcExpenseRatio',fin.costsComplete&&fin.revenueComplete&&fin.revenue>0?(fin.totalCosts/fin.revenue*100).toFixed(1)+'%':'غير مكتمل');
+    s('calcPerBox',fin.profitComplete&&fin.orderCount?moneyText(fin.netProfit/fin.orderCount):'غير مكتمل');s('calcTotalOrders',fin.orderCount);
+    const warning=[];if(!fin.profitComplete)warning.push('صافي الربح غير مكتمل: راجع التكاليف والتواريخ الموضحة في المالية.');if(sum>100)warning.push('مجموع نسب التوزيع تجاوز 100%.');else if(sum<100)warning.push('نسب التوزيع غير مكتملة؛ المتبقي '+moneyText(100-sum)+'%.');else warning.push('توزيع الربح محدد بنسبة 100%.');
+    const w=document.getElementById('calcWarning');if(w)w.textContent=warning.join(' ');
+    try{window.refreshPeriodComparison?.(fin.revenue,fin.totalCosts,fin.netProfit,fin.profitComplete&&fin.revenue?fin.netProfit/fin.revenue*100:null);}catch(e){}
+    return fin;
+  };
+  window.saveCalculations = async function(){
+    const get=id=>N(document.getElementById(id)?.value);
+    const data={savingsPercent:get('savingsPercent'),personalPercent:get('personalPercent'),reinvestPercent:get('reinvestPercent'),updatedAt:Date.now(),note:'Cost category fields are derived from expense records and are not editable financial inputs.'};
+    if(data.savingsPercent<0||data.personalPercent<0||data.reinvestPercent<0||data.savingsPercent>100||data.personalPercent>100||data.reinvestPercent>100){toast('نسب التوزيع يجب أن تكون بين 0 و100.','error');return;}
+    await setDoc_('settings','calculations',data);toast('تم حفظ نسب توزيع الربح ✅','success');
+  };
+  window.refreshPeriodComparison=function(revenue,expenses,profit,margin){
+    const el=document.getElementById('periodComparison');if(!el)return;
+    const range=getRange('calculations');
+    if(range.period==='all'){el.textContent='تم اختيار كل الوقت؛ لا توجد مقارنة شهرية مماثلة.';return;}
+    const current=window.deebFinanceReport(range,'calculations');
+    const baseStart=range.start||new Date(new Date().getFullYear(),new Date().getMonth(),1);
+    const prevStart=new Date(baseStart.getFullYear(),baseStart.getMonth()-1,1),prevEnd=new Date(baseStart.getFullYear(),baseStart.getMonth(),0,23,59,59);
+    const prev=window.deebFinanceReport({period:'custom',start:prevStart,end:prevEnd},'calculations');
+    const change=(cur,old)=>old>0?((cur-old)/old*100):null;
+    const rc=current.revenueComplete&&prev.revenueComplete?change(current.revenue,prev.revenue):null;
+    const ec=current.costsComplete&&prev.costsComplete&&current.revenueComplete&&prev.revenueComplete?change(current.totalCosts,prev.totalCosts):null;
+    const pc=current.profitComplete&&prev.profitComplete?change(current.netProfit,prev.netProfit):null;
+    const fmt=v=>v==null?'—':`${v>=0?'↑ +':'↓ '}${Math.abs(v).toFixed(1)}%`;
+    const today=new Date();const startDay=new Date(baseStart.getFullYear(),baseStart.getMonth(),baseStart.getDate());
+    const endDay=new Date(range.end.getFullYear(),range.end.getMonth(),range.end.getDate());const todayDay=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const denominatorEnd=endDay>todayDay?todayDay:endDay;const dayCount=Math.max(1,Math.floor((denominatorEnd-startDay)/86400000)+1);
+    el.innerHTML=`<div class="analytics-row"><div class="analytics-item"><span class="ai-label">متوسط الإيراد اليومي</span><span class="ai-value">${knownText(current.revenue/dayCount,current.revenueComplete)}</span></div><div class="analytics-item"><span class="ai-label">إيراد الفترة</span><span class="ai-value">${knownText(current.revenue,current.revenueComplete)}</span></div></div><div class="analytics-row"><div class="analytics-item"><span class="ai-label">تغيّر الإيراد عن الشهر السابق</span><span class="ai-value">${fmt(rc)}</span></div><div class="analytics-item"><span class="ai-label">تغيّر صافي الربح</span><span class="ai-value">${fmt(pc)}</span></div></div><div class="analytics-row"><div class="analytics-item"><span class="ai-label">التكاليف / الإيراد</span><span class="ai-value">${current.costsComplete&&current.revenueComplete&&current.revenue>0?(current.totalCosts/current.revenue*100).toFixed(1)+'%':'غير مكتمل'}</span></div><div class="analytics-item"><span class="ai-label">تغيّر التكاليف</span><span class="ai-value">${fmt(ec)}</span></div></div>${!current.profitComplete||!prev.profitComplete?'<div class="alert alert-warning">الربح غير مكتمل في الفترة الحالية أو السابقة، لذلك لا يمكن حساب مقارنة ربح موثوقة.</div>':''}`;
+  };
+  window.renderProfitChart=function(){
+    const canvas=document.getElementById('profitChart');if(!canvas||typeof Chart==='undefined')return;
+    const labels=[],data=[],now=new Date();
+    for(let i=5;i>=0;i--){const start=new Date(now.getFullYear(),now.getMonth()-i,1),end=new Date(now.getFullYear(),now.getMonth()-i+1,0,23,59,59);const r=window.deebFinanceReport({period:'custom',start,end},'finance');labels.push(start.toLocaleDateString('ar-JO',{month:'short',year:'2-digit'}));data.push(r.profitComplete?r.netProfit:null);}
+    if(typeof profitChartInstance!=='undefined'&&profitChartInstance)profitChartInstance.destroy();
+    profitChartInstance=new Chart(canvas,{type:'line',data:{labels,datasets:[{label:'صافي الربح',data,borderColor:'#BF9E60',backgroundColor:'rgba(191,158,96,.1)',borderWidth:2,fill:true,tension:.3,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw==null?'صافي الربح غير مكتمل':`صافي الربح: ${moneyText(c.raw)} JOD`}}},scales:{y:{ticks:{callback:v=>Number(v).toFixed(0)}}}}});
+  };
+  window.renderExpenseChart=function(){
+    const canvas=document.getElementById('expenseChart');if(!canvas||typeof Chart==='undefined')return;
+    const report=window.deebFinanceReport(getRange('finance'),'finance');
+    const cats={};
+    if(report.orderCogs>0)cats['تكلفة البضاعة المباعة (حسب الطلبات)']=report.orderCogs;
+    const cogsByType={};list(report.cogsRows).forEach(e=>{const k=String(e.type||e.category||'COGS غير موزعة');cogsByType[k]=(cogsByType[k]||0)+N(e.amount);});
+    Object.entries(cogsByType).forEach(([k,v])=>{if(v)cats[k]=v;});
+    const opexByType={};list(report.operatingRows).forEach(e=>{const k=String(e.type||e.category||e.name||'مصاريف تشغيلية أخرى');opexByType[k]=(opexByType[k]||0)+N(e.amount);});
+    Object.entries(opexByType).forEach(([k,v])=>{if(v)cats[k]=v;});
+    const labels=Object.keys(cats),data=Object.values(cats);
+    if(typeof expenseChartInstance!=='undefined'&&expenseChartInstance)expenseChartInstance.destroy();
+    if(!labels.length){try{canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);}catch(_){}return;}
+    expenseChartInstance=new Chart(canvas,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:['#BF9E60','#735B53','#3B2100','#EBDDD4','#a08060','#c9922a'],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>`${c.label}: ${moneyText(c.raw)} JOD`}}}}});
+  };
+  const _dashOld=original.refreshDashboard;
+  window.refreshDashboard=function(){ if(_dashOld)try{_dashOld();}catch(e){console.warn('legacy dashboard ancillary render:',e);} const all=window.deebFinanceReport({period:'all'},'finance');const today=new Date(),todayRange={period:'custom',start:today,end:today};const todayReport=window.deebFinanceReport(todayRange,'finance');setText('todayOrders',list(state.orders).filter(o=>{const d=orderDate(o);return d&&keyDate(d)===keyDate(today);}).length);setText('totalRevenue',knownText(all.revenue,all.revenueComplete));setText('totalExpenses',knownText(all.totalCosts,all.costsComplete));setText('totalProfit',all.profitComplete?moneyText(all.netProfit):'غير مكتمل');setText('todayRevenue',knownText(todayReport.revenue,todayReport.revenueComplete)); const label=document.querySelector('#page-dashboard #totalExpenses')?.closest('.stat-card')?.querySelector('.stat-sub');if(label)label.textContent='كل التكاليف المسجلة (COGS + التشغيل)';return all;};
+  window.refreshKPIs=function(){
+    const now=new Date(),start=new Date(now.getFullYear(),now.getMonth(),1),end=new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59),prevStart=new Date(now.getFullYear(),now.getMonth()-1,1),prevEnd=new Date(now.getFullYear(),now.getMonth(),0,23,59,59);
+    const current=window.deebFinanceReport({period:'custom',start,end},'dashboard'),previous=window.deebFinanceReport({period:'custom',start:prevStart,end:prevEnd},'dashboard');
+    const deliveredThis=current.orders,allDelivered=list(state.orders).filter(delivered),set=(id,v)=>setText(id,v);
+    const rchg=previous.revenue>0?(current.revenue-previous.revenue)/previous.revenue*100:null;
+    set('kpiMonthRevenue',knownText(current.revenue,current.revenueComplete));set('kpiMonthRevenueChange',rchg==null?'لا توجد مقارنة سابقة':`${rchg>=0?'↑ +':'↓ '}${Math.abs(rchg).toFixed(1)}% عن الشهر الماضي`);
+    set('kpiMonthProfit',current.profitComplete?moneyText(current.netProfit):'غير مكتمل');set('kpiProfitMargin','هامش الربح: '+(current.profitComplete&&current.revenue?(current.netProfit/current.revenue*100).toFixed(1)+'%':'غير مكتمل'));
+    set('kpiMonthOrders',deliveredThis.length);set('kpiAvgOrder','متوسط الطلب: '+(current.revenueComplete?(deliveredThis.length?moneyText(current.revenue/deliveredThis.length):'0.00'):'غير مكتمل'));
+    const dateOfCustomer=c=>safeDate(c.createdAt||c.createdDate);set('kpiNewCustomers',list(state.customers).filter(c=>{const d=dateOfCustomer(c);return d&&d>=start&&d<=now;}).length);
+    const ck=o=>norm(o.phone)||norm(o.name);const freq={};allDelivered.forEach(o=>{const k=ck(o);if(k)freq[k]=(freq[k]||0)+1;});const customerKeys=Object.keys(freq);const repeat=customerKeys.filter(k=>freq[k]>1).length;set('kpiRepeatRate','نسبة التكرار: '+(customerKeys.length?(repeat/customerKeys.length*100).toFixed(1):'0.0')+'%');
+    const byDay={};deliveredThis.forEach(o=>{const d=orderDate(o),k=keyDate(d);if(k)byDay[k]=(byDay[k]||0)+N(o.price??o.totalAmount??o.total);});const best=Object.entries(byDay).sort((a,b)=>b[1]-a[1])[0];set('kpiBestDay',best?moneyText(best[1]):'0.00');set('kpiBestDayDate',best?best[0]:'—');set('kpiDailyAvg',knownText(current.revenue/Math.max(1,now.getDate()),current.revenueComplete));set('kpiMonthlyAvg','هذا الشهر: '+knownText(current.revenue,current.revenueComplete));
+    set('kpiMonthRevenueChange',rchg==null?'لا توجد مقارنة سابقة':`${rchg>=0?'↑ +':'↓ '}${Math.abs(rchg).toFixed(1)}% عن الشهر الماضي`);
+    const cmp=document.getElementById('monthComparison');if(cmp)cmp.innerHTML=`<div class="analytics-row"><div class="analytics-item"><span class="ai-label">تغيّر الإيراد</span><span class="ai-value">${rchg==null?'—':(rchg>=0?'+':'')+rchg.toFixed(1)+'%'}</span></div><div class="analytics-item"><span class="ai-label">صافي ربح الشهر</span><span class="ai-value">${current.profitComplete?moneyText(current.netProfit):'غير مكتمل'}</span></div></div><div class="alert">${current.profitComplete?'الأرقام مبنية على التكلفة والمصاريف المتاحة للفترة.':'تنبيه: توجد بيانات ناقصة؛ لا تعتمد صافي الربح حتى تكتمل تكلفة الطلبات والتواريخ.'}</div>`;
+    try{if(typeof refreshSmartAlerts==='function')refreshSmartAlerts(current.profitComplete&&current.revenue?current.netProfit/current.revenue*100:null,current.totalCosts,previous.totalCosts,list(state.customers).filter(c=>{const d=dateOfCustomer(c);return d&&d>=start&&d<=now;}).length);}catch(e){}
+    const spentCustomers=list(state.customers).filter(c=>N(c.spent)>0);set('custAvgOrder',spentCustomers.length?moneyText(spentCustomers.reduce((s,c)=>s+N(c.spent),0)/spentCustomers.length):'0.00');set('custRepeatRate',(customerKeys.length?(repeat/customerKeys.length*100).toFixed(1):'0.0')+'%');set('custVipCount',list(state.customers).filter(c=>c.vip==='yes'||c.vip===true).length);const topCust=list(state.customers).slice().sort((a,b)=>N(b.spent)-N(a.spent))[0];set('custTopSpender',topCust?.name||'—');
+    try{window.refreshProductAnalyticsFiltered?.(deliveredThis);}catch(e){}
+    return current;
+  };
+  window.renderLiveKPI=function(){
+    const fin=window.deebFinanceReport({period:'month',start:new Date(new Date().getFullYear(),new Date().getMonth(),1),end:new Date(new Date().getFullYear(),new Date().getMonth()+1,0,23,59,59)},'dashboard');
+    const orders=fin.orders, rev=fin.revenue, aov=fin.revenueComplete&&orders.length?rev/orders.length:null;
+    const month=orders, key=o=>norm(o.phone)||norm(o.name);const freq={};month.forEach(o=>{const k=key(o);if(k)freq[k]=(freq[k]||0)+1;});
+    const activeB2B=list(state.b2bLeads).filter(l=>!['order','repeat order','lost'].includes(norm(l.status||l.stage)));
+    const b2bIncomplete=activeB2B.some(l=>!hasN(l.estimatedValue));
+    const vals={revenue:rev,netProfit:fin.profitComplete?fin.netProfit:null,aov, cac:null, ltv:(list(state.customers).filter(c=>N(c.spent)>0).length?list(state.customers).filter(c=>N(c.spent)>0).reduce((s,c)=>s+N(c.spent),0)/list(state.customers).filter(c=>N(c.spent)>0).length:null),conversionRate:null,repeatRate:Object.keys(freq).length?Object.values(freq).filter(v=>v>1).length/Object.keys(freq).length*100:null,margin:fin.profitComplete&&rev?fin.netProfit/rev*100:null,roas:null,b2bPipeline:b2bIncomplete?null:activeB2B.reduce((s,l)=>s+N(l.estimatedValue),0),wasteRate:null,stockCoverage:null,capacity:null};
+    const marketing=fin.operatingRows.filter(e=>/marketing|تسويق/i.test(String(e.type||e.category||e.name||''))).reduce((s,e)=>s+N(e.amount),0);if(marketing>0&&fin.revenueComplete&&fin.expensesComplete)vals.roas=rev/marketing;
+    const nowKey=keyDate(new Date()),monthStart=new Date(new Date().getFullYear(),new Date().getMonth(),1),monthEnd=new Date(new Date().getFullYear(),new Date().getMonth()+1,0,23,59,59);
+    const monthWaste=list(state.wasteLogs).filter(w=>{const d=safeDate(w.date||w.createdAt);return d&&d>=monthStart&&d<=monthEnd;});
+    const hasUndatedWaste=list(state.wasteLogs).some(w=>!safeDate(w.date||w.createdAt));
+    const hasUncostedWaste=monthWaste.some(w=>!hasN(w.totalCost??w.cost));
+    const waste=monthWaste.reduce((sum,w)=>sum+N(w.totalCost??w.cost),0);if(rev>0&&fin.revenueComplete&&!hasUndatedWaste&&!hasUncostedWaste)vals.wasteRate=waste/rev*100;
+    const pc=list(state.settings).find(s=>s.id==='procurementConfig'||s.key==='procurementConfig')||{},days=Math.max(1,N(pc.forecastDays)||30);const covers=list(state.inventory).map(i=>{const usage=list(state.stockMovements).filter(m=>m.itemId===i.id&&['Sale','Packaging Sale'].includes(m.type)&&Date.now()-N(m.ts||m.createdAt)<=days*86400000).reduce((s,m)=>s+Math.abs(N(m.qtyDelta)),0)/days;return usage>0?N(i.qty)/usage:null;}).filter(v=>v!=null);if(covers.length)vals.stockCoverage=Math.min(...covers);
+    const cap=list(state.settings).find(s=>s.id==='opsCapacity'||s.key==='opsCapacity')||{},todayOrders=list(state.orders).filter(o=>keyDate(orderDate(o))===nowKey&&norm(o.status)!=='cancelled').reduce((s,o)=>s+N(o.qty||1),0);const utils=[cap.dailyOrdersCapacity?todayOrders/N(cap.dailyOrdersCapacity):null].filter(v=>v!=null);if(utils.length)vals.capacity=Math.max(...utils)*100;
+    const targets=list(state.settings).find(s=>s.id==='kpiTargets'||s.key==='kpiTargets')||{};const labels={revenue:'Revenue',netProfit:'Net Profit',aov:'AOV',cac:'CAC',ltv:'Avg Customer Spend (LTV proxy)',conversionRate:'Conversion Rate',repeatRate:'Repeat Rate',margin:'Net Profit Margin',roas:'ROAS (proxy)',b2bPipeline:'B2B Pipeline',wasteRate:'Waste Cost Rate',stockCoverage:'Stock Coverage',capacity:'Capacity Utilization'};const rates=new Set(['conversionRate','repeatRate','margin','wasteRate','capacity']),daysSet=new Set(['stockCoverage']),xs=new Set(['roas']);const fmt=(k,v)=>v==null?(['netProfit','margin'].includes(k)?'غير مكتمل':'—'):rates.has(k)?v.toFixed(1)+'%':daysSet.has(k)?v.toFixed(1)+'d':xs.has(k)?v.toFixed(2)+'x':moneyText(v)+' JOD';
+    const tbody=document.getElementById('liveKpiRows');if(tbody)tbody.innerHTML=Object.entries(vals).map(([k,v])=>{const t=N(targets[k]);let pct=null;if(v!=null&&t>0)pct=['cac','wasteRate'].includes(k)?(v<=t?100:Math.max(0,t/v*100)):v/t*100;let actual=fmt(k,v);if(k==='revenue'&&!fin.revenueComplete)actual=knownText(v,false)+' JOD';return `<tr><td>${typeof sanitize==='function'?sanitize(labels[k]||k):labels[k]||k}</td><td>${t>0?fmt(k,t):'—'}</td><td>${actual}</td><td>${pct==null?'—':pct.toFixed(0)+'%'}</td><td>${pct==null?'—':pct>=100?'✅':'⏳'}</td></tr>`;}).join('');setText('kpiLiveMonth',new Date().toLocaleDateString('ar-JO',{month:'long',year:'numeric'}));
+    return fin;
+  };
+
+  // Wrap navigation & data hydration so finance cards always refresh from the same engine.
+  if(original.showPage){window.showPage=function(){const r=original.showPage.apply(this,arguments);try{const id=arguments[0];if(id==='finance'){const fin=window.renderFinance();updateFinanceManagement(fin);}if(id==='calculations')window.updateCalc();if(id==='dashboard'){window.refreshDashboard();}window.renderLiveKPI();}catch(e){console.warn('financial refresh:',e);}return r;};}
+  if(original.refreshUI){window.refreshUI=function(col){const r=original.refreshUI.apply(this,arguments);if(['orders','expenses','settings','inventory','stockMovements','inventoryLedger','supplierPayments','customers','wasteLogs','b2bLeads'].includes(col)){try{window.renderFinance();window.updateCalc();window.refreshDashboard();window.refreshKPIs();window.renderLiveKPI();window.renderMarketingROAS();window.renderProfitChart();window.renderExpenseChart();}catch(e){console.warn('financial hydration refresh:',e);}}return r;};}
+
+  // Expose diagnostic helpers for repeatable testing from the Admin console.
+  window.deebFinancialConsistencyCheck=function(){
+    const r=window.deebRunFinancialAudit();const duplicateIds=(list(state.expenses).filter(isProductionExpense).map(e=>expOrderId(e)).filter(Boolean).reduce((m,id)=>{m[id]=(m[id]||0)+1;return m;},{}));
+    const duplicateCount=Object.values(duplicateIds).filter(n=>n>1).length;
+    return {summary:{revenue:r.summary.revenue,cogs:r.summary.cogs,opex:r.summary.opex,totalCosts:r.summary.totalCosts,netProfit:r.summary.netProfit,profitComplete:r.summary.profitComplete},counts:{...r.counts,duplicateProductionGroups:duplicateCount},issues:r.issues};
+  };
+
+  // Order creation: preserve the selected product's cost and weight at order time.
+  if(typeof window.addOrder==='function'){
+    const oldAddOrder=window.addOrder;
+    window.addOrder=async function(){
+      // Patch existing select options with current snapshot metadata before the original creates the order.
+      document.querySelectorAll('#orderProductRows .order-product-row select').forEach(sel=>{
+        const prod=list(state.products).find(p=>String(p.id)===String(sel.value));if(!prod)return;
+        const opt=sel.options[sel.selectedIndex];if(opt){opt.dataset.weight=prod.weight||'';opt.dataset.costSnapshot=prod.cost??'';}
+      });
+      return oldAddOrder.apply(this,arguments);
+    };
+  }
+  // Keep cost/weight snapshots on saved product lines. Replaces the exact legacy row-builder expression.
+  if(typeof window.deebPatchOrderProductSnapshots==='undefined')window.deebPatchOrderProductSnapshots=true;
+
+  // Atomic, idempotent packaging deduction. The inventory movement and the order's deduction snapshot
+  // are written in the same Firestore transaction so a partial write cannot silently desynchronize them.
+  if(typeof db!=='undefined' && db && typeof db.runTransaction==='function'){
+    window.deductInventoryForOrder=async function(packagingRequested, refId){
+      const requested={boxes:Math.max(0,Math.floor(N(packagingRequested?.boxes))),stickers:Math.max(0,Math.floor(N(packagingRequested?.stickers))),bags:Math.max(0,Math.floor(N(packagingRequested?.bags)))};
+      const targets=[{key:'boxes',keywords:['بوكس','box'],label:'البوكسات'},{key:'stickers',keywords:['ستيكر','sticker'],label:'الستيكرات'},{key:'bags',keywords:['كيس','أكياس','bag'],label:'الأكياس'}];
+      const plan=[];
+      for(const t of targets){const amount=requested[t.key];if(amount<=0)continue;const item=(typeof findInventoryItemByKeywords==='function'?findInventoryItemByKeywords(t.keywords):null);if(!item?.id)throw new Error('لم يتم العثور على صنف مخزون لـ'+t.label+'؛ لم يتم خصم أي مواد تغليف.');plan.push({t,amount,item,ref:db.collection('inventory').doc(item.id)});}
+      const duplicateIds=plan.map(x=>String(x.item.id));if(new Set(duplicateIds).size!==duplicateIds.length)throw new Error('صنف المخزون نفسه مرتبط بأكثر من نوع تغليف؛ راجع أسماء الأصناف قبل الخصم.');
+      const orderRef=refId?db.collection('orders').doc(refId):null;
+      if(!orderRef && plan.length)throw new Error('معرّف الطلب غير موجود؛ أُوقف خصم التغليف لمنع حركة مخزون غير مرتبطة.');
+      if(!orderRef && !plan.length)return [];
+      return db.runTransaction(async tx=>{
+        let orderSnap=null,orderData={};
+        if(orderRef){orderSnap=await tx.get(orderRef);if(!orderSnap.exists)throw new Error('الطلب غير موجود؛ لم يتم خصم التغليف.');orderData=orderSnap.data()||{};if(orderData.packagingInventoryPostedAt||list(orderData.inventoryDeducted).length)return list(orderData.inventoryDeducted);}
+        const stockSnaps=[];for(const p of plan)stockSnaps.push({p,snap:await tx.get(p.ref)});
+        for(const {p,snap} of stockSnaps){if(!snap.exists)throw new Error('صنف التغليف غير موجود: '+p.t.label+'؛ لم يتم خصم أي مادة.');const available=N(snap.data().qty);if(available<p.amount)throw new Error('المخزون غير كافٍ لـ'+p.t.label+' (المتاح '+available+' / المطلوب '+p.amount+')؛ لم يتم خصم أي مادة.');}
+        const now=Date.now();const deducted=stockSnaps.map(({p,snap})=>{const d=snap.data(),unitCost=N(d.cost);return {itemId:p.item.id,itemName:d.name||p.item.name,key:p.t.key,packagingType:p.t.key,amount:p.amount,unitCost,totalCost:round2(p.amount*unitCost),costVerified:unitCost>0};});
+        const writeRows=stockSnaps.map(({p,snap},i)=>{const d=snap.data(),before=N(d.qty),after=round2(before-p.amount),rec=deducted[i];const moveRef=db.collection('stockMovements').doc(),ledgerRef=db.collection('inventoryLedger').doc();return {p,snap,d,before,after,rec,moveRef,ledgerRef};});
+        for(const w of writeRows){const mv={type:'Packaging Sale',itemId:w.p.item.id,itemName:w.d.name||w.p.item.name,qtyDelta:-w.p.amount,unitCost:w.rec.unitCost,totalCost:-w.rec.totalCost,refType:'order',refId:refId,ts:now,packagingType:w.p.t.key};tx.update(w.p.ref,{qty:w.after,updatedAt:now});tx.set(w.moveRef,mv);tx.set(w.ledgerRef,{...mv,qtyBefore:w.before,qtyAfter:w.after,createdAt:now});}
+        if(orderRef)tx.update(orderRef,{inventoryDeducted:deducted,packagingInventoryPostedAt:now,updatedAt:now});
+        return deducted;
+      });
+    };
+    preferredAtomicPackagingDeduct = window.deductInventoryForOrder;
+    try{deductInventoryForOrder=window.deductInventoryForOrder;}catch(_){}
+
+    // Transactional reversal stops duplicate packaging restoration during repeated cancellation clicks.
+    window.restoreInventoryForOrder=async function(order){
+      const orderId=String(order?.id||'');if(!orderId)throw new Error('معرّف الطلب غير متاح؛ تعذر عكس التغليف.');
+      const orderRef=db.collection('orders').doc(orderId);
+      return db.runTransaction(async tx=>{
+        const os=await tx.get(orderRef);if(!os.exists)throw new Error('الطلب غير موجود.');const current=os.data()||{};if(current.inventoryRestored===true)return {alreadyRestored:true};
+        const grouped=new Map();for(const row of list(current.inventoryDeducted)){const itemId=String(row.itemId||'');const qty=Math.max(0,N(row.amount));if(!itemId||qty<=0)continue;const g=grouped.get(itemId)||{itemId,qty:0,costTotal:0,costComplete:true,itemName:row.itemName||itemId};g.qty+=qty;if(hasN(row.totalCost)&&N(row.totalCost)>0)g.costTotal+=N(row.totalCost);else if(hasN(row.unitCost)&&N(row.unitCost)>0)g.costTotal+=N(row.unitCost)*qty;else g.costComplete=false;grouped.set(itemId,g);}
+        const reads=[];for(const row of grouped.values()){const ref=db.collection('inventory').doc(row.itemId);reads.push({row,ref,snap:await tx.get(ref)});}
+        for(const r of reads){if(!r.snap.exists)throw new Error('تعذر العثور على مادة تغليف لإرجاعها للمخزون: '+(r.row.itemName||r.row.itemId));}
+        const now=Date.now();const writes=reads.map(r=>{const inv=r.snap.data(),before=N(inv.qty),qty=r.row.qty,after=round2(before+qty),unitCost=r.row.costComplete&&qty>0?r.row.costTotal/qty:N(inv.cost),totalCost=round2(r.row.costComplete?r.row.costTotal:qty*unitCost),moveRef=db.collection('stockMovements').doc(),ledgerRef=db.collection('inventoryLedger').doc();return {...r,inv,before,after,qty,unitCost,totalCost,moveRef,ledgerRef};});
+        for(const w of writes){const mv={type:'Packaging Reversal',itemId:w.row.itemId,itemName:w.inv.name||w.row.itemName,qtyDelta:w.qty,unitCost:w.unitCost,totalCost:w.totalCost,refType:'order',refId:orderId,ts:now};tx.update(w.ref,{qty:w.after,updatedAt:now});tx.set(w.moveRef,mv);tx.set(w.ledgerRef,{...mv,qtyBefore:w.before,qtyAfter:w.after,createdAt:now});}
+        tx.update(orderRef,{inventoryRestored:true,inventoryRestoredAt:now,updatedAt:now});return {restored:writes.length};
+      });
+    };
+    preferredAtomicPackagingRestore = window.restoreInventoryForOrder;
+    try{restoreInventoryForOrder=window.restoreInventoryForOrder;}catch(_){}
+  }
+
+  // Replace delivery posting with a transaction that snapshots product cost, packaging, and production cost once.
+  if(typeof db!=='undefined' && db && typeof db.runTransaction==='function'){
+    window.deebDeliverOrderAtomically=async function(orderId,patch){
+      const orderRef=db.collection('orders').doc(orderId);
+      return db.runTransaction(async tx=>{
+        const os=await tx.get(orderRef);if(!os.exists)throw new Error('الطلب غير موجود.');const old=os.data();
+        const incoming={...(patch||{})};
+        if(old.status==='delivered'&&old.salePosted===true){
+          for(const k of ['product','qty','price','weightKg','products','packagingRequested']) if(Object.prototype.hasOwnProperty.call(incoming,k)&&JSON.stringify(incoming[k])!==JSON.stringify(old[k]))throw new Error('الطلب المُسلّم مرحّل ماليًا ومخزنيًا؛ لا تغيّر المنتج أو الكمية أو الوزن أو السعر مباشرة.');
+          delete incoming.status;tx.update(orderRef,{...incoming,updatedAt:Date.now()});return {alreadyPosted:true};
+        }
+        if(norm(old.status)==='cancelled')throw new Error('لا يمكن تسليم طلب ملغي مباشرة.');
+        if(old.salePosted===true)throw new Error('الطلب مُرحّل مسبقًا؛ حالة البيع غير متسقة. راجع سجل المخزون.');
+        const o={...old,...incoming};const kgManual=N(o.weightKg??o.chocolateKg);if(!(kgManual>0))throw new Error('أدخل وزن الشوكولاتة بالكيلو قبل تسليم الطلب.');
+        const cfg=list(state.settings).find(x=>x.id==='erpConfig'||x.key==='erpConfig')||{};
+        const chocId=cfg.chocolateInventoryItemId||((typeof deebChocolateInventoryItem==='function'?deebChocolateInventoryItem():null)?.id)||'';
+        const chocRef=chocId?db.collection('inventory').doc(chocId):null;
+        if(!chocRef)throw new Error('حدد مادة الشوكولاتة الأساسية من إعداد ERP قبل التسليم؛ لا يمكن ضمان خصم المخزون أو تكلفة البضاعة بدونها.');
+        const products=list(o.products).length?o.products:[{name:o.product||'',qty:o.qty||1,cost:o.cost||0,weightSnapshot:o.weight||''}];
+        const packageAlreadyPosted=!!o.packagingInventoryPostedAt || list(o.inventoryDeducted).length>0;
+        const requested={boxes:Math.max(0,Math.floor(N(o.packagingRequested?.boxes))),stickers:Math.max(0,Math.floor(N(o.packagingRequested?.stickers))),bags:Math.max(0,Math.floor(N(o.packagingRequested?.bags)))};
+        const packageTargets=[{key:'boxes',keywords:['بوكس','box'],label:'البوكسات'},{key:'stickers',keywords:['ستيكر','sticker'],label:'الستيكرات'},{key:'bags',keywords:['كيس','أكياس','bag'],label:'الأكياس'}];
+        const packagePlan=[];
+        if(!packageAlreadyPosted){for(const t of packageTargets){const amount=requested[t.key];if(amount<=0)continue;const item=(typeof findInventoryItemByKeywords==='function'?findInventoryItemByKeywords(t.keywords):null);if(!item)throw new Error('لم يتم العثور على صنف مخزون لـ'+t.label+'؛ لم يتم خصم مواد التغليف.');packagePlan.push({t,amount,item,ref:db.collection('inventory').doc(item.id)});}}
+        if(chocId && packagePlan.some(x=>String(x.item.id)===String(chocId)))throw new Error('صنف مخزون الشوكولاتة مرتبط أيضًا بمواد التغليف؛ أوقفت العملية لمنع خصم الصنف نفسه مرتين.');
+        if(new Set(packagePlan.map(x=>String(x.item.id))).size!==packagePlan.length)throw new Error('صنف المخزون نفسه مرتبط بأكثر من نوع تغليف؛ راجع أسماء الأصناف قبل التسليم.');
+        const refsToRead=[];if(chocRef)refsToRead.push({kind:'chocolate',ref:chocRef});packagePlan.forEach(x=>refsToRead.push({kind:'package',ref:x.ref,plan:x}));
+        const productionRef=db.collection('expenses').doc('production_'+String(orderId));
+        const invSnaps=new Map();for(const r of refsToRead){if(!invSnaps.has(r.ref.path))invSnaps.set(r.ref.path,{ref:r.ref,snap:await tx.get(r.ref),kind:r.kind,plan:r.plan});}
+        const prodSnap=await tx.get(productionRef);
+        const chocEntry=chocRef?invSnaps.get(chocRef.path):null;const chocData=chocEntry?.snap?.exists?chocEntry.snap.data():null;
+        if(chocRef && !chocEntry?.snap?.exists)throw new Error('صنف مخزون الشوكولاتة المحدد في إعدادات ERP غير موجود؛ لم يتم ترحيل الطلب.');
+        let chocolateKg=0, chocolateCogs=0, fallbackCogs=0, fallbackCount=0, calculatedKg=0, missingProductWeightCount=0;
+        for(const p of products){
+          const qty=hasN(p.qty)?Math.max(0,N(p.qty)):1;const liveProduct=list(state.products).find(x=>String(x.id)===String(p.productId))||list(state.products).find(x=>String(x.name)===String(p.name));
+          let unitKg=null;const weightValue=p.weightSnapshot??p.weight??liveProduct?.weight;
+          try{const v=typeof deebParseWeightKg==='function'?deebParseWeightKg(weightValue):NaN;if(Number.isFinite(v)&&v>0)unitKg=v;}catch(_){}
+          if(unitKg!==null){calculatedKg+=unitKg*qty;if(!chocData){const unitCost=N(p.costSnapshot??p.cost??liveProduct?.cost);if(unitCost>0)fallbackCogs+=unitCost*qty;else fallbackCount++;}}
+          else {missingProductWeightCount++;if(!chocData){const unitCost=N(p.costSnapshot??p.cost??liveProduct?.cost);if(unitCost>0)fallbackCogs+=unitCost*qty;else fallbackCount++;}}
+        }
+        // Order form's manually entered total kg is authoritative for chocolate stock/COGS. Product-level weights are validation only.
+        if(chocData) chocolateKg=kgManual;
+        let packageRows=list(o.inventoryDeducted).slice();let packageCogs=packageRows.reduce((s,d)=>s+(hasN(d.totalCost)&&N(d.totalCost)>0?N(d.totalCost):(hasN(d.unitCost)&&N(d.unitCost)>0?N(d.unitCost)*Math.max(0,N(d.amount)):0)),0);
+        for(const entry of invSnaps.values()){
+          if(entry.kind!=='package')continue;const inv=entry.snap;if(!inv.exists)throw new Error('صنف التغليف غير موجود في المخزون.');const dat=inv.data(),amount=entry.plan.amount,before=N(dat.qty);if(before<amount)throw new Error('المخزون غير كافٍ لـ'+entry.plan.t.label+' (المتاح '+before+' / المطلوب '+amount+').');const unitCost=N(dat.cost),totalCost=round2(amount*unitCost);packageCogs+=totalCost;packageRows.push({itemId:entry.plan.item.id,itemName:dat.name||entry.plan.item.name,key:entry.plan.t.key,packagingType:entry.plan.t.key,amount,unitCost,totalCost});
+        }
+        if(chocolateKg>0){if(!chocData)throw new Error('تكلفة/مخزون الشوكولاتة غير متاح؛ لم يتم ترحيل الطلب.');if(N(chocData.qty)<chocolateKg)throw new Error('مخزون الشوكولاتة غير كافٍ لترحيل الطلب.');chocolateCogs=round2(chocolateKg*N(chocData.cost));}
+        const directCogs=round2(chocolateCogs+fallbackCogs), rate=N(o.productionCostRate)>0?N(o.productionCostRate):12;
+        const autoProduction=round2(kgManual*rate);const priorProd=prodSnap.exists?prodSnap.data():null;
+        if(priorProd?.manualOverride===true && !hasN(priorProd.amount))throw new Error('سجل تكلفة الإنتاج اليدوي لا يحتوي مبلغًا صالحًا؛ صحّح المصروف قبل تسليم الطلب.');
+        const productionCogs=priorProd?.manualOverride===true?N(priorProd.amount):autoProduction;
+        const totalCogs=round2(directCogs+packageCogs+productionCogs),revenue=N(o.price??o.totalAmount??o.total),grossProfit=round2(revenue-totalCogs);
+        const weightMismatch=calculatedKg>0&&Math.abs(calculatedKg-kgManual)>Math.max(.05,kgManual*.05);
+        const missingChocolateUnitCost=!!(chocData && chocolateKg>0 && N(chocData.cost)<=0);
+        const missingPackagingUnitCost=packageRows.some(d=>N(d.amount)>0 && N(d.unitCost)<=0);
+        const missingManualProductionCost=priorProd?.manualOverride===true && !hasN(priorProd.amount);
+        // The default 12 JOD/kg is a provisional estimate until reconciled to actual production records.
+        // Keep the posted amount visible for reconciliation, but never certify the order's COGS as complete on that default alone.
+        const productionRateVerified=N(o.productionCostRate)>0 || priorProd?.manualOverride===true;
+        const completeCost=fallbackCount===0 && !missingChocolateUnitCost && !missingPackagingUnitCost && !missingManualProductionCost && productionRateVerified && kgManual>0;
+        // All reads are completed before writes: Firestore transaction remains all-or-nothing.
+        if(chocolateKg>0&&chocEntry?.snap?.exists){const before=N(chocData.qty),after=round2(before-chocolateKg),uc=N(chocData.cost),mv={type:'Sale',itemId:chocId,itemName:chocData.name||'الشوكولاتة',qtyDelta:-chocolateKg,unitCost:uc,totalCost:-chocolateCogs,refType:'order',refId:orderId,ts:Date.now()};tx.update(chocRef,{qty:after,updatedAt:Date.now()});tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,wacAfter:uc,createdAt:Date.now()});}
+        for(const entry of invSnaps.values()){
+          if(entry.kind!=='package')continue;const dat=entry.snap.data(),amount=entry.plan.amount,before=N(dat.qty),after=before-amount,unitCost=N(dat.cost),rec=packageRows.find(d=>d.itemId===entry.plan.item.id&&d.key===entry.plan.t.key);tx.update(entry.ref,{qty:after,updatedAt:Date.now()});const mv={type:'Packaging Sale',itemId:entry.plan.item.id,itemName:dat.name||entry.plan.item.name,qtyDelta:-amount,unitCost,totalCost:-N(rec?.totalCost),refType:'order',refId:orderId,ts:Date.now(),packagingType:entry.plan.t.key};tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()});
+        }
+        const prodRecord={name:'تكلفة الشوكولاتة والإنتاج',type:'Production / COGS',category:'COGS',amount:productionCogs,date:o.dateRaw||o.date||new Date().toISOString().slice(0,10),weightKg:kgManual,ratePerKg:rate,rateVerified:productionRateVerified,estimated:!productionRateVerified,source:'order-delivery-automation',autoGenerated:!priorProd?.manualOverride,orderId,refType:'order',refId:orderId,updatedAt:Date.now()};if(!prodSnap.exists)prodRecord.createdAt=Date.now();tx.set(productionRef,prodRecord,{merge:true});
+        const merged={...incoming,status:'delivered',salePosted:true,saleReversed:false,inventoryDeducted:packageRows,packagingInventoryPostedAt:o.packagingInventoryPostedAt||Date.now(),cogs:totalCogs,grossProfit,chocolateKg,cogsComplete:completeCost,cogsSnapshot:{version:2,cogs:totalCogs,inventoryCogs:directCogs,packagingCogs:packageCogs,productionCogs,chocolateKg,chocolateUnitCost:chocData?N(chocData.cost):0,source:chocData?'inventory WAC + product fallback + packaging + production':'product cost fallback + packaging + production',completeCost,includesProductionCost:true,weightMismatch,productionRate:rate,productionRateVerified},inventoryPostedAt:Date.now(),cogsPostedAt:Date.now()};
+        tx.update(orderRef,merged);return {posted:true,cogs:totalCogs,completeCost,weightMismatch};
+      });
+    };
+  }
+
+  if(typeof db!=='undefined' && db && typeof db.runTransaction==='function'){
+    window.deebPostSaleForOrder=async function(orderId){ return window.deebDeliverOrderAtomically(orderId,{status:'delivered'}); };
+  }
+
+  // Packaging deduction is idempotent and all-or-nothing. The transaction records the result on the order.
+  if(typeof db!=='undefined' && db && typeof db.runTransaction==='function' && typeof findInventoryItemByKeywords==='function'){
+    window.deductInventoryForOrder=async function(amounts,refId){
+      const legacy=typeof amounts==='number'?Math.max(0,Math.floor(N(amounts))):null;
+      const requested={boxes:legacy===null?Math.max(0,Math.floor(N(amounts?.boxes))):legacy,stickers:legacy===null?Math.max(0,Math.floor(N(amounts?.stickers))):legacy,bags:legacy===null?Math.max(0,Math.floor(N(amounts?.bags))):legacy};
+      const targets=[{key:'boxes',keywords:['بوكس','box'],label:'البوكسات'},{key:'stickers',keywords:['ستيكر','sticker'],label:'الستيكرات'},{key:'bags',keywords:['كيس','أكياس','bag'],label:'الأكياس'}].filter(t=>requested[t.key]>0);
+      if(!targets.length)return [];
+      if(!refId)throw new Error('رقم الطلب مطلوب لتسجيل خصم المخزون بأمان.');
+      const orderRef=db.collection('orders').doc(refId);
+      const plan=targets.map(t=>{const item=findInventoryItemByKeywords(t.keywords);if(!item)throw new Error('لم يتم العثور على صنف مخزون لـ'+t.label+'؛ لم يتم الخصم.');return {t,item,amount:requested[t.key],ref:db.collection('inventory').doc(item.id)};});
+      const dup=plan.map(x=>x.item.id);if(new Set(dup).size!==dup.length)throw new Error('تم ربط أكثر من نوع تغليف بنفس صنف المخزون؛ راجع أسماء الأصناف قبل الخصم.');
+      return db.runTransaction(async tx=>{
+        const os=await tx.get(orderRef);if(!os.exists)throw new Error('الطلب غير موجود؛ لم يتم خصم مواد التغليف.');const old=os.data();
+        if(old.packagingInventoryPostedAt || list(old.inventoryDeducted).length)return list(old.inventoryDeducted);
+        const snapshots=[];for(const p of plan)snapshots.push({...p,snap:await tx.get(p.ref)});
+        for(const p of snapshots){if(!p.snap.exists)throw new Error('صنف المخزون '+p.t.label+' غير موجود.');const inv=p.snap.data();if(N(inv.qty)<p.amount)throw new Error('المخزون غير كافٍ لـ'+p.t.label+' (المتاح '+N(inv.qty)+' / المطلوب '+p.amount+').');}
+        const out=[];for(const p of snapshots){const inv=p.snap.data(),before=N(inv.qty),after=before-p.amount,unitCost=N(inv.cost),totalCost=round2(unitCost*p.amount),record={itemId:p.item.id,itemName:inv.name||p.item.name,key:p.t.key,packagingType:p.t.key,amount:p.amount,unitCost,totalCost};out.push(record);tx.update(p.ref,{qty:after,updatedAt:Date.now()});const mv={type:'Packaging Sale',itemId:p.item.id,itemName:inv.name||p.item.name,qtyDelta:-p.amount,unitCost,totalCost:-totalCost,refType:'order',refId,ts:Date.now(),packagingType:p.t.key};tx.set(db.collection('stockMovements').doc(),mv);tx.set(db.collection('inventoryLedger').doc(),{...mv,qtyBefore:before,qtyAfter:after,createdAt:Date.now()});}
+        tx.update(orderRef,{inventoryDeducted:out,packagingInventoryPostedAt:Date.now()});return out;
+      });
+    };
+  }
+
+  // Marketing ROAS now uses the exact same order-cost engine as Finance.
+  window.renderMarketingROAS=function(){
+    const manual=typeof getROASSettings==='function'?list(getROASSettings()):[];
+    const map=new Map();
+    manual.forEach(x=>{const ch=String(x.channel||'').trim();if(ch)map.set(ch,{channel:ch,spend:Math.max(0,N(x.spend)),manualOrders:Math.max(0,N(x.orders)),manualRevenue:Math.max(0,N(x.revenue)),manualCost:Math.max(0,N(x.cost)),manual:true});});
+    const allOrders=list(state.orders).filter(delivered),allExpenses=list(state.expenses);
+    allOrders.forEach(o=>{
+      const raw=(typeof getOrderChannel==='function'?getOrderChannel(o):'')||o.source||o.channel||'غير محدد';
+      const channel=String(raw).trim()||'غير محدد';
+      if(!map.has(channel))map.set(channel,{channel,spend:0,manualOrders:0,manualRevenue:0,manualCost:0,manual:false});
+      const row=map.get(channel);row.autoOrders=(row.autoOrders||0)+1;row.autoRevenue=(row.autoRevenue||0)+N(o.price??o.totalAmount??o.total);
+      const detail=orderCostDetail(o,allExpenses,allOrders);
+      row.costCount=(row.costCount||0)+1;
+      if(detail.totalCogs==null||!detail.complete){row.costComplete=false;row.incompleteOrders=(row.incompleteOrders||0)+1;}
+      if(detail.totalCogs!=null)row.autoCost=(row.autoCost||0)+N(detail.totalCogs);
+    });
+    const rows=[...map.values()].map(x=>{
+      const hasAuto=N(x.autoOrders)>0;
+      const orders=hasAuto?x.autoOrders:N(x.manualOrders),revenue=hasAuto?N(x.autoRevenue):N(x.manualRevenue),cost=hasAuto?N(x.autoCost):N(x.manualCost),spend=N(x.spend);
+      const manualCostKnown=hasAuto || revenue<=0 || N(x.manualCost)>0 || x.costVerified===true || x.costIsKnown===true;
+      const costComplete=hasAuto?x.costComplete!==false:manualCostKnown;
+      const contribution=costComplete?round2(revenue-cost):null,afterMarketing=contribution==null?null:round2(contribution-spend);
+      return {...x,orders,revenue,cost,costComplete,contribution,afterMarketing,roas:spend>0?revenue/spend:null,profitPerSpend:spend>0&&afterMarketing!=null?afterMarketing/spend:null,source:hasAuto?`طلبات مسلّمة${costComplete?'':' — تكلفة غير مكتملة ('+(x.incompleteOrders||0)+')'}`:'إدخال يدوي'};
+    });
+    const safe=v=>typeof sanitize==='function'?sanitize(v):String(v??'');
+    const tb=document.getElementById('marketingRoasRows');
+    if(tb)tb.innerHTML=rows.length?rows.map(r=>`<tr><td><strong>${safe(r.channel)}</strong></td><td>${moneyText(r.spend)}</td><td>${r.orders}</td><td>${moneyText(r.revenue)}</td><td>${r.costComplete?moneyText(r.cost):'غير مكتمل'}</td><td>${r.contribution==null?'غير مكتمل':moneyText(r.contribution)}</td><td>${r.roas==null?'—':r.roas.toFixed(2)+'x'}</td><td>${r.profitPerSpend==null?'—':r.profitPerSpend.toFixed(2)+'x'}</td><td>${safe(r.source)}</td></tr>`).join(''):'<tr><td colspan="9">لا توجد قنوات</td></tr>';
+    const spend=round2(rows.reduce((sum,r)=>sum+r.spend,0)),rev=round2(rows.reduce((sum,r)=>sum+r.revenue,0));
+    const contributionComplete=rows.every(r=>r.contribution!=null),contribution=contributionComplete?round2(rows.reduce((sum,r)=>sum+r.contribution,0)):null,marketingProfit=contribution==null?null:round2(contribution-spend);
+    const set=(id,v)=>setText(id,v);
+    set('roasSpend',moneyText(spend)+' JOD');set('roasRevenue',moneyText(rev)+' JOD');set('roasProfit',contribution==null?'غير مكتمل':moneyText(contribution)+' JOD');set('roasMarketingProfit',marketingProfit==null?'غير مكتمل':moneyText(marketingProfit)+' JOD');set('roasValue',spend>0?(rev/spend).toFixed(2)+'x':'—');
+    const n=document.getElementById('roasNotes');if(n)n.textContent='ROAS = إيراد القناة ÷ إنفاق التسويق. الربح المساهم = إيراد القناة − تكلفة البضاعة المباعة باستخدام نفس محرك المالية. الربح بعد التسويق = الربح المساهم − إنفاق التسويق، ولا يمثل صافي الربح الكامل للشركة. القنوات ذات تكلفة طلبات غير مكتملة لا تعرض ربحًا نهائيًا.';
+    return {rows,spend,revenue:rev,contribution,marketingProfit,complete:contributionComplete};
+  };
+
+  // Production audit reports canonical costs, not the sum of duplicated mirrored expenses.
+  window.deebRunProductionCostAudit=function(){
+    const orders=list(state.orders).filter(delivered),expenses=list(state.expenses),allOrders=list(state.orders);
+    const rows=orders.map(o=>{
+      const d=orderCostDetail(o,expenses,allOrders),snap=o.cogsSnapshot||{};
+      const weight=N(snap.chocolateKg||o.chocolateKg||o.weightKg),linked=expenses.filter(e=>isProductionExpense(e)&&expOrderId(e)===String(o.id));
+      let status=d.complete?'متكامل':'تكلفة غير مكتملة';
+      if(d.issues.includes('duplicate-production-expenses'))status='مصروف إنتاج مكرر';
+      else if(d.issues.includes('production-cost-mismatch'))status='فرق بين اللقطة والمصروف';
+      else if(d.issues.includes('missing-packaging-cost'))status='تكلفة تغليف غير موثقة';
+      else if(d.issues.includes('unverified-default-production-rate-12-per-kg'))status='معدل 12 د.أ/كغم غير متحقق';
+      else if(d.productionSource==='derived-12-per-kg')status='تكلفة إنتاج تقديرية للعرض';
+      return {id:o.id,number:o.orderNumber||o.id,weight,cogs:d.totalCogs,production:d.productionCogs,snapUnit:N(snap.chocolateUnitCost),status,linkedCount:linked.length,detail:d};
+    });
+    const deliveredIds=new Set(orders.map(o=>String(o.id)));
+    const orphan=expenses.filter(e=>isProductionExpense(e)&&(!expOrderId(e)||!deliveredIds.has(expOrderId(e)))).map(e=>({id:e.id,number:expOrderId(e)||e.id,weight:N(e.weightKg),cogs:null,production:hasN(e.amount)?N(e.amount):null,snapUnit:0,status:'مصروف غير مرتبط بطلب مسلّم',linkedCount:1,detail:{issues:['orphan-production-expense']}}));
+    const allRows=rows.concat(orphan),duplicateCount=rows.filter(r=>r.detail.issues.includes('duplicate-production-expenses')).length,mismatchCount=rows.filter(r=>r.detail.issues.includes('production-cost-mismatch')).length,missingCount=rows.filter(r=>!r.detail.complete).length;
+    const totals=round2(rows.reduce((sum,r)=>sum+(r.production==null?0:N(r.production)),0)+orphan.reduce((sum,r)=>sum+(r.production==null?0:N(r.production)),0));
+    const summary=document.getElementById('productionCostAuditSummary');if(summary)summary.innerHTML=`الطلبات المسلّمة: <strong>${rows.length}</strong> · تكلفة غير مكتملة: <strong>${missingCount}</strong> · تكرار إنتاج: <strong>${duplicateCount}</strong> · فروقات لقطة/مصروف: <strong>${mismatchCount}</strong> · مصروفات إنتاج يتيمة/غير مرتبطة بتسليم: <strong>${orphan.length}</strong> · مجموع سجلات الإنتاج (يشمل اليتيمة؛ لا يساوي بالضرورة COGS المحاسبية): <strong>${moneyText(totals)} د.أ.</strong>`;
+    const tbody=document.getElementById('productionCostAuditRows'),esc=v=>typeof sanitize==='function'?sanitize(v??''):String(v??'');
+    if(tbody)tbody.innerHTML=allRows.length?allRows.map(r=>`<tr><td>${esc(r.number)}</td><td>${N(r.weight).toFixed(3)}</td><td>${r.cogs==null?'غير مكتمل':moneyText(r.cogs)}</td><td>${r.production==null?'غير مسجلة':moneyText(r.production)}</td><td>${r.snapUnit>0?moneyText(r.snapUnit)+'/كغم':'غير مسجلة'}</td><td>${esc(r.status)}</td></tr>`).join(''):'<tr><td colspan="6">لا توجد سجلات مؤهلة في البيانات المحمّلة</td></tr>';
+    if(typeof toast==='function')toast('اكتمل تدقيق سجلات الإنتاج المحمّلة فقط — دون تعديل البيانات','success');
+    return {orders:rows.length,missingCost:missingCount,duplicateCount,mismatchCount,orphanCount:orphan.length,productionExpenseTotal:totals,rows:allRows};
+  };
+
+  // Make the expense chart labels and calculation fields accurately describe their data.
+  document.addEventListener('DOMContentLoaded',()=>{
+    const perBox=document.querySelector('#page-calculations #calcPerBox')?.closest('.stat-card');if(perBox){const l=perBox.querySelector('.stat-label');if(l)l.textContent='متوسط صافي الربح لكل طلب';}
+    document.querySelectorAll('#page-calculations .form-group').forEach(g=>{const label=g.querySelector('.form-label');const input=g.querySelector('input');if(label&&input&&['rawMaterialCost','packagingCost','marketingCost','deliveryCost','otherCost'].includes(input.id))label.textContent=label.textContent+' — من سجل المصاريف';});
+  });
+  // Re-assert the tested transactional handlers after legacy compatibility code above.
+  if(preferredAtomicPackagingDeduct){window.deductInventoryForOrder=preferredAtomicPackagingDeduct;try{deductInventoryForOrder=window.deductInventoryForOrder;}catch(_){}}
+  if(preferredAtomicPackagingRestore){window.restoreInventoryForOrder=preferredAtomicPackagingRestore;try{restoreInventoryForOrder=window.restoreInventoryForOrder;}catch(_){}}
+
+  // Refresh reports after initialization and when the page gets loaded.
+  const initialRefresh=()=>{try{if(typeof state!=='undefined'&&list(state.orders).length+list(state.expenses).length){window.renderFinance();window.updateCalc();window.refreshDashboard();window.renderLiveKPI();}}catch(e){console.warn('DEEB finance initial refresh:',e);}};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialRefresh);else setTimeout(initialRefresh,0);
+})();
+
 </script>
 </body>
 </html>
