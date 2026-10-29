@@ -10318,7 +10318,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       const d=expenseDate(e);
       return !d || within(d,r);
     }).map(e=>r.period!=='all'&&!expenseDate(e)?{...e,__undatedForReport:true}:e);
-    const fin=window.deebFinancialSummary(inPeriod,allE,{range:r});
+    const fin=window.deebFinancialSummary(inPeriod,expensesByDate,{range:r});
     fin.range=r; fin.orders=inPeriod; fin.expenses=expensesByDate;
     fin.missingDateOrders= r.period==='all'?0:missingDate;
     if(r.period!=='all' && missingDate>0) { fin.revenueComplete=false; fin.profitComplete=false; fin.netProfit=null; fin.issues.push({code:'undated-delivered-orders',count:missingDate}); }
