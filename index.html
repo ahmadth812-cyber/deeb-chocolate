@@ -10098,8 +10098,19 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       else if(o.grossProfit!=null && Number.isFinite(Number(o.grossProfit))) v=num(o.price)-num(o.grossProfit);
       if(v===null){
         const linked=expenses.filter(e=>isProdExpense(e) && (e.orderId===o.id||e.refId===o.id||e.relatedOrderId===o.id));
-        if(linked.length===1 && Number.isFinite(Number(linked[0].amount))) v=num(linked[0].amount);
-        else complete=false;
+        // Legacy delivered orders may predate cogsSnapshot/cogs/grossProfit.
+        // Prefer the deterministic per-order production expense when available.
+        const canonical=linked.find(e=>String(e.id||'')==='production_'+String(o.id));
+        const usable=canonical || (linked.length===1 ? linked[0] : null);
+        if(usable && Number.isFinite(Number(usable.amount))) v=num(usable.amount);
+        else {
+          // Approved DEEB OS production policy: 12 JOD per kg. Use only when
+          // the order has a documented positive weight; otherwise keep the
+          // result incomplete rather than inventing a cost.
+          const kg=num(o.cogsSnapshot?.chocolateKg ?? o.chocolateKg ?? o.weightKg);
+          if(kg>0) v=Math.round(kg*12*100)/100;
+          else complete=false;
+        }
       }
       if(v!==null)cogs+=v;
     }
