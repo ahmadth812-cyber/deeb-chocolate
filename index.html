@@ -4602,7 +4602,8 @@ window.calcOrderTotal = function() {
     let price = parseFloat(inputs[1]?.value)||0;
     total += qty * price;
   });
-  // The field is an internal delivery cost, not customer revenue; keep the order total aligned with the saved product subtotal.
+  let delivery = parseFloat(document.getElementById('o-delivery')?.value)||0;
+  total += delivery;
   let display = document.getElementById('o-total-display');
   if(display) display.textContent = total.toFixed(0);
   updateInventoryImpactPreview();
@@ -4643,39 +4644,18 @@ function findInventoryItemByKeywords(keywords) {
   });
 }
 
-async function deductInventoryForOrder(packagingRequested, refId){
-  const requested = {
-    boxes: Math.max(0, Math.floor(deebNum(packagingRequested?.boxes))),
-    stickers: Math.max(0, Math.floor(deebNum(packagingRequested?.stickers))),
-    bags: Math.max(0, Math.floor(deebNum(packagingRequested?.bags)))
-  };
-  const targets=[
-    {key:'boxes',keywords:['بوكس','box'],label:'البوكسات'},
-    {key:'stickers',keywords:['ستيكر','sticker'],label:'الستيكرات'},
-    {key:'bags',keywords:['كيس','أكياس','bag'],label:'الأكياس'}
-  ];
-  // Preflight every requested item before changing any inventory quantities.
-  const plan=[];
-  for(const t of targets){
-    const amount=requested[t.key];
-    if(amount<=0) continue;
-    const item=findInventoryItemByKeywords(t.keywords);
-    if(!item) throw new Error('لم يتم العثور على صنف مخزون لـ'+t.label+'؛ لم يتم خصم أي مواد تغليف.');
-    const currentQty=deebNum(item.qty);
-    if(currentQty<amount) throw new Error('المخزون غير كافٍ لـ'+t.label+' (المتاح '+currentQty+' / المطلوب '+amount+')؛ لم يتم خصم أي مواد تغليف.');
-    plan.push({target:t,item,amount,currentQty,unitCost:deebNum(item.cost)});
-  }
+async function deductInventoryForOrder(totalBoxes, refId){
+  if(!totalBoxes || totalBoxes<=0) return [];
+  const targets=[{keywords:['بوكس','box'],label:'البوكسات'},{keywords:['ستيكر','sticker'],label:'الستيكرات'},{keywords:['كيس','أكياس','bag'],label:'الأكياس'}];
   const deducted=[];
-  for(const p of plan){
-    const {target:t,item,amount,currentQty,unitCost}=p;
-    const newQty=currentQty-amount;
+  for(const t of targets){
+    const item=findInventoryItemByKeywords(t.keywords); if(!item) continue;
+    const currentQty=deebNum(item.qty), amount=deebNum(totalBoxes);
+    if(currentQty<amount) throw new Error('المخزون غير كافٍ لـ'+t.label+' (المتاح '+currentQty+' / المطلوب '+amount+')');
+    const unitCost=deebNum(item.cost), newQty=currentQty-amount;
     await updateDoc_('inventory',item.id,{qty:newQty});
-    const record={itemId:item.id,itemName:item.name,key:t.key,amount,unitCost,totalCost:amount*unitCost};
-    deducted.push(record);
-    if(refId){
-      await addDoc_('stockMovements',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,ts:Date.now()});
-      await addDoc_('inventoryLedger',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,qtyBefore:currentQty,qtyAfter:newQty,createdAt:Date.now()});
-    }
+    const record={itemId:item.id,amount,unitCost,totalCost:amount*unitCost}; deducted.push(record);
+    if(refId){ await addDoc_('stockMovements',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,ts:Date.now()}); await addDoc_('inventoryLedger',{type:'Packaging Sale',itemId:item.id,itemName:item.name,qtyDelta:-amount,unitCost,totalCost:-amount*unitCost,refType:'order',refId,qtyBefore:currentQty,qtyAfter:newQty,createdAt:Date.now()}); }
     if(newQty<=(deebNum(item.min)||0)) toast('⚠️ '+t.label+' أصبحت '+newQty+' فقط','warning');
   }
   return deducted;
@@ -10008,6 +9988,44 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   addDoc_=async function(col,data){const ref=await previousAddDoc(col,data);if(col==='orders'&&(data.status==='delivered'||data.status==='completed')){try{await syncExpense(ref.id,data);}catch(e){console.error(e);toast('⚠️ الطلب حُفظ لكن مصروف الإنتاج يحتاج إعادة مزامنة.','warning');}}return ref;};
   // Existing orders are intentionally not backfilled. This is only a retry control for a selected order.
   window.deebRetryProductionExpense=async function(orderId){const o=(state.orders||[]).find(x=>x.id===orderId);if(!o)throw new Error('الطلب غير موجود في البيانات الحالية');return syncExpense(orderId,o);};
+})();
+</script>
+
+<!-- DEEB OS targeted fix: allow deletion of cancelled orders only after reversing posted sale -->
+<script>
+(function(){
+  const previousDeleteOrder = window.deleteOrder;
+  window.deleteOrder = async function(id){
+    const order = (state.orders || []).find(x => x.id === id);
+    if (!order) return toast('الطلب غير موجود.', 'error');
+    if (order.status === 'delivered' && order.salePosted === true) {
+      return toast('🔒 لا يمكن حذف طلب مُسلّم. ألغِ الطلب واعكس ترحيل البيع أولاً.', 'warning');
+    }
+    if (order.status === 'cancelled' && order.salePosted === true && order.saleReversed !== true) {
+      const ok = window.confirm('هذا الطلب ملغي لكن عملية البيع ما زالت مُرحّلة. سيتم عكس ترحيل البيع وإرجاع كمية الشوكولاتة للمخزون قبل فتح تأكيد الحذف. لن تتغير بيانات الطلب أو أسعاره. هل تريد المتابعة؟');
+      if (!ok) return;
+      try {
+        if (typeof window.deebReverseSaleForOrder !== 'function') throw new Error('وظيفة عكس ترحيل البيع غير متاحة.');
+        await window.deebReverseSaleForOrder(id);
+        const refreshed = (state.orders || []).find(x => x.id === id) || order;
+        if (refreshed.saleReversed !== true) {
+          // Firestore may update state asynchronously; the reversal call itself must complete first.
+          await updateDoc_('orders', id, {saleReversed:true, saleReversedAt:Date.now()});
+        }
+        toast('تم عكس ترحيل البيع. أكمل تأكيد حذف الطلب إذا كنت متأكداً.', 'success');
+        confirmDelete('orders', id, order.name || 'الطلب');
+      } catch (e) {
+        console.error('DEEB cancelled-order reversal failed:', e);
+        toast('تعذر عكس ترحيل البيع؛ لم يتم فتح الحذف. ' + (e?.message || ''), 'error');
+      }
+      return;
+    }
+    if (order.salePosted === true && order.saleReversed !== true) {
+      return toast('🔒 هذا الطلب لديه ترحيل بيع غير معكوس. ألغِه واعكس العملية أولاً.', 'warning');
+    }
+    if (typeof previousDeleteOrder === 'function') return previousDeleteOrder(id);
+    confirmDelete('orders', id, order.name || 'الطلب');
+  };
 })();
 </script>
 </body>
