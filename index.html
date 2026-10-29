@@ -10028,5 +10028,156 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   };
 })();
 </script>
+<script>
+/* DEEB OS: operational recovery + single-source financial reconciliation.
+   Code-only repair: does not migrate, overwrite, or bulk-edit existing records. */
+(function(){
+  'use strict';
+  const num=v=>{const n=Number(v);return Number.isFinite(n)?n:0;};
+  const isProdExpense=e=>e && (e.category==='COGS' || e.type==='Production / COGS' || e.source==='order-delivery-automation' || String(e.id||'').startsWith('production_'));
+  function inRange(raw,range){
+    if(!range || range.period==='all') return true;
+    if(!raw) return false;
+    let d=typeof parseDateLocal==='function'?parseDateLocal(raw):new Date(raw);
+    return !!(d&&!isNaN(d)&&d>=range.start&&d<=range.end);
+  }
+  function summary(range){
+    const orders=(state.orders||[]).filter(o=>o.status==='delivered' && inRange(o.dateRaw || o.date || (o.createdAt?new Date(o.createdAt.seconds?o.createdAt.seconds*1000:o.createdAt).toISOString().slice(0,10):''),range));
+    const expenses=(state.expenses||[]).filter(e=>inRange(e.dateRaw||e.date,range));
+    const revenue=orders.reduce((s,o)=>s+num(o.price),0);
+    let cogs=0, complete=true;
+    for(const o of orders){
+      let v=null;
+      if(o.cogsSnapshot && Number.isFinite(Number(o.cogsSnapshot.cogs))) v=num(o.cogsSnapshot.cogs);
+      else if(o.cogs!=null && Number.isFinite(Number(o.cogs))) v=num(o.cogs);
+      else if(o.grossProfit!=null && Number.isFinite(Number(o.grossProfit))) v=num(o.price)-num(o.grossProfit);
+      if(v===null){
+        const linked=expenses.filter(e=>isProdExpense(e) && (e.orderId===o.id||e.refId===o.id||e.relatedOrderId===o.id));
+        if(linked.length===1 && Number.isFinite(Number(linked[0].amount))) v=num(linked[0].amount);
+        else complete=false;
+      }
+      if(v!==null)cogs+=v;
+    }
+    const opex=expenses.filter(e=>!isProdExpense(e)).reduce((s,e)=>s+num(e.amount),0);
+    const totalExpenseLedger=expenses.reduce((s,e)=>s+num(e.amount),0);
+    const net=complete?revenue-cogs-opex:null;
+    return {orders,expenses,revenue,cogs,complete,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net};
+  }
+  window.deebFinancialSummary=summary;
+
+  // Correct status transitions and reverse posted stock movements before cancellation.
+  window.updateOrderStatus=async function(id,status){
+    const o=(state.orders||[]).find(x=>x.id===id);
+    if(!o) return toast('الطلب غير موجود في البيانات الحالية.','error');
+    try{
+      if(status==='delivered'){
+        const kg=num(o.weightKg??o.chocolateKg);
+        if(!(kg>0)) return toast('لا يمكن التسليم: أدخل وزن الشوكولاتة بالكيلو من تعديل الطلب أولاً.','warning');
+        if(o.status==='cancelled' && o.salePosted===true && o.saleReversed!==true) return toast('الطلب ملغي وترحيل البيع لم يُعكس. ألغِ الترحيل أولاً قبل إعادة التسليم.','warning');
+        await window.deebDeliverOrderAtomically(id,{});
+        try{await window.deebSyncProductionExpense?.(id,{...(o||{}),status:'delivered',weightKg:kg});}catch(e){console.error(e);toast('تم التسليم لكن مزامنة مصروف الإنتاج تحتاج مراجعة.','warning');}
+      }else{
+        if(o.status==='delivered' && status!=='cancelled') return toast('لحماية المخزون والحسابات: ألغِ الطلب أولاً واعكس ترحيله قبل إعادته لحالة أخرى.','warning');
+        if(status==='cancelled' && o.salePosted===true && o.saleReversed!==true){
+          if(typeof window.deebReverseSaleForOrder!=='function') throw new Error('وظيفة عكس ترحيل البيع غير متاحة.');
+          await window.deebReverseSaleForOrder(id);
+          // salePosted represents the current posting state; reversal history stays on the order and ledger.
+          await updateDoc_('orders',id,{salePosted:false,saleReversed:true,saleReversedAt:Date.now()});
+          const local=(state.orders||[]).find(x=>x.id===id); if(local)Object.assign(local,{salePosted:false,saleReversed:true,saleReversedAt:Date.now()});
+        }
+        await updateDoc_('orders',id,{status,updatedAt:Date.now()});
+        if(status==='cancelled'){
+          const fresh=(state.orders||[]).find(x=>x.id===id)||o;
+          if(!fresh.inventoryRestored && typeof restoreInventoryForOrder==='function') await restoreInventoryForOrder(fresh);
+          try{await window.deebRemoveProductionExpense?.(id);}catch(e){console.error(e);}
+        }
+      }
+      const local=(state.orders||[]).find(x=>x.id===id); if(local)local.status=status;
+      const stage={pending:'Submitted',preparing:'Preparing',delivered:'Delivered',cancelled:'Cancelled'}[status];
+      if(stage){const hist={...((local&&local.stageHistory)||{}),[stage]:Date.now()};try{await updateDoc_('orders',id,{funnelStage:stage,stageHistory:hist});if(local){local.funnelStage=stage;local.stageHistory=hist;}}catch(e){console.warn('stage history update failed',e);}}
+      toast('تم تحديث حالة الطلب إلى '+({pending:'قيد الانتظار',preparing:'قيد التجهيز',delivered:'تم التسليم',cancelled:'ملغي'}[status]||status)+' ✅','success');
+      if(typeof renderOrders==='function')renderOrders(); if(typeof renderKanban==='function')renderKanban();
+      window.renderOrderFunnel?.();window.renderLiveKPI?.();
+    }catch(e){console.error('Order status transition failed',e);toast('تعذر تحديث الطلب: '+(e?.message||e),'error');}
+  };
+
+  // Bypass the legacy delete guard only after a successful reversal; delivered orders remain protected.
+  window.deleteOrder=async function(id){
+    const o=(state.orders||[]).find(x=>x.id===id); if(!o)return toast('الطلب غير موجود.','error');
+    if(o.status==='delivered' && o.salePosted===true)return toast('🔒 لا تحذف طلباً مُسلّماً مباشرة. غيّر حالته إلى ملغي أولاً لعكس الترحيل بأمان.','warning');
+    try{
+      if(o.salePosted===true && o.saleReversed!==true){
+        if(o.status!=='cancelled')return toast('ألغِ الطلب أولاً قبل الحذف حتى يتم عكس المخزون بأمان.','warning');
+        if(!confirm('سيتم عكس ترحيل البيع قبل فتح الحذف. لن يتم حذف سجل حركة المخزون. متابعة؟'))return;
+        await window.deebReverseSaleForOrder(id);
+        await updateDoc_('orders',id,{salePosted:false,saleReversed:true,saleReversedAt:Date.now()});
+        Object.assign(o,{salePosted:false,saleReversed:true,saleReversedAt:Date.now()});
+      }
+      if(o.status!=='cancelled' && (o.salePosted===true || o.inventoryDeducted?.length)) return toast('ألغِ الطلب أولاً حتى تتم معالجة حركات المخزون قبل الحذف.','warning');
+      confirmDelete('orders',id,o.name||'الطلب');
+    }catch(e){console.error('Delete preparation failed',e);toast('تعذر تجهيز الحذف: '+(e?.message||e),'error');}
+  };
+
+  // Permit editing after reversing any currently posted sale, while retaining ledger history.
+  const priorSaveEdit=window.saveEditOrder;
+  window.saveEditOrder=async function(){
+    const id=document.getElementById('eo-id')?.value, o=(state.orders||[]).find(x=>x.id===id);
+    if(!o)return toast('الطلب غير موجود.','error');
+    const nextStatus=document.getElementById('eo-status')?.value||o.status;
+    const productEl=document.getElementById('eo-product');
+    const newProduct=productEl?.options[productEl.selectedIndex]?.text||'';
+    const changed=num(document.getElementById('eo-price')?.value)!==num(o.price)||num(document.getElementById('eo-qty')?.value)!==num(o.qty)|| (newProduct && newProduct!=='اختر المنتج' && newProduct!==o.product);
+    try{
+      if(o.salePosted===true && o.saleReversed!==true && (changed || nextStatus!=='delivered')){
+        if(!confirm('هذا الطلب لديه ترحيل بيع. سيتم عكس ترحيل المخزون أولاً، ثم حفظ التعديل دون تغيير السعر/البيانات إلا حسب الحقول التي تعدّلها. بعد التعديل يمكنك إعادة تسليمه من قائمة الطلبات. متابعة؟'))return;
+        await window.deebReverseSaleForOrder(id);
+        await updateDoc_('orders',id,{salePosted:false,saleReversed:true,saleReversedAt:Date.now(),status:'cancelled'});
+        Object.assign(o,{salePosted:false,saleReversed:true,saleReversedAt:Date.now(),status:'cancelled'});
+        // Do not immediately re-post delivery during an edit. Save it as cancelled, then the user may prepare/deliver it.
+        const statusEl=document.getElementById('eo-status'); if(statusEl)statusEl.value='cancelled';
+      }
+      return await priorSaveEdit();
+    }catch(e){console.error('Order edit failed',e);toast('تعذر تعديل الطلب: '+(e?.message||e),'error');}
+  };
+
+  // Make product creation failures explicit and keep the form intact for retry.
+  const priorAddProduct=window.addProduct;
+  window.addProduct=async function(){try{return await priorAddProduct();}catch(e){console.error('Product create failed',e);toast('لم تتم إضافة المنتج. '+(e?.message||'تحقق من الاتصال وصلاحيات Firestore ثم أعد المحاولة.'),'error');}};
+
+  // Finance and calculations use the same reconciliation policy; mirrored production costs are not deducted twice.
+  window.renderFinance=function(){
+    const range=typeof getMonthRange==='function'?getMonthRange('finance'):{period:'all'};
+    const x=summary(range);
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    set('finBridgeRevenue',x.revenue.toFixed(2)+' JOD');
+    set('finCOGS',x.complete?x.cogs.toFixed(2)+' JOD':'غير مكتمل');
+    set('finContribution',x.complete?x.contribution.toFixed(2)+' JOD':'غير مكتمل');
+    set('finAfterExpenses',x.complete?x.net.toFixed(2)+' JOD':'غير مكتمل');
+    set('finRevenue',x.revenue.toFixed(0)); set('finExpenses',x.totalExpenseLedger.toFixed(0));
+    set('finProfit',x.complete?x.net.toFixed(0):'غير مكتمل');
+    if(typeof renderExpensesFiltered==='function')renderExpensesFiltered(x.expenses);
+    if(typeof renderExpenseChart==='function')renderExpenseChart();
+    if(typeof refreshProductAnalyticsFiltered==='function')refreshProductAnalyticsFiltered(x.orders);
+  };
+  window.updateCalc=function(){
+    const range=typeof getMonthRange==='function'?getMonthRange('calculations'):{period:'all'};
+    const x=summary(range); const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    const expenses=x.expenses; const byType={};expenses.forEach(e=>{const k=e.type||e.category||'أخرى';byType[k]=(byType[k]||0)+num(e.amount);});
+    const fields={rawMaterialCost:['مواد خام','raw_material','Raw Materials'],packagingCost:['تغليف','packaging','Packaging'],marketingCost:['تسويق','marketing','Marketing'],deliveryCost:['توصيل','delivery','Delivery'],otherCost:['أخرى','other','Other']};
+    Object.entries(fields).forEach(([id,keys])=>{const el=document.getElementById(id);if(el&&!el.dataset.userEdited)el.value=keys.reduce((s,k)=>s+num(byType[k]),0).toFixed(0);});
+    set('calc-revenue',x.revenue.toFixed(0));set('calc-raw',num(document.getElementById('rawMaterialCost')?.value).toFixed(0));set('calc-pack',num(document.getElementById('packagingCost')?.value).toFixed(0));
+    set('calc-profit',x.complete?x.net.toFixed(0):'غير مكتمل');set('totalCostDisplay',x.complete?(x.revenue-x.net).toFixed(0):'غير مكتمل');
+    set('savingsAmount',x.net>0? (x.net*num(document.getElementById('savingsPercent')?.value)/100).toFixed(0):'0');
+    set('personalAmount',x.net>0?(x.net*num(document.getElementById('personalPercent')?.value)/100).toFixed(0):'0');
+    set('reinvestAmount',x.net>0?(x.net*num(document.getElementById('reinvestPercent')?.value)/100).toFixed(0):'0');
+    set('calcMargin',x.complete&&x.revenue?(x.net/x.revenue*100).toFixed(0)+'%':'غير مكتمل');
+    set('calcExpenseRatio',x.revenue?((x.revenue-x.net)/x.revenue*100).toFixed(0)+'%':'0%');
+    set('calcPerBox',x.orders.length&&x.complete?(x.net/x.orders.length).toFixed(0):'—');set('calcTotalOrders',x.orders.length);
+    if(typeof refreshPeriodComparison==='function'&&x.complete)refreshPeriodComparison(x.revenue,x.revenue-x.net,x.net,x.revenue?(x.net/x.revenue*100):0);
+    const w=document.getElementById('calcWarning');if(w)w.innerHTML=!x.complete?'<span style="color:var(--danger)">⚠️ الربح غير مكتمل: توجد طلبات بتكلفة غير موثقة. لن يتم عرض صافي ربح مضلل.</span>':'تم احتساب صافي الربح من تكلفة الطلبات المسجلة والمصاريف التشغيلية دون تكرار مصروف الإنتاج.';
+  };
+})();
+</script>
+
 </body>
 </html>
