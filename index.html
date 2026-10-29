@@ -10079,7 +10079,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
 (function(){
   'use strict';
   const num=v=>{const n=Number(v);return Number.isFinite(n)?n:0;};
-  const isProdExpense=e=>e && (e.category==='COGS' || e.type==='Production / COGS' || e.source==='order-delivery-automation' || String(e.id||'').startsWith('production_'));
+  const isProdExpense=e=>{if(!e)return false;const text=[e.id,e.name,e.type,e.category,e.source,e.description].map(v=>String(v||'')).join(' ').toLowerCase();return e.category==='COGS'||e.category==='Production / COGS'||e.type==='Production / COGS'||e.type==='COGS'||e.source==='order-delivery-automation'||String(e.id||'').startsWith('production_')||/تكلفة الشوكولاتة والإنتاج|تكلفة الإنتاج|مصروف الإنتاج|production\s*\/\s*cogs|production cogs/.test(text);};
   function inRange(raw,range){
     if(!range || range.period==='all') return true;
     if(!raw) return false;
@@ -10087,37 +10087,56 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     return !!(d&&!isNaN(d)&&d>=range.start&&d<=range.end);
   }
   function summary(range){
-    const orders=(state.orders||[]).filter(o=>o.status==='delivered' && inRange(o.dateRaw || o.date || (o.createdAt?new Date(o.createdAt.seconds?o.createdAt.seconds*1000:o.createdAt).toISOString().slice(0,10):''),range));
-    const expenses=(state.expenses||[]).filter(e=>inRange(e.dateRaw||e.date,range));
+    const allOrders=state.orders||[], allExpenses=state.expenses||[];
+    const orders=allOrders.filter(o=>o.status==='delivered' && inRange(o.dateRaw || o.date || (o.createdAt?new Date(o.createdAt.seconds?o.createdAt.seconds*1000:o.createdAt).toISOString().slice(0,10):''),range));
+    const expenses=allExpenses.filter(e=>inRange(e.dateRaw||e.date,range));
     const revenue=orders.reduce((s,o)=>s+num(o.price),0);
-    let cogs=0, complete=true;
+    const hasNumeric=v=>v!==null && v!==undefined && v!=='' && Number.isFinite(Number(v));
+    const matchesOrder=(e,o)=>String(e.orderId||'')===String(o.id)||String(e.refId||'')===String(o.id)||String(e.relatedOrderId||'')===String(o.id)||String(e.sourceOrderId||'')===String(o.id)||String(e.id||'')==='production_'+String(o.id);
+    // Include period COGS ledger rows plus production rows linked to orders in this period
+    // even when a legacy row has a missing or stale date. Deduplicate by document ID.
+    const cogsRowsAll=allExpenses.filter(e=>isProdExpense(e) && (
+      inRange(e.dateRaw||e.date,range) || orders.some(o=>matchesOrder(e,o))
+    ));
+    const cogsRows=[...new Map(cogsRowsAll.map((e,i)=>[String(e.id||e._id||('row-'+i)),e])).values()];
+    const linkedRowsByOrder=new Map();
     for(const o of orders){
-      let v=null;
-      if(o.cogsSnapshot && Number.isFinite(Number(o.cogsSnapshot.cogs))) v=num(o.cogsSnapshot.cogs);
-      else if(o.cogs!=null && Number.isFinite(Number(o.cogs))) v=num(o.cogs);
-      else if(o.grossProfit!=null && Number.isFinite(Number(o.grossProfit))) v=num(o.price)-num(o.grossProfit);
-      if(v===null){
-        const linked=expenses.filter(e=>isProdExpense(e) && (e.orderId===o.id||e.refId===o.id||e.relatedOrderId===o.id));
-        // Legacy delivered orders may predate cogsSnapshot/cogs/grossProfit.
-        // Prefer the deterministic per-order production expense when available.
-        const canonical=linked.find(e=>String(e.id||'')==='production_'+String(o.id));
-        const usable=canonical || (linked.length===1 ? linked[0] : null);
-        if(usable && Number.isFinite(Number(usable.amount))) v=num(usable.amount);
+      const linked=cogsRows.filter(e=>matchesOrder(e,o));
+      const canonical=linked.find(e=>String(e.id||'')==='production_'+String(o.id));
+      const chosen=canonical || (linked.length===1?linked[0]:null);
+      if(chosen && hasNumeric(chosen.amount)) linkedRowsByOrder.set(String(o.id),chosen);
+    }
+    // The COGS expense ledger is the aggregate source when it contains COGS rows.
+    // For orders without a linked production entry, supplement from their saved order cost;
+    // otherwise use the documented 12 JOD/kg rule only when a positive weight exists.
+    let cogs=cogsRows.reduce((sum,e)=>sum+(hasNumeric(e.amount)?num(e.amount):0),0);
+    const aggregateCoversOrders=orders.length>0 && cogsRows.length>=orders.length;
+    let complete=aggregateCoversOrders, supplementalCogs=0, unresolved=0;
+    // If the period ledger has at least one COGS row per delivered order, use its aggregate
+    // as the source of truth and do not add snapshot costs again (prevents double counting).
+    if(!aggregateCoversOrders){
+      complete=true;
+      for(const o of orders){
+        if(linkedRowsByOrder.has(String(o.id))) continue; // already included in aggregate ledger
+        let v=null;
+        if(hasNumeric(o.cogsSnapshot?.cogs)) v=num(o.cogsSnapshot.cogs);
+        else if(hasNumeric(o.cogs)) v=num(o.cogs);
+        else if(hasNumeric(o.grossProfit)) v=num(o.price)-num(o.grossProfit);
         else {
-          // Approved DEEB OS production policy: 12 JOD per kg. Use only when
-          // the order has a documented positive weight; otherwise keep the
-          // result incomplete rather than inventing a cost.
-          const kg=num(o.cogsSnapshot?.chocolateKg ?? o.chocolateKg ?? o.weightKg);
+          const kg=num(o.weightKg ?? o.chocolateKg ?? o.cogsSnapshot?.chocolateKg);
           if(kg>0) v=Math.round(kg*12*100)/100;
-          else complete=false;
         }
+        if(v!==null) supplementalCogs+=v;
+        else unresolved++;
       }
-      if(v!==null)cogs+=v;
+      cogs+=supplementalCogs;
+      complete=unresolved===0;
     }
     const opex=expenses.filter(e=>!isProdExpense(e)).reduce((s,e)=>s+num(e.amount),0);
     const totalExpenseLedger=expenses.reduce((s,e)=>s+num(e.amount),0);
     const net=complete?revenue-cogs-opex:null;
-    return {orders,expenses,revenue,cogs,complete,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net};
+    const ledgerNet=revenue-totalExpenseLedger;
+    return {orders,expenses,revenue,cogs,complete,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net,ledgerNet};
   }
   window.deebFinancialSummary=summary;
 
@@ -10208,9 +10227,9 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     set('finBridgeRevenue',x.revenue.toFixed(2)+' JOD');
     set('finCOGS',x.complete?x.cogs.toFixed(2)+' JOD':'غير مكتمل');
     set('finContribution',x.complete?x.contribution.toFixed(2)+' JOD':'غير مكتمل');
-    set('finAfterExpenses',x.complete?x.net.toFixed(2)+' JOD':'غير مكتمل');
+    set('finAfterExpenses',x.ledgerNet.toFixed(2)+' JOD');
     set('finRevenue',x.revenue.toFixed(0)); set('finExpenses',x.totalExpenseLedger.toFixed(0));
-    set('finProfit',x.complete?x.net.toFixed(0):'غير مكتمل');
+    set('finProfit',x.ledgerNet.toFixed(0));
     if(typeof renderExpensesFiltered==='function')renderExpensesFiltered(x.expenses);
     if(typeof renderExpenseChart==='function')renderExpenseChart();
     if(typeof refreshProductAnalyticsFiltered==='function')refreshProductAnalyticsFiltered(x.orders);
@@ -10222,15 +10241,16 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     const fields={rawMaterialCost:['مواد خام','raw_material','Raw Materials'],packagingCost:['تغليف','packaging','Packaging'],marketingCost:['تسويق','marketing','Marketing'],deliveryCost:['توصيل','delivery','Delivery'],otherCost:['أخرى','other','Other']};
     Object.entries(fields).forEach(([id,keys])=>{const el=document.getElementById(id);if(el&&!el.dataset.userEdited)el.value=keys.reduce((s,k)=>s+num(byType[k]),0).toFixed(0);});
     set('calc-revenue',x.revenue.toFixed(0));set('calc-raw',num(document.getElementById('rawMaterialCost')?.value).toFixed(0));set('calc-pack',num(document.getElementById('packagingCost')?.value).toFixed(0));
-    set('calc-profit',x.complete?x.net.toFixed(0):'غير مكتمل');set('totalCostDisplay',x.complete?(x.revenue-x.net).toFixed(0):'غير مكتمل');
-    set('savingsAmount',x.net>0? (x.net*num(document.getElementById('savingsPercent')?.value)/100).toFixed(0):'0');
-    set('personalAmount',x.net>0?(x.net*num(document.getElementById('personalPercent')?.value)/100).toFixed(0):'0');
-    set('reinvestAmount',x.net>0?(x.net*num(document.getElementById('reinvestPercent')?.value)/100).toFixed(0):'0');
-    set('calcMargin',x.complete&&x.revenue?(x.net/x.revenue*100).toFixed(0)+'%':'غير مكتمل');
-    set('calcExpenseRatio',x.revenue?((x.revenue-x.net)/x.revenue*100).toFixed(0)+'%':'0%');
-    set('calcPerBox',x.orders.length&&x.complete?(x.net/x.orders.length).toFixed(0):'—');set('calcTotalOrders',x.orders.length);
-    if(typeof refreshPeriodComparison==='function'&&x.complete)refreshPeriodComparison(x.revenue,x.revenue-x.net,x.net,x.revenue?(x.net/x.revenue*100):0);
-    const w=document.getElementById('calcWarning');if(w)w.innerHTML=!x.complete?'<span style="color:var(--danger)">⚠️ الربح غير مكتمل: توجد طلبات بتكلفة غير موثقة. لن يتم عرض صافي ربح مضلل.</span>':'تم احتساب صافي الربح من تكلفة الطلبات المسجلة والمصاريف التشغيلية دون تكرار مصروف الإنتاج.';
+    const net=x.ledgerNet;
+    set('calc-profit',net.toFixed(0));set('totalCostDisplay',x.totalExpenseLedger.toFixed(0));
+    set('savingsAmount',net>0? (net*num(document.getElementById('savingsPercent')?.value)/100).toFixed(0):'0');
+    set('personalAmount',net>0?(net*num(document.getElementById('personalPercent')?.value)/100).toFixed(0):'0');
+    set('reinvestAmount',net>0?(net*num(document.getElementById('reinvestPercent')?.value)/100).toFixed(0):'0');
+    set('calcMargin',x.revenue?(net/x.revenue*100).toFixed(2)+'%':'—');
+    set('calcExpenseRatio',x.revenue?(x.totalExpenseLedger/x.revenue*100).toFixed(2)+'%':'0%');
+    set('calcPerBox',x.orders.length?(net/x.orders.length).toFixed(2):'—');set('calcTotalOrders',x.revenue.toFixed(0));
+    if(typeof refreshPeriodComparison==='function')refreshPeriodComparison(x.revenue,x.totalExpenseLedger,net,x.revenue?(net/x.revenue*100):0);
+    const w=document.getElementById('calcWarning');if(w)w.innerHTML=!x.complete?'<span style="color:var(--pending)">صافي الربح والهامش محسوبان من إجمالي الإيرادات مطروحًا منها إجمالي المصاريف المسجلة. بعض بيانات تكلفة الطلب قد تكون ناقصة؛ لذلك راجع Gross / Contribution Profit قبل اعتمادها كتقرير تكلفة تفصيلي.</span>':'تم احتساب صافي الربح من إجمالي الإيرادات والمصاريف المسجلة، مع احتساب تكلفة الطلبات المتاحة.';
   };
 })();
 </script>
