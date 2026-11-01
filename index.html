@@ -10076,6 +10076,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
         if(!Number.isFinite(Number(linked[0]?.amount))) flag(o,'مصروف الإنتاج المربوط بدون مبلغ صالح');
         continue;
       }
+      { const day0=orderDay(o); if(day0 && day0<LEGACY_CUTOFF){ legacyCount++; continue; } }
       const snapshot=o.cogsSnapshot && Number(o.cogsSnapshot.cogs);
       const legacyCogs=Number(o.cogs);
       const grossProfit=Number(o.grossProfit);
@@ -10085,9 +10086,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       if(Number.isFinite(fallback) && fallback>=0){
         cogs+=Math.max(0,fallback-num(o.returnedCogsAmount));
       }else{
-        const day=orderDay(o);
-        if(day && day<LEGACY_CUTOFF){ legacyCount++; }
-        else flag(o,'طلب جديد بدون مصروف إنتاج مربوط ولا تكلفة مسجلة');
+        flag(o,'طلب جديد بدون مصروف إنتاج مربوط ولا تكلفة مسجلة');
       }
     }
     const opex=expenses.filter(e=>!isProdExpense(e)).reduce((sum,e)=>sum+num(e.amount),0);
