@@ -10580,7 +10580,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
      card.style.cursor='pointer';card.title='اضغط لعرض الطلبات التي ينقصها تكلفة';
      card.onclick=()=>window.deebShowProfitIssues();
      if(sub)sub.textContent='غير مكتمل: '+summary.issues.length+' طلب بدون تكلفة — اضغط للتفاصيل';
-    }else{card.style.cursor='';card.title='';card.onclick=null;if(sub)sub.textContent='الإيرادات - المصاريف'+(summary.legacyCount?' (يشمل '+summary.legacyCount+' طلب قديم بدون ربط)':'');}
+    }else{card.style.cursor='';card.title='';card.onclick=null;if(sub)sub.textContent='إيرادات '+summary.revenue.toFixed(2)+' − إنتاج '+summary.cogs.toFixed(2)+' − مصاريف '+summary.opex.toFixed(2)+(summary.legacyCount?' | قديم بدون ربط: '+summary.legacyCount:'')+' [v3]';}
    }
   }catch(e){console.warn('Dashboard profit reconciliation failed',e);}
  };
