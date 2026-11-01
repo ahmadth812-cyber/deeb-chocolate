@@ -10045,17 +10045,36 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     const orders=(state.orders||[]).filter(o=>o.status==='delivered' && inRange(o.dateRaw || o.date || (o.createdAt?new Date(o.createdAt.seconds?o.createdAt.seconds*1000:o.createdAt).toISOString().slice(0,10):''),range));
     const expenses=(state.expenses||[]).filter(e=>inRange(e.dateRaw||e.date,range));
     const revenue=orders.reduce((s,o)=>s+Math.max(0,num(o.price)-num(o.returnedRevenueAmount)),0);
-    // The Expenses ledger is the accounting source of truth for production cost.
-    // Order snapshots may contain historical/estimated COGS and must not override
-    // the actual posted production expense (e.g. 52 JOD snapshot vs 36 JOD ledger).
+    // Reconcile all-time dashboard totals without treating older, pre-ledger
+    // orders as incomplete when they already carry a recorded order cost snapshot.
+    // A posted production expense is authoritative and counted once. For legacy
+    // orders with no linked production expense, use their stored COGS snapshot.
     const productionExpenses=expenses.filter(isProdExpense);
-    let cogs=productionExpenses.reduce((s,e)=>s+Math.max(0,num(e.amount)),0);
+    let cogs=productionExpenses.reduce((sum,e)=>sum+Math.max(0,num(e.amount)),0);
     let complete=true;
     for(const o of orders){
-      const linked=productionExpenses.filter(e=>e.orderId===o.id||e.refId===o.id||e.relatedOrderId===o.id||e.id==='production_'+String(o.id));
-      if(linked.length!==1 || !Number.isFinite(Number(linked[0]?.amount))) complete=false;
+      const linked=productionExpenses.filter(e=>
+        e.orderId===o.id || e.refId===o.id || e.relatedOrderId===o.id ||
+        e.id==='production_'+String(o.id)
+      );
+      if(linked.length>1){ complete=false; continue; }
+      if(linked.length===1){
+        if(!Number.isFinite(Number(linked[0]?.amount))) complete=false;
+        continue;
+      }
+      const snapshot=o.cogsSnapshot && Number(o.cogsSnapshot.cogs);
+      const legacyCogs=Number(o.cogs);
+      const grossProfit=Number(o.grossProfit);
+      let fallback=Number.isFinite(snapshot) ? snapshot :
+        (Number.isFinite(legacyCogs) ? legacyCogs :
+          (Number.isFinite(grossProfit) && Number.isFinite(Number(o.price)) ? Number(o.price)-grossProfit : NaN));
+      if(Number.isFinite(fallback) && fallback>=0){
+        cogs+=Math.max(0,fallback-num(o.returnedCogsAmount));
+      }else{
+        complete=false;
+      }
     }
-    const opex=expenses.filter(e=>!isProdExpense(e)).reduce((s,e)=>s+num(e.amount),0);
+    const opex=expenses.filter(e=>!isProdExpense(e)).reduce((sum,e)=>sum+num(e.amount),0);
     const totalExpenseLedger=expenses.reduce((s,e)=>s+num(e.amount),0);
     const net=complete?revenue-cogs-opex:null;
     return {orders,expenses,revenue,cogs,complete,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net};
