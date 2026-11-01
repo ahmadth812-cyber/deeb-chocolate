@@ -3373,7 +3373,7 @@ auth.onAuthStateChanged(function(user) {
       if(sidebar2)    sidebar2.style.display    = 'none';
       if(main2)       main2.style.display       = 'none';
       // Unsubscribe from all listeners
-      try { if(window.unsubscribers) { unsubscribers.forEach(function(u){ try{u();}catch(e){} }); unsubscribers=[]; } } catch(e7){}
+      try { if(typeof unsubscribers !== 'undefined' && Array.isArray(unsubscribers)) { unsubscribers.forEach(function(u){ try{u();}catch(e){} }); unsubscribers=[]; } } catch(e7){}
     }
   } catch(e) {
     console.error('onAuthStateChanged error:', e);
@@ -8797,6 +8797,12 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   function nowStr(){ return new Date().toISOString(); }
   function today(){ try{return deebToday();}catch(e){return new Date().toISOString().slice(0,10);} }
   function num(v){ try{return deebNum(v);}catch(e){const n=parseFloat(v);return Number.isFinite(n)?n:0;} }
+  const E = id => document.getElementById(id);
+  const n = v => num(v);
+  const esc = v => { try{return sanitize(String(v??''));}catch(e){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));} };
+  const B2B_STAGES = ['Lead','Contacted','Qualified','Quote','Sample','Negotiation','Approval','Order','Repeat Order','Lost'];
+  const B2B_LEGACY_MAP = {New:'Lead',Interested:'Qualified','Follow-Up':'Contacted',Won:'Order',Lost:'Lost'};
+  function b2bStage(l){ return B2B_STAGES.includes(l?.salesStage)?l.salesStage:(B2B_LEGACY_MAP[l?.status]||l?.status||'Lead'); }
   function money(v){ try{return deebMoney(v);}catch(e){return num(v).toFixed(2);} }
   function fmtDate(v){
     if(!v) return '—';
@@ -9075,6 +9081,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   // Existing Website Analytics panel was missing its handlers; implement them here.
   window.saveWebsiteAnalytics=async function(){const data={ga:(el('waGA')?.value||'').trim(),gtm:(el('waGTM')?.value||'').trim(),gsc:(el('waGSC')?.value||'').trim(),meta:(el('waMeta')?.value||'').trim(),updatedAt:Date.now()};await ssave('websiteAnalytics',data);toast('تم حفظ إعدادات التتبع ✅','success');};
   function loadWebsiteAnalytics(){const d=sget('websiteAnalytics',{});[['waGA','ga'],['waGTM','gtm'],['waGSC','gsc'],['waMeta','meta']].forEach(([i,k])=>{if(el(i))el(i).value=d[k]||'';});}
+  window.loadWebsiteAnalytics=loadWebsiteAnalytics;
   // 44 legal readiness
   window.saveLegalReadiness=async function(){await ssave('legalReadiness',{rows:rowsFromTable('legalReadinessRows')});toast('تم حفظ Legal Readiness ✅','success');};
   // 45–46 website content + photography
@@ -9228,6 +9235,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   'use strict';
   const esc = (v)=>{ try{return sanitize(String(v??''));}catch(e){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));} };
   const E = id => document.getElementById(id);
+  const orderDate = o => (o && (o.dateRaw || (o.date ? (String(o.date).match(/\d{4}-\d{2}-\d{2}/)||[''])[0] : ''))) || '';
   const n = v => { try{return deebNum(v);}catch(e){const x=parseFloat(v);return Number.isFinite(x)?x:0;} };
   const money = v => { try{return deebMoney(v);}catch(e){return n(v).toFixed(2);} };
   const today = ()=>{try{return deebToday();}catch(e){return new Date().toISOString().slice(0,10)}};
@@ -9409,6 +9417,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
 <script id="deeb-ui-logic-fix">(function(){
   'use strict';
   const E=id=>document.getElementById(id);
+  const orderDate=o=>(o&&(o.dateRaw||(o.date?(String(o.date).match(/\d{4}-\d{2}-\d{2}/)||[''])[0]:'')))||'';
   const n=v=>{try{return typeof deebNum==='function'?deebNum(v):(Number(v)||0);}catch(e){const x=parseFloat(v);return Number.isFinite(x)?x:0;}};
   const today=()=>{try{return typeof deebToday==='function'?deebToday():new Date().toISOString().slice(0,10);}catch(e){return new Date().toISOString().slice(0,10);}};
   const esc=v=>{try{return typeof sanitize==='function'?sanitize(String(v??'')):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}catch(e){return String(v??'');}};
@@ -9975,7 +9984,6 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
         const next={...(before||{}),...(data||{})};
         if(data?.status==='cancelled'){await removeExpense(id);}
         else if(next.status==='delivered'||next.status==='completed'||String(next.funnelStage||'').toLowerCase()==='completed'){await syncExpense(id,next);}
-        else if(Object.prototype.hasOwnProperty.call(data||{},'weightKg') && (next.status==='delivered'||next.status==='completed')){await syncExpense(id,next);}
       }catch(e){console.error('Production expense sync failed',e);toast('⚠️ حالة الطلب حُفظت لكن مصروف الإنتاج يحتاج إعادة مزامنة: '+(e.message||e),'warning');}
     }else if(col==='expenses' && id.startsWith('production_')){
       // Manual edits are allowed; mark the record as manually overridden. Weight changes on the order recalculate it.
