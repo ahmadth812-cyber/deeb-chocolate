@@ -10049,6 +10049,11 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     let d=typeof parseDateLocal==='function'?parseDateLocal(raw):new Date(raw);
     return !!(d&&!isNaN(d)&&d>=range.start&&d<=range.end);
   }
+  // Orders delivered before this date are legacy: their costs already live in the expenses ledger
+  // as ordinary expenses, so they are counted from the existing totals (no per-order link required).
+  // From this date on, every delivered order must have a linked production cost.
+  const LEGACY_CUTOFF='2026-11-01';
+  const orderDay=o=>{const r=o.dateRaw||o.date||'';const m=String(r).match(/\d{4}-\d{2}-\d{2}/);if(m)return m[0];if(o.createdAt){try{return new Date(o.createdAt.seconds?o.createdAt.seconds*1000:o.createdAt).toISOString().slice(0,10);}catch(e){}}return '';};
   function summary(range){
     const orders=(state.orders||[]).filter(o=>o.status==='delivered' && inRange(o.dateRaw || o.date || (o.createdAt?new Date(o.createdAt.seconds?o.createdAt.seconds*1000:o.createdAt).toISOString().slice(0,10):''),range));
     const expenses=(state.expenses||[]).filter(e=>inRange(e.dateRaw||e.date,range));
@@ -10059,7 +10064,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     // orders with no linked production expense, use their stored COGS snapshot.
     const productionExpenses=expenses.filter(isProdExpense);
     let cogs=productionExpenses.reduce((sum,e)=>sum+Math.max(0,num(e.amount)),0);
-    let complete=true; const issues=[];
+    let complete=true; const issues=[]; let legacyCount=0;
     const flag=(o,reason)=>{complete=false;issues.push({id:o.id,name:o.name||o.customer||'—',product:o.product||'',date:o.dateRaw||o.date||'',price:num(o.price),reason});};
     for(const o of orders){
       const linked=productionExpenses.filter(e=>
@@ -10080,13 +10085,15 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       if(Number.isFinite(fallback) && fallback>=0){
         cogs+=Math.max(0,fallback-num(o.returnedCogsAmount));
       }else{
-        flag(o,'لا يوجد مصروف إنتاج مربوط ولا تكلفة مسجلة على الطلب');
+        const day=orderDay(o);
+        if(day && day<LEGACY_CUTOFF){ legacyCount++; }
+        else flag(o,'طلب جديد بدون مصروف إنتاج مربوط ولا تكلفة مسجلة');
       }
     }
     const opex=expenses.filter(e=>!isProdExpense(e)).reduce((sum,e)=>sum+num(e.amount),0);
     const totalExpenseLedger=expenses.reduce((s,e)=>s+num(e.amount),0);
     const net=complete?revenue-cogs-opex:null;
-    return {orders,expenses,revenue,cogs,complete,issues,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net};
+    return {orders,expenses,revenue,cogs,complete,issues,legacyCount,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net};
   }
   window.deebFinancialSummary=summary;
 
@@ -10574,7 +10581,7 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
      card.style.cursor='pointer';card.title='اضغط لعرض الطلبات التي ينقصها تكلفة';
      card.onclick=()=>window.deebShowProfitIssues();
      if(sub)sub.textContent='غير مكتمل: '+summary.issues.length+' طلب بدون تكلفة — اضغط للتفاصيل';
-    }else{card.style.cursor='';card.title='';card.onclick=null;if(sub)sub.textContent='الإيرادات - المصاريف';}
+    }else{card.style.cursor='';card.title='';card.onclick=null;if(sub)sub.textContent='الإيرادات - المصاريف'+(summary.legacyCount?' (يشمل '+summary.legacyCount+' طلب قديم بدون ربط)':'');}
    }
   }catch(e){console.warn('Dashboard profit reconciliation failed',e);}
  };
