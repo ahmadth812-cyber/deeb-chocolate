@@ -1380,7 +1380,7 @@ body{overflow-x:hidden;}
 <div class="stat-card"><div class="stat-label">إجمالي المصاريف</div><div class="stat-value" id="finExpenses">0</div><div class="stat-icon">📉</div></div>
 <div class="stat-card"><div class="stat-label">صافي الربح</div><div class="stat-value" id="finProfit">0</div><div class="stat-icon">💎</div></div>
 </div>
-<div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)"><div class="card-header"><div class="card-title">🧾 Profitability Bridge</div></div><div class="card-body"><div class="analytics-row"><div class="analytics-item"><span class="ai-label">الإيراد</span><span class="ai-value" id="finBridgeRevenue">0.00 JOD</span></div><div class="analytics-item"><span class="ai-label">COGS من الطلبات</span><span class="ai-value" id="finCOGS">—</span></div><div class="analytics-item"><span class="ai-label">Gross / Contribution Profit</span><span class="ai-value" id="finContribution">—</span></div><div class="analytics-item"><span class="ai-label">بعد المصاريف المسجلة</span><span class="ai-value" id="finAfterExpenses">—</span></div></div><div class="alert" style="margin-top:.7rem">هذا الجسر منفصل عن الربح النقدي البسيط الموجود في الأعلى: COGS يعتمد على ترحيل الطلبات عند التسليم، والمصاريف المسجلة هي السجلات الموجودة في Expenses. لا نعتبر النتيجة صافي محاسبي كامل بدون سياسة محاسبية متكاملة لتوقيت المشتريات والاستحقاقات.</div></div></div>
+<div class="card" style="margin-bottom:1rem;border-color:rgba(191,158,96,.35)"><div class="card-header"><div class="card-title">🧾 Profitability Bridge</div></div><div class="card-body"><div class="analytics-row"><div class="analytics-item"><span class="ai-label">الإيراد</span><span class="ai-value" id="finBridgeRevenue">0.00 JOD</span></div><div class="analytics-item"><span class="ai-label">COGS من الطلبات</span><span class="ai-value" id="finCOGS">—</span></div><div class="analytics-item"><span class="ai-label">Gross / Contribution Profit</span><span class="ai-value" id="finContribution">—</span></div><div class="analytics-item"><span class="ai-label">بعد المصاريف المسجلة</span><span class="ai-value" id="finAfterExpenses">—</span></div></div><div class="alert" style="margin-top:.7rem">يُحتسب COGS من مصروفات الإنتاج الفعلية المسجلة في Expenses (وليس من تكلفة تقديرية داخل الطلب)، وتُخصم المصاريف التشغيلية مرة واحدة فقط. صافي الربح = الإيرادات − مصروفات الإنتاج − المصاريف التشغيلية المسجلة.</div></div></div>
 <div class="card" style="margin-top:1rem;border-color:rgba(191,158,96,.55)">
 <div class="card-header"><div class="card-title">🔎 تدقيق تكلفة الإنتاج (قراءة فقط)</div><button class="btn btn-sm btn-gold" onclick="window.deebRunProductionCostAudit()">تشغيل التدقيق</button></div>
 <div class="card-body"><div class="alert alert-warning">يفحص البيانات المحمّلة في النظام فقط. لا يغيّر الطلبات أو المصاريف أو المخزون، ولا يرحّل أي قيود. النتائج مؤشرات للمراجعة وليست حكمًا نهائيًا بوجود ازدواج محاسبي.</div><div id="productionCostAuditSummary" style="margin:.75rem 0;color:var(--brown)">اضغط «تشغيل التدقيق» لمقارنة تكلفة الطلبات بمصروفات الإنتاج المرتبطة بها.</div><div class="table-wrap"><table><thead><tr><th>الطلب</th><th>الوزن (كغم)</th><th>COGS للطلب</th><th>مصروف 12 د.أ./كغم</th><th>تكلفة الكغم بالمخزون</th><th>النتيجة</th></tr></thead><tbody id="productionCostAuditRows"><tr><td colspan="6">لم يُشغّل التدقيق بعد</td></tr></tbody></table></div></div></div>
@@ -10045,19 +10045,15 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     const orders=(state.orders||[]).filter(o=>o.status==='delivered' && inRange(o.dateRaw || o.date || (o.createdAt?new Date(o.createdAt.seconds?o.createdAt.seconds*1000:o.createdAt).toISOString().slice(0,10):''),range));
     const expenses=(state.expenses||[]).filter(e=>inRange(e.dateRaw||e.date,range));
     const revenue=orders.reduce((s,o)=>s+Math.max(0,num(o.price)-num(o.returnedRevenueAmount)),0);
-    let cogs=0, complete=true;
+    // The Expenses ledger is the accounting source of truth for production cost.
+    // Order snapshots may contain historical/estimated COGS and must not override
+    // the actual posted production expense (e.g. 52 JOD snapshot vs 36 JOD ledger).
+    const productionExpenses=expenses.filter(isProdExpense);
+    let cogs=productionExpenses.reduce((s,e)=>s+Math.max(0,num(e.amount)),0);
+    let complete=true;
     for(const o of orders){
-      let v=null;
-      if(o.cogsSnapshot && Number.isFinite(Number(o.cogsSnapshot.cogs))) v=num(o.cogsSnapshot.cogs);
-      else if(o.cogs!=null && Number.isFinite(Number(o.cogs))) v=num(o.cogs);
-      else if(o.grossProfit!=null && Number.isFinite(Number(o.grossProfit))) v=num(o.price)-num(o.grossProfit);
-      if(v!==null) v=Math.max(0,v-num(o.returnedCogsAmount));
-      if(v===null){
-        const linked=expenses.filter(e=>isProdExpense(e) && (e.orderId===o.id||e.refId===o.id||e.relatedOrderId===o.id));
-        if(linked.length===1 && Number.isFinite(Number(linked[0].amount))) v=Math.max(0,num(linked[0].amount)-num(o.returnedCogsAmount));
-        else complete=false;
-      }
-      if(v!==null)cogs+=v;
+      const linked=productionExpenses.filter(e=>e.orderId===o.id||e.refId===o.id||e.relatedOrderId===o.id||e.id==='production_'+String(o.id));
+      if(linked.length!==1 || !Number.isFinite(Number(linked[0]?.amount))) complete=false;
     }
     const opex=expenses.filter(e=>!isProdExpense(e)).reduce((s,e)=>s+num(e.amount),0);
     const totalExpenseLedger=expenses.reduce((s,e)=>s+num(e.amount),0);
