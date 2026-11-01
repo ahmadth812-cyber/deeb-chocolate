@@ -10059,15 +10059,16 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
     // orders with no linked production expense, use their stored COGS snapshot.
     const productionExpenses=expenses.filter(isProdExpense);
     let cogs=productionExpenses.reduce((sum,e)=>sum+Math.max(0,num(e.amount)),0);
-    let complete=true;
+    let complete=true; const issues=[];
+    const flag=(o,reason)=>{complete=false;issues.push({id:o.id,name:o.name||o.customer||'—',product:o.product||'',date:o.dateRaw||o.date||'',price:num(o.price),reason});};
     for(const o of orders){
       const linked=productionExpenses.filter(e=>
         e.orderId===o.id || e.refId===o.id || e.relatedOrderId===o.id ||
         e.id==='production_'+String(o.id)
       );
-      if(linked.length>1){ complete=false; continue; }
+      if(linked.length>1){ flag(o,'أكثر من مصروف إنتاج مربوط بنفس الطلب ('+linked.length+')'); continue; }
       if(linked.length===1){
-        if(!Number.isFinite(Number(linked[0]?.amount))) complete=false;
+        if(!Number.isFinite(Number(linked[0]?.amount))) flag(o,'مصروف الإنتاج المربوط بدون مبلغ صالح');
         continue;
       }
       const snapshot=o.cogsSnapshot && Number(o.cogsSnapshot.cogs);
@@ -10079,13 +10080,13 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
       if(Number.isFinite(fallback) && fallback>=0){
         cogs+=Math.max(0,fallback-num(o.returnedCogsAmount));
       }else{
-        complete=false;
+        flag(o,'لا يوجد مصروف إنتاج مربوط ولا تكلفة مسجلة على الطلب');
       }
     }
     const opex=expenses.filter(e=>!isProdExpense(e)).reduce((sum,e)=>sum+num(e.amount),0);
     const totalExpenseLedger=expenses.reduce((s,e)=>s+num(e.amount),0);
     const net=complete?revenue-cogs-opex:null;
-    return {orders,expenses,revenue,cogs,complete,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net};
+    return {orders,expenses,revenue,cogs,complete,issues,opex,totalExpenseLedger,contribution:complete?revenue-cogs:null,net};
   }
   window.deebFinancialSummary=summary;
 
@@ -10548,6 +10549,17 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
   }catch(e){console.error('Factory refund receipt failed',e);window.toast('فشل تسجيل الاسترداد: '+(e?.message||e),'error');}
  };
 
+ window.deebShowProfitIssues=function(){
+  const sm=window.deebFinancialSummary?.({period:'all'});if(!sm)return;
+  const esc=v=>typeof sanitize==='function'?sanitize(String(v??'')):String(v??'');
+  document.getElementById('deebProfitIssues')?.remove();
+  const ov=document.createElement('div');ov.id='deebProfitIssues';
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px';
+  const rows=sm.issues.map(i=>'<tr><td>'+esc(i.name)+'</td><td>'+esc(i.product)+'</td><td>'+esc(i.date)+'</td><td>'+i.price.toFixed(2)+'</td><td>'+esc(i.reason)+'</td></tr>').join('');
+  ov.innerHTML='<div dir="rtl" style="background:#fff;color:#222;max-width:820px;width:100%;max-height:85vh;overflow:auto;border-radius:12px;padding:18px;font-size:.85rem"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><strong>الطلبات التي تمنع حساب صافي الربح ('+sm.issues.length+')</strong><button class="btn btn-sm btn-outline" id="deebPIClose">إغلاق</button></div><div style="margin-bottom:10px;color:#666">لعرض صافي الربح: سجّل تكلفة كل طلب (مصروف إنتاج مربوط بالطلب) أو أصلح المكرر. الإيرادات '+sm.revenue.toFixed(2)+' — مصاريف غير الإنتاج '+sm.opex.toFixed(2)+'.</div><table style="width:100%;border-collapse:collapse"><thead><tr><th>العميل</th><th>المنتج</th><th>التاريخ</th><th>السعر</th><th>السبب</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  ov.addEventListener('click',e=>{if(e.target===ov||e.target.id==='deebPIClose')ov.remove();});
+  document.body.appendChild(ov);
+ };
  // Dashboard net profit uses the same accounting reconciliation as the finance and calculator pages.
  const previousRefresh=window.refreshDashboard;
  window.refreshDashboard=function(){
@@ -10556,6 +10568,14 @@ setTimeout(()=>{try{if(document.getElementById('adminCollection'))window.renderA
    const summary=window.deebFinancialSummary?.({period:'all'});
    const el=document.getElementById('totalProfit');
    if(el&&summary)el.textContent=summary.complete?M(summary.net).toFixed(0):'غير مكتمل';
+   const card=el&&el.closest('.stat-card'),sub=card&&card.querySelector('.stat-sub');
+   if(card&&summary){
+    if(!summary.complete){
+     card.style.cursor='pointer';card.title='اضغط لعرض الطلبات التي ينقصها تكلفة';
+     card.onclick=()=>window.deebShowProfitIssues();
+     if(sub)sub.textContent='غير مكتمل: '+summary.issues.length+' طلب بدون تكلفة — اضغط للتفاصيل';
+    }else{card.style.cursor='';card.title='';card.onclick=null;if(sub)sub.textContent='الإيرادات - المصاريف';}
+   }
   }catch(e){console.warn('Dashboard profit reconciliation failed',e);}
  };
 
